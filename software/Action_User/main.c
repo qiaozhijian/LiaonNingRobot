@@ -14,24 +14,20 @@
 #include "config.h"
 void init(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
-	  
-	TIM_Init(TIM2,999,83,0,0);					//¶¨Ê±1ms	
-	
-	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+
+	TIM_Init(TIM2, 999, 83, 0, 0); //ï¿½ï¿½Ê±1ms
 }
 
 int main(void)
 {
 	init();
-	
-	while(1)
-	{
-	while(getTimeFlag())
-	{
 
+	while (1)
+	{
+	while (getTimeFlag())
+	{
 		
 	}
 	}
 }
-

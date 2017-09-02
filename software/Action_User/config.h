@@ -3,6 +3,85 @@
 
 #define PERIOD					      0.01f
 
+/*      车的基本信息      */
+//电机旋转一周的脉冲数
+#define COUNTS_PER_ROUND (4096.0f)
+//轮子直径（单位：mm）
+#define WHEEL_DIAMETER (120.0f)
+//调试小车车长（单位：mm）
+#define MOVEBASE_LENGTH (492.0f)
+//调试小车车宽(单位：mm)
+#define MOVEBASE_WIDTH (490.0f)
+//轮子宽度（单位：mm）
+#define WHEEL_WIDTH (40.0f)
+//两个轮子中心距离（单位：mm）
+#define WHEEL_TREAD (434.0f)
+//宏定义每度对应脉冲数
+#define COUNT_PER_DEGREE  (COUNT_PER_ROUND/360.0f)
+//宏定义航向角减速比
+#define YAW_REDUCTION_RATIO (4.0f)
+//宏定义发射机构航向电机ID
+#define GUN_YAW_ID (7)
+//宏定义送弹电机ID
+#define PUSH_BALL_ID (6)
+//宏定义送弹机构送弹时电机位置
+#define PUSH_POSITION (4000)
+//宏定义送弹机构收回时电机位置
+#define PUSH_RESET_POSITION (5)
+//宏定义收球电机ID
+#define COLLECT_BALL_ID (8)
+//宏定义左轮电机ID
+#define LEFT_MOTOR_WHEEL_ID (2)
+//宏定义右轮电机ID
+#define RIGHT_MOTOR_WHEEL_ID (1)
+
+
+
+
+//车的状态码
+#define STATUS_SWEEP   (1<<0) //状态 扫场
+#define STATUS_CAMERA  (1<<1) //状态 摄像头
+#define STATUS_SHOOTER (1<<2) //状态 射球
+#define STATUS_FIX     (1<<3) //状态 矫正
+#define STATUS_AVOID   (1<<4) //状态 避障
+
+
+
+/*      车的方向        */
+#define GO_STRAIGHT 0 
+#define GO_LEFT     1
+#define GO_RIGHT    2
+#define GO_BACK     3
+
+
+//和摄像头状态有关的定义
+//摄像头发数状态的起始码
+#define CAMERA_STATUS_1_START 0xDC
+#define CAMERA_STATUS_2_START 0xDA
+#define CAMERA_STATUS_3_START 0xD8
+#define CAMERA_STATUS_4_START 0xD6
+#define CAMERA_STATUS_5_END   0xD5
+
+
+//行程开关
+#define TRAVELSWITCH1 		(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0))
+#define TRAVELSWITCH2 		(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_0))
+
+
+//蜂鸣器
+#define BEEP_ON          		 GPIO_SetBits(GPIOE, GPIO_Pin_7)
+#define BEEP_OFF         		 GPIO_ResetBits(GPIOE, GPIO_Pin_7)
+
+//数值计算
+#define PI  (3.1415926f)
+
+//x , y 的最大最小值
+#define X_MAX 
+#define X_MIN
+#define Y_MAX
+#define Y_MIN
+
+
 
 
 #endif

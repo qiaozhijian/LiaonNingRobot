@@ -49,12 +49,12 @@ void ConfigTask(void)
 	os_err = os_err;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
 	  
-	TIM_Init(TIM2,999,839,0,0);					//�����ڶ�ʱ10ms	
+	TIM_Init(TIM2,999,839,0,0);					//�����ڶ�ʱ10ms	
 	
 	USART3_Init(115200);
-	UART5_Init(115200);		//����������
+	UART5_Init(115200);		//����������
 	
-	KeyInit();//��סΪ1
+	KeyInit();//��סΪ1
 	
 //	CAN_Config(CAN1,500,GPIOB,GPIO_Pin_8, GPIO_Pin_9);
 //	TIM_Delayms(TIM5,50);
@@ -77,7 +77,7 @@ void ConfigTask(void)
 //	PosCrl(3,0,0000);
 
 //	
-//	Vel_cfg(10,300000,300000);	//�� ���� 
+//	Vel_cfg(10,300000,300000);	//�� ���� 
 
 //	TIM_Delayms(TIM5,50);
 	OSTaskSuspend(OS_PRIO_SELF);
@@ -109,6 +109,85 @@ void WalkTask(void)
 		//	RouteOutput();
 
 	} 
-}	
+}
 
+//摄像头
+typedef struct Camera_t{
+	uint8_t mode;
+}Camera;
 
+//激光距离
+typedef struct Laser_t{
+	int leftDistance;
+	int rightDistance;
+}Laser;
+
+//发射电机参数
+typedef struct Shooter_t{
+	float angle;
+	float speed;
+}Shooter;
+
+//位置
+typedef struct Position_t{
+	float angle;
+	float x;
+	float y;
+}Pos;
+
+//轮子状态 速度和调节量  
+typedef struct Move_t{
+	float speed;
+	float adjust;
+}Move;
+
+//机器人结构体
+typedef struct Robot_t{
+	//机器人的状态
+	uint8_t status;
+	//车的方向
+	uint8_t direction;
+	//左轮状态
+	Move left;	
+	//右轮状态
+	Move right;
+	//激光的左右距离
+	Laser laser;
+	//射球的参数
+	Shooter shooter;
+	 //摄像头
+	Camera camera;
+	//车的位置
+	Pos pos;
+
+}Robot;
+
+//globle 变量
+static Robot robot;
+
+void robotInit()
+{
+
+}
+
+void setRobotStatus(uint8_t status)
+{
+
+}
+
+void setDirection(uint8_t direction)
+{
+
+}
+
+void setLeftMove()
+{
+
+}
+
+void setRightMove()
+{
+
+}
+
+void 
