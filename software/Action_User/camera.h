@@ -1,3 +1,6 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "stm32f4xx.h"
 #include "usart.h"
 #include "misc.h"
@@ -12,22 +15,10 @@
 #include "stm32f4xx_usart.h"
 #include "arm_math.h"
 #include "config.h"
-void init(void)
-{
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
-	TIM_Init(TIM2, 999, 83, 0, 0); //��ʱ1ms
-}
+//
 
-int main(void)
-{
-	init();
 
-	while (1)
-	{
-	while (getTimeFlag())
-	{
-		
-	}
-	}
-}
+
+
+#elif
