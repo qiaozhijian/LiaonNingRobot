@@ -15,6 +15,7 @@ float getXpos(void);
 float getYpos(void);
 void setErr(float reaAngle,float realX,float realy);
 
-
+int getLeftAdc(void);
+int getRightAdc(void);
 
 #endif

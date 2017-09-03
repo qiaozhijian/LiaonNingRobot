@@ -288,14 +288,14 @@ void Sub_Box(void)
 			leftAngLimit+=5;
 		}	
 //???
-		c_Aimxfirst = 72.75 / tanf((65+29/2 +7* maxFirstlayer)*PI / 180);
-		c_Firstbestangle = -25 + 7*maxFirstlayer+14.5f;
+		c_Aimxfirst =(float) 72.75 / tanf((65+29/2 +7* maxFirstlayer)*PI / 180.f);
+		c_Firstbestangle = -25.f + 7*maxFirstlayer+14.5f;
 		Aimxfirst = getXpos() - 10*Dis(c_Aimxfirst, c_Aimyfirst, 0, 0)*sinf((getAngle() + c_Firstbestangle)*PI / 180) - 220 * sin(getAngle()*PI / 180);
 	  Aimyfirst = getYpos() + 10*Dis(c_Aimxfirst, c_Aimyfirst, 0, 0)*cosf((getAngle() + c_Firstbestangle)*PI / 180) + 220 * cos(getAngle()*PI / 180);
 		setAimxfirst(Aimxfirst);
 		setAimyfirst(Aimyfirst);
 //???
-		c_Aimxsecond=140.25/tanf((65+14/2+5*maxSecondlayer)*PI/180);
+		c_Aimxsecond=(float)140.25/tanf((65+14/2+5*maxSecondlayer)*PI/180.f);
 		c_Secondbestangle=-25+5*maxSecondlayer+7;
 		Aimxsecond = getXpos() -10* Dis(c_Aimxsecond, c_Aimysecond, 0, 0)*sinf((getAngle() + c_Secondbestangle)*PI / 180) - 220 * sin(getAngle()*PI / 180);
 	  Aimysecond = getYpos() +10* Dis(c_Aimxsecond, c_Aimysecond, 0, 0)*cosf((getAngle() + c_Secondbestangle)*PI / 180) + 220 * cos(getAngle()*PI / 180);

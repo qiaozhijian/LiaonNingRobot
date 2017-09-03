@@ -23,11 +23,11 @@
 void init(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	
+
 	TIM_Init(TIM2, 999, 83, 0, 0); //��ʱ1ms
 	ShootUSART1_Init(115200);
-	CameraUSART2_Init(115200);//串口2
-	PostionUSART3_Init(115200);//串口3
+	CameraUSART2_Init(115200);  //串口2
+	PostionUSART3_Init(115200); //串口3
 	TestUART5_Init(115200);
 
 	//1ms定时器用于控制WalkTask周期
@@ -43,23 +43,23 @@ void init(void)
 	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);
 
 	//驱动器初始化
-//	elmo_Init(CAN1);
-//	elmo_Enable(CAN1, 1);
-//	elmo_Enable(CAN1, 2);
-	
-		elmo_Init(CAN2);
-		elmo_Enable(CAN2, 1);
-		elmo_Enable(CAN2, 2);
+	//	elmo_Init(CAN1);
+	//	elmo_Enable(CAN1, 1);
+	//	elmo_Enable(CAN1, 2);
+
+	elmo_Init(CAN2);
+	elmo_Enable(CAN2, 1);
+	elmo_Enable(CAN2, 2);
 
 	//配置速度环
-//	Vel_cfg(CAN1, 1, 50000, 50000); //can通信，50000脉冲加速度
-//	Vel_cfg(CAN1, 2, 50000, 50000);
-		Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
-		Vel_cfg(CAN2, 2, 50000, 50000);
-		Vel_cfg(CAN1, COLLECT_BALL_ID, 50000,50000);
-		Delay_ms(12000);
-//	VelCrl(CAN1, 1, 5000);//can通信，电机，转速，4096一秒一转，
-//	VelCrl(CAN1, 2, 5000);//can通信，电机，转速，顺时针为正
+	//	Vel_cfg(CAN1, 1, 50000, 50000); //can通信，50000脉冲加速度
+	//	Vel_cfg(CAN1, 2, 50000, 50000);
+	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
+	Vel_cfg(CAN2, 2, 50000, 50000);
+	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+	Delay_ms(12000);
+	//	VelCrl(CAN1, 1, 5000);//can通信，电机，转速，4096一秒一转，
+	//	VelCrl(CAN1, 2, 5000);//can通信，电机，转速，顺时针为正
 }
 //globle 变量
 Robot_t gRobot;
@@ -69,49 +69,34 @@ int main(void)
 
 	while (1)
 	{
-		while (getTimeFlag())//10ms执行进入一次
-		{
-	//		switch (gRobot.status)
-	//		{
-	//			case STATUS_SWEEP:
-	//				Sweep();
-	//			break;
-	//			
-	//			case STATUS_CAMERA_WALK:
-	//				switch(getF_ball())
-	//					{
-	//						case 0:
-	//							Pointparking(1200,2400);
-	//							CameraBaseWalk3();
-	//						break;
-	//						
-	//						case 1:
-	//							CameraFindball(4);
-	//						break;
-	//						
-	//						default://USART_OUT();
-	//						break;
-	//					}
 
-	//			break;
-	//					
-	//			case STATUS_FIX :
-	//				
-	//			break;
-	//				
-	//			case STATUS_AVOID:
-	//				
-	//			break;
-	//			
-	//			case STATUS_SHOOTER:
-	//				fireTask();
-	//			break;
-	//			
-	//			default:
-	//				
-	//			break;
-	//		}			
-			Sweep();
+		while (getTimeFlag()) //10ms执行进入一次
+		{
+			if (gRobot.status & STATUS_SWEEP)
+			{
+				//执行扫场
+			}
+			else if(gRobot.status& STATUS_CAMERA_WALK)
+			{
+
+			}
+			else if (gRobot.status & STATUS_CAMERA)
+			{
+			}
+			else if (gRobot.status & STATUS_FIX)
+			{
+
+			}
+			else if(gRobot.status&STATUS_AVOID)
+			{
+
+			}
+
+			if (gRobot.status & STATUS_SHOOTER)
+			{
+				//执行射球
+			}
+
 		}
 	}
 }

@@ -11,6 +11,8 @@
 #include "stm32f4xx_it.h"
 #include "stm32f4xx_usart.h"
 #include "arm_math.h"
+#include "adc.h"
+#include "stm32f4xx_adc.h"
 
 static float angle=0,xpos=0,ypos=0;
 static float errSingle=0; //errSingle = realSingle - nowSingle
@@ -76,5 +78,20 @@ void setErr(float reaAngle,float realX,float realy)
 	setErrX(realX);
 	setErrY(realy);
 }
-
+/**
+*	参数 void
+*	返回值 得到左侧激光运算后返回的距离
+*/
+int getLeftAdc()
+{
+	return 0.9361*Get_Adc_Average(ADC_Channel_15, 10)+427.8;
+}
+/**
+*	参数 void
+*	返回值 得到右侧激光运算后返回的距离
+*/
+int getRightAdc()
+{
+	return 0.9356*Get_Adc_Average(ADC_Channel_14, 10)+434.7;
+}
 

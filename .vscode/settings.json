@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "config.h": "c",
+        "task.h": "c"
+    }
+}

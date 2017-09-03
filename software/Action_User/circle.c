@@ -12,7 +12,7 @@
 void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 {
 		int M1,M2,V1,V2;//定义速度，输入的脉冲
-		static float x=0,y=0,angle=0;
+		static float x=0.f,y=0.f,angle=0.f;
 		static float aimAngle=0;//目标角度
 		static float angleError=0;//目标角度与当前角度的偏差
 		static float distanceCenter=0;//当前坐标与圆心的差值
@@ -20,7 +20,6 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		static float 	spacingError;//定义两个点之间的距离
 		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;//当前坐标与圆心的差值
-		static float anglePidOutPut,spacingPidOutPut;
 		//逆时针圆形闭环
 		x=getXpos();//当前x坐标
 		y=getYpos();//当前y坐标
@@ -84,8 +83,8 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		angleError=angleErrorCount(aimAngle,angle);
 		V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
-		M1=V1/(3.14*WHEEL_DIAMETER)*4096;
-		M2=V2/(3.14*WHEEL_DIAMETER)*4096;
+		M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
+		M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
 		VelCrl(CAN1, 1, M1+AnglePidControl(angleError+spacingPidControl(spacingError)));      
 		VelCrl(CAN1, 2, -M2+AnglePidControl(angleError+spacingPidControl(spacingError)));
 }
@@ -93,7 +92,7 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 {
 		int M1,M2,V1,V2;//定义速度，输入的脉冲
-		static float x=0,y=0,angle=0;
+		static float x=0.f,y=0.f,angle=0.f;
 		static float aimAngle=0;//目标角度
 		static float angleError=0;//目标角度与当前角度的偏差
 		static float distanceCenter=0;//当前坐标与圆心的差值
@@ -101,7 +100,6 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 		static float 	spacingError;//定义两个点之间的距离
 		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;
-		static float anglePidOutPut,spacingPidOutPut;
 		x=getXpos();//当前x坐标
 		y=getYpos();//当前y坐标
 		angle=getAngle();//当前角度
@@ -115,19 +113,19 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			{
 				if(dx>0)
 				{
-					aimAngle=-180;
+					aimAngle=-180.f;
 				}else if(dx<0)
 				{
-					aimAngle=0;
+					aimAngle=0.f;
 				}
 			}else if(fabs(dx)<0.0001)
 			{
 				if(dy>0)
 				{
-					aimAngle=-90;
+					aimAngle=-90.f;
 				}else if(dy<0)
 				{
-					aimAngle=90;
+					aimAngle=90.f;
 				}
 			}
 			
@@ -135,26 +133,26 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			{
 				if(dy>0)//在第一象限
 				{
-					aimAngle=kAngle-90;
+					aimAngle=kAngle-90.f;
 				}else if(dy<0)//在第四象限
 				{
-					aimAngle=90+kAngle;
+					aimAngle=90.f+kAngle;
 				}
 			}else if(dx<0)
 			{
 				if(dy>0)//在第二象限
 				{
-					aimAngle=kAngle-90;
+					aimAngle=kAngle-90.f;
 				}else if(dy<0)//在第三象限
 				{
-					aimAngle=90+kAngle;
+					aimAngle=90.f+kAngle;
 				}
 			}
 			angleError=angleErrorCount(aimAngle,angle);
 			V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 			V2=((R-(WHEEL_TREAD/2))/R)*V;
-			M1=V1/(3.14*WHEEL_DIAMETER)*4096;
-			M2=V2/(3.14*WHEEL_DIAMETER)*4096;
+			M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
+			M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
 			VelCrl(CAN1, 1, M2+AnglePidControl(angleError-spacingPidControl(spacingError)));      
 			VelCrl(CAN1, 2, -(M1-AnglePidControl(angleError-spacingPidControl(spacingError))));
 }
@@ -176,7 +174,7 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 	{
 		x1 = xStart;
 		step = 1;
-	}else if ((angle>-0.001&&angle<0.001) || (angle>179.999) || (angle<-179.999))//车速度的垂线与x轴平行
+	}else if ((1000*angle>-1&&1000*angle<1) || (angle>179.999) || (angle<-179.999))//车速度的垂线与x轴平行
 	{
 		a = 0;
 		b = yStart;
@@ -212,12 +210,12 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 
 
 	//第二条直线
-	if (dy<0.001&&dy>-0.001)//当垂直平分线k不存在的时候(与x轴垂直)
+	if (1000*dy<1&&1000*dy>-1)//当垂直平分线k不存在的时候(与x轴垂直)
 	{
 		x2 = xMid;
 		step +=1;
 	}
-	else if (dx<0.001&&dx>-0.001)//垂直平分线与x轴平行
+	else if (1000*dx<1&&1000*dx>-1)//垂直平分线与x轴平行
 	{
 		c = 0;
 		d = yMid;
@@ -286,7 +284,7 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 		break;
 
 		case 12:
-			if ((a - c) < 0.001 && (a - c) > -0.001)
+			if (1000*(a - c) < 1 && 1000*(a - c) > -1)
 			{
 				circleCenter.x = xMid;
 				circleCenter.y = yMid;
@@ -309,8 +307,8 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 /********************************吃球路线2***************************/
 CircleCenter2_t countCircleCenter2(Point_t p1, Point_t p2, Point_t p3)
 {
-	static float a = 0, b = 0, c = 0, d = 0;////p1,p2个点的坐标差值	//p2,p3点的坐标差值
-	static float e = 0, f = 0;//计算公式中后面的定值
+	static float a = 0.f, b = 0.f, c = 0.f, d = 0.f;////p1,p2个点的坐标差值	//p2,p3点的坐标差值
+	static float e = 0.f, f = 0.f;//计算公式中后面的定值
 	static CircleCenter2_t circleCenter2;
 	//p1,p2个点的坐标差值
 	a = p1.x - p2.x;
@@ -328,7 +326,7 @@ CircleCenter2_t countCircleCenter2(Point_t p1, Point_t p2, Point_t p3)
 		circleCenter2.R = sqrt((circleCenter2.x - p1.x)*(circleCenter2.x - p1.x) + (circleCenter2.y - p1.y)*(circleCenter2.y - p1.y));
 		return circleCenter2;
 	}
-	else if(((a / b) - (c / d))<0.001&& ((a / b) - (c / d))>-0.001)
+	else if(1000*((a / b) - (c / d))<1&& 1000*((a / b) - (c / d))>-1)
 	{
 		circleCenter2.checkOnSameLine = 1;
 		circleCenter2.x = 0;
@@ -341,7 +339,6 @@ CircleCenter2_t countCircleCenter2(Point_t p1, Point_t p2, Point_t p3)
 /***************************吃球路线3***************************/
 
 /*************************找球程序******************************/
-static int f_findball=1;
 /*************************结构体数据缓存容器**************************/
 Container_t Container(void)
 {
@@ -358,11 +355,12 @@ Container_t Container(void)
 	return tmp;
 }
 /************************方案1对应找球1*************************/
+extern int t_FindBall;
+static int flag=0;
 void Findball_1(void)
 {
 	static CircleCenter_t tmpFirst;
 	static CircleCenter_t tmpSecond;
-	static int flag=0;
 	static float anglerem=0;
 	static Container_t tmp;
 	if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<20)
@@ -395,11 +393,11 @@ void Findball_1(void)
 		else NiShiZhenCircleBiHuan(5000,tmpSecond.R,tmpSecond.x,tmpSecond.y);
 			break;
 		case 4:
-			f_findball=0;
 			flag=0;
 			break;
 		default: break;
 	}
+		t_FindBall=0;
 }
 /************************方案2对应找球2*************************/
 void Findball_2()
@@ -409,7 +407,6 @@ void Findball_2()
 	static Point_t Pointsecond;
 	static CircleCenter2_t circle;
 	static Container_t tmp;
-	static int flag=0;
 	static float anglerem=0;
 	switch(flag)	
 	{
@@ -447,15 +444,14 @@ void Findball_2()
 	}
 	if(Dis(Pointsecond.x,Pointsecond.y,getXpos(),getYpos())<20)
 	{
-		f_findball=0;
 		flag=0;
 	}
+		t_FindBall=0;
 }
 /************************找球方案3************************/
 void Findball_3(void)
 {
  static Container_t tmp;
- static int flag=0;
 	switch(flag)
 	{
 		case 0:
@@ -478,11 +474,11 @@ void Findball_3(void)
 			break;
 		case 3:
 			flag=0;
-		  f_findball=0;
 		  break;
 		default://USRAT_OUT("");
 			break;
 	}
+		t_FindBall=0;
 	
 }
 /************************找球方案4************************/
@@ -493,7 +489,6 @@ void Findball_4(void)
 	static float Ystart=0;
 	static float aimangle=0;
 	static float Angleerr=0;
-	static int flag=0;
 	switch(flag)
 	{
 		case 0:
@@ -512,17 +507,21 @@ void Findball_4(void)
 			VelCrl(CAN2, 2,-5000);
 		  break;
 		case 3:
-			f_findball=0;
 			flag=0;
 		default://USART_OUT();
 			break;
 	}	
 	if(fabs(Angleerr)<2)flag=2;
 	if(fabs(Dis(Xstart,Ystart,getXpos(),getYpos()))>1500)flag=3;
+	t_FindBall=0;
 	}
 /*******************找球函数*******************/
 void CameraFindball(int cmodel)
 {
+	if(t_FindBall>300)
+	{
+		flag=0;
+	}
   switch(cmodel)
 	{
 		case 1:Findball_1();

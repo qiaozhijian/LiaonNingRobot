@@ -55,9 +55,6 @@ static float xStick, yStick;															   //卡住时存储的位置数据
 static float M;																   //速度脉冲
 static int turnTime = 0;													   //切换转换方向
 static int turnTimeRemember;												   //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
-static int laserLeft = 0, laserRight = 0, leftDistance = 0, rightDistance = 0; //左边激光数值，右边激光的数值，经过转换的laser的左边值和右边值
-
-
 /****************************************************************************
 * 名    称：pid函数1
 * 功    能：计算偏差作为pid
@@ -389,7 +386,7 @@ void AgainstWall(float aimAngle,float angle)
 	{
 		if (CheckAgainstWall())
 		{
-			setErr(0,-(2400-leftDistance),0);
+//			setErr(0,-(2400-leftDistance),0);
 			turnTime = 8;
 		}
 	}
@@ -424,7 +421,6 @@ int Vchange(int lineChangeSymbol)
 
 void Pointparking(float Pointx,float Pointy)
 {
-	static float out1,out2;
 //	static float V=700,M;
 	static float x=0,y=0,angle=0;
 	static float aimAngle=0;//目标角度
@@ -433,7 +429,6 @@ void Pointparking(float Pointx,float Pointy)
 	static float /*a=-1,b=1,c=0,*/k;//定义斜率
 	static float 	spacingError;//定义两个点之间的距离
 	static float kAngle;//直线角度（用actan发回的数据）
-	int v1,v2;
 	static float dx,dy;
 	x=gRobot.pos.x;//当前x坐标
 	y=gRobot.pos.y;//当前y坐标
@@ -443,7 +438,7 @@ void Pointparking(float Pointx,float Pointy)
 	dy=y-Pointy;
 	k=dy/dx;
 	kAngle=atan(k)*180/PI;
-	if((dx>=-0.001)&&(dx<=0.001))//当k不存在的时候
+	if((1000*dx>=-1)&&(1000*dx<=1))//当k不存在的时候
 	{
 		if(dy>0)
 		{
@@ -494,7 +489,6 @@ void Pointparking(float Pointx,float Pointy)
 		VelCrl(CAN2, 1,AnglePidControl(angleError));//pid中填入的是差值
 		VelCrl(CAN2, 2,-AnglePidControl(angleError));
 	}
-//		out1=AnglePidControl(angleError);
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)GetPosX());
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)GetPosY());
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dx);
@@ -521,10 +515,6 @@ void Sweep()//基础扫场程序
 		y = gRobot.pos.y;			//矫正过的y坐标
 		angle = gRobot.pos.angle; //矫正过的角度角度
 		M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
-		laserRight = Get_Adc_Average(ADC_Channel_14, 10);
-		laserLeft = Get_Adc_Average(ADC_Channel_15, 10);
-		rightDistance = 0.9356*laserRight+434.7;
-		leftDistance = 0.9361*laserLeft+427.8;
 		switch (turnTime)
 		{
 			case 0:
@@ -633,8 +623,6 @@ void Sweep()//基础扫场程序
 
 		USART_OUT(USART1, (uint8_t *)"%d\t", (int)gRobot.pos.x);
 		USART_OUT(USART1, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-		USART_OUT(USART1, (uint8_t *)"%d\t", (int)leftDistance);
-		USART_OUT(USART1, (uint8_t *)"%d\t", (int)rightDistance);
 		USART_OUT(USART1, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
 		USART_OUT(USART1, (uint8_t *)"%d\t", (int)angleError);
 		USART_OUT(USART1, (uint8_t *)"%d\t", (int)spacingError);

@@ -245,7 +245,7 @@ void TIM5_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
 	}
 }
-
+int t_FindBall=0;
 void TIM3_IRQHandler(void)
 {
 	static float xRem=0,yRem=0;
@@ -253,15 +253,18 @@ void TIM3_IRQHandler(void)
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+		tim3Counter++;
+		t_FindBall++;
+		t_FindBall%=65535;
+		if(tim3Counter%2)
+		{
+			xRem=getXpos();
+			yRem=getYpos();
+			setxRem(xRem);
+			setyRem(yRem);
+		}
 	}
-	tim3Counter++;
-	if(tim3Counter%2)
-	{
-		xRem=getXpos();
-		yRem=getYpos();
-		setxRem(xRem);
-		setyRem(yRem);
-	}
+
 }
 
 

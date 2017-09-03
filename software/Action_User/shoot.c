@@ -15,7 +15,7 @@ float LauncherPidControl(float ERR)
 {
 	static float ERR_OLD=0;
 	static float Kp=50;
-	static float Ki=0;
+//	static float Ki=0;
 	static float Kd=10;
 	static float OUTPUT=0;
 	OUTPUT=Kp*ERR + Kd*(ERR-ERR_OLD);
