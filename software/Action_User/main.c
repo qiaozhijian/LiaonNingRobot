@@ -69,51 +69,49 @@ int main(void)
 
 	while (1)
 	{
-	while (getTimeFlag())//10ms执行进入一次
-	{
-		switch (gRobot.status)
+		while (getTimeFlag())//10ms执行进入一次
 		{
-			case STATUS_SWEEP:
-				Sweep();
-			break;
-			
-			case STATUS_CAMERA_WALK:
-				switch(getF_ball())
-					{
-						case 0:
-							Pointparking(1200,2400);
-							CameraBaseWalk3();
-						break;
-						
-						case 1:
-							CameraFindball(4);
-						break;
-						
-						default://USART_OUT();
-						break;
-					}
+	//		switch (gRobot.status)
+	//		{
+	//			case STATUS_SWEEP:
+	//				Sweep();
+	//			break;
+	//			
+	//			case STATUS_CAMERA_WALK:
+	//				switch(getF_ball())
+	//					{
+	//						case 0:
+	//							Pointparking(1200,2400);
+	//							CameraBaseWalk3();
+	//						break;
+	//						
+	//						case 1:
+	//							CameraFindball(4);
+	//						break;
+	//						
+	//						default://USART_OUT();
+	//						break;
+	//					}
 
-			break;
-					
-			case STATUS_FIX :
-				
-			break;
-				
-			case STATUS_AVOID:
-				
-			break;
-			
-			case STATUS_SHOOTER:
-				fireTask();
-			break;
-			
-			default:
-				
-			break;
-		}			
-			
-		
-		//robot.camera.mode=1;
-	}
+	//			break;
+	//					
+	//			case STATUS_FIX :
+	//				
+	//			break;
+	//				
+	//			case STATUS_AVOID:
+	//				
+	//			break;
+	//			
+	//			case STATUS_SHOOTER:
+	//				fireTask();
+	//			break;
+	//			
+	//			default:
+	//				
+	//			break;
+	//		}			
+			Sweep();
+		}
 	}
 }

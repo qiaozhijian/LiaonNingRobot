@@ -8,12 +8,8 @@ static float Aimxsecond=0,Aimysecond=0;
 static float xRem=0,yRem=0; 
 static float Bestangle=0;
 static int f_ball=0;
-static int Basket=0;
+static int ballColor=0;
 /************************SET***********************/
-void setBasket(int val)
-{
-	val=Basket;
-}
 void setF_ball(int val)
 {
 	f_ball=val;
@@ -46,12 +42,13 @@ void setAimysecond(float val)
 {
 	Aimysecond=val;
 }
+void setBallColor(int temp)
+{
+	ballColor=temp;
+}
+
 
 /************************GET***********************/
-int getBasket(void)
-{
-	return Basket;
-}
 int getF_ball(void)
 {
 	if(f_ball>0)return 1;
@@ -84,6 +81,10 @@ float getAimxsecond(void)
 float getAimysecond(void)
 {
 	return Aimysecond;
+}
+int getBallColor(void)
+{
+	return ballColor;
 }
 /************************求点到点的距离***********************/
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop)

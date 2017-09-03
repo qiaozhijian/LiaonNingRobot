@@ -29,6 +29,7 @@
 #include "adc.h"
 #include "arm_math.h"
 #include "task.h"
+#include "tools.h"
 /* Private typedef ------------------------------------------------------------------------------------*/
 /* Private define -------------------------------------------------------------------------------------*/
 /* Private macro --------------------------------------------------------------------------------------*/
@@ -51,15 +52,10 @@
 //static float angleError = 0; //目标角度与当前角度的偏差
 extern Robot_t gRobot;
 static float xStick, yStick;															   //卡住时存储的位置数据
-extern float xRem, yRem;													   //每隔20ms记住之前的位置
 static float M;																   //速度脉冲
 static int turnTime = 0;													   //切换转换方向
 static int turnTimeRemember;												   //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
 static int laserLeft = 0, laserRight = 0, leftDistance = 0, rightDistance = 0; //左边激光数值，右边激光的数值，经过转换的laser的左边值和右边值
-//float rotateX = 0, rotateY = 0;				 //旋转后的坐标
-//float angleDeviation = 0, dx = 0, dy = 0;	 //扫场过程中产生的坐标轴角度偏差，原点偏移量
-//float rightX = 0, rightY = 0, rightAngle = 0; //正确的矫正过的X坐标和Y坐标,角度
-
 
 
 /****************************************************************************
@@ -86,9 +82,9 @@ float ParkingAnglePidControl(float ERR)
 float AnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 90.f; //90
+	static float Kp = 150.f; //90
 	static float Ki = 0.f;
-	static float Kd = 13.f;
+	static float Kd = 30.f;
 	static float OUTPUT;
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
 	ERR_OLD = ERR;
@@ -142,7 +138,7 @@ float angleErrorCount(float aimAngle,float angle)//计算角度偏差作为pid
 	return angleError;
 }
 
- /****************************************************************************
+/****************************************************************************
 * 名    称：void Parking(void)
 * 功    能：走直线停车函数函数
 * 入口参数：无
@@ -307,8 +303,8 @@ void CheckOutline(void)//检测是否卡死
 	static int stickError = 0;													   //卡死错误积累值
 	static float xError = 0, yError = 0;
 	turnTimeRemember = turnTime;
-	xError = gRobot.pos.x - xRem;
-	yError = gRobot.pos.y - yRem;
+	xError = gRobot.pos.x - getxRem();
+	yError = gRobot.pos.y - getyRem();
 	if (fabs(xError) < 1 && fabs(yError) < 1 && M != 0)
 	{
 		stickError++;
@@ -319,8 +315,8 @@ void CheckOutline(void)//检测是否卡死
 	}
 	if (stickError > 80)
 	{
-		xStick = xRem;//记住卡死的坐标
-		yStick = yRem;
+		xStick = getxRem();//记住卡死的坐标
+		yStick = getyRem();
 		turnTime = 7;
 		stickError = 0;
 	}
@@ -393,38 +389,12 @@ void AgainstWall(float aimAngle,float angle)
 	{
 		if (CheckAgainstWall())
 		{
-//			angleDeviation =  gRobot.pos.angle- aimAngle;
-//			rotateX = gRobot.pos.x * cos(angleDeviation * PI / 180) + gRobot.pos.y * sin(angleDeviation * PI / 180);//旋转坐标系
-//			rotateY = gRobot.pos.y * cos(angleDeviation * PI / 180) - gRobot.pos.x * sin(angleDeviation * PI / 180);
-//			dy = 0 - rotateY;//得到原点位移量
-//			dx = -(2400 - leftDistance) - rotateX;
-//			Correct();//得到正确坐标
 			setErr(0,-(2400-leftDistance),0);
 			turnTime = 8;
 		}
 	}
 }
- /****************************************************************************
-* 名    称：int LineChange(int lineChangeSymbol)
-* 功    能：设立缩圈函数，symbol=0,1,2时为内圈，3,4为外圈返回缩圈距离
-* 入口参数：lineChangeSymbol
-* 出口参数：temp//缩小的距离
-* 说    明：
-* 调用方法：无 
-****************************************************************************/
-int LineChange(int lineChangeSymbol)			   //设立缩圈函数，symbol=0,1,2时为内，3,4为外圈返回缩圈距离
-{
-	static int temp=0;
-	if (lineChangeSymbol < 3)
-	{
-		temp=300 * lineChangeSymbol;
-	}
-	else if (lineChangeSymbol >= 3)
-	{
-		temp=400 * lineChangeSymbol;
-	}
-	return temp;
-}
+
  /****************************************************************************
 * 名    称：void Vchange(int lineChangeSymbol)
 * 功    能：通过lineChangeSymbol改变内外环的速度
@@ -435,9 +405,8 @@ int LineChange(int lineChangeSymbol)			   //设立缩圈函数，symbol=0,1,2时
 ****************************************************************************/
 int Vchange(int lineChangeSymbol)
 {
-	static int M=0;
 	static float vOut1 = 1000; //外环速度
-	static float vOut2 = 1000;//中环速度
+	static float vOut2 = 1500;//中环速度
 	static float vIn = 1000;  //内环速度
 	if (lineChangeSymbol < 1)
 	{
@@ -466,74 +435,66 @@ void Pointparking(float Pointx,float Pointy)
 	static float kAngle;//直线角度（用actan发回的数据）
 	int v1,v2;
 	static float dx,dy;
-		x=getXpos();//当前x坐标
-		y=getYpos();//当前y坐标
-		angle=getAngle();//当前角度
-		spacingError=sqrt(pow(x-Pointx,2)+pow(y-Pointy,2));
-		dx=x-Pointx;
-		dy=y-Pointy;
-		k=dy/dx;
-		kAngle=atan(k)*180/PI;
-		if((dx>=-0.001)&&(dx<=0.001))//当k不存在的时候
+	x=gRobot.pos.x;//当前x坐标
+	y=gRobot.pos.y;//当前y坐标
+	angle=gRobot.pos.angle;//当前角度
+	spacingError=sqrt(pow(x-Pointx,2)+pow(y-Pointy,2));
+	dx=x-Pointx;
+	dy=y-Pointy;
+	k=dy/dx;
+	kAngle=atan(k)*180/PI;
+	if((dx>=-0.001)&&(dx<=0.001))//当k不存在的时候
+	{
+		if(dy>0)
 		{
-			if(dy>0)
-			{
-				aimAngle=-180;
-				//spacingError=-spacingError;
-			}else if(dy<0)
-			{
-				aimAngle=0;
-				//spacingError=fabs(spacingError);
-			}
-		}
-		
-		if((dx>0))
+			aimAngle=-180;
+		}else if(dy<0)
 		{
-			if(dy>0)//目标在以车为原点建立坐标系的左下角
-			{
-				aimAngle=kAngle+90;
-				//spacingError=-spacingError;
-			}else if(dy<0)//目标在以车为原点建立坐标系的左上角
-			{
-				aimAngle=90+kAngle;
-				//spacingError=fabs(spacingError);
-			}
-		}else if(dx<0)
+			aimAngle=0;
+		}
+	}
+	
+	if((dx>0))
+	{
+		if(dy>0)//目标在以车为原点建立坐标系的左下角
 		{
-			if(dy>0)//目标在以车为原点建立坐标系的右下角
-			{
-				aimAngle=kAngle-90;
-				//spacingError=-spacingError;
-			}else if(dy<0)//目标在以车为原点建立坐标系的右上角
-			{
-				aimAngle=-(90-kAngle);
-			//	spacingError=fabs(spacingError);
-			}
-		}
-		angleError=angleErrorCount(aimAngle,angle);
-		if(fabs(spacingError)>250)
+			aimAngle=kAngle+90;
+		}else if(dy<0)//目标在以车为原点建立坐标系的左上角
 		{
-			VelCrl(CAN2, 1,6000+AnglePidControl(angleError));//pid中填入的是差值
-			VelCrl(CAN2, 2,-6000+AnglePidControl(angleError));
+			aimAngle=90+kAngle;
 		}
-		if(fabs(spacingError)>200&&fabs(spacingError)<250)//设立减速环带
+	}else if(dx<0)
+	{
+		if(dy>0)//目标在以车为原点建立坐标系的右下角
 		{
-			VelCrl(CAN2, 1,4000+AnglePidControl(angleError));//pid中填入的是差值
-			VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
-		}
-		if(fabs(spacingError)<200&&fabs(spacingError)>150)
+			aimAngle=kAngle-90;
+		}else if(dy<0)//目标在以车为原点建立坐标系的右上角
 		{
-			VelCrl(CAN2, 1,2000+AnglePidControl(angleError));//pid中填入的是差值
-			VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
+			aimAngle=-(90-kAngle);
 		}
-		if(fabs(spacingError)>50&&fabs(spacingError)<150)
-		{	
-			VelCrl(CAN2, 1,AnglePidControl(angleError));//pid中填入的是差值
-			VelCrl(CAN2, 2,-AnglePidControl(angleError));
-		}
+	}
+	angleError=angleErrorCount(aimAngle,angle);
+	if(fabs(spacingError)>250)
+	{
+		VelCrl(CAN2, 1,6000+AnglePidControl(angleError));//pid中填入的是差值
+		VelCrl(CAN2, 2,-6000+AnglePidControl(angleError));
+	}
+	if(fabs(spacingError)>200&&fabs(spacingError)<250)//设立减速环带
+	{
+		VelCrl(CAN2, 1,4000+AnglePidControl(angleError));//pid中填入的是差值
+		VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
+	}
+	if(fabs(spacingError)<200&&fabs(spacingError)>150)
+	{
+		VelCrl(CAN2, 1,2000+AnglePidControl(angleError));//pid中填入的是差值
+		VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
+	}
+	if(fabs(spacingError)>50&&fabs(spacingError)<150)
+	{	
+		VelCrl(CAN2, 1,AnglePidControl(angleError));//pid中填入的是差值
+		VelCrl(CAN2, 2,-AnglePidControl(angleError));
+	}
 //		out1=AnglePidControl(angleError);
-//		v1=6000+AnglePidControl(angleError);
-//		v2=-6000+AnglePidControl(angleError);
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)GetPosX());
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)GetPosY());
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dx);
@@ -544,8 +505,8 @@ void Pointparking(float Pointx,float Pointy)
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)out1);
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)v1);
 //		USART_OUT(USART1,(uint8_t*) "%d\r\n",(int)v2);
-	}
-//
+}
+
 void Sweep()//基础扫场程序
 {
 		static float x = 0, y = 0, angle = 0;
@@ -567,16 +528,16 @@ void Sweep()//基础扫场程序
 		switch (turnTime)
 		{
 			case 0:
-				disError = x-(500+ LineChange(lineChangeSymbol));
+				disError = x-(500+ lineChangeSymbol*400);
 				aimAngle=0;
 				angleError=angleErrorCount(aimAngle,angle);;
-				distanceStraight=(3400+ LineChange(lineChangeSymbol))-y;
-				if (fabs(distanceStraight) > 900)
+				distanceStraight=(3400+ lineChangeSymbol*290)-y;
+				if (fabs(distanceStraight) > 800)
 				{
 					VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
 					VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
 				}
-				if (fabs(distanceStraight) < 900)
+				if (fabs(distanceStraight) < 800)
 				{
 					distanceStraight = 0;
 					turnTime = 1;
@@ -587,16 +548,16 @@ void Sweep()//基础扫场程序
 			break;
 				
 		case 1:
-			disError = y - (3400 +  LineChange(lineChangeSymbol)); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			disError = y - (3400 +  lineChangeSymbol*290); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			aimAngle = 90;
 			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = -(500 +  LineChange(lineChangeSymbol)) - x;
-			if (fabs(distanceStraight) > 900)
+			distanceStraight = -(500 +  lineChangeSymbol*400) - x;
+			if (fabs(distanceStraight) > 800)
 			{
 				VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
 				VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
 			}
-			if (fabs(distanceStraight) < 900)
+			if (fabs(distanceStraight) < 800)
 			{
 				distanceStraight = 0;
 				turnTime = 2;
@@ -607,16 +568,16 @@ void Sweep()//基础扫场程序
 		break;
 
 		case 2:
-			disError = x + (500 +  LineChange(lineChangeSymbol)); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = x + (500 +  lineChangeSymbol*400); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = 180;
 			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = y - (1400 -  LineChange(lineChangeSymbol));//100
-			if (fabs(distanceStraight) > 900)
+			distanceStraight = y - (1400 -  lineChangeSymbol*290);//100
+			if (fabs(distanceStraight) > 800)
 			{
 				VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
 				VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
 			}
-			if (fabs(distanceStraight) < 900)
+			if (fabs(distanceStraight) < 800)
 			{
 				distanceStraight = 0;
 				turnTime = 3;
@@ -627,16 +588,16 @@ void Sweep()//基础扫场程序
 		break;
 
 		case 3:
-			disError = y - (1400 -  LineChange(lineChangeSymbol)); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = y - (1400 -  lineChangeSymbol*290); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = -90;
 			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = (500 +  LineChange(lineChangeSymbol)) - x;
-			if (fabs(distanceStraight) > 900)
+			distanceStraight = (500 +  lineChangeSymbol*400) - x;
+			if (fabs(distanceStraight) > 800)
 			{
 				VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
 				VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
 			}
-			if (fabs(distanceStraight) < 900)
+			if (fabs(distanceStraight) < 800)
 			{
 				distanceStraight = 0;
 				turnTime = 0; //重新进入循环
@@ -646,6 +607,7 @@ void Sweep()//基础扫场程序
 				}
 				if (lineChangeSymbol == 5)
 				{
+					lineChangeSymbol=0;
 					turnTime = 5;
 				}
 			}

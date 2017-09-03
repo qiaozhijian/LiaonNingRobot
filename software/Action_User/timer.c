@@ -17,6 +17,7 @@
 #include "stm32f4xx_gpio.h"
 #include "config.h"
 #include "fix.h"
+#include "tools.h"
 
 
 /**
@@ -244,10 +245,11 @@ void TIM5_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
 	}
 }
-int tim3Counter=0;
-float xRem=0,yRem=0;
+
 void TIM3_IRQHandler(void)
 {
+	static float xRem=0,yRem=0;
+	static int tim3Counter=0;
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
@@ -257,6 +259,8 @@ void TIM3_IRQHandler(void)
 	{
 		xRem=getXpos();
 		yRem=getYpos();
+		setxRem(xRem);
+		setyRem(yRem);
 	}
 }
 

@@ -10,6 +10,7 @@
 #include "motor.h"
 #include "fix.h"
 #include "stm32f4xx_it.h"
+#include "tools.h"
 float LauncherPidControl(float ERR)
 {
 	static float ERR_OLD=0;

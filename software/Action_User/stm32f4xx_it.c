@@ -44,17 +44,8 @@
 static float angle;//定义角度
 static float posX   = 0;	 //定位系统返回的X坐标
 static float posY   = 0;	 //定位系统返回的Y坐标
-static int ballColor=0;
 
 /****************������CAN1�ӿ�ģ��****start******************/
-void setBallColor(int temp)
-{
-	ballColor=temp;
-}
-int getBallColor(void)
-{
-	return ballColor;
-}
 void CAN1_RX0_IRQHandler(void)
 {
 	static uint8_t buffer[8]={0};
@@ -147,22 +138,61 @@ void UART5_IRQHandler(void)
 	}
 	 
 }
+typedef union
+{
+    //这个32位整型数是给电机发送的速度（脉冲/s）
+    int32_t velInt32;
+    //通过串口发送数据每次只能发8位
+    uint8_t velUint8[4];
 
-
+}BackShootTest_t;
 
 void USART1_IRQHandler(void)
 {
+	static int i=0;
 	uint8_t data = 0;
-	
+	BackShootTest_t backShootTest ;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET){
 		data=USART_ReceiveData(USART1);
+		if(data=='V')
+		{
+			i=0;
+		}
+		switch (i)
+		{
+			case 0:
+				if(data=='A')
+				i=1;
+				break;
+			case 1:
+				backShootTest.velUint8[0]=data;
+			  i=2;
+				break;
+			case 2:  
+				backShootTest.velUint8[1]=data;
+ 				i=3;
+			break;
+			
+			case 3:  
+				backShootTest.velUint8[2]=data;
+ 				i=4;
+			break;
+			
+			case 4:  
+				backShootTest.velUint8[3]=data;
+			break;
+			
+			default://USART_OUT();
+			break;
+		}
 	}
 	else if(USART_GetITStatus(USART1, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( USART1,USART_IT_RXNE);
 		data=USART_ReceiveData(USART1);
 	}
-	 
+	
+	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)backShootTest.velInt32);
 }
 
 
@@ -228,13 +258,16 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				posX = posture.ActVal[3];//x
 				posY = posture.ActVal[4];//y
 				posture.ActVal[5] = posture.ActVal[5];
+				setXpos(posX);
+				setYpos(posY);
+				setAngle(angle);
 			}
 			count = 0;
 			
-			if(CheckAgainstWall())
-			{
-				
-			}
+//			if(CheckAgainstWall())
+//			{
+//				
+//			}
 				
 			gRobot.pos.x=getXpos();
 			gRobot.pos.y=getYpos();

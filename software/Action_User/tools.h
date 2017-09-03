@@ -47,7 +47,6 @@
 /* Exported functions --------------------------------------------------------*/
 
 /***************************SET***********************/
-void setBasket(int val);
 void setF_ball(int val);
 void setBestangle(float val);
 void setxRem(float val);
@@ -59,9 +58,8 @@ void setAimxfirst(float val);
 void setAimyfirst(float val);
 void setAimxsecond(float val);
 void setAimysecond(float val);
-
+void setBallColor(int temp);
 /***************************GET**********************/
-int getBasket(void);
 int getF_ball(void);
 float getBestangle(void);
 float getxRem(void);
@@ -70,6 +68,7 @@ float getAimxfirst(void);
 float getAimyfirst(void);
 float getAimxsecond(void);
 float getAimysecond(void);
+int getBallColor(void);
 /**********************坐标变换**********************/
 float Xcoorchange(float x,float y,float angle);
 float Ycoorchange(float x,float y,float angle);

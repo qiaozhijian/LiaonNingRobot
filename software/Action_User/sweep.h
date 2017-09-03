@@ -7,7 +7,6 @@ float spacingPidControl(float ERR);
 float ParkingAnglePidControl(float ERR);
 float angleErrorCount(float aimAngle,float angle);//计算角度偏差作为pid
 
-//int LineChange(int lineChangeSymbol);
 int Vchange(int lineChangeSymbol);
 void CheckOutline(void);//检测是否卡死
 void BackCarIn(float angle);//内环倒车程序

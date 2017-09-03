@@ -24,7 +24,7 @@ void SetTurnTimeChange(int temp);
 int GetTurnTimeChange(void);
 void CameraBaseWalk3(void)//摄像头基础走形
 {
-	static int M=0;
+	static int M=12214;
 	static float x = 0, y = 0, angle = 0;
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
@@ -36,7 +36,6 @@ void CameraBaseWalk3(void)//摄像头基础走形
 	x = gRobot.pos.x;			//矫正过的x坐标
 	y = gRobot.pos.y;			//矫正过的y坐标
 	angle = gRobot.pos.angle; //矫正过的角度角度
-	M=12214;
 	turnTime=AreaCheck(x,y);
   switch (turnTime)
 	{
