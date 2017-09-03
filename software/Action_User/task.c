@@ -15,10 +15,8 @@
 #include "task.h"
 extern Robot_t gRobot;
 
-
 void robotInit()
 {
-
 }
 
 /**
@@ -31,7 +29,7 @@ void robotInit()
 *   STATUS_FIX 
 *   STATUS_AVOID
 *   如果同时设置多个状态，那么各个状态之间按位或
-*/ 
+*/
 void setRobotStatus(uint8_t status)
 {
     gRobot.status = status;
@@ -42,21 +40,23 @@ void setRobotStatus(uint8_t status)
 *   GO_LEFT
 *   GO_RIGHT
 *   GO_BACK
-*/ 
+*/
 void setDirection(uint8_t direction)
 {
-    gRobot.direction=direction;
+    gRobot.direction = direction;
+}
+//
+void setPosition(Position_t *pos)
+{
+    gRobot.pos.x = pos->x;
+    gRobot.pos.y = pos->y;
+    gRobot.pos.angle = pos->angle;
 }
 
 void setLeftMove()
 {
-
 }
 
 void setRightMove()
 {
-
 }
-
-
-
