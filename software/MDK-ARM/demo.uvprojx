@@ -10,8 +10,7 @@
       <TargetName>ACTION</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
-      <uAC6>0</uAC6>
+      <pCCUsed>5060300::V5.06 update 3 (build 300)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F405RGTx</Device>
@@ -410,6 +409,36 @@
               <FileType>1</FileType>
               <FilePath>..\Action_User\usart.c</FilePath>
             </File>
+            <File>
+              <FileName>avoid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\avoid.c</FilePath>
+            </File>
+            <File>
+              <FileName>camera.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\camera.c</FilePath>
+            </File>
+            <File>
+              <FileName>fix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\fix.c</FilePath>
+            </File>
+            <File>
+              <FileName>shoot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\shoot.c</FilePath>
+            </File>
+            <File>
+              <FileName>sweep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\sweep.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -605,11 +634,5 @@
       </Groups>
     </Target>
   </Targets>
-
-  <RTE>
-    <apis/>
-    <components/>
-    <files/>
-  </RTE>
 
 </Project>
