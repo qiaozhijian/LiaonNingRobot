@@ -31,3 +31,4 @@
 .\szw_stm32f407\sweep.o: ..\Libraries\CMSIS\core_cm4.h
 .\szw_stm32f407\sweep.o: ..\Action_User\task.h
 .\szw_stm32f407\sweep.o: ..\Action_User\tools.h
+.\szw_stm32f407\sweep.o: ..\Action_User\shoot.h

@@ -11,6 +11,7 @@
 #include "fix.h"
 #include "stm32f4xx_it.h"
 #include "tools.h"
+#include "task.h"
 float LauncherPidControl(float ERR)
 {
 	static float ERR_OLD=0;
@@ -46,7 +47,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 
 	s = sqrt((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	v = sqrt(s*s*g * 1000 / ((2 * s*tan(51 * PI / 180) - 2 * h)*cos(51 * PI / 180)*cos(51 * PI / 180)));
-	launcher.rev = v  / PI / 66;
+	launcher.rev = v  / PI / 66 * 2 + 13;
 	dx = x0 - x;//建立以车为原点的坐标系
 	dy = y0 - y;
 
@@ -75,21 +76,30 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	}
 	return launcher;
 }
+extern int stopUSARTsignal;
+extern int32_t nowShootVel;
+extern Robot_t gRobot;
 void fireTask(void)
 {
 	static int waitAdjust=0;//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
 	static int ballNum=1;
 	static Launcher_t launcher;  
-	CollectBallVelCtr(40);
-	x=getXpos();//当前x坐标
-	y=getYpos();//当前y坐标
-	angle=getAngle();//当前角度
-	ballNum=getBallColor();
-	CollectBallVelCtr(35);
+//	CollectBallVelCtr(40);
+	x=gRobot.pos.x;//当前x坐标
+	y=gRobot.pos.y;//当前y坐标
+	angle=gRobot.pos.angle;//当前角度
+//	ballNum=getBallColor();
 	launcher=Launcher(x,y,angle,ballNum);
 	YawAngleCtr(launcher.courceAngle);
-	ShootCtr(launcher.rev*2+13);
+	if(stopUSARTsignal==0)
+	{
+		ShootCtr(launcher.rev);
+	}
+	if(10*fabs(nowShootVel-launcher.rev)<1)
+	{
+		stopUSARTsignal=0;
+	}
 	waitAdjust++;
 	if(waitAdjust<=200)
 	{
@@ -100,6 +110,7 @@ void fireTask(void)
 		PushBallReset();
 	}
 	waitAdjust%=400;
+	
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getXpos());
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getYpos());
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)waitAdjust);

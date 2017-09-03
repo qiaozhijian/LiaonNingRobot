@@ -33,3 +33,4 @@
 .\szw_stm32f407\main.o: ..\Action_User\can.h
 .\szw_stm32f407\main.o: ..\Action_User\shoot.h
 .\szw_stm32f407\main.o: ..\Action_User\tools.h
+.\szw_stm32f407\main.o: ..\Action_User\motor.h

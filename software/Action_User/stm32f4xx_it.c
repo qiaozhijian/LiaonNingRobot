@@ -145,10 +145,11 @@ typedef union
     uint8_t velUint8[4];
 
 }BackShootTest_t;
-
+int stopUSARTsignal=0;
+int32_t nowShootVel=0;
 void USART1_IRQHandler(void)
 {
-	static int i=0;
+	static int i=0,j=0;
 	uint8_t data = 0;
 	BackShootTest_t backShootTest ;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET){
@@ -156,6 +157,11 @@ void USART1_IRQHandler(void)
 		if(data=='V')
 		{
 			i=0;
+			nowShootVel=backShootTest.velInt32;
+		}else if(data=='R')
+		{
+			i=0;
+			stopUSARTsignal=1;
 		}
 		switch (i)
 		{
@@ -163,22 +169,15 @@ void USART1_IRQHandler(void)
 				if(data=='A')
 				i=1;
 				break;
+				
 			case 1:
-				backShootTest.velUint8[0]=data;
-			  i=2;
-				break;
-			case 2:  
-				backShootTest.velUint8[1]=data;
- 				i=3;
-			break;
-			
-			case 3:  
-				backShootTest.velUint8[2]=data;
- 				i=4;
-			break;
-			
-			case 4:  
-				backShootTest.velUint8[3]=data;
+				backShootTest.velUint8[j]=data;
+				j++;
+			  if(j>4)
+				{
+					j=0;
+					i=0;
+				}
 			break;
 			
 			default://USART_OUT();

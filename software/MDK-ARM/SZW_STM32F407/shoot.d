@@ -26,3 +26,4 @@
 .\szw_stm32f407\shoot.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h
 .\szw_stm32f407\shoot.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h
 .\szw_stm32f407\shoot.o: ..\Action_User\tools.h
+.\szw_stm32f407\shoot.o: ..\Action_User\task.h

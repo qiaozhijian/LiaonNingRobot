@@ -30,6 +30,7 @@
 #include "arm_math.h"
 #include "task.h"
 #include "tools.h"
+#include "shoot.h"
 /* Private typedef ------------------------------------------------------------------------------------*/
 /* Private define -------------------------------------------------------------------------------------*/
 /* Private macro --------------------------------------------------------------------------------------*/
@@ -386,7 +387,7 @@ void AgainstWall(float aimAngle,float angle)
 	{
 		if (CheckAgainstWall())
 		{
-//			setErr(0,-(2400-leftDistance),0);
+			setErr(0,-(2400-getLeftAdc()),0);
 			turnTime = 8;
 		}
 	}
@@ -615,7 +616,9 @@ void Sweep()//基础扫场程序
 			BackCar(angle);
 		break;
 			
-
+		case 8:
+			fireTask();
+		break;
 
 		default:
 		break;

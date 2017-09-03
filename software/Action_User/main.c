@@ -19,6 +19,7 @@
 #include "camera.h"
 #include "shoot.h"
 #include "tools.h"
+#include "motor.h"
 
 void init(void)
 {
@@ -29,7 +30,6 @@ void init(void)
 	CameraUSART2_Init(115200);  //串口2
 	PostionUSART3_Init(115200); //串口3
 	TestUART5_Init(115200);
-
 	//1ms定时器用于控制WalkTask周期
 	TIM_Init(TIM2, 99, 839, 0, 0);
 	//10ms定时器TIM3用于控制WalkTask周期
@@ -66,37 +66,37 @@ Robot_t gRobot;
 int main(void)
 {
 	init();
-
+	CollectBallVelCtr(40);
 	while (1)
 	{
 
 		while (getTimeFlag()) //10ms执行进入一次
 		{
-			if (gRobot.status & STATUS_SWEEP)
-			{
-				//执行扫场
-			}
-			else if(gRobot.status& STATUS_CAMERA_WALK)
-			{
+//			if (gRobot.status & STATUS_SWEEP)
+//			{
+//				//执行扫场
+//			}
+//			else if(gRobot.status& STATUS_CAMERA_WALK)
+//			{
 
-			}
-			else if (gRobot.status & STATUS_CAMERA)
-			{
-			}
-			else if (gRobot.status & STATUS_FIX)
-			{
+//			}
+//			else if (gRobot.status & STATUS_CAMERA)
+//			{
+//			}
+//			else if (gRobot.status & STATUS_FIX)
+//			{
 
-			}
-			else if(gRobot.status&STATUS_AVOID)
-			{
+//			}
+//			else if(gRobot.status&STATUS_AVOID)
+//			{
 
-			}
+//			}
 
-			if (gRobot.status & STATUS_SHOOTER)
-			{
-				//执行射球
-			}
-
+//			if (gRobot.status & STATUS_SHOOTER)
+//			{
+//				//执行射球
+//			}
+				Sweep();
 		}
 	}
 }
