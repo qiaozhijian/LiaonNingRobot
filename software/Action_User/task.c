@@ -13,7 +13,7 @@
 #include "arm_math.h"
 #include "config.h"
 #include "task.h"
-
+extern Robot_t gRobot;
 
 
 void robotInit()
@@ -21,14 +21,31 @@ void robotInit()
 
 }
 
+/**
+*设置机器人的状态
+* 入口参数 status :
+*   STATUS_SWEEP 
+*   STATUS_CAMERA_WALK 
+*   STATUS_CAMERA
+*   STATUS_SHOOTER 
+*   STATUS_FIX 
+*   STATUS_AVOID
+*   如果同时设置多个状态，那么各个状态之间按位或
+*/ 
 void setRobotStatus(uint8_t status)
 {
-
+    gRobot.status = status;
 }
-
+/**
+*   入口参数    direction 车的方向 
+*   GO_STRAIGHT
+*   GO_LEFT
+*   GO_RIGHT
+*   GO_BACK
+*/ 
 void setDirection(uint8_t direction)
 {
-
+    gRobot.direction=direction;
 }
 
 void setLeftMove()

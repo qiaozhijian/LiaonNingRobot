@@ -3,42 +3,172 @@
 <pre>
 <h1>�Vision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ��Vision V5.21.1.0
-Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: yang yangxiu, NEU, LIC=0VR9U-SYYDW-77IRP-MUNWS-YTS5Z-GJ3WM
+IDE-Version: ��Vision V5.23.0.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: ARTS Haoan Feng, FSD, LIC=QF8RA-1MNXE-EHZ8P-MG1IW-I3FTL-JVMCV
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.21a
-Toolchain Path:  D:\program files\mdk521a\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 3 (build 300)
-Assembler:       Armasm.exe V5.06 update 3 (build 300)
-Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
-Library Manager: ArmAr.exe V5.06 update 3 (build 300)
-Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
-CPU DLL:         SARMCM3.DLL V5.21a
-Dialog DLL:      DCM.DLL V1.13.8.0
+Toolchain:       MDK-ARM Plus  Version: 5.23
+Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 4 (build 422)
+Assembler:       Armasm.exe V5.06 update 4 (build 422)
+Linker/Locator:  ArmLink.exe V5.06 update 4 (build 422)
+Library Manager: ArmAr.exe V5.06 update 4 (build 422)
+Hex Converter:   FromElf.exe V5.06 update 4 (build 422)
+CPU DLL:         SARMCM3.DLL V5.23
+Dialog DLL:      DCM.DLL V1.15.0.0
 Target DLL:      Segger\JL2CM3.dll V2.99.23.0
-Dialog DLL:      TCM.DLL V1.14.14.0
+Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
-C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\demo.uvprojx
+D:\2017NOS\software\MDK-ARM\demo.uvprojx
 Project File Date:  09/03/2017
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 4 (build 422)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ACTION'
+compiling task.c...
+compiling main.c...
+compiling sweep.c...
+..\Action_User\sweep.c(477): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		if((dx>=-0.001)&&(dx<=0.001))//当k不存在的时�?
+..\Action_User\sweep.c(458): warning:  #177-D: variable "out1"  was declared but never referenced
+  	static float out1,out2;
+..\Action_User\sweep.c(458): warning:  #177-D: variable "out2"  was declared but never referenced
+  	static float out1,out2;
+..\Action_User\sweep.c(467): warning:  #177-D: variable "v1"  was declared but never referenced
+  	int v1,v2;
+..\Action_User\sweep.c(467): warning:  #177-D: variable "v2"  was declared but never referenced
+  	int v1,v2;
+..\Action_User\sweep.c: 5 warnings, 0 errors
+compiling avoid.c...
+compiling shoot.c...
+..\Action_User\shoot.c(17): warning:  #177-D: variable "Ki"  was declared but never referenced
+  	static float Ki=0;
+..\Action_User\shoot.c: 1 warning, 0 errors
+compiling fix.c...
+compiling camera.c...
+..\Action_User\camera.c(292): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		c_Aimxfirst = 72.75 / tanf((65+29/2 +7* maxFirstlayer)*
+I / 180);
+..\Action_User\camera.c(299): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		c_Aimxsecond=140.25/tanf((65+14/2+5*maxSecondlayer)*
+I/180);
+..\Action_User\camera.c: 2 warnings, 0 errors
+compiling can.c...
+compiling stm32f4xx_it.c...
+..\Action_User\stm32f4xx_it.c(138): warning:  #550-D: variable "data"  was set but never used
+  	uint8_t data = 0;
+..\Action_User\stm32f4xx_it.c(155): warning:  #550-D: variable "data"  was set but never used
+  	uint8_t data = 0;
+..\Action_User\stm32f4xx_it.c(44): warning:  #550-D: variable "angle"  was set but never used
+  static float angle;//定义角度
+..\Action_User\stm32f4xx_it.c(45): warning:  #550-D: variable "posX"  was set but never used
+  static float posX   = 0;	 //定位系统返回的X坐标
+..\Action_User\stm32f4xx_it.c(46): warning:  #550-D: variable "posY"  was set but never used
+  static float posY   = 0;	 //定位系统返回的Y坐标
+..\Action_User\stm32f4xx_it.c: 5 warnings, 0 errors
+compiling circle.c...
+..\Action_User\circle.c(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		M1=V1/(3.14*
+HEEL_DIAMETER)*4096;
+..\Action_User\circle.c(88): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		M2=V2/(3.14*
+HEEL_DIAMETER)*4096;
+..\Action_User\circle.c(23): warning:  #177-D: variable "anglePidOutPut"  was declared but never referenced
+  		static float anglePidOutPut,spacingPidOutPut;
+..\Action_User\circle.c(23): warning:  #177-D: variable "spacingPidOutPut"  was declared but never referenced
+  		static float anglePidOutPut,spacingPidOutPut;
+..\Action_User\circle.c(156): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			M1=V1/(3.14*
+HEEL_DIAMETER)*4096;
+..\Action_User\circle.c(157): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			M2=V2/(3.14*
+HEEL_DIAMETER)*4096;
+..\Action_User\circle.c(104): warning:  #177-D: variable "anglePidOutPut"  was declared but never referenced
+  		static float anglePidOutPut,spacingPidOutPut;
+..\Action_User\circle.c(104): warning:  #177-D: variable "spacingPidOutPut"  was declared but never referenced
+  		static float anglePidOutPut,spacingPidOutPut;
+..\Action_User\circle.c(175): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	if ((angle>89.999&&angle<90.001) || (angle>-90.001&&angle<-89.999))//angle是车体的角度。在此时车速度的垂线不存在（与x轴垂直）
+..\Action_User\circle.c(175): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	if ((angle>89.999&&angle<90.001) || (angle>-90.001&&angle<-89.999))//angle是车体的角度。在此时车速度的垂线不存在（与x轴垂直）
+..\Action_User\circle.c(179): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	}else if ((angle>-0.001&&angle<0.001) || (angle>179.999) || (angle<-179.999))//车速度的垂线与x轴平�?
+..\Action_User\circle.c(179): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	}else if ((angle>-0.001&&angle<0.001) || (angle>179.999) || (angle<-179.999))//车速度的垂线与x轴平�?
+..\Action_User\circle.c(215): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	if (dy<0.001&&dy>-0.001)//当垂直平分线k不存在的时�?(与x轴垂�?)
+..\Action_User\circle.c(220): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	else if (dx<0.001&&dx>-0.001)//垂直平分线与x轴平�?
+..\Action_User\circle.c(289): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			if ((a - c) < 0.001 && (a - c) > -0.001)
+..\Action_User\circle.c(164): warning:  #550-D: variable "y1"  was set but never used
+  	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+..\Action_User\circle.c(164): warning:  #550-D: variable "y2"  was set but never used
+  	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+..\Action_User\circle.c(331): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	else if(((a / b) - (c / d))<0.001&& ((a / b) - (c / d))>-0.001)
+..\Action_User\circle.c(540): warning:  #1-D: last line of file ends without a newline
+  }
+..\Action_User\circle.c(344): warning:  #550-D: variable "f_findball"  was set but never used
+  static int f_findball=1;
+..\Action_User\circle.c: 20 warnings, 0 errors
+compiling timer.c...
+compiling elmo.c...
+compiling getset.c...
+compiling adc.c...
 compiling gpio.c...
+compiling usart.c...
+compiling motor.c...
+compiling misc.c...
+compiling tools.c...
+..\Action_User\tools.c(13): warning:  #550-D: parameter "val"  was set but never used
+  void setBasket(int val)
+..\Action_User\tools.c: 1 warning, 0 errors
+compiling stm32f4xx_adc.c...
+compiling stm32f4xx_crc.c...
+compiling stm32f4xx_can.c...
+compiling stm32f4xx_cryp.c...
+compiling stm32f4xx_cryp_des.c...
+compiling stm32f4xx_cryp_aes.c...
+compiling stm32f4xx_cryp_tdes.c...
+compiling stm32f4xx_dbgmcu.c...
+compiling stm32f4xx_dac.c...
+compiling stm32f4xx_dcmi.c...
+compiling stm32f4xx_exti.c...
+compiling stm32f4xx_dma.c...
+compiling stm32f4xx_flash.c...
+compiling stm32f4xx_fsmc.c...
+compiling stm32f4xx_gpio.c...
+compiling stm32f4xx_hash.c...
+compiling stm32f4xx_hash_sha1.c...
+compiling stm32f4xx_hash_md5.c...
+compiling stm32f4xx_i2c.c...
+compiling stm32f4xx_iwdg.c...
+compiling stm32f4xx_pwr.c...
+compiling stm32f4xx_rng.c...
+compiling stm32f4xx_rcc.c...
+compiling stm32f4xx_rtc.c...
+compiling stm32f4xx_sdio.c...
+compiling stm32f4xx_spi.c...
+compiling stm32f4xx_syscfg.c...
+compiling stm32f4xx_usart.c...
+compiling stm32f4xx_tim.c...
+compiling stm32f4xx_wwdg.c...
+assembling startup_stm32f4xx.s...
+compiling system_stm32f4xx.c...
 linking...
 Program Size: Code=41772 RO-data=1572 RW-data=864 ZI-data=18288  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 0 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 34 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE
-  D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+  .\RTE\_ACTION
+  D:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:13
 </pre>
 </body>
 </html>
