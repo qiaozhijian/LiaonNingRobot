@@ -335,7 +335,7 @@
               <MiscControls>--exceptions</MiscControls>
               <Define>STM32F4XX, USE_STDPERIPH_DRIVER,__FPU_PRESENT=1,__FPU_USED=1,ARM_MATH_CM4,__CC_ARM</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\Action_User;..\Libraries\CMSIS;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\MDK-ARM;..\MAA;..\MAA\AHRS;..\MAA\MAA_Driver;..\Libraries\dsplib\Include;..\Libraries\dsplib;..\temp</IncludePath>
+              <IncludePath>..\;..\Libraries\CMSIS;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\MDK-ARM;..\MAA;..\MAA\AHRS;..\MAA\MAA_Driver;..\Libraries\dsplib\Include;..\Libraries\dsplib;..\Action_User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -385,29 +385,14 @@
               <FilePath>..\Action_User\main.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4xx_it.c</FileName>
+              <FileName>task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Action_User\stm32f4xx_it.c</FilePath>
+              <FilePath>..\Action_User\task.c</FilePath>
             </File>
             <File>
-              <FileName>can.c</FileName>
+              <FileName>sweep.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Action_User\can.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\usart.c</FilePath>
+              <FilePath>..\Action_User\sweep.c</FilePath>
             </File>
             <File>
               <FileName>avoid.c</FileName>
@@ -420,24 +405,59 @@
               <FilePath>..\Action_User\camera.c</FilePath>
             </File>
             <File>
-              <FileName>fix.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\fix.c</FilePath>
-            </File>
-            <File>
               <FileName>shoot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\shoot.c</FilePath>
             </File>
             <File>
-              <FileName>sweep.c</FileName>
+              <FileName>fix.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Action_User\sweep.c</FilePath>
+              <FilePath>..\Action_User\fix.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>HARDWARE</GroupName>
+          <Files>
+            <File>
+              <FileName>can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\can.c</FilePath>
             </File>
             <File>
-              <FileName>task.c</FileName>
+              <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Action_User\task.c</FilePath>
+              <FilePath>..\Action_User\stm32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>elmo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\elmo.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>getset.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\getset.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\usart.c</FilePath>
             </File>
           </Files>
         </Group>

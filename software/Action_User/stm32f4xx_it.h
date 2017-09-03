@@ -52,8 +52,7 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-uint8_t getTimeFlag(void);
-uint32_t getTimeCount(void);
+int getBallColor(void);
 
 #endif /* __STM32F4xx_IT_H */
 

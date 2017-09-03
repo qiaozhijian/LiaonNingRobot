@@ -16,9 +16,11 @@
 #include "arm_math.h"
 #include "config.h"
 
-//
-
-
+int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY);
+int AreaCheck(float x, float y);
+void SetTurnTimeChange(int temp);
+int GetTurnTimeChange(void);
+void CameraBaseWalk3(void);
 
 
 #endif

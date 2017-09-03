@@ -31,10 +31,6 @@
 #include  <stdlib.h>
 #include  <stdarg.h>
 #include  <math.h>
-
-#include  <ucos_ii.h>
-#include  <os_cpu.h>
-#include  <cpu.h>
 #include "stm32f4xx.h"
 
 #endif

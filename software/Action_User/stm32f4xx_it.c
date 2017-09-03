@@ -32,123 +32,106 @@
 #include "stm32f4xx.h"
 #include "can.h"
 #include "config.h"
+#include "fix.h"
+#include "task.h"
+#include "sweep.h"
+#include "tools.h"
 /******************************************************************************/
 /*            Cortex-M4 Processor Exceptions Handlers                         */
 /******************************************************************************/
 
 /************************************************************/
-/****************«˝∂Ø∆˜CAN1Ω”ø⁄ƒ£øÈ****start******************/
+static float angle;//ÂÆö‰πâËßíÂ∫¶
+static float posX   = 0;	 //ÂÆö‰ΩçÁ≥ªÁªüËøîÂõûÁöÑXÂùêÊ†á
+static float posY   = 0;	 //ÂÆö‰ΩçÁ≥ªÁªüËøîÂõûÁöÑYÂùêÊ†á
+static int ballColor=0;
 
+/****************«˝∂Ø∆˜CAN1Ω”ø⁄ƒ£øÈ****start******************/
+void setBallColor(int temp)
+{
+	ballColor=temp;
+}
+int getBallColor(void)
+{
+	return ballColor;
+}
 void CAN1_RX0_IRQHandler(void)
 {
-	static uint8_t buffer[8];
-	static uint32_t StdId=0;
+	static uint8_t buffer[8]={0};
+	static uint8_t length=1;
+	static uint32_t StdId;
 
-	CAN_RxMsg(CAN1, &StdId,buffer,8);
-	CAN_ClearFlag(CAN1,CAN_FLAG_EWG);
-	CAN_ClearFlag(CAN1,CAN_FLAG_EPV);
-	CAN_ClearFlag(CAN1,CAN_FLAG_BOF);
-	CAN_ClearFlag(CAN1,CAN_FLAG_LEC);
-	
-	CAN_ClearFlag(CAN1,CAN_FLAG_FMP0);
-	CAN_ClearFlag(CAN1,CAN_FLAG_FF0);
-	CAN_ClearFlag(CAN1,CAN_FLAG_FOV0);
-	CAN_ClearFlag(CAN1,CAN_FLAG_FMP1);
-	CAN_ClearFlag(CAN1,CAN_FLAG_FF1);
-	CAN_ClearFlag(CAN1,CAN_FLAG_FOV1);
-} 
 
+	CAN_RxMsg(CAN1,&StdId,buffer,length);
+//	if(StdId==0x30)
+//	{
+//		if(buffer[0]==100)
+//		{
+//			ballColor=2;//ÁôΩÁêÉ‰∏∫2
+//		}else if(buffer[0]==1)
+//		{
+//			ballColor=1;//ÈªëÁêÉ‰∏∫1
+//		}else 
+//		{
+//			ballColor=0;
+//		}
+//	}
+//	setBallColor(ballColor);
+	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
+	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
+	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
+	CAN_ClearFlag(CAN1, CAN_FLAG_LEC);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FMP0);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FF0);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FOV0);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FMP1);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FF1);
+	CAN_ClearFlag(CAN1, CAN_FLAG_FOV1);
+}
+
+/**
+  * @brief  CAN2 receive FIFO0 interrupt request handler
+  * @note
+  * @param  None
+  * @retval None
+  */
+void CAN2_RX0_IRQHandler(void)
+{
+//	static uint32_t StdId;
+//	static uint8_t canReceice[1];
+//	static uint8_t len=1;
+//	static int ballColor=0;
+//	CAN_RxMsg(CAN2,&StdId,canReceice,&len);
+//	if(StdId==0x30)
+//	{
+//		if(canReceice[0]==100)
+//		{
+//			ballColor=2;//ÁôΩÁêÉ‰∏∫2
+//		}else if(canReceice[0]==1)
+//		{
+//			ballColor=1;//ÈªëÁêÉ‰∏∫1
+//		}else 
+//		{
+//			ballColor=0;
+//		}
+//	}
+//	setBallColor(ballColor);
+	CAN_ClearFlag(CAN2, CAN_FLAG_EWG);
+	CAN_ClearFlag(CAN2, CAN_FLAG_EPV);
+	CAN_ClearFlag(CAN2, CAN_FLAG_BOF);
+	CAN_ClearFlag(CAN2, CAN_FLAG_LEC);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FMP0);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FF0);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FOV0);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FMP1);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FF1);
+	CAN_ClearFlag(CAN2, CAN_FLAG_FOV1);
+}
 
 /****************«˝∂Ø∆˜CAN1Ω”ø⁄ƒ£øÈ****end******************/
 /************************************************************/
 
 /*************∂® ±∆˜2******start************/
-//√ø1msµ˜”√“ª¥Œ  ”√”⁄∂¡»°±‡¬Î∆˜µƒ÷µ∫Õº∆À„◊¯±Í
-
-//int posx,posy;
-static uint16_t timeCount=0;
-static uint8_t timeFlag=0;
-static uint8_t cpuTimes=0;
-void TIM2_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM2, TIM_IT_Update)==SET)
-  {	
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-		timeCount++;
-		if(timeCount>=PERIOD*1000)
-		{
-			cpuTimes++;
-			timeCount=0;
-			timeFlag=1;
-		}
-  }	 
-}
-
-uint8_t getTimeFlag(void)
-{
-	uint8_t nowFlag;
-	nowFlag=timeFlag;
-
-	if(nowFlag)
-	{
-		timeFlag=0;
-		cpuTimes=0;
-		return 1;
-	}
-	return 0;
-}
-
-uint32_t getTimeCount(void)
-{
-	return (timeCount+cpuTimes*PERIOD*1000);
-}
-//∂® ±∆˜1  
-void TIM1_UP_TIM10_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM1, TIM_IT_Update)==SET)    
-	{                                                
-		TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-	}
-}
-
-//∂® ±∆˜8  
-void TIM8_UP_TIM13_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM8, TIM_IT_Update)==SET)    
-	{                                                
-		TIM_ClearITPendingBit(TIM8, TIM_IT_Update);
-	}
-}
-
-/********************************************************/
-/*****************∆’Õ®∂® ±TIM5*****Start*****************/
-void TIM5_IRQHandler(void)
-{
-
-	if(TIM_GetITStatus(TIM5, TIM_IT_Update)==SET)    
-	{              
-		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
-	}
-}
-
-void TIM3_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM3, TIM_IT_Update)==SET)    
-	{
-		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);	
-	}
-}
-
-
-
-//∂® ±∆˜4  
-void TIM4_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM4, TIM_IT_Update)==SET)
-	{                                  
-		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-	}
-}
 
 void UART5_IRQHandler(void)
 {
@@ -183,21 +166,163 @@ void USART1_IRQHandler(void)
 }
 
 
-void USART3_IRQHandler(void)
+extern Robot_t gRobot;
+void USART3_IRQHandler(void) //Êõ¥Êñ∞È¢ëÁéá200Hz
 {
-	uint8_t data = 0;
-	
-	if(USART_GetFlagStatus(USART3,USART_FLAG_ORE)!=RESET){
-		data=USART_ReceiveData(USART3);
-	}
-	else if(USART_GetITStatus(USART3, USART_IT_RXNE)==SET)   
+	static uint8_t ch;
+	static union {
+		uint8_t data[24];
+		float ActVal[6];
+	} posture;
+	static uint8_t count = 0;
+	static uint8_t i = 0;
+	if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET)
 	{
-		USART_ClearITPendingBit( USART3,USART_IT_RXNE);
-		data=USART_ReceiveData(USART3);
-	}
-	 
-}
+		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
+		ch = USART_ReceiveData(USART3);
+		switch (count)
+		{
+		case 0:
+			if (ch == 0x0d)
+				count++;
+			else
+				count = 0;
+			break;
 
+		case 1:
+			if (ch == 0x0a)
+			{
+				i = 0;
+				count++;
+			}
+			else if (ch == 0x0d)
+				;
+			else
+				count = 0;
+			break;
+
+		case 2:
+			posture.data[i] = ch;
+			i++;
+			if (i >= 24)
+			{
+				i = 0;
+				count++;
+			}
+			break;
+
+		case 3:
+			if (ch == 0x0a)
+				count++;
+			else
+				count = 0;
+			break;
+
+		case 4:
+			if (ch == 0x0d)
+			{
+
+				angle = posture.ActVal[0] ;//ËßíÂ∫¶
+				posture.ActVal[1] = posture.ActVal[1];
+				posture.ActVal[2] = posture.ActVal[2];
+				posX = posture.ActVal[3];//x
+				posY = posture.ActVal[4];//y
+				posture.ActVal[5] = posture.ActVal[5];
+			}
+			count = 0;
+			
+			if(CheckAgainstWall())
+			{
+				
+			}
+				
+			gRobot.pos.x=getXpos();
+			gRobot.pos.y=getYpos();
+			gRobot.pos.angle=getAngle();
+			break;
+
+		default:
+			count = 0;
+			break;
+		}
+	}
+	else
+	{
+		USART_ClearITPendingBit(USART3, USART_IT_PE);
+		USART_ClearITPendingBit(USART3, USART_IT_TXE);
+		USART_ClearITPendingBit(USART3, USART_IT_TC);
+		USART_ClearITPendingBit(USART3, USART_IT_ORE_RX);
+		USART_ClearITPendingBit(USART3, USART_IT_IDLE);
+		USART_ClearITPendingBit(USART3, USART_IT_LBD);
+		USART_ClearITPendingBit(USART3, USART_IT_CTS);
+		USART_ClearITPendingBit(USART3, USART_IT_ERR);
+		USART_ClearITPendingBit(USART3, USART_IT_ORE_ER);
+		USART_ClearITPendingBit(USART3, USART_IT_NE);
+		USART_ClearITPendingBit(USART3, USART_IT_FE);
+		USART_ReceiveData(USART3);
+	}
+}
+//Ê†ëËéìÊ¥æÊé•Êî∂ÂõæÁâáÂ∏ßÁ®ãÂ∫èÁ®ãÂ∫è
+int Ball_counter=0;
+uint8_t tmp;
+extern Robot_t gRobot;
+void USART2_IRQHandler(void)
+{
+	static int Ball_tmpcounter=0;
+	static int i=0,	j=0;
+	static int flag=0;
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)
+	{
+	USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+		tmp=USART_ReceiveData(USART2);
+/****************ÁêÉÊúÄÂ§öÁöÑËßíÂ∫¶****************/
+if(LEVEL==2)
+{
+		if(tmp==0xDA||flag)
+		{
+			flag++;
+			if(flag==2)
+			{
+				setBestangle(tmp); 
+				flag=0;
+			}
+//			else USART_OUT();
+		}
+	}
+/***************ÊâÄÊúâÁêÉÁöÑËßíÂ∫¶ÂíåË∑ùÁ¶ª***********/
+else if(LEVEL==4)
+{
+			if(tmp==CAMERA_STATUS_5_END)
+		{
+			i=0;
+			j=0;
+			//ÂΩìBall_tmpcounter‰∏∫0Êó∂Ë°®ÊòéÂ∑≤ÁªèÊ≤°ÁêÉ‰∫Ü
+			Ball_tmpcounter=Ball_counter;
+			setF_ball(Ball_tmpcounter);
+			Ball_counter=0;
+		}
+		switch (i)
+		{
+			case 0:
+				if(tmp==CAMERA_STATUS_4_START)
+				i++;
+				break;
+			case 1:
+				gRobot.camera[j].angle=tmp;
+			  i++;
+				break;
+			case 2:  
+				gRobot.camera[j].dis=tmp;
+ 				i=1;
+				j++;
+			Ball_counter++;
+				break;
+			default://USART_OUT();
+				break;
+		}
+	}
+}
+}
 
 /**
   * @brief   This function handles NMI exception.

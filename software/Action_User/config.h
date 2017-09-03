@@ -5,7 +5,7 @@
 
 /*      车的基本信息      */
 //电机旋转一周的脉冲数
-#define COUNTS_PER_ROUND (4096.0f)
+#define COUNT_PER_ROUND (4096.0f)
 //轮子直径（单位：mm）
 #define WHEEL_DIAMETER (120.0f)
 //调试小车车长（单位：mm）
@@ -39,11 +39,12 @@
 
 
 //车的状态码
-#define STATUS_SWEEP   (1<<0) //状态 扫场
-#define STATUS_CAMERA  (1<<1) //状态 摄像头
-#define STATUS_SHOOTER (1<<2) //状态 射球
-#define STATUS_FIX     (1<<3) //状态 矫正
-#define STATUS_AVOID   (1<<4) //状态 避障
+#define STATUS_SWEEP   (1<<0) //状态 基础扫场
+#define STATUS_CAMERA_WALK   (1<<1) //状态 摄像头走形
+#define STATUS_CAMERA  (1<<2) //状态 摄像头
+#define STATUS_SHOOTER (1<<3) //状态 射球
+#define STATUS_FIX     (1<<4) //状态 矫正
+#define STATUS_AVOID   (1<<5) //状态 避障
 
 
 
@@ -72,8 +73,6 @@
 #define BEEP_ON          		 GPIO_SetBits(GPIOE, GPIO_Pin_7)
 #define BEEP_OFF         		 GPIO_ResetBits(GPIOE, GPIO_Pin_7)
 
-//数值计算
-#define PI  (3.1415926f)
 
 //x , y 的最大最小值
 #define X_MAX 

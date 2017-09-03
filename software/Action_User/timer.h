@@ -6,6 +6,8 @@
 void TIM_Init(TIM_TypeDef * TIMx, uint16_t arr, uint16_t psr,uint16_t prepri,uint16_t subpri); 
 void Delay_us(uint32_t nTime);
 void Delay_ms(uint32_t nTime);
+uint8_t getTimeFlag(void);
+uint32_t getTimeCount(void);
 
 #endif
 
