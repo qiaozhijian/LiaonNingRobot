@@ -414,6 +414,11 @@
               <FileType>1</FileType>
               <FilePath>..\Action_User\fix.c</FilePath>
             </File>
+            <File>
+              <FileName>circle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\circle.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -458,6 +463,16 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>tools.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\tools.c</FilePath>
             </File>
           </Files>
         </Group>

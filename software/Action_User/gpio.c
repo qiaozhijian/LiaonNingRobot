@@ -97,10 +97,6 @@ void BeepInit(void)
 {
 }
 
-void PhotoelectricityInit(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-}
 void TravelSwitch_Init(void)
 {
 
