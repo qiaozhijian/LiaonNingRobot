@@ -112,7 +112,7 @@ int AreaCheck(float x, float y)//区域检查函数
 	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 	static int circleChangeSymbolRem=0;//记住circleChangeSymbol当摄像头找球搞得换圈的时候的时候进行清空turnTimeChange
 	//区域一
-	float peakX_Area1[5] = { 250 ,-250,-2400,-2400,1900 };
+	float peakX_Area1[5] = { 250 ,-250,-2400,-2400,1600 };
 	float peakY_Area1[5] = { 1700,1700,1450,0,0 };
 	//区域二
 	float peakX_Area2[5] = { 250 ,250,2400,2400,1900 };

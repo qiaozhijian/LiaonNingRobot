@@ -57,19 +57,25 @@ void init(void)
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);
 	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	Delay_ms(12000);
+//	Delay_ms(12000);
+	Delay_ms(4000);
+	Delay_ms(4000);
+	Delay_ms(2000);
 	//	VelCrl(CAN1, 1, 5000);//can通信，电机，转速，4096一秒一转，
 	//	VelCrl(CAN1, 2, 5000);//can通信，电机，转速，顺时针为正
 }
 //globle 变量
 Robot_t gRobot;
+int Key1=0;
+int Key2=0;
 int main(void)
 {
 	init();
 	CollectBallVelCtr(40);
 	while (1)
 	{
-
+		Key1=TRAVEL_SWITCH_LEFT;
+		Key2=TRAVEL_SWITCH_RIGHT;
 		while (getTimeFlag()) //10ms执行进入一次
 		{
 //			if (gRobot.status & STATUS_SWEEP)
@@ -97,6 +103,7 @@ int main(void)
 //				//执行射球
 //			}
 				Sweep();
+//				fireTask();
 		}
 	}
 }

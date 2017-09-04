@@ -44,30 +44,17 @@
 static float angle;//定义角度
 static float posX   = 0;	 //定位系统返回的X坐标
 static float posY   = 0;	 //定位系统返回的Y坐标
-
 /****************������CAN1�ӿ�ģ��****start******************/
 void CAN1_RX0_IRQHandler(void)
 {
 	static uint8_t buffer[8]={0};
 	static uint8_t length=1;
 	static uint32_t StdId;
-
-
 	CAN_RxMsg(CAN1,&StdId,buffer,length);
-//	if(StdId==0x30)
-//	{
-//		if(buffer[0]==100)
-//		{
-//			ballColor=2;//白球为2
-//		}else if(buffer[0]==1)
-//		{
-//			ballColor=1;//黑球为1
-//		}else 
-//		{
-//			ballColor=0;
-//		}
-//	}
-//	setBallColor(ballColor);
+	if(StdId==0x30)
+	{
+		setBallColor(buffer[0]);
+	}
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -88,11 +75,11 @@ void CAN1_RX0_IRQHandler(void)
   */
 void CAN2_RX0_IRQHandler(void)
 {
-//	static uint32_t StdId;
-//	static uint8_t canReceice[1];
-//	static uint8_t len=1;
+	static uint32_t StdId;
+	static uint8_t canReceice[8];
+	static uint8_t len=8;
 //	static int ballColor=0;
-//	CAN_RxMsg(CAN2,&StdId,canReceice,&len);
+	CAN_RxMsg(CAN2,&StdId,canReceice,len);
 //	if(StdId==0x30)
 //	{
 //		if(canReceice[0]==100)

@@ -34,7 +34,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	static float g = 9.9;//重力加速度
 	//static float courceAngle = 0;//定义航向角度
 	static float dx=0, dy=0;//定义坐标差值
-
+	ballNum=getBallColor();
 	if (ballNum == 100)//加入球是白球
 	{
 		x0 = -150;
@@ -47,7 +47,8 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 
 	s = sqrt((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	v = sqrt(s*s*g * 1000 / ((2 * s*tan(51 * PI / 180) - 2 * h)*cos(51 * PI / 180)*cos(51 * PI / 180)));
-	launcher.rev = v  / PI / 66 * 2 + 13;
+//	launcher.rev = v  / PI / 66 ;
+	launcher.rev=0.01434*v-6.086;
 	dx = x0 - x;//建立以车为原点的坐标系
 	dy = y0 - y;
 
@@ -101,15 +102,16 @@ void fireTask(void)
 		stopUSARTsignal=0;
 	}
 	waitAdjust++;
-	if(waitAdjust<=200)
+	
+	if(waitAdjust<=150)
 	{
 		PushBall();
 	}
-	if(waitAdjust>200)
-	{
+	if(waitAdjust>150)
+	{	
 		PushBallReset();
 	}
-	waitAdjust%=400;
+	waitAdjust%=300;
 	
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getXpos());
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getYpos());
