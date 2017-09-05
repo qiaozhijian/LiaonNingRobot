@@ -1,6 +1,6 @@
 #ifndef  __TASK_H
 #define  __TASK_H
-#include "stm32f4xx.h"
+#include "config.h"
 //摄像头
 typedef struct {
 	int8_t angle;
@@ -39,7 +39,7 @@ typedef struct {
 	//车的方向
 	uint8_t direction;
 	//左轮状态
-	Move_t left;	
+	Move_t left;
 	//右轮状态
 	Move_t right;
 	//激光的左右距离
@@ -50,7 +50,13 @@ typedef struct {
 	Camera_t camera[10];
 	//车的位置
 	Position_t pos;
+	
+	float M;
+	
+	int turnTime;
 
 }Robot_t;
+
+void robotInit(void);
 
 #endif

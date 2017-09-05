@@ -1,12 +1,6 @@
-#include "circle.h"
-#include "can.h"
-#include "arm_math.h"
-#include "elmo.h"
-#include "camera.h"
-#include "usart.h"
-#include "sweep.h"
-#include "fix.h"
-#include "tools.h"
+#include "config.h"
+
+
 /**********************************************/
 /*******************逆时针画圆*****************/
 float CircleAnglePidControl(float ERR)
@@ -193,11 +187,11 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 	dx = xBall - xStart;
 	dy = yBall - yStart;
 	//第一条直线
-	if ((angle>89.999&&angle<90.001) || (angle>-90.001&&angle<-89.999))//angle是车体的角度。在此时车速度的垂线不存在（与x轴垂直）
+	if ((angle>89&&angle<90) || (angle>-90&&angle<-89))//angle是车体的角度。在此时车速度的垂线不存在（与x轴垂直）
 	{
 		x1 = xStart;
 		step = 1;
-	}else if ((1000*angle>-1&&1000*angle<1) || (angle>179.999) || (angle<-179.999))//车速度的垂线与x轴平行
+	}else if ((1000*angle>-1&&1000*angle<1) || (angle>179) || (angle<-179))//车速度的垂线与x轴平行
 	{
 		a = 0;
 		b = yStart;

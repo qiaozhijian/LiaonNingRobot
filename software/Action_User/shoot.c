@@ -1,17 +1,6 @@
-#include "shoot.h"
-#include "arm_math.h"
-#include "stdint.h"
-#include "arm_math.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "gpio.h"
-#include "usart.h"
-#include "motor.h"
-#include "fix.h"
-#include "stm32f4xx_it.h"
-#include "tools.h"
-#include "task.h"
+#include "config.h"
+
+
 float LauncherPidControl(float ERR)
 {
 	static float ERR_OLD=0;
@@ -45,16 +34,16 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 		y0 = 2400;
 	}
 
-	s = sqrt((x - x0)*(x - x0) + (y - y0)*(y - y0));
-	v = 150 / sqrt(2) * s / sqrt(1.234*s - 424.6);
+	s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
+	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
 //	launcher.rev = v  / PI / 66 ;
 	launcher.rev=0.01434*v-6.086;
 	dx = x0 - x;//建立以车为原点的坐标系
 	dy = y0 - y;
 
 	//以下的处理过程是为了两个角度0位置在同一条直线上
-	launcher.courceAngle = atan2(dy, dx) / PI * 180;
-	if(launcher.courceAngle<=180&& launcher.courceAngle>=-90)
+	launcher.courceAngle = atan2(dy, dx) / PI * 180.f;
+	if(launcher.courceAngle<=180&& launcher.courceAngle>=-90.f)
 	{
 		launcher.courceAngle -= 90;
 	}
@@ -86,7 +75,7 @@ void fireTask(void)
 	static float x=0,y=0,angle=0;
 	static int ballNum=1;
 	static Launcher_t launcher;  
-//	CollectBallVelCtr(40);
+	
 	x=gRobot.pos.x;//当前x坐标
 	y=gRobot.pos.y;//当前y坐标
 	angle=gRobot.pos.angle;//当前角度

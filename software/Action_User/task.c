@@ -14,10 +14,58 @@
 #include "config.h"
 #include "task.h"
 #include "usart.h"
+#include "elmo.h"
+#include "motor.h"
+
 extern Robot_t gRobot;
 
-void robotInit()
+
+void HardWare(void){
+	TIM_Init(TIM2, 99, 83, 0, 0); 
+	//10ms定时器TIM3用于控制WalkTask周期
+	TIM_Init(TIM3, 999, 839, 0, 1);
+
+	//CAN初始化
+	CAN_Config(CAN1, 500, GPIOB, GPIO_Pin_8, GPIO_Pin_9);
+	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);
+	
+	//激光测距初始化
+	Adc_Init();
+	//行程开关初始化
+	TravelSwitch_Init();
+	//投球串口
+	ShootUSART1_Init(115200);
+	//摄像头串口
+	CameraUSART2_Init(115200);
+	//定位系统	
+	PostionUSART3_Init(115200);
+	//蓝牙串口
+	TestUART5_Init(115200);
+}
+
+void elmoInit(void){
+	
+	elmo_Init(CAN2);
+	elmo_Enable(CAN2, 1);
+	elmo_Enable(CAN2, 2);
+	
+	//收球电机初始化
+	CollectBallVelCtr(40);
+	
+	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
+	Vel_cfg(CAN2, 2, 50000, 50000);
+	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+	
+}
+void robotInit(void)
 {
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	
+	HardWare();
+	
+	elmoInit();
+	
+	Delay_ms(12000);
 }
 
 /**

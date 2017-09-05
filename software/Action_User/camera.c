@@ -1,20 +1,6 @@
-#include "camera.h"
-#include "stm32f4xx.h"
-#include "arm_math.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "gpio.h"
-#include "usart.h"    
-#include "can.h"
-#include "elmo.h"
-#include "stm32f4xx_it.h"
-#include "stm32f4xx_usart.h"
-#include "stm32f4xx_adc.h"
-#include "fix.h"
-#include "sweep.h"
-#include "task.h"
-#include "tools.h"
+#include "config.h"
+
+
 extern Robot_t gRobot;
 static int turnTimeChange = 0;//记住拐弯的次数
 static int circleChangeSymbol = 0;

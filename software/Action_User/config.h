@@ -1,6 +1,31 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+/**********INCLUDE*************/
+#include "stm32f4xx.h"
+#include "stm32f4xx_it.h"
+#include "stm32f4xx_adc.h"
+#include "arm_math.h"
+#include "timer.h"
+#include "gpio.h"
+#include "usart.h"
+#include "can.h"
+#include "elmo.h"
+#include "sweep.h"
+#include "shoot.h"
+#include "circle.h"
+#include "fix.h"           
+#include "adc.h"
+#include "task.h"
+#include "tools.h"
+#include "pid.h"
+#include "camera.h"
+#include "avoid.h"
+#include "motor.h"
+
+
+
+
 #define PERIOD					      0.01f
 
 /*      车的基本信息      */

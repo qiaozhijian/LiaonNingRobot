@@ -1,18 +1,4 @@
-#include "fix.h"
-#include "stm32f4xx.h"
-#include "math.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "gpio.h"
-#include "usart.h"
-#include "can.h"
-#include "elmo.h"
-#include "stm32f4xx_it.h"
-#include "stm32f4xx_usart.h"
-#include "arm_math.h"
-#include "adc.h"
-#include "stm32f4xx_adc.h"
+#include "config.h"
 
 static float angle=0,xpos=0,ypos=0;
 static float errSingle=0; //errSingle = realSingle - nowSingle

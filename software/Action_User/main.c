@@ -21,90 +21,48 @@
 #include "tools.h"
 #include "motor.h"
 
-void init(void)
-{
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
-	TIM_Init(TIM2, 999, 83, 0, 0); //��ʱ1ms
-	ShootUSART1_Init(115200);
-	CameraUSART2_Init(115200);  //串口2
-	PostionUSART3_Init(115200); //串口3
-	TestUART5_Init(115200);
-	//1ms定时器用于控制WalkTask周期
-	TIM_Init(TIM2, 99, 839, 0, 0);
-	//10ms定时器TIM3用于控制WalkTask周期
-	TIM_Init(TIM3, 999, 839, 0, 0);
-
-	//adc初始化
-	Adc_Init();
-	TravelSwitch_Init();
-	//CAN初始化
-	CAN_Config(CAN1, 500, GPIOB, GPIO_Pin_8, GPIO_Pin_9);
-	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);
-
-	//驱动器初始化
-	//	elmo_Init(CAN1);
-	//	elmo_Enable(CAN1, 1);
-	//	elmo_Enable(CAN1, 2);
-
-	elmo_Init(CAN2);
-	elmo_Enable(CAN2, 1);
-	elmo_Enable(CAN2, 2);
-
-//	//配置速度环
-//	//	Vel_cfg(CAN1, 1, 50000, 50000); //can通信，50000脉冲加速度
-//	//	Vel_cfg(CAN1, 2, 50000, 50000);
-	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
-	Vel_cfg(CAN2, 2, 50000, 50000);
-	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	Delay_ms(12000);
-
-	//	VelCrl(CAN1, 1, 5000);//can通信，电机，转速，4096一秒一转，
-	//	VelCrl(CAN1, 2, 5000);//can通信，电机，转速，顺时针为正
-}
 //globle 变量
 Robot_t gRobot;
-int Key1=0;
-int Key2=0;
+static int CPUUsage=0;
 int main(void)
 {
-	init();
-	CollectBallVelCtr(40);
+	robotInit();
 	while (1)
 	{
-//		Key1=TRAVEL_SWITCH_LEFT;
-//		Key2=TRAVEL_SWITCH_RIGHT;
 		while (getTimeFlag()) //10ms执行进入一次
 		{
-//			if (gRobot.status & STATUS_SWEEP)
-//			{
-//				//执行扫场
-//			}
-//			else if(gRobot.status& STATUS_CAMERA_WALK)
-//			{
+			//			if (gRobot.status & STATUS_SWEEP)
+			//			{
+			//				//执行扫场
+			//			}
+			//			else if(gRobot.status& STATUS_CAMERA_WALK)
+			//			{
 
-//			}
-//			else if (gRobot.status & STATUS_CAMERA)
-//			{
-//			}
-//			else if (gRobot.status & STATUS_FIX)
-//			{
+			//			}
+			//			else if (gRobot.status & STATUS_CAMERA)
+			//			{
+			//			}
+			//			else if (gRobot.status & STATUS_FIX)
+			//			{
 
-//			}
-//			else if(gRobot.status&STATUS_AVOID)
-//			{
+			//			}
+			//			else if(gRobot.status&STATUS_AVOID)
+			//			{
 
-//			}
+			//			}
 
-//			if (gRobot.status & STATUS_SHOOTER)
-//			{
-//				//执行射球
-//			}
-//				WalkTask1();
-				WalkTask2();
-//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
-//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
-//				fireTask();
+			//			if (gRobot.status & STATUS_SHOOTER)
+			//			{
+			//				//执行射球
+			//			}
+			//				WalkTask1();
+			WalkTask2();
+			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
+			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
+			//				fireTask();
+			
+			Debug();
+			CPUUsage=getTimeCount();
 		}
 	}
 }
