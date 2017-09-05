@@ -8,7 +8,17 @@
 #include "fix.h"
 #include "tools.h"
 /**********************************************/
-/*******************顺时针画圆*****************/
+/*******************逆时针画圆*****************/
+float CircleAnglePidControl(float ERR)
+{
+	static int ERR_OLD=0;
+	static float Kp=90;//原来是60
+	static float Kd=8;
+	static float OUTPUT;
+	OUTPUT = Kp * ERR + Kd*(ERR- ERR_OLD);
+	ERR_OLD=ERR;
+	return OUTPUT;
+}
 void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 {
 		int M1,M2,V1,V2;//定义速度，输入的脉冲
@@ -85,8 +95,8 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
 		M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
 		M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
-		VelCrl(CAN1, 1, M1+AnglePidControl(angleError+spacingPidControl(spacingError)));      
-		VelCrl(CAN1, 2, -M2+AnglePidControl(angleError+spacingPidControl(spacingError)));
+		VelCrl(CAN2, 1, M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));      
+		VelCrl(CAN2, 2, -M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
 }
 /***********************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
@@ -153,8 +163,8 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			V2=((R-(WHEEL_TREAD/2))/R)*V;
 			M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
 			M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
-			VelCrl(CAN1, 1, M2+AnglePidControl(angleError-spacingPidControl(spacingError)));      
-			VelCrl(CAN1, 2, -(M1-AnglePidControl(angleError-spacingPidControl(spacingError))));
+			VelCrl(CAN2, 1, M2+CircleAnglePidControl(angleError-spacingPidControl(spacingError)));      
+			VelCrl(CAN2, 2, -(M1-CircleAnglePidControl(angleError-spacingPidControl(spacingError))));
 }
 /**********************************吃球路线1*************************/
 CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yStart, float angle)//吃球方案1，得出圆形的圆心
