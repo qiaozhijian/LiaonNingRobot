@@ -90,11 +90,19 @@ float ParkingAnglePidControl(float ERR)
 float AnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 200.f; //200
-	static float Ki = 0.f;
-	static float Kd = 20.f;
+	static float Kp = 165; //90
+	static float Ki = 0;
+	static float Kd = 13;
 	static float OUTPUT;
-	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
+	if (ERR > 180) //防止出现乱转
+	{
+		ERR = ERR - 360;
+	}
+	else if (ERR < -180)
+	{
+		ERR = ERR + 360;
+	}
+	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);
 	ERR_OLD = ERR;
 	return OUTPUT;
 }
@@ -102,14 +110,15 @@ float AnglePidControl(float ERR)
 float distancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.06; //0.02//0.03//0.1
+	static float Kp = 0.01; //0.02//0.03
 	static float Ki = 0;
 	static float Kd = 0;
 	static float OUTPUT;
-	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
+	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);
 	ERR_OLD = ERR;
 	return OUTPUT;
 }
+/**********************************************/ //距离pid函数
 float onceDistancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
@@ -372,10 +381,14 @@ void BackCar(float angle)
 int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
-	if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	if(gRobot.pos.x==getxRem()&&gRobot.pos.y==getyRem()&&M!=0)
 	{
 		againstTime++;
 	}
+//	if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+//	{
+//		againstTime++;
+//	}
 	else
 	{
 		againstTime = 0;
@@ -391,7 +404,8 @@ int CheckAgainstWall(void)
 	}
 }
  /****************************************************************************
-* 名    称：void AgainstWall(float aimAngle,float angle)
+*
+名    称：void AgainstWall(float aimAngle,float angle)
 * 功    能：倒车靠墙程序
 * 入口参数：无
 * 出口参数：无
@@ -415,7 +429,6 @@ void AgainstWall(float aimAngle,float angle)
 		}
 	}
 }
-
  /****************************************************************************
 * 名    称：void Vchange(int lineChangeSymbol)
 * 功    能：通过lineChangeSymbol改变内外环的速度
@@ -426,19 +439,19 @@ void AgainstWall(float aimAngle,float angle)
 ****************************************************************************/
 int Vchange(int lineChangeSymbol)
 {
-	static float vOut1 = 1100; //外环速度
-	static float vOut2 = 1200;//中环速度
+	static float vOut1 = 1300; //外环速度
+	static float vOut2 = 1600;
 	static float vIn = 1100;  //内环速度
 	if (lineChangeSymbol < 1)
 	{
-		M = vIn / (PI * WHEEL_DIAMETER) * COUNT_PER_ROUND;
+		M = vIn / (3.14 * WHEEL_DIAMETER) * 4096;
 	}else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
 	{
-		M = vOut2 / (PI * WHEEL_DIAMETER) * COUNT_PER_ROUND;
+		M = vOut2 / (3.14 * WHEEL_DIAMETER) * 4096;
 	}
 	else if (lineChangeSymbol >= 3)
 	{
-		M = vOut1 / (PI * WHEEL_DIAMETER) * COUNT_PER_ROUND;
+		M = vOut1 / (3.14 * WHEEL_DIAMETER) * 4096;
 	}
 	return M;
 }
@@ -448,14 +461,14 @@ int turnTimeLead(int lineChangeSymbol)
 	static int lead=0;
 	if (lineChangeSymbol < 1)
 	{
-		lead=500;
+		lead=800;
 	}else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
 	{
-		lead=700;
+		lead=900;
 	}
 	else if (lineChangeSymbol >= 3)
 	{
-		lead=700;
+		lead=900;
 	}
 	return lead;
 }
@@ -692,6 +705,312 @@ void Sweep()//基础扫场程序
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
 //		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
 }
+void WalkTask1(void)
+{
+		x = gRobot.pos.x;			//矫正过的x坐标
+		y = gRobot.pos.y;			//矫正过的y坐标
+		angle = gRobot.pos.angle; //矫正过的角度角度
+		M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
+		switch (turnTime)
+		{
+				case 0:
+					disError = x - (600 + lineChangeSymbol*450); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+					aimAngle = 0;
+					angleError = angleErrorCount(aimAngle,angle);
+					distanceStraight = (3400 + lineChangeSymbol*350) - y;
+					if(lineChangeSymbol<1)
+				{
+						if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+					{
+						VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
+					}
+						if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+					{
+						distanceStraight = 0;
+						turnTime = 1;
+					}
+				}else if(lineChangeSymbol>=1)
+				{		
+					if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+					{
+						VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+					}
+					if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+					{
+						distanceStraight = 0;
+						turnTime = 1;
+					}
+				}
+					pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
+					piddisShuchu = distancePidControl(disError);
+					CheckOutline();
+			 break;
+			
+			case 1:
+				disError = y - (3400 + lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+				aimAngle = 90;
+				angleError = angleErrorCount(aimAngle,angle);
+				distanceStraight = -(600 + lineChangeSymbol*470) - x;
+				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+				{
+					VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+					VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+				}
+				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+				{
+					distanceStraight = 0;
+					turnTime = 2;
+				}
+				pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
+				piddisShuchu = distancePidControl(disError);
+				CheckOutline();
+			break;
+		
+			case 2:
+				disError = x + (600 + lineChangeSymbol*470); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+				aimAngle = 180;
+				angleError = angleErrorCount(aimAngle,angle);
+				distanceStraight = y - (1400 + lineChangeSymbol*350);//100
+				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+				{
+					VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
+					VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+				}
+				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+				{
+					distanceStraight = 0;
+					turnTime = 3; //重新进入循环
+				}
+				CheckOutline();
+				pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
+				piddisShuchu = distancePidControl(disError);
+			break;
+
+			case 3:
+				disError = y - (1400 - lineChangeSymbol*350); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+				aimAngle = -90;
+				angleError = angleErrorCount(aimAngle,angle);
+				distanceStraight = (600 + lineChangeSymbol*470) - x;
+				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+				{
+					VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
+					VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+				}
+				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+				{
+					distanceStraight = 0;
+					turnTime = 0;
+					if (lineChangeSymbol < 3)
+					{
+						lineChangeSymbol++;
+					}
+					if (lineChangeSymbol == 3)
+					{
+						turnTime = 5;
+					}
+				}
+				pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
+				piddisShuchu = distancePidControl(disError);
+				CheckOutline();
+			break;
+
+			case 5:
+				AgainstWall(0,angle);
+			break;
+			
+			case 7:
+				BackCar(angle);
+			break;
+				
+			case 8:
+				fireTask();
+			break;
+
+
+			default:
+			break;
+		}
+		DeBug();
+}
+void DeBug()
+{
+	
+#define DEBUG_SWEEP 1
+	
+#define DEBUG 1
+
+	
+#if DEBUG==1
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
+		
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
+//		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
+		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
+#elif
+	
+	
+	
+#endif
+}
+
+int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4为内圈返回缩圈距离
+{
+	if (lineChangeSymbol < 3)
+	{
+		return 350 * lineChangeSymbol;
+	}
+	else if (lineChangeSymbol >= 3)
+	{
+		return 225 * lineChangeSymbol;
+	}
+}
+void WalkTask2(void)
+{
+		x = gRobot.pos.x;			//矫正过的x坐标
+		y = gRobot.pos.y;			//矫正过的y坐标
+		angle = gRobot.pos.angle; //矫正过的角度角度
+		M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
+		switch (turnTime)
+		{
+		case 0:
+			disError = y - (500 + LineChange()); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			aimAngle = -90;
+			angleError = aimAngle - angle;
+			distanceStraight = (2000 - LineChange()) - x;
+			if (fabs(distanceStraight) > 900)
+			{
+				VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
+				VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+			}
+			if (fabs(distanceStraight) < 900)
+			{
+				distanceStraight = 0;
+				turnTime = 1;
+			}
+			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
+			piddisShuchu = distancePidControl(disError);
+			CheckOutline();
+		break;
+
+		case 1:
+			disError = x - (1900 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			aimAngle = 0;
+			angleError = aimAngle - angle;
+			distanceStraight = (4400 - LineChange()) - y;
+			if (fabs(distanceStraight) > 900)
+			{
+				VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+			}
+			if (fabs(distanceStraight) < 900)
+			{
+				distanceStraight = 0;
+				turnTime = 2;
+			}
+			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
+			piddisShuchu = distancePidControl(disError);
+			CheckOutline();
+		break;
+
+		case 2:
+			disError = y - (4400 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			aimAngle = 90;
+			angleError = aimAngle - angle;
+			distanceStraight = -(2000 - LineChange()) - x;
+			if (fabs(distanceStraight) > 900)
+			{
+				VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+			}
+			if (fabs(distanceStraight) < 900)
+			{
+				distanceStraight = 0;
+				turnTime = 3;
+			}
+			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
+			piddisShuchu = distancePidControl(disError);
+			CheckOutline();
+		break;
+
+		case 3:
+			disError = x + (2000 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			aimAngle = 180;
+			angleError = aimAngle - angle;
+			distanceStraight = y - (500 + LineChange());//100
+			if (fabs(distanceStraight) > 900)
+			{
+				VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+			}
+			if (fabs(distanceStraight) < 900)
+			{
+				distanceStraight = 0;
+				turnTime = 0; //重新进入循环
+				if (lineChangeSymbol < 3)
+				{
+					lineChangeSymbol++;
+				}
+				if (lineChangeSymbol == 3)
+				{
+					turnTime = 5;
+				}
+			}
+			CheckOutline();
+			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
+			piddisShuchu = distancePidControl(disError);
+		break;
+
+		case 5:
+			AgainstWall(0,angle);
+		break;
+		
+		case 7:
+			BackCar(angle);
+		break;
+			
+		case 8:
+			fireTask();
+		break;
+
+		default:
+			break;
+		}
+		DeBug();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void CirlceSweep(void)//基础扫场程序
 {
 		x = gRobot.pos.x;			//矫正过的x坐标
@@ -867,39 +1186,6 @@ void CirlceSweep(void)//基础扫场程序
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
 //		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
-}
-
-void DeBug()
-{
-	
-#define DEBUG_SWEEP 1
-	
-#define DEBUG 1
-
-	
-#if DEBUG==1
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
-		
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
-//		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
-		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
-#elif
-	
-	
-	
-#endif
 }
 
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

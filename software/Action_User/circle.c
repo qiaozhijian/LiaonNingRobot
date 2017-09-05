@@ -30,6 +30,7 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		static float 	spacingError;//定义两个点之间的距离
 		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;//当前坐标与圆心的差值
+		static float v1=0,v2=0;
 		//逆时针圆形闭环
 		x=getXpos();//当前x坐标
 		y=getYpos();//当前y坐标
@@ -97,6 +98,18 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
 		VelCrl(CAN2, 1, M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));      
 		VelCrl(CAN2, 2, -M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
+		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
+		v2=-M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
+		
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)x);
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)y);
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dx);
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dy);
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)angleError);//角度偏差
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)spacingError);//距离
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)aimAngle);
+		USART_OUT(USART1,(uint8_t*) "%d\t",(int)v1);
+		USART_OUT(USART1,(uint8_t*) "%d\r\n",(int)v2);
 }
 /***********************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转

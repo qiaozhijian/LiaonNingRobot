@@ -19,4 +19,6 @@ void AgainstWall(float aimAngle,float angle);
 void Sweep(void);
 void DeBug(void);
 void CirlceSweep(void);
+void WalkTask1(void);
+void WalkTask2(void);
 #endif

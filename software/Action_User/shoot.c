@@ -46,7 +46,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	}
 
 	s = sqrt((x - x0)*(x - x0) + (y - y0)*(y - y0));
-	v = sqrt(s*s*g * 1000 / ((2 * s*tan(51 * PI / 180) - 2 * h)*cos(51 * PI / 180)*cos(51 * PI / 180)));
+	v = 150 / sqrt(2) * s / sqrt(1.234*s - 424.6);
 //	launcher.rev = v  / PI / 66 ;
 	launcher.rev=0.01434*v-6.086;
 	dx = x0 - x;//建立以车为原点的坐标系
