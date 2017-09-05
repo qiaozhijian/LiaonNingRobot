@@ -56,6 +56,14 @@ static float xStick, yStick;															   //卡住时存储的位置数据
 static float M;																   //速度脉冲
 static int turnTime = 0;													   //切换转换方向
 static int turnTimeRemember;												   //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
+static float x = 0, y = 0, angle = 0;
+static float angleError = 0; //目标角度与当前角度的偏差
+static float aimAngle = 0;   //目标角度
+static float distanceStraight = 0;//提前量
+static float disError = 0;   //距离偏差
+static float pidZongShuchu = 0, piddisShuchu = 0;
+static float spacingError = 0;
+static int lineChangeSymbol=0;
 /****************************************************************************
 * 名    称：pid函数1
 * 功    能：计算偏差作为pid
@@ -80,9 +88,9 @@ float ParkingAnglePidControl(float ERR)
 float AnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 250.f; //200
+	static float Kp = 200.f; //200
 	static float Ki = 0.f;
-	static float Kd = 50.f;
+	static float Kd = 20.f;
 	static float OUTPUT;
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
 	ERR_OLD = ERR;
@@ -92,7 +100,7 @@ float AnglePidControl(float ERR)
 float distancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.0085; //0.02//0.03
+	static float Kp = 0.06; //0.02//0.03//0.1
 	static float Ki = 0;
 	static float Kd = 0;
 	static float OUTPUT;
@@ -103,7 +111,7 @@ float distancePidControl(float ERR)
 float onceDistancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.08; //0.1
+	static float Kp = 0.08; //0.2
 	static float Ki = 0;
 	static float Kd = 0;
 	static float OUTPUT;
@@ -322,7 +330,7 @@ void CheckOutline(void)//检测是否卡死
 	{
 		stickError = 0;
 	}
-	if (stickError > 80)
+	if (stickError > 200)
 	{
 		xStick = getxRem();//记住卡死的坐标
 		yStick = getyRem();
@@ -370,7 +378,7 @@ int CheckAgainstWall(void)
 	{
 		againstTime = 0;
 	}
-	if (againstTime > 80)
+	if (againstTime > 200)
 	{
 		againstTime=0;
 		return 1; //另外一种标志方案
@@ -392,16 +400,18 @@ void AgainstWall(float aimAngle,float angle)
 {
 	static float angleError=0;
 	angleError = angleErrorCount(aimAngle,angle);
-	VelCrl(CAN1, 1, -5000 + AnglePidControl(angleError));
-	VelCrl(CAN1, 2, 5000 + AnglePidControl(angleError));
-//	if (fabs(angleError) < 8)
-//	{
-//		if (CheckAgainstWall())
-//		{
-//			setErr(0,-(2400-getLeftAdc()),0);
-//			turnTime = 8;
-//		}
-//	}
+	VelCrl(CAN2, 1, -5000 + AnglePidControl(angleError));
+	VelCrl(CAN2, 2, 5000 + AnglePidControl(angleError));
+	if (fabs(angleError) < 8)
+	{
+		if (CheckAgainstWall())
+		{
+			VelCrl(CAN2, 1, 0);
+			VelCrl(CAN2, 2, 0);
+			setErr(0,-(2400-getLeftAdc()),0);
+			turnTime = 8;
+		}
+	}
 }
 
  /****************************************************************************
@@ -415,7 +425,7 @@ void AgainstWall(float aimAngle,float angle)
 int Vchange(int lineChangeSymbol)
 {
 	static float vOut1 = 1100; //外环速度
-	static float vOut2 = 1100;//中环速度
+	static float vOut2 = 1200;//中环速度
 	static float vIn = 1100;  //内环速度
 	if (lineChangeSymbol < 1)
 	{
@@ -436,14 +446,14 @@ int turnTimeLead(int lineChangeSymbol)
 	static int lead=0;
 	if (lineChangeSymbol < 1)
 	{
-		lead=700;
+		lead=500;
 	}else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
 	{
-		lead=800;
+		lead=700;
 	}
 	else if (lineChangeSymbol >= 3)
 	{
-		lead=800;
+		lead=700;
 	}
 	return lead;
 }
@@ -529,17 +539,11 @@ void Pointparking(float Pointx,float Pointy)
 //		USART_OUT(USART1,(uint8_t*) "%d\t",(int)v1);
 //		USART_OUT(USART1,(uint8_t*) "%d\r\n",(int)v2);
 }
-
+extern float  angle;//定义角度
+extern float posX ;	 //定位系统返回的X坐标
+extern float posY ;	 //定位系统返回的Y坐标
 void Sweep()//基础扫场程序
 {
-		static float x = 0, y = 0, angle = 0;
-		static float aimAngle = 0;   //目标角度
-		static float angleError = 0; //目标角度与当前角度的偏差
-		static float distanceStraight = 0;//提前量
-		static float disError = 0;   //距离偏差
-		static float pidZongShuchu = 0, piddisShuchu = 0;
-		static float spacingError = 0;
-		static int lineChangeSymbol=0;
 		x = gRobot.pos.x;			//矫正过的x坐标
 		y = gRobot.pos.y;			//矫正过的y坐标
 		angle = gRobot.pos.angle; //矫正过的角度角度
@@ -547,7 +551,7 @@ void Sweep()//基础扫场程序
 		switch (turnTime)
 		{
 			case 0:
-				disError = x-(600+ lineChangeSymbol*500);
+				disError = x-(600+ lineChangeSymbol*470);
 				aimAngle=0;
 				angleError=angleErrorCount(aimAngle,angle);;
 				distanceStraight=(3400+ lineChangeSymbol*350)-y;
@@ -584,7 +588,7 @@ void Sweep()//基础扫场程序
 			disError = y - (3400 +  lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			aimAngle = 90;
 			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = -(600 +  lineChangeSymbol*500) - x;
+			distanceStraight = -(600 +  lineChangeSymbol*470) - x;
 			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
 				VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
@@ -601,7 +605,7 @@ void Sweep()//基础扫场程序
 		break;
 
 		case 2:
-			disError = x + (600 +  lineChangeSymbol*500); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = x + (600 +  lineChangeSymbol*470); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = 180;
 			angleError = angleErrorCount(aimAngle,angle);
 			distanceStraight = y - (1400 -  lineChangeSymbol*350);//100
@@ -624,7 +628,7 @@ void Sweep()//基础扫场程序
 			disError = y - (1400 -  lineChangeSymbol*350); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = -90;
 			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = (600 +  lineChangeSymbol*500) - x;
+			distanceStraight = (600 +  lineChangeSymbol*470) - x;
 			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
 				VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
@@ -639,7 +643,7 @@ void Sweep()//基础扫场程序
 //					lineChangeSymbol++;
 //				}
 				lineChangeSymbol++;
-				if (lineChangeSymbol == 4)
+				if (lineChangeSymbol == 3)
 				{
 					lineChangeSymbol=0;
 					turnTime = 5;
@@ -666,9 +670,41 @@ void Sweep()//基础扫场程序
 		default:
 		break;
 		}
+	
+		DeBug();
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
+//		
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTime);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
+////		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
+////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
+////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
+//		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
+}
 
+void DeBug()
+{
+	
+#define DEBUG_SWEEP 1
+	
+#define DEBUG 1
+
+	
+#if DEBUG==1
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
+		
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
@@ -681,6 +717,37 @@ void Sweep()//基础扫场程序
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);
 		USART_OUT(UART5, (uint8_t *)"%d\r\n", (int)turnTimeRemember);
+#elif
+	
+	
+	
+#endif
 }
 
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

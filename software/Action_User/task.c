@@ -13,6 +13,7 @@
 #include "arm_math.h"
 #include "config.h"
 #include "task.h"
+#include "usart.h"
 extern Robot_t gRobot;
 
 void robotInit()

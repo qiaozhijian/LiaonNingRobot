@@ -90,7 +90,7 @@ void fireTask(void)
 	x=gRobot.pos.x;//当前x坐标
 	y=gRobot.pos.y;//当前y坐标
 	angle=gRobot.pos.angle;//当前角度
-//	ballNum=getBallColor();
+	ballNum=getBallColor();
 	launcher=Launcher(x,y,angle,ballNum);
 	YawAngleCtr(launcher.courceAngle);
 	if(stopUSARTsignal==0)

@@ -51,16 +51,16 @@ void init(void)
 	elmo_Enable(CAN2, 1);
 	elmo_Enable(CAN2, 2);
 
-	//配置速度环
-	//	Vel_cfg(CAN1, 1, 50000, 50000); //can通信，50000脉冲加速度
-	//	Vel_cfg(CAN1, 2, 50000, 50000);
+//	//配置速度环
+//	//	Vel_cfg(CAN1, 1, 50000, 50000); //can通信，50000脉冲加速度
+//	//	Vel_cfg(CAN1, 2, 50000, 50000);
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);
 	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
 //	Delay_ms(12000);
 	Delay_ms(4000);
 	Delay_ms(4000);
-	Delay_ms(2000);
+	Delay_ms(4000);
 	//	VelCrl(CAN1, 1, 5000);//can通信，电机，转速，4096一秒一转，
 	//	VelCrl(CAN1, 2, 5000);//can通信，电机，转速，顺时针为正
 }
@@ -103,6 +103,8 @@ int main(void)
 //				//执行射球
 //			}
 				Sweep();
+				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
+				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
 //				fireTask();
 		}
 	}
