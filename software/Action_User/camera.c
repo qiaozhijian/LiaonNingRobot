@@ -4,10 +4,6 @@
 extern Robot_t gRobot;
 static int turnTimeChange = 0;//记住拐弯的次数
 static int circleChangeSymbol = 0;
-int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY);
-int AreaCheck(float x, float y);
-void SetTurnTimeChange(int temp);
-int GetTurnTimeChange(void);
 void CameraBaseWalk3(void)//摄像头基础走形
 {
 	static int M=12214;
@@ -40,7 +36,7 @@ void CameraBaseWalk3(void)//摄像头基础走形
 		case 1:
 			disError = x-(850+circleChangeSymbol*950);
 			aimAngle=0;
-			angleError=angleErrorCount(aimAngle,angle);;
+			angleError=angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
 			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
 			CheckOutline();
@@ -183,41 +179,18 @@ int GetTurnTimeChange(void)
 {
 	return turnTimeChange;
 }
-extern Robot_t gRobot;
+/****************************************************************************
+* 名    称：Sub_Box()
+* 功    能：摄像头的数据处理
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+
 extern int Ball_counter;
-float bestAngle=0,C_bestAngle=0,Cabs_bestAngle=0;
-int arreaBestCounter=0;
-void angleBest()
-{
-		int8_t leftAngLimit = -25;
-		int8_t rightAngLimit = -9;
-		int8_t max = 0;
-		int8_t max_num = 0;
-		for (int i = 0; i < 34; i++)
-		{
-			int8_t counter = 0;
-			for (int j = 0; j < Ball_counter; j++)
-			{
-				if (gRobot.camera[j].angle < rightAngLimit && gRobot.camera[j].angle > leftAngLimit)
-					counter++;
-			}
-			if (counter > max_num)
-			{
-				max_num = counter;
-				max = i;
-		arreaBestCounter=max;
-		C_bestAngle=-17+arreaBestCounter;
-		 bestAngle=Anglechange(C_bestAngle);
-			}
-			rightAngLimit++;
-			leftAngLimit++;
-		}
-	Ball_counter=0;
-}
-/****************????????????????**************/
 void Sub_Box(void)
 {
-	///????????2???,??????,?????????///
 		int8_t leftAngLimit = -25;
 		int8_t rightAngLimit = 4;
 		int8_t maxFirstlayer = 0;
@@ -230,7 +203,7 @@ void Sub_Box(void)
 		float c_Aimxsecond=0,c_Aimysecond=140.25;
 		float c_Secondbestangle=0;
 		float Aimxsecond=0,Aimysecond=0;
-//???????
+//第一层
 		for (int i = 0; i < 3; i++)
 		{
 			int8_t counter1 = 0;
@@ -251,7 +224,7 @@ void Sub_Box(void)
 			rightAngLimit+=7;
 			leftAngLimit+=7;
 		}	
-//???
+//第二层
 		leftAngLimit = -25;
 		rightAngLimit=-11;
 		for (int i = 0; i < 7; i++)
@@ -273,14 +246,14 @@ void Sub_Box(void)
 			rightAngLimit+=5;
 			leftAngLimit+=5;
 		}	
-//???
+//第一层球最多的坐标
 		c_Aimxfirst =(float) 72.75 / tanf((65+29/2 +7* maxFirstlayer)*PI / 180.f);
 		c_Firstbestangle = -25.f + 7*maxFirstlayer+14.5f;
 		Aimxfirst = getXpos() - 10*Dis(c_Aimxfirst, c_Aimyfirst, 0, 0)*sinf((getAngle() + c_Firstbestangle)*PI / 180) - 220 * sin(getAngle()*PI / 180);
 	  Aimyfirst = getYpos() + 10*Dis(c_Aimxfirst, c_Aimyfirst, 0, 0)*cosf((getAngle() + c_Firstbestangle)*PI / 180) + 220 * cos(getAngle()*PI / 180);
 		setAimxfirst(Aimxfirst);
 		setAimyfirst(Aimyfirst);
-//???
+//第二层球最多的坐标
 		c_Aimxsecond=(float)140.25/tanf((65+14/2+5*maxSecondlayer)*PI/180.f);
 		c_Secondbestangle=-25+5*maxSecondlayer+7;
 		Aimxsecond = getXpos() -10* Dis(c_Aimxsecond, c_Aimysecond, 0, 0)*sinf((getAngle() + c_Secondbestangle)*PI / 180) - 220 * sin(getAngle()*PI / 180);
