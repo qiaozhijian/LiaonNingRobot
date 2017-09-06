@@ -376,7 +376,7 @@ void Debug(void)
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
 //		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
-#elif
+//#elif
 	
 	
 #endif
@@ -392,6 +392,7 @@ int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4�
 	{
 		return 225 * lineChangeSymbol;
 	}
+	return 0;
 }
 void WalkTask2(void)
 {

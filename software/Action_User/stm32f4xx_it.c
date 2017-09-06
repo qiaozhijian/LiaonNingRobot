@@ -116,14 +116,14 @@ void CAN2_RX0_IRQHandler(void)
 
 void UART5_IRQHandler(void)
 {
-	uint8_t data = 0;
+//	uint8_t data = 0;
 	if(USART_GetFlagStatus(UART5,USART_FLAG_ORE)!=RESET){
-		data=USART_ReceiveData(UART5);
+//		data=USART_ReceiveData(UART5);
 	}
 	else if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( UART5,USART_IT_RXNE);
-		data=USART_ReceiveData(UART5);
+//		data=USART_ReceiveData(UART5);
 	}
 	 
 }

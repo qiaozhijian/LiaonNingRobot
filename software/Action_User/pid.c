@@ -61,7 +61,6 @@ float distancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
 	static float Kp = 0.01; //0.02//0.03
-	static float Ki = 0;
 	static float Kd = 0;
 	static float OUTPUT;
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);

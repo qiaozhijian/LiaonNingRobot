@@ -16,7 +16,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 {
 	static Launcher_t launcher;
 	static float s = 0;//车到圆环中心的距离
-	static float h = 474.6;//发射口到框的高度，垂直高度
+	static float h = 424.6;//发射口到框的高度，垂直高度
 	static float v = 0;//要求的速度
 	//static float rev = 0;//转动速度
 	static float x0=-150, y0=2400;//框的中心
@@ -35,9 +35,10 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	}
 
 	s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
-	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
+//	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
+	v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 //	launcher.rev = v  / PI / 66 ;
-	launcher.rev=0.01434*v-6.086;
+	launcher.rev=0.01434f*v-6.086f;
 	dx = x0 - x;//建立以车为原点的坐标系
 	dy = y0 - y;
 

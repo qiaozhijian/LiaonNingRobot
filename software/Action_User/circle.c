@@ -88,8 +88,8 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		angleError=angleErrorCount(aimAngle,angle);
 		V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
-		M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
-		M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
+		M1=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+		M2=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 		VelCrl(CAN2, 1, M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));      
 		VelCrl(CAN2, 2, -M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
 		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
@@ -168,15 +168,15 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			angleError=angleErrorCount(aimAngle,angle);
 			V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 			V2=((R-(WHEEL_TREAD/2))/R)*V;
-			M1=V1/(3.14*WHEEL_DIAMETER)*4096.f;
-			M2=V2/(3.14*WHEEL_DIAMETER)*4096.f;
+			M1=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+			M2=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 			VelCrl(CAN2, 1, M2+CircleAnglePidControl(angleError-spacingPidControl(spacingError)));      
 			VelCrl(CAN2, 2, -(M1-CircleAnglePidControl(angleError-spacingPidControl(spacingError))));
 }
 /**********************************吃球路线1*************************/
 CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yStart, float angle)//吃球方案1，得出圆形的圆心
 {
-	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+//	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 	static float a = 0, b = 0, c = 0, d = 0;//两条直线的参数前两个为车所在的直线的垂线，后两个为车的起始位和球区域中点的形成的弦的垂直平分线
 	static float xMid = 0, yMid = 0;//垂直平分线的中点
 	static float dx = 0, dy = 0;//
@@ -189,13 +189,13 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 	//第一条直线
 	if ((angle>89&&angle<90) || (angle>-90&&angle<-89))//angle是车体的角度。在此时车速度的垂线不存在（与x轴垂直）
 	{
-		x1 = xStart;
+//		x1 = xStart;
 		step = 1;
 	}else if ((1000*angle>-1&&1000*angle<1) || (angle>179) || (angle<-179))//车速度的垂线与x轴平行
 	{
 		a = 0;
 		b = yStart;
-		y1 = b;
+//		y1 = b;
 		step = 5;
 	}
 	else//注意此时的angle是之前12秒初始化确立的正前方为0度，然而k却是以x轴为起始坐标确定的
@@ -221,7 +221,7 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 			a = -1 / tan(angle*PI / 180);//
 		}
 		b = yStart - a*xStart;
-		y1 = a*x1 + b;
+//		y1 = a*x1 + b;
 		step = 9;
 	}
 
@@ -229,21 +229,21 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 	//第二条直线
 	if (1000*dy<1&&1000*dy>-1)//当垂直平分线k不存在的时候(与x轴垂直)
 	{
-		x2 = xMid;
+//		x2 = xMid;
 		step +=1;
 	}
 	else if (1000*dx<1&&1000*dx>-1)//垂直平分线与x轴平行
 	{
 		c = 0;
 		d = yMid;
-		y2 = d;
+//		y2 = d;
 		step += 2;
 	}
 	else//另外的情况
 	{
 		c = -dx / dy;
 		d = yMid - c*xMid;
-		y2 = c*x2 + d;
+//		y2 = c*x2 + d;
 		step += 3;
 	}
 

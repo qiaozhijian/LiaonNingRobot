@@ -23,7 +23,6 @@
 
 //globle 变量
 Robot_t gRobot;
-static int CPUUsage=0;
 int main(void)
 {
 	robotInit();
@@ -62,7 +61,7 @@ int main(void)
 			//				fireTask();
 			
 			Debug();
-			CPUUsage=getTimeCount();
 		}
 	}
 }
+
