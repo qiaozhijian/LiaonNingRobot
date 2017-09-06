@@ -4,6 +4,13 @@
 extern Robot_t gRobot;
 static int turnTimeChange = 0;//记住拐弯的次数
 static int circleChangeSymbol = 0;
+typedef struct {
+	
+	int turnTime;
+	int circleChangeSymbol;
+	
+}CameraBaseWalk3Par_t;
+	
 void CameraBaseWalk3(void)//摄像头基础走形
 {
 	static int M=12214;
@@ -15,6 +22,7 @@ void CameraBaseWalk3(void)//摄像头基础走形
 	static float pidZongShuchu = 0, piddisShuchu = 0;
 	static int turnChangeTimes=0;//记住拐弯的次数
 	static int turnTime=0;
+	static CameraBaseWalk3Par_t cameraBaseWalk3Par_t;
 	x = gRobot.pos.x;			//矫正过的x坐标
 	y = gRobot.pos.y;			//矫正过的y坐标
 	angle = gRobot.pos.angle; //矫正过的角度角度
@@ -156,9 +164,15 @@ int AreaCheck(float x, float y)//区域检查函数
 	{
 		turnTimeChange = 2;
 	}
-
+	
 	return turnTime;
 }
+
+
+
+
+
+
 int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)//单个区域检查函数
 {
 	int c = 0;//定义布尔值
@@ -170,14 +184,6 @@ int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)//单�
 		}
 	}
 	return c;
-}
-void SetTurnTimeChange(int temp)
-{
-	turnTimeChange = temp;
-}
-int GetTurnTimeChange(void)
-{
-	return turnTimeChange;
 }
 /****************************************************************************
 * 名    称：Sub_Box()
