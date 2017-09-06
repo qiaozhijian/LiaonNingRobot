@@ -60,7 +60,7 @@ int main(void)
 			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
 			//				fireTask();
 			
-			Debug();
+//			Debug();
 		}
 	}
 }

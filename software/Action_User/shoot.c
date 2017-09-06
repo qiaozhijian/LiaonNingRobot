@@ -83,32 +83,34 @@ void fireTask(void)
 	ballNum=getBallColor();
 	launcher=Launcher(x,y,angle,ballNum);
 	YawAngleCtr(launcher.courceAngle);
-	if(stopUSARTsignal==0)
-	{
-		ShootCtr(launcher.rev);
-	}
-	if(10*fabs(nowShootVel-launcher.rev)<1)
-	{
-		stopUSARTsignal=0;
-	}
+//	if(stopUSARTsignal==0)
+//	{
+	ShootCtr(launcher.rev);
+//	}
+//	if(10*fabs(nowShootVel-launcher.rev)<1)
+//	{
+//		stopUSARTsignal=0;
+//	}
 	waitAdjust++;
 	
-	if(waitAdjust<=150)
+	if(waitAdjust<=130)
 	{
 		PushBall();
 	}
-	if(waitAdjust>150)
+	if(waitAdjust>130)
 	{	
 		PushBallReset();
 	}
-	waitAdjust%=300;
+	waitAdjust%=260;
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.laser.leftDistance);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
 	
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getXpos());
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)getYpos());
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)waitAdjust);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.angle);
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)launcher.courceAngle);
 	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)launcher.rev*3);
+	
 }
 
 

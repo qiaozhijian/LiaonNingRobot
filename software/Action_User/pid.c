@@ -23,6 +23,7 @@ float angleErrorCount(float aimAngle,float angle)//计算角度偏差作为pid
 		angleError = angleError + 360;
 	}
 	return angleError;
+	
 }
 
 /****************************************************************************
@@ -48,11 +49,18 @@ float ParkingAnglePidControl(float ERR)
 float AnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 165;
-	static float Kd = 13;
+	static float Kp = 180;//165
+	static float Kd = 20;//13
 	static float OUTPUT;
-	
+
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);
+//	if(OUTPUT>120)
+//	{
+//		OUTPUT=120;
+//	}else if(OUTPUT<-120)
+//	{
+//		OUTPUT=-120;
+//	}
 	ERR_OLD = ERR;
 	return OUTPUT;
 }
@@ -60,7 +68,7 @@ float AnglePidControl(float ERR)
 float distancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.01; //0.02//0.03
+	static float Kp = 0.03; //0.02//0.03
 	static float Kd = 0;
 	static float OUTPUT;
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Wed Sep 06 16:18:25 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Wed Sep 06 22:40:47 2017
 <BR><P>
 <H3>Maximum Stack Usage =        336 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -616,7 +616,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[88]"></a>AgainstWall</STRONG> (Thumb, 226 bytes, Stack size 32 bytes, sweep.o(i.AgainstWall))
+<P><STRONG><a name="[88]"></a>AgainstWall</STRONG> (Thumb, 232 bytes, Stack size 32 bytes, sweep.o(i.AgainstWall))
 <BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = AgainstWall &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setErr
@@ -789,11 +789,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[8f]"></a>CheckAgainstWall</STRONG> (Thumb, 96 bytes, Stack size 8 bytes, sweep.o(i.CheckAgainstWall))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = CheckAgainstWall
+<P><STRONG><a name="[8f]"></a>CheckAgainstWall</STRONG> (Thumb, 198 bytes, Stack size 24 bytes, sweep.o(i.CheckAgainstWall))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = CheckAgainstWall &rArr; __aeabi_cdcmple
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getyRem
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getxRem
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 </UL>
@@ -816,7 +819,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelTrans
 </UL>
-<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmoInit
+<BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 </UL>
 
 <P><STRONG><a name="[ae]"></a>CollectBallVelTrans</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, motor.o(i.CollectBallVelTrans))
@@ -828,7 +831,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
 
 <P><STRONG><a name="[12]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.DebugMon_Handler))
@@ -1217,7 +1220,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
-<P><STRONG><a name="[3c]"></a>USART3_IRQHandler</STRONG> (Thumb, 472 bytes, Stack size 8 bytes, stm32f4xx_it.o(i.USART3_IRQHandler))
+<P><STRONG><a name="[3c]"></a>USART3_IRQHandler</STRONG> (Thumb, 476 bytes, Stack size 8 bytes, stm32f4xx_it.o(i.USART3_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = USART3_IRQHandler &rArr; USART_GetITStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setYpos
@@ -1309,6 +1312,7 @@ Global Symbols
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setErrSingle
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Debug
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
@@ -1355,19 +1359,23 @@ Global Symbols
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmoInit
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 </UL>
 
-<P><STRONG><a name="[e3]"></a>WalkTask2</STRONG> (Thumb, 1774 bytes, Stack size 24 bytes, sweep.o(i.WalkTask2))
+<P><STRONG><a name="[e3]"></a>WalkTask2</STRONG> (Thumb, 2058 bytes, Stack size 24 bytes, sweep.o(i.WalkTask2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = WalkTask2 &rArr; AgainstWall &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distancePidControl
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCar
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vchange
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LineChange
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Debug
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -1450,8 +1458,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __hardfp_fabs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCarOut
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckAgainstWall
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
@@ -1568,6 +1576,7 @@ Global Symbols
 <P><STRONG><a name="[89]"></a>angleErrorCount</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, pid.o(i.angleErrorCount))
 <BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCarOut
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
 
 <P><STRONG><a name="[f6]"></a>atan</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, atan.o(i.atan))
@@ -1582,13 +1591,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
 
-<P><STRONG><a name="[100]"></a>elmoInit</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, task.o(i.elmoInit))
+<P><STRONG><a name="[100]"></a>elmoInit</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, task.o(i.elmoInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = elmoInit &rArr; Vel_cfg &rArr; CAN_TransmitStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmo_Init
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmo_Enable
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 </UL>
@@ -1618,8 +1626,8 @@ Global Symbols
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[e8]"></a>fireTask</STRONG> (Thumb, 398 bytes, Stack size 32 bytes, shoot.o(i.fireTask))
-<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = fireTask &rArr; getYpos &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
+<P><STRONG><a name="[e8]"></a>fireTask</STRONG> (Thumb, 302 bytes, Stack size 8 bytes, shoot.o(i.fireTask))
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = fireTask &rArr; Launcher &rArr; __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getBallColor
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
@@ -1627,13 +1635,7 @@ Global Symbols
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBall
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
-<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
@@ -1670,8 +1672,7 @@ Global Symbols
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
-<LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
 <P><STRONG><a name="[cf]"></a>getYpos</STRONG> (Thumb, 224 bytes, Stack size 72 bytes, fix.o(i.getYpos))
@@ -1684,8 +1685,7 @@ Global Symbols
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
-<LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
 <P><STRONG><a name="[aa]"></a>getxRem</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tools.o(i.getxRem))
@@ -1704,22 +1704,23 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
 
-<P><STRONG><a name="[74]"></a>main</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[74]"></a>main</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = main &rArr; WalkTask2 &rArr; AgainstWall &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTimeFlag
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
-<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Debug
 </UL>
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[103]"></a>robotInit</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, task.o(i.robotInit))
+<P><STRONG><a name="[103]"></a>robotInit</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, task.o(i.robotInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = robotInit &rArr; elmoInit &rArr; Vel_cfg &rArr; CAN_TransmitStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
+<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
+<LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmoInit
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
@@ -1905,8 +1906,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_cdcmple
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCarOut
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckAgainstWall
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>
@@ -1929,7 +1930,6 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_sin
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
@@ -2011,8 +2011,8 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCarOut
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckAgainstWall
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkTask2
 </UL>

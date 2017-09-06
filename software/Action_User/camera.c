@@ -137,7 +137,7 @@ int AreaCheck(float x, float y)//区域检查函数
 	if (turnTime != turnTimeRem)
 	{
 		turnTimeChange++;//记住拐弯的次数
-		SetTurnTimeChange(turnTimeChange);
+		//SetTurnTimeChange(turnTimeChange);
 	} 
 
 

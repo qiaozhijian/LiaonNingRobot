@@ -55,7 +55,7 @@ static int lineChangeSymbol=0;
 int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
-	if(gRobot.pos.x==getxRem()&&gRobot.pos.y==getyRem()&&gRobot.M!=0)
+	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
 	{
 		againstTime++;
 	}
@@ -99,6 +99,7 @@ void AgainstWall(float aimAngle,float angle)
 			VelCrl(CAN2, 1, 0);
 			VelCrl(CAN2, 2, 0);
 			setErr(0,-(2400-getLeftAdc()),0);
+			gRobot.laser.leftDistance=getLeftAdc();
 			gRobot.turnTime = 8;
 		}
 	}
@@ -233,7 +234,7 @@ void Sweep()//基础扫场程序
 			case 0:
 				disError = x-(600+ lineChangeSymbol*470);
 				aimAngle=0;
-				angleError=angleErrorCount(aimAngle,angle);;
+				angleError=angleErrorCount(aimAngle,angle);
 				distanceStraight=(3400+ lineChangeSymbol*350)-y;
 				if(lineChangeSymbol<1)
 				{
@@ -257,6 +258,9 @@ void Sweep()//基础扫场程序
 					{
 						distanceStraight = 0;
 						gRobot.turnTime = 1;
+						USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha0");
+						USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha0");
+						USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha0");
 					}
 				}
 				CheckOutline();
@@ -278,6 +282,9 @@ void Sweep()//基础扫场程序
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 2;
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			CheckOutline();
 			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
@@ -298,6 +305,9 @@ void Sweep()//基础扫场程序
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 3;
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			CheckOutline();
 			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
@@ -318,6 +328,9 @@ void Sweep()//基础扫场程序
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 0; //重新进入循环
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 //				if (lineChangeSymbol < 4)
 //				{
 //					lineChangeSymbol++;
@@ -350,7 +363,6 @@ void Sweep()//基础扫场程序
 		default:
 		break;
 		}
-		
 }
 
 void Debug(void)
@@ -374,7 +386,7 @@ void Debug(void)
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
 //		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 //#elif
 	
@@ -409,7 +421,7 @@ void WalkTask2(void)
 		case 0:
 			disError = y - (500 + LineChange()); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = -90;
-			angleError = aimAngle - angle;
+			angleError = angleErrorCount(aimAngle,angle);
 			distanceStraight = (2000 - LineChange()) - x;
 			if (fabs(distanceStraight) > 900)
 			{
@@ -420,6 +432,11 @@ void WalkTask2(void)
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 1;
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
@@ -429,7 +446,7 @@ void WalkTask2(void)
 		case 1:
 			disError = x - (1900 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = 0;
-			angleError = aimAngle - angle;
+			angleError = angleErrorCount(aimAngle,angle);
 			distanceStraight = (4400 - LineChange()) - y;
 			if (fabs(distanceStraight) > 900)
 			{
@@ -440,6 +457,11 @@ void WalkTask2(void)
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 2;
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
@@ -449,7 +471,7 @@ void WalkTask2(void)
 		case 2:
 			disError = y - (4400 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			aimAngle = 90;
-			angleError = aimAngle - angle;
+			angleError = angleErrorCount(aimAngle,angle);
 			distanceStraight = -(2000 - LineChange()) - x;
 			if (fabs(distanceStraight) > 900)
 			{
@@ -460,6 +482,11 @@ void WalkTask2(void)
 			{
 				distanceStraight = 0;
 				gRobot.turnTime = 3;
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
@@ -469,7 +496,7 @@ void WalkTask2(void)
 		case 3:
 			disError = x + (2000 - LineChange()); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			aimAngle = 180;
-			angleError = aimAngle - angle;
+			angleError = angleErrorCount(aimAngle,angle);
 			distanceStraight = y - (500 + LineChange());//100
 			if (fabs(distanceStraight) > 900)
 			{
@@ -488,6 +515,11 @@ void WalkTask2(void)
 				{
 					gRobot.turnTime = 5;
 				}
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n","hahahaha1");
 			}
 			CheckOutline();
 			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
@@ -507,7 +539,12 @@ void WalkTask2(void)
 		break;
 
 		default:
-			break;
+		break;
+		}
+		
+			if(gRobot.turnTime!=8)
+		{
+			Debug();
 		}
 }
 

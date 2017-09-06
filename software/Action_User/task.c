@@ -50,11 +50,10 @@ void elmoInit(void){
 	elmo_Enable(CAN2, 2);
 	
 	//收球电机初始化
-	CollectBallVelCtr(40);
-	
+
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);
-	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+
 	
 }
 void robotInit(void)
@@ -65,7 +64,11 @@ void robotInit(void)
 	
 	elmoInit();
 	
-	Delay_ms(12000);
+	Delay_ms(6000);
+	Delay_ms(6000);
+	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+	CollectBallVelCtr(35);
+	//Delay_ms(6000);
 }
 
 /**
