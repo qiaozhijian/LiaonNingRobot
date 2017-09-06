@@ -24,14 +24,12 @@
 void init(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
-	TIM_Init(TIM2, 999, 83, 0, 0); //��ʱ1ms
 	ShootUSART1_Init(115200);
 	CameraUSART2_Init(115200);  //串口2
 	PostionUSART3_Init(115200); //串口3
 	TestUART5_Init(115200);
 	//1ms定时器用于控制WalkTask周期
-	TIM_Init(TIM2, 99, 839, 0, 0);
+	TIM_Init(TIM2, 99, 83, 0, 0);
 	//10ms定时器TIM3用于控制WalkTask周期
 	TIM_Init(TIM3, 999, 839, 0, 0);
 
@@ -64,12 +62,13 @@ void init(void)
 }
 //globle 变量
 Robot_t gRobot;
+int CPUUsage=0;
 int Key1=0;
 int Key2=0;
 int main(void)
 {
 	init();
-	CollectBallVelCtr(40);
+//	CollectBallVelCtr(40);
 	while (1)
 	{
 //		Key1=TRAVEL_SWITCH_LEFT;
@@ -102,6 +101,7 @@ int main(void)
 //			}
 //				WalkTask1();
 				WalkTask2();
+				CPUUsage=getTimeCount();
 //				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
 //				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
 //				fireTask();

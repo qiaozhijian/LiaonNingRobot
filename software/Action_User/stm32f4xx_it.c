@@ -44,8 +44,7 @@
 //static float angle;//定义角度
 //static float posX   = 0;	 //定位系统返回的X坐标
 //static float posY   = 0;	 //定位系统返回的Y坐标
-float angle;//定义角度
-float posX   = 0;	 //定位系统返回的X坐标
+ float posX   = 0;	 //定位系统返回的X坐标
 float posY   = 0;	 //定位系统返回的Y坐标
 /****************������CAN1�ӿ�ģ��****start******************/
 void CAN1_RX0_IRQHandler(void)
@@ -187,9 +186,10 @@ void USART1_IRQHandler(void)
 extern Robot_t gRobot;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
+	static float angle;//定义角度
 	static uint8_t ch;
 	static union {
-		uint8_t data[24];
+		uint8_t datadata[24];
 		float ActVal[6];
 	} posture;
 	static uint8_t count = 0;
@@ -198,6 +198,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	{
 		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 		ch = USART_ReceiveData(USART3);
+		USART_SendData(UART5, ch);
 		switch (count)
 		{
 		case 0:
@@ -220,7 +221,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			break;
 
 		case 2:
-			posture.data[i] = ch;
+			posture.datadata[i] = ch;
 			i++;
 			if (i >= 24)
 			{
@@ -240,7 +241,8 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			if (ch == 0x0d)
 			{
 
-				angle = posture.ActVal[0] ;//角度
+				//angle = posture.ActVal[0] ;//角度
+			//USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)posture.ActVal[0]);
 				posture.ActVal[1] = posture.ActVal[1];
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
@@ -248,7 +250,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				posture.ActVal[5] = posture.ActVal[5];
 				setXpos(posX);
 				setYpos(posY);
-				setAngle(angle);
+			//	setAngle(angle);
 			}
 			count = 0;
 			
@@ -256,10 +258,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 //			{
 //				
 //			}
-				
 			gRobot.pos.x=posX;//getXpos();
 			gRobot.pos.y=posY;//getYpos();
-			gRobot.pos.angle=angle;//getAngle();
+		//	gRobot.pos.angle=angle;//getAngle();
 			break;
 
 		default:
@@ -269,17 +270,6 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	}
 	else
 	{
-		USART_ClearITPendingBit(USART3, USART_IT_PE);
-		USART_ClearITPendingBit(USART3, USART_IT_TXE);
-		USART_ClearITPendingBit(USART3, USART_IT_TC);
-		USART_ClearITPendingBit(USART3, USART_IT_ORE_RX);
-		USART_ClearITPendingBit(USART3, USART_IT_IDLE);
-		USART_ClearITPendingBit(USART3, USART_IT_LBD);
-		USART_ClearITPendingBit(USART3, USART_IT_CTS);
-		USART_ClearITPendingBit(USART3, USART_IT_ERR);
-		USART_ClearITPendingBit(USART3, USART_IT_ORE_ER);
-		USART_ClearITPendingBit(USART3, USART_IT_NE);
-		USART_ClearITPendingBit(USART3, USART_IT_FE);
 		USART_ReceiveData(USART3);
 	}
 }

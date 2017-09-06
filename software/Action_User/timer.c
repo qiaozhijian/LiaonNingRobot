@@ -183,16 +183,14 @@ void Delay_ms(uint32_t nTime)
 //int posx,posy;
 static uint16_t timeCount=0;
 static uint8_t timeFlag=0;
-static uint8_t cpuTimes=0;
 void TIM2_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM2, TIM_IT_Update)==SET)
   {	
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 		timeCount++;
-		if(timeCount>=PERIOD*1000)
+		if(timeCount>=PERIOD*1000*10)
 		{
-			cpuTimes++;
 			timeCount=0;
 			timeFlag=1;
 		}
@@ -207,7 +205,6 @@ uint8_t getTimeFlag(void)
 	if(nowFlag)
 	{
 		timeFlag=0;
-		cpuTimes=0;
 		return 1;
 	}
 	return 0;
@@ -215,7 +212,7 @@ uint8_t getTimeFlag(void)
 
 uint32_t getTimeCount(void)
 {
-	return (timeCount+cpuTimes*PERIOD*1000);
+	return (timeCount);
 }
 //֨ʱǷ1  
 void TIM1_UP_TIM10_IRQHandler(void)

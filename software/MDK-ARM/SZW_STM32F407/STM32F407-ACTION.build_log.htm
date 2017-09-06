@@ -22,12 +22,23 @@ Dialog DLL:      TCM.DLL V1.14.14.0
  
 <h2>Project:</h2>
 E:\LiaonNingRobot\software\MDK-ARM\demo.uvprojx
-Project File Date:  09/03/2017
+Project File Date:  09/05/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'E:\Keil5\ARM\ARMCC\Bin'
 Build target 'ACTION'
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 0 Warning(s).
+compiling stm32f4xx_it.c...
+..\Libraries\CMSIS\core_cm4.h(116): warning:  #47-D: incompatible redefinition of macro "__FPU_USED"
+      #define __FPU_USED         0
+..\Action_User\stm32f4xx_it.c(118): warning:  #550-D: variable "data" was set but never used
+  	uint8_t data = 0;
+..\Action_User\stm32f4xx_it.c(189): warning:  #177-D: variable "angle" was declared but never referenced
+  	static float angle;//å®?ä¹?è§?åº?
+..\Action_User\stm32f4xx_it.c: 3 warnings, 0 errors
+linking...
+Program Size: Code=50812 RO-data=1412 RW-data=824 ZI-data=1904  
+FromELF: creating hex file...
+".\SZW_STM32F407\STM32F407-ACTION.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   E:\LiaonNingRobot\software\MDK-ARM\RTE
