@@ -8,7 +8,7 @@
 ".\szw_stm32f407\fix.o"
 ".\szw_stm32f407\circle.o"
 ".\szw_stm32f407\pid.o"
-".\szw_stm32f407\movebase_1.o"
+".\szw_stm32f407\movebase.o"
 ".\szw_stm32f407\can.o"
 ".\szw_stm32f407\stm32f4xx_it.o"
 ".\szw_stm32f407\timer.o"

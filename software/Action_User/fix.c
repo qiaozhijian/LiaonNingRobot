@@ -70,7 +70,7 @@ void setErr(float reaAngle,float realX,float realy)
 */
 int getLeftAdc()
 {
-	return 0.9361*Get_Adc_Average(ADC_Channel_15, 10)+427.8;
+	return 0.9389*Get_Adc_Average(ADC_Channel_15, 10)+428.6575;
 }
 /**
 *	参数 void
@@ -78,6 +78,14 @@ int getLeftAdc()
 */
 int getRightAdc()
 {
-	return 0.9356*Get_Adc_Average(ADC_Channel_14, 10)+434.7;
+	return 0.9403*Get_Adc_Average(ADC_Channel_14, 10)+435.445;
 }
 
+int WallShortDis()
+{
+
+
+
+
+
+}

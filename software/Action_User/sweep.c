@@ -527,6 +527,7 @@ void WalkTask2(void)
 		break;
 
 		case 5:
+				//NiShiZhenCircleBiHuan(1500,1100,0,2400);
 			AgainstWall(0,angle);
 		break;
 		
@@ -686,7 +687,7 @@ void CirlceSweep(void)//基础扫场程序
 			{
 				gRobot.turnTime=13;
 			}
-			NiShiZhenCircleBiHuan(1200,1100,2400,2400);
+			NiShiZhenCircleBiHuan(1800,1100,0,2400);
 			break;
 			
 		case 13:
@@ -694,7 +695,7 @@ void CirlceSweep(void)//基础扫场程序
 			{
 				gRobot.turnTime=14;
 			}
-			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
+			NiShiZhenCircleBiHuan(1800,1600,0,2400);
 			break;
 			
 		case 14:
@@ -702,7 +703,7 @@ void CirlceSweep(void)//基础扫场程序
 			{
 				gRobot.turnTime=5;
 			}
-			NiShiZhenCircleBiHuan(1200,2100,2400,2400);
+			NiShiZhenCircleBiHuan(1800,2100,0,2400);
 			break;
 			
 		default:
@@ -721,7 +722,7 @@ void CirlceSweep(void)//基础扫场程序
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
 ////		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);

@@ -20,21 +20,12 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		static float aimAngle=0;//目标角度
 		static float angleError=0;//目标角度与当前角度的偏差
 		static float distanceCenter=0;//当前坐标与圆心的差值
-		static float /*a=-1,b=1,c=0,*/k;//定义斜率
+		static float k;//定义斜率
 		static float 	spacingError;//定义两个点之间的距离
 		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;//当前坐标与圆心的差值
 		static float v1=0,v2=0;
 		//逆时针圆形闭环
-		x=getXpos();//当前x坐标
-		y=getYpos();//当前y坐标
-		angle=getAngle();//当前角度
-		distanceCenter=Dis(x,y,X0,Y0);
-		spacingError=distanceCenter-R; 
-		dx=x-X0;
-		dy=y-Y0;
-		k=dy/dx;
-		kAngle=atan(-1/k)*180/PI;
 		x=getXpos();//当前x坐标
 		y=getYpos();//当前y坐标
 		angle=getAngle();//当前角度
@@ -44,7 +35,7 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		dy=y-Y0;
 		k=dy/dx;
 		kAngle=atan(-1/k)*180/PI;
-		if(fabs(dy)<0.0001)//判断特殊角度
+		if(fabs(dy)<1)//判断特殊角度
 		{
 			if(dx>0)
 			{
@@ -55,7 +46,7 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 				aimAngle=180;
 			}
 		}
-		if(fabs(dx)<0.0001)
+		if(fabs(dx)<1)
 		{
 			if(dy>0)
 			{
@@ -99,6 +90,8 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)y);
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dx);
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dy);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)kAngle);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)angle);
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)angleError);//角度偏差
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)spacingError);//距离
 		USART_OUT(UART5,(uint8_t*) "%d\t",(int)aimAngle);

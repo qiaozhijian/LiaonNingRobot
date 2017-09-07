@@ -90,7 +90,7 @@ float onceDistancePidControl(float ERR)
 float spacingPidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.1; //0.1//40
+	static float Kp = 0.05; //0.1
 	static float Ki = 0;
 	static float Kd = 1;
 	static float OUTPUT;
