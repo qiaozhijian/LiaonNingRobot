@@ -136,7 +136,7 @@ int turnTimeLead(int lineChangeSymbol)
 	static int lead=0;
 	if (lineChangeSymbol < 1)
 	{
-		lead=800;
+		lead=400;
 	}else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
 	{
 		lead=900;
@@ -537,7 +537,7 @@ void WalkTask2(void)
 		case 8:
 			fireTask();
 		break;
-
+		
 		default:
 		break;
 		}
@@ -646,8 +646,7 @@ void CirlceSweep(void)//基础扫场程序
 			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 				distanceStraight = 0;
-				gRobot.turnTime = 0; //重新进入循环
-//				if (lineChangeSymbol < 4)
+			//				if (lineChangeSymbol < 4)
 //				{
 //					lineChangeSymbol++;
 //				}
@@ -655,7 +654,7 @@ void CirlceSweep(void)//基础扫场程序
 				if (lineChangeSymbol == 1)
 				{
 					lineChangeSymbol=0;
-					gRobot.turnTime = 10;
+					gRobot.turnTime = 11;
 				}
 			}
 			CheckOutline();
@@ -675,41 +674,43 @@ void CirlceSweep(void)//基础扫场程序
 		case 8:
 			fireTask();
 		break;
-
 		
-		case 10:
-			NiShiZhenCircleBiHuan(1200,1100,2400,2400);
-			if (fabs(x)<300&&y<1700)
-			{
-				gRobot.turnTime = 11;
-			}
-			CheckOutline();
-		break;
-			
+		
 		case 11:
-			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
-			if (fabs(x)<300&&y<1700)
-			{
-				gRobot.turnTime = 12;
-			}
-			CheckOutline();
-		break;	
+			if(250<gRobot.pos.x&&gRobot.pos.x<300)
+				gRobot.turnTime=12;
+			break;
 			
 		case 12:
-			NiShiZhenCircleBiHuan(1200,2100,2400,2400);
-			if (fabs(x)<300&&y<1700)
+			if(-50<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y<1700)
 			{
-				gRobot.turnTime = 5;
+				gRobot.turnTime=13;
 			}
-			CheckOutline();
-		break;	
+			NiShiZhenCircleBiHuan(1200,1100,2400,2400);
+			break;
+			
+		case 13:
+			if(-100<gRobot.pos.x && gRobot.pos.x<-50 && gRobot.pos.y<1700)
+			{
+				gRobot.turnTime=14;
+			}
+			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
+			break;
+			
+		case 14:
+			if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y<1700)
+			{
+				gRobot.turnTime=5;
+			}
+			NiShiZhenCircleBiHuan(1200,2100,2400,2400);
+			break;
 			
 		default:
 		break;
 		}
 	
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
 //		
@@ -719,8 +720,8 @@ void CirlceSweep(void)//基础扫场程序
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)lineChangeSymbol);
 ////		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);

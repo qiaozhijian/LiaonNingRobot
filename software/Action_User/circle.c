@@ -95,15 +95,15 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		v2=-M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)x);
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)y);
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dx);
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)dy);
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)angleError);//角度偏差
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)spacingError);//距离
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)aimAngle);
-		USART_OUT(USART1,(uint8_t*) "%d\t",(int)v1);
-		USART_OUT(USART1,(uint8_t*) "%d\r\n",(int)v2);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)x);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)y);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dx);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dy);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)angleError);//角度偏差
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)spacingError);//距离
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)aimAngle);
+		USART_OUT(UART5,(uint8_t*) "%d\t",(int)v1);
+		USART_OUT(UART5,(uint8_t*) "%d\r\n",(int)v2);
 }
 /***********************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
