@@ -16,7 +16,14 @@ void setYpos(float val)
 {
 	ypos=val;
 }
-
+/****************************************************************************
+* 名    称：setErrSingle() setErrX(float realX) setErrY(float realy)
+* 功    能：摄像头的数据处理
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 
 void setErrSingle(float reaAngle)
 {
@@ -83,9 +90,5 @@ int getRightAdc()
 
 int WallShortDis()
 {
-
-
-
-
-
+	
 }

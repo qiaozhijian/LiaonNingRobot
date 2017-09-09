@@ -114,9 +114,11 @@ void TravelSwitch_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
-void PullLevel()
+void PullLevel(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
+	
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_6;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -126,7 +128,7 @@ void PullLevel()
   GPIO_Init(GPIOE, &GPIO_InitStructure);
 	if(LEVEL==1)
 	{
-		//ؖɽٶȸìÿٶȸȲքȲք˽
+		//
 		GPIO_ResetBits(GPIOE,GPIO_Pin_4|GPIO_Pin_6);
 	}
 	else if(LEVEL==2)

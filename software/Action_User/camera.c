@@ -2,35 +2,35 @@
 
 
 extern Robot_t gRobot;
-static int turnTimeChange = 0;//记住拐弯的次数
-static int circleChangeSymbol = 0;
-typedef struct {
-	
-	int turnTime;
-	int circleChangeSymbol;
-	
-}CameraBaseWalk3Par_t;
-	
-void CameraBaseWalk3(void)//摄像头基础走形
+/****************************************************************************
+* 名    称：CameraBaseWalk3(void)
+* 功    能：摄像头基础走形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+static int turnTimeChange = 0;								//记住拐弯的次数
+void CameraBaseWalk3(void)										//摄像头基础走形
 {
 	static int M=12214;
 	static float x = 0, y = 0, angle = 0;
-	static float aimAngle = 0;   //目标角度
-	static float angleError = 0; //目标角度与当前角度的偏差
-	static int circleChangeSymbol=0;//相当于缩圈变量，lineChangeSymbol
-	static float disError = 0;   //距离偏差
+	static float aimAngle = 0;   								//目标角度
+	static float angleError = 0; 								//目标角度与当前角度的偏差
+	static float disError = 0;   								//距离偏差
 	static float pidZongShuchu = 0, piddisShuchu = 0;
-	static int turnChangeTimes=0;//记住拐弯的次数
-	static int turnTime=0;
-	static CameraBaseWalk3Par_t cameraBaseWalk3Par_t;
-	x = gRobot.pos.x;			//矫正过的x坐标
-	y = gRobot.pos.y;			//矫正过的y坐标
-	angle = gRobot.pos.angle; //矫正过的角度角度
-	turnTime=AreaCheck(x,y);
-  switch (turnTime)
+	static int turnChangeTimes=0;								//记住拐弯的次数
+	static CameraBaseWalk3Par_t cameraBaseWalk3Par;
+	
+	x = gRobot.pos.x;														//矫正过的x坐标
+	y = gRobot.pos.y;														//矫正过的y坐标
+	angle = gRobot.pos.angle; 									//矫正过的角度角度
+	cameraBaseWalk3Par=AreaCheck(x,y);
+  switch (cameraBaseWalk3Par.turnTime)
 	{
 		case 0:
-			disError = y - (1100 - circleChangeSymbol*500); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = y - (1100 - cameraBaseWalk3Par.circleChangeSymbol*500); 
 			aimAngle = -90;
 			angleError = angleErrorCount(aimAngle,angle);
 		
@@ -42,7 +42,7 @@ void CameraBaseWalk3(void)//摄像头基础走形
 		break;
 
 		case 1:
-			disError = x-(850+circleChangeSymbol*950);
+			disError = x-(850+cameraBaseWalk3Par.circleChangeSymbol*950);
 			aimAngle=0;
 			angleError=angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
@@ -53,7 +53,8 @@ void CameraBaseWalk3(void)//摄像头基础走形
 		break;
 				
 		case 2:
-			disError = y - (3700 + circleChangeSymbol*500); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			disError = y - (3700 + cameraBaseWalk3Par.circleChangeSymbol*500); 
 			aimAngle = 90;
 			angleError = angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
@@ -64,7 +65,8 @@ void CameraBaseWalk3(void)//摄像头基础走形
 		break;
 
 		case 3:
-			disError = x + (850 + circleChangeSymbol*950); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = x + (850 + cameraBaseWalk3Par.circleChangeSymbol*950); 
 			aimAngle = 180;
 			angleError = angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
@@ -86,21 +88,29 @@ void CameraBaseWalk3(void)//摄像头基础走形
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnChangeTimes);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)cameraBaseWalk3Par.turnTime);
 }
-
-int AreaCheck(float x, float y)//区域检查函数
+/****************************************************************************
+* 名    称：AreaCheck()
+* 功    能：区域检查函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+CameraBaseWalk3Par_t AreaCheck(float x, float y)
 {
 	static int turnTime = 0;//定义转弯直线
 	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
-	static int circleChangeSymbolRem=0;//记住circleChangeSymbol当摄像头找球搞得换圈的时候的时候进行清空turnTimeChange
+	static CameraBaseWalk3Par_t cameraBaseWalk3Par;
+	static int circleChangeSymbolRem;
 	//区域一
 	float peakX_Area1[5] = { 250 ,-250,-2400,-2400,1600 };
 	float peakY_Area1[5] = { 1700,1700,1450,0,0 };
@@ -114,27 +124,27 @@ int AreaCheck(float x, float y)//区域检查函数
 	float peakX_Area4[5] = { -250 ,-250,-1900,-2400,-2400 };
 	float peakY_Area4[5] = { 1700 ,3100,4800,4800,1450 };
 	
-	turnTimeRem = turnTime;
-	circleChangeSymbolRem = circleChangeSymbol;
+	turnTimeRem = cameraBaseWalk3Par.turnTime;
+	circleChangeSymbolRem = cameraBaseWalk3Par.circleChangeSymbol;
 
 	if (CheckIn(x, y, 5, peakX_Area1, peakY_Area1) == 1)
 	{
-		turnTime = 0;
+		cameraBaseWalk3Par.turnTime = 0;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area2, peakY_Area2) == 1)
 	{
-		turnTime = 1;
+		cameraBaseWalk3Par.turnTime = 1;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area3, peakY_Area3) == 1)
 	{
-		turnTime = 2;
+		cameraBaseWalk3Par.turnTime = 2;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area4, peakY_Area4) == 1)
 	{
-		turnTime = 3;
+		cameraBaseWalk3Par.turnTime = 3;
 	}
 
-	if (turnTime != turnTimeRem)
+	if (cameraBaseWalk3Par.turnTime != turnTimeRem)
 	{
 		turnTimeChange++;//记住拐弯的次数
 		//SetTurnTimeChange(turnTimeChange);
@@ -145,35 +155,37 @@ int AreaCheck(float x, float y)//区域检查函数
 	{
 		if ((x > -1400 && x < 1400) && (y > 900 && y < 3900))//内环
 		{
-			circleChangeSymbol = 0;
+			cameraBaseWalk3Par.circleChangeSymbol = 0;
 		}
 		else if ((x < -1400 || x>1400) || (y < 900 || y>3900))//外环
 		{
-			circleChangeSymbol = 1;
+			cameraBaseWalk3Par.circleChangeSymbol = 1;
 		}
 		
-		if (circleChangeSymbolRem != circleChangeSymbol)//当发现其切出摄像头状态再回来的时候圈位置变了，使得自动拐弯的turnTimeChange变量自动清空重新计数
+		if (circleChangeSymbolRem != cameraBaseWalk3Par.circleChangeSymbol)//当发现其切出摄像头状态再回来的时候圈位置变了，使得自动拐弯的turnTimeChange变量自动清空重新计数
 		{
 			turnTimeChange = 0;
 		}
 
 	}else if (turnTimeChange == 5)//四条直线都走完了，还没发现球
 	{
-		circleChangeSymbol = !circleChangeSymbol;
+		cameraBaseWalk3Par.circleChangeSymbol = !cameraBaseWalk3Par.circleChangeSymbol;
 	}else if (turnTimeChange == 6)
 	{
 		turnTimeChange = 2;
 	}
 	
-	return turnTime;
+	return cameraBaseWalk3Par;
 }
-
-
-
-
-
-
-int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)//单个区域检查函数
+/****************************************************************************
+* 名    称：CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)
+* 功    能：单个区域检查函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)
 {
 	int c = 0;//定义布尔值
 	for (int i = 0, j = pointNum - 1; i < pointNum; j = i++)
@@ -199,11 +211,13 @@ void Sub_Box(void)
 {
 		int8_t leftAngLimit = -25;
 		int8_t rightAngLimit = 4;
+	
 		int8_t maxFirstlayer = 0;
 		int8_t max_Firstlayernum = 0;
 	  float c_Aimxfirst=0.0f,c_Aimyfirst=72.75f;		
 		float c_Firstbestangle=0;
 		float Aimxfirst=0,Aimyfirst=0;
+	
 		int8_t maxSecondlayer =0;
 		int8_t max_Secondlayernum=0;
 		float c_Aimxsecond=0,c_Aimysecond=140.25;
@@ -267,6 +281,7 @@ void Sub_Box(void)
 		setAimxsecond(Aimxsecond);
 		setAimysecond(Aimysecond);
 		Ball_counter=0;
+		d_Sub_Box(Ball_counter,maxFirstlayer,c_Aimxfirst,Aimxfirst,Aimyfirst,Aimxsecond,Aimysecond,maxSecondlayer);
 	}
 	
 

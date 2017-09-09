@@ -429,6 +429,11 @@
               <FileType>1</FileType>
               <FilePath>..\Action_User\movebase.c</FilePath>
             </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\debug.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

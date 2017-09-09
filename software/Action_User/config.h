@@ -22,6 +22,7 @@
 #include "camera.h"
 #include "avoid.h"
 #include "motor.h"
+#include "debug.h"
 
 
 

@@ -54,16 +54,19 @@ int main(void)
 			//			{
 			//				//执行射球
 			//			}
-			//				WalkTask1();
-		//	WalkTask2();
-		//逆时针旋转
-			CirlceSweep();
-//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
-			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
-			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
-			//		fireTask();
 			
-//			Debug();
+			/**************临时测试********/
+			//			WalkTask1();
+			//			WalkTask2();
+			//			逆时针旋转
+			//			CirlceSweep();
+			//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
+			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
+			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
+			//			fireTask();
+			//      Sub_Box();
+			//			Findball_4();
+      //			Debug();
 		}
 	}
 }

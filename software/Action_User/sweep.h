@@ -9,7 +9,7 @@ int turnTimeLead(int lineChangeSymbol);
 int CheckAgainstWall(void);
 void Pointparking(float Pointx,float Pointy);
 void AgainstWall(float aimAngle,float angle);
-void Sweep(void);
+void In2Out(void);
 void Debug(void);
 void CirlceSweep(void);
 void WalkTask1(void);

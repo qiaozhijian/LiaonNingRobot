@@ -1,5 +1,6 @@
 #include "config.h"
 
+extern Robot_t gRobot;
 
 float LauncherPidControl(float ERR)
 {
@@ -35,20 +36,16 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 		x0 = 150;
 		y0 = 2350;
 	}
-
+	//计算发射装置的速度
 	s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
 // v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
-//	launcher.rev = v  / PI / 66 ;
 	launcher.rev=0.01434f*v-6.086f;
-	
-//	x=x-161.85f*sinf(angle);
-//	y=y+161.85f*cosf(angle);
-	dx = x0 - x;//建立以车为原点的坐标系
-	dy = y0 - y;
 	
 	x = x - 97.2f*sinf(angle);
 	y = y + 97.2f*cosf(angle);
+	dx = x0 - x;
+	dy = y0 - y;
 	alpha = atan2(dy, dx) * 180 / PI ;
 	alpha = alpha - 90;
 	if (alpha>180)alpha -= 360;
@@ -56,46 +53,22 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	launcher.courceAngle = angle - alpha;
 	if (launcher.courceAngle>180)launcher.courceAngle -= 360;
 	else if (launcher.courceAngle<-180)launcher.courceAngle += 360;
-
-//	//以下的处理过程是为了两个角度0位置在同一条直线上
-//	launcher.courceAngle = atan2(dy, dx) / PI * 180.f;
-//	if(launcher.courceAngle<=180&& launcher.courceAngle>=-90.f)
-//	{
-//		launcher.courceAngle -= 90;
-//	}
-//	else if (launcher.courceAngle < -90&& launcher.courceAngle>=-180)
-//	{
-//		launcher.courceAngle = 270 + launcher.courceAngle;
-//	}
-//	
-//	//得出航向角的值
-//	launcher.courceAngle = angle-launcher.courceAngle;
-//	//防止航向角大于180
-//	
-//	if(launcher.courceAngle>180)
-//	{
-//		launcher.courceAngle -= 360;
-//	}
-//	else if (launcher.courceAngle < -180)
-//	{
-//		launcher.courceAngle += 360;
-//	}
 	return launcher;
 }
+
 extern int stopUSARTsignal;
 extern int32_t nowShootVel;
-extern Robot_t gRobot;
 void fireTask(void)
 {
-	static int waitAdjust=0;//定义发射电机以及航向角调整等待他们调整完之后进行推送球
+	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
 	static int ballNum=1;
 	static Launcher_t launcher;
 	static int timeCounter=0;
 	
-	x=gRobot.pos.x;//当前x坐标
-	y=gRobot.pos.y;//当前y坐标
-	angle=gRobot.pos.angle;//当前角度
+	x=gRobot.pos.x;														//当前x坐标
+	y=gRobot.pos.y;														//当前y坐标
+	angle=gRobot.pos.angle;										//当前角度
 	ballNum=getBallColor();
 	
 	timeCounter++;
@@ -114,26 +87,33 @@ void fireTask(void)
 //	{
 //		stopUSARTsignal=0;
 //	}
-	waitAdjust++;
-	
-	if(waitAdjust<=10&&waitAdjust>0)
+	if(ballNum==0)
 	{
-		PushBall();
+			waitAdjust++;
+			if(waitAdjust<=3&&waitAdjust>0)
+			{
+				PushBall();
+			}
+			if(waitAdjust<=53&&waitAdjust>50)
+			{	
+				PushBallReset();
+			}
+			waitAdjust%=100;
 	}
-	if(waitAdjust<=140&&waitAdjust>130)
-	{	
-		PushBallReset();
+	else if(ballNum!=0)
+	{
+				waitAdjust++;
+			if(waitAdjust<=3&&waitAdjust>0)
+			{
+				PushBall();
+			}
+			if(waitAdjust<=203&&waitAdjust>200)
+			{	
+				PushBallReset();
+			}
+			waitAdjust%=400;
 	}
-	waitAdjust%=260;
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.laser.leftDistance);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)ballNum);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)waitAdjust);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.angle);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)launcher.courceAngle);
-	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)launcher.rev);
-	
+	//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
 }
 
 
