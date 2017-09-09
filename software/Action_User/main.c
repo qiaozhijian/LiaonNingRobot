@@ -26,6 +26,13 @@ Robot_t gRobot;
 int main(void)
 {
 	robotInit();
+	//运动控制卡
+	ClearRingBuffer();
+	while(!BufferZizeInit(20))
+	{
+		USART_OUT(UART5,(uint8_t*)"BufferZizeInit Err");
+	}
+	Point_t Move[6]={{1000,1000},{1000,2000},{1000,3000},{1000,4000},{2000,4000},{4000,4000}};
 	while (1)
 	{
 		while (getTimeFlag()) //10ms执行进入一次
@@ -67,6 +74,8 @@ int main(void)
 			//      Sub_Box();
 			//			Findball_4();
       //			Debug();
+			/*******控制卡测试************/
+			
 		}
 	}
 }

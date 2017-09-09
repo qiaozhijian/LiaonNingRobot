@@ -21,7 +21,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	static float v = 0;//要求的速度
 	//static float rev = 0;//转动速度
 	static float x0=-150, y0=2400;//框的中心
-	static float g = 9.9;//重力加速度
+	//static float g = 9.9;//重力加速度
 	//static float courceAngle = 0;//定义航向角度
 	static float dx=0, dy=0;//定义坐标差值
 	static float alpha = 0;
@@ -38,7 +38,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	}
 	//计算发射装置的速度
 	s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
-	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
+	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - h);
 // v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 	launcher.rev=0.01434f*v-6.086f;
 	

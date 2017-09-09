@@ -38,3 +38,4 @@
 .\szw_stm32f407\sweep.o: ..\Action_User\avoid.h
 .\szw_stm32f407\sweep.o: ..\Action_User\motor.h
 .\szw_stm32f407\sweep.o: ..\Action_User\debug.h
+.\szw_stm32f407\sweep.o: ..\Control_Card\motion\MotionCard.h

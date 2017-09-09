@@ -41,3 +41,4 @@
 .\szw_stm32f407\task.o: ..\Action_User\avoid.h
 .\szw_stm32f407\task.o: ..\Action_User\motor.h
 .\szw_stm32f407\task.o: ..\Action_User\debug.h
+.\szw_stm32f407\task.o: ..\Control_Card\motion\MotionCard.h

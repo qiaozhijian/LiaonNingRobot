@@ -39,3 +39,4 @@
 .\szw_stm32f407\stm32f4xx_it.o: ..\Action_User\avoid.h
 .\szw_stm32f407\stm32f4xx_it.o: ..\Action_User\motor.h
 .\szw_stm32f407\stm32f4xx_it.o: ..\Action_User\debug.h
+.\szw_stm32f407\stm32f4xx_it.o: ..\Control_Card\motion\MotionCard.h

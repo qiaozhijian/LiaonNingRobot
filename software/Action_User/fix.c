@@ -71,6 +71,29 @@ void setErr(float reaAngle,float realX,float realy)
 	setErrX(realX);
 	setErrY(realy);
 }
+
+/****************************************************************************
+* 名    称：GetAngleZ、GetPosx、GetPosy
+* 功    能：摄像头的数据处理
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+float GetAngleZ(void)
+{
+	return getAngle();
+}
+float GetPosx(void)
+{
+	return getXpos();
+}
+float GetPosy(void)
+{
+	return getYpos();
+}
+ 
+
 /**
 *	参数 void
 *	返回值 得到左侧激光运算后返回的距离
@@ -90,5 +113,5 @@ int getRightAdc()
 
 int WallShortDis()
 {
-	
+	return 0;
 }

@@ -39,3 +39,4 @@
 .\szw_stm32f407\motor.o: ..\Action_User\camera.h
 .\szw_stm32f407\motor.o: ..\Action_User\avoid.h
 .\szw_stm32f407\motor.o: ..\Action_User\debug.h
+.\szw_stm32f407\motor.o: ..\Control_Card\motion\MotionCard.h
