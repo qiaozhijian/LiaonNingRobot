@@ -39,6 +39,7 @@ int main(void)
 			//			}
 			//			else if (gRobot.status & STATUS_CAMERA)
 			//			{
+			
 			//			}
 			//			else if (gRobot.status & STATUS_FIX)
 			//			{

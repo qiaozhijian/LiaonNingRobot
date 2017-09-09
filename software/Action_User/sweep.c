@@ -33,6 +33,8 @@
 //static float aimAngle = 0;   //目标角度
 //static float angleError = 0; //目标角度与当前角度的偏差
 extern Robot_t gRobot;
+//？？？？？     没必要     的全局变量不要有
+/*******/
 static float x = 0, y = 0, angle = 0;
 static float angleError = 0; //目标角度与当前角度的偏差
 static float aimAngle = 0;   //目标角度
@@ -41,7 +43,7 @@ static float disError = 0;   //距离偏差
 static float pidZongShuchu = 0, piddisShuchu = 0;
 static float spacingError = 0;
 static int lineChangeSymbol=0;
-
+/*****有必要的全局变量可以****/
 
 
  /****************************************************************************
@@ -55,6 +57,7 @@ static int lineChangeSymbol=0;
 int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
+	//？？？？？这两个要结合在一起，不能在矫正的时候卡死
 	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
 	{
 		againstTime++;
@@ -112,11 +115,13 @@ void AgainstWall(float aimAngle,float angle)
 * 说    明：在函数内部修改vOut1,2等的值能够输出需要的速度
 * 调用方法：无 
 ****************************************************************************/
+//？？？？？？？SelectVelByCircle
 int Vchange(int lineChangeSymbol)
 {
-	static float vOut1 = 1300; 																//外环速度
-	static float vOut2 = 1600;
-	static float vIn = 1100;  																//内环速度
+	//？？？？？？加。f
+	const float vOut1 = 1300.0f; 																//外环速度
+	const float vOut2 = 1600;
+	const float vIn = 1100;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
 		gRobot.M = vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
@@ -130,10 +135,11 @@ int Vchange(int lineChangeSymbol)
 	}
 	return gRobot.M;
 }
-
+//？？？？？？？LineIndex
 int turnTimeLead(int lineChangeSymbol)
 {
-	static int lead=0;
+	//？？？？？？？不需要用static的
+  int lead=0;
 	if (lineChangeSymbol < 1)
 	{
 		lead=400;
@@ -220,6 +226,7 @@ void Pointparking(float Pointx,float Pointy)
 	}
 	
 }
+//？？？？？这种extern全局变量不能出现
 extern float  angle;												//定义角度
 extern float posX ;	 												//定位系统返回的X坐标
 extern float posY ;	 												//定位系统返回的Y坐标
