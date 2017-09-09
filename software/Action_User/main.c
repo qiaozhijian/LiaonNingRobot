@@ -8,7 +8,6 @@
 #include "gpio.h"
 #include "usart.h"
 #include "can.h"
-#include "math.h"
 #include "stm32f4xx_usart.h"
 #include "arm_math.h"
 #include "config.h"
@@ -61,8 +60,8 @@ int main(void)
 			//			逆时针旋转
 			//			CirlceSweep();
 			//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
-			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
-			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
+			//			USART_OUTF(Key1);
+			//			USART_OUTF(Key2);
 			//			fireTask();
 			//      Sub_Box();
 			//			Findball_4();

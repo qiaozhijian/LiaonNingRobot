@@ -28,7 +28,6 @@ void setYpos(float val)
 void setErrSingle(float reaAngle)
 {
 	errSingle = reaAngle - angle;
-	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
 }
 
 
@@ -37,14 +36,12 @@ void setErrX(float realX)
 	float temp;
 	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
 	errX0 = realX - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
 }
 void setErrY(float realy)
 {
 	float temp;
 	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
 	errY0 = realy - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
 }
 
 

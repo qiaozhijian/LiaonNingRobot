@@ -32,7 +32,6 @@
 
 #include "stm32f4xx_tim.h"
 #include "stm32f4xx_usart.h"
-#include "math.h"
 
 #include "usart.h"
 #include "timer.h"

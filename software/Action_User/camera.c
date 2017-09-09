@@ -85,17 +85,18 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		break;
 	}
 
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnChangeTimes);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)cameraBaseWalk3Par.turnTime);
+		USART_OUTF(gRobot.pos.x);
+		USART_OUTF(gRobot.pos.y);
+		USART_OUTF(turnChangeTimes);
+		USART_OUTF(cameraBaseWalk3Par.circleChangeSymbol);
+		USART_OUTF(angle);
+		USART_OUTF(angleError);
+		USART_OUTF(disError);
+		USART_OUTF(piddisShuchu);
+		USART_OUTF(pidZongShuchu);
+		USART_OUTF(cameraBaseWalk3Par.circleChangeSymbol);
+		USART_OUTF(cameraBaseWalk3Par.turnTime);
+		USART_OUT_CHAR("\r\n");
 }
 /****************************************************************************
 * 名    称：AreaCheck()

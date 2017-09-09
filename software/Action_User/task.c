@@ -8,7 +8,6 @@
 #include "gpio.h"
 #include "usart.h"
 #include "can.h"
-#include "math.h"
 #include "stm32f4xx_usart.h"
 #include "arm_math.h"
 #include "config.h"
@@ -16,6 +15,7 @@
 #include "usart.h"
 #include "elmo.h"
 #include "motor.h"
+#include "dma.h"
 
 extern Robot_t gRobot;
 
@@ -42,7 +42,7 @@ void HardWare(void){
 	//定位系统	
 	PostionUSART3_Init(115200);
 	//蓝牙串口
-	TestUART5_Init(115200);
+	UART5DMAInit(115200);
 }
 
 void elmoInit(void){

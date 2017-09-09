@@ -1,4 +1,4 @@
---cpu Cortex-M4.fp
+--cpu=Cortex-M4.fp
 ".\szw_stm32f407\main.o"
 ".\szw_stm32f407\task.o"
 ".\szw_stm32f407\sweep.o"
@@ -8,8 +8,9 @@
 ".\szw_stm32f407\fix.o"
 ".\szw_stm32f407\circle.o"
 ".\szw_stm32f407\pid.o"
-".\szw_stm32f407\movebase_1.o"
+".\szw_stm32f407\movebase.o"
 ".\szw_stm32f407\debug.o"
+".\szw_stm32f407\dma.o"
 ".\szw_stm32f407\can.o"
 ".\szw_stm32f407\stm32f4xx_it.o"
 ".\szw_stm32f407\timer.o"
@@ -55,6 +56,6 @@
 ".\szw_stm32f407\system_stm32f4xx.o"
 ".\szw_stm32f407\startup_stm32f4xx.o"
 --strict --scatter ".\SZW_STM32F407\demo.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\SZW_STM32F407\demo.map" -o .\SZW_STM32F407\demo.axf

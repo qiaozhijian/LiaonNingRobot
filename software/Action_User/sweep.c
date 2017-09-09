@@ -362,19 +362,20 @@ void Debug(void)
 
 	
 #if DEBUG==1
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
+		USART_OUTF(gRobot.pos.x);
+		USART_OUTF(gRobot.pos.y);
+		USART_OUTF(posX);
+		USART_OUTF(posY);
 		
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
+		USART_OUTF(angle);//gRobot.pos.angle
+		USART_OUTF(angleError);
+		USART_OUTF(spacingError);
+		USART_OUTF(disError);
+		USART_OUTF(piddisShuchu);
+		USART_OUTF(pidZongShuchu);
+		USART_OUTF(gRobot.turnTime);
+		USART_OUTF(lineChangeSymbol);
+		USART_OUT_CHAR("\r\n");
 //		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 //#elif
 #endif
