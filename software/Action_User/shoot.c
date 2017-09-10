@@ -88,6 +88,7 @@ extern Robot_t gRobot;
 void fireTask(void)
 {
 	static int waitAdjust=0;//定义发射电机以及航向角调整等待他们调整完之后进行推送球
+	static int waitAdjust2=0;
 	static float x=0,y=0,angle=0;
 	static int ballNum=1;
 	static Launcher_t launcher;
@@ -114,17 +115,32 @@ void fireTask(void)
 //	{
 //		stopUSARTsignal=0;
 //	}
-	waitAdjust++;
-	
-	if(waitAdjust<=10&&waitAdjust>0)
+		if(ballNum==0)
 	{
-		PushBall();
+			waitAdjust++;
+			if(waitAdjust<=3&&waitAdjust>0)
+			{
+				PushBall();
+			}
+			if(waitAdjust<=103&&waitAdjust>100)
+			{	
+				PushBallReset();
+			}
+			waitAdjust%=200;
 	}
-	if(waitAdjust<=140&&waitAdjust>130)
-	{	
-		PushBallReset();
+	else if(ballNum!=0)
+	{
+			waitAdjust2++;
+			if(waitAdjust2<=3&&waitAdjust2>0)
+			{
+				PushBall();
+			}
+			if(waitAdjust2<=203&&waitAdjust2>200)
+			{	
+				PushBallReset();
+			}
+			waitAdjust2%=400;
 	}
-	waitAdjust%=260;
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.laser.leftDistance);
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
 	USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);

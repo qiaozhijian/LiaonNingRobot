@@ -148,7 +148,7 @@ int turnTimeLead(int lineChangeSymbol)
 	return lead;
 }
 
-void Pointparking(float Pointx,float Pointy)
+int Pointparking(float Pointx,float Pointy)
 {
 //	static float V=700,gRobot.M;
 	static float x=0,y=0,angle=0;
@@ -217,7 +217,9 @@ void Pointparking(float Pointx,float Pointy)
 	{	
 		VelCrl(CAN2, 1,AnglePidControl(angleError));//pid中填入的是差值
 		VelCrl(CAN2, 2,-AnglePidControl(angleError));
+		return 1;
 	}
+	return 0;
 	
 }
 extern float  angle;//定义角度
@@ -710,19 +712,19 @@ void CirlceSweep(void)//基础扫场程序
 		break;
 		}
 	
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
-//		
+//		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)posY);
+		
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
+//		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
 ////		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)xStick);
 ////		USART_OUT(UART5, (uint8_t *)"%d\t", (int)yStick);

@@ -7,7 +7,7 @@ int Vchange(int lineChangeSymbol);
 int turnTimeLead(int lineChangeSymbol);
 
 int CheckAgainstWall(void);
-void Pointparking(float Pointx,float Pointy);
+int Pointparking(float Pointx,float Pointy);
 void AgainstWall(float aimAngle,float angle);
 void Sweep(void);
 void Debug(void);

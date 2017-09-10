@@ -56,8 +56,8 @@ int main(void)
 			//			}
 			//				WalkTask1();
 		//	WalkTask2();
-		//逆时针旋转
-			CirlceSweep();
+//			CirlceSweep();
+			CameraBaseWalk3();
 //			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
 			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
 			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);

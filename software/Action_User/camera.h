@@ -15,16 +15,19 @@
 #include "stm32f4xx_usart.h"
 #include "arm_math.h"
 #include "config.h"
-
+typedef struct {
+	
+	int turnTime;
+	int circleChangeSymbol;
+	
+}C_Walk3Par_t;
 int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY);
-int AreaCheck(float x, float y);
+C_Walk3Par_t AreaCheck(float x, float y);
 void SetTurnTimeChange(int temp);
 int GetTurnTimeChange(void);
 void CameraBaseWalk3(void);
-int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY);
-int AreaCheck(float x, float y);
-void SetTurnTimeChange(int temp);
-int GetTurnTimeChange(void);
+
+
 
 
 #endif
