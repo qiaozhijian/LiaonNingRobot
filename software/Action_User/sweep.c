@@ -72,10 +72,8 @@ int CheckAgainstWall(void)
 		againstTime=0;
 		return 1; //另外一种标志方案
 	}
-	else
-	{
-		return 0;
-	}
+	return 0;
+
 }
  /****************************************************************************
 *
@@ -98,9 +96,9 @@ void AgainstWall(float aimAngle,float angle)
 		{
 			VelCrl(CAN2, 1, 0);
 			VelCrl(CAN2, 2, 0);
-			setErr(0,-(2400-getLeftAdc()),0);
-			gRobot.laser.leftDistance=getLeftAdc();
-			gRobot.turnTime = 8;
+//			setErr(0,-(2400-getLeftAdc()),0);
+//			gRobot.laser.leftDistance=getLeftAdc();
+//			gRobot.turnTime = 8;
 		}
 	}
 }
@@ -657,7 +655,7 @@ void CirlceSweep(void)//基础扫场程序
 				if (lineChangeSymbol == 1)
 				{
 					lineChangeSymbol=0;
-					gRobot.turnTime = 11;
+					gRobot.turnTime = 5;
 				}
 			}
 			CheckOutline();
@@ -667,7 +665,8 @@ void CirlceSweep(void)//基础扫场程序
 			
 
 		case 5:
-			AgainstWall(0,angle);
+//			AgainstWall(0,angle);
+			FixTask();
 		break;
 		
 		case 7:

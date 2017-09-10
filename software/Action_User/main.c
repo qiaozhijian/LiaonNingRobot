@@ -30,6 +30,8 @@ int main(void)
 	{
 		while (getTimeFlag()) //10ms执行进入一次
 		{
+			ReadActualVel(CAN2,1);
+			ReadActualVel(CAN2,2);
 			//			if (gRobot.status & STATUS_SWEEP)
 			//			{
 			//				//执行扫场
@@ -56,8 +58,9 @@ int main(void)
 			//			}
 			//				WalkTask1();
 		//	WalkTask2();
-//			CirlceSweep();
-			CameraBaseWalk3();
+				CirlceSweep();
+
+//			CameraBaseWalk3();
 //			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
 			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
 			//				USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);

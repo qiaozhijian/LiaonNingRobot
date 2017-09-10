@@ -90,7 +90,7 @@ int getRightAdc()
 */
 extern Robot_t gRobot;
 static int map[4] = {0};
-uint8_t getAimBorder() //返回距离最小的边界
+int getAimBorder(void) //返回距离最小的边界
 {
 	static int i = 0;
 	static int min_num = 0;
@@ -127,7 +127,7 @@ uint8_t getAimBorder() //返回距离最小的边界
 //#define X_MIN (-2400 + 320 + 200)
 //#define Y_MAX (4800 - 320 - 200)
 
-static uint8_t fixSuccessFlag = 0; //修正成功标志位//到时把这个变量放入结构体当中
+static int fixSuccessFlag = 0; //修正成功标志位//到时把这个变量放入结构体当中
 
 float getFixAngle(int aimBorder)//得到修正角度
 {
@@ -142,6 +142,7 @@ float getFixAngle(int aimBorder)//得到修正角度
 		case DOWN_BORDER:
 			return 0;
 	}
+	return 0;
 }
 
 /**
@@ -160,23 +161,10 @@ static int fix_status=11;//需要矫正时赋值为11//矫正开始时赋值为1
 #define TRY_FIRST_FIX 2
 #define TRY_SEC_FIX 4
 #define AGAINST_Wall 8
-typedef struct{//矫正失败拿到新的墙的目标角度
-	float x;
-	float y;
-}AimPos_t;
 
 int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进行修正激光被挡或者不在激光处理范围内
 {
 	static int commitFix=0;//靠下一面墙的标志位
-	if(laserLeftDistance+laserRightDistance<4800-42)
-	{
-		commitFix=0;//说明要靠下一面墙
-	}
-	else
-	{
-		commitFix=1;	//说明能够进行矫正
-	} 
-	
 	if(gRobot.laser.leftDistance>4000||gRobot.laser.leftDistance<40)
 	{
 		commitFix=0;//说明要靠下一面墙
@@ -194,6 +182,16 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 	{
 		commitFix=1;	//说明能够进行矫正
 	}
+	
+	if(laserLeftDistance+laserRightDistance<4800-50)
+	{
+		commitFix=0;//说明要靠下一面墙
+	}
+	else
+	{
+		commitFix=1;	//说明能够进行矫正
+	} 
+//	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", commitFix);
 	return commitFix;
 }
 
@@ -225,6 +223,7 @@ void fixPosFirst(int aimBorder)
 		}
 		break;
 	}
+	USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha1");
 }
 
 void fixPosSec(int aimBorder)//矫正当前墙的坐标
@@ -250,6 +249,10 @@ void fixPosSec(int aimBorder)//矫正当前墙的坐标
 			setErrY(Y_MIN);
 		break;
 	}
+	  USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
+		USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
+		USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
+		USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
 }
 
 AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的目标点
@@ -280,7 +283,7 @@ AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的�
 	return aimPos;
 }
 
-int FixTask()
+int FixTask(void)
 {
 	//修正状态
 	static int againstTime=0;//靠墙的次数
@@ -289,7 +292,7 @@ int FixTask()
 	static float fixAngle=0;//矫正角度
 	int laserLeftDistance=getLeftAdc();//左边激光
 	int laserRightDistance=getRightAdc();//右边激光
-	int commitFix=0;
+	static int commitFix=0;
 	AimPos_t aimPos;//二次矫正的停车位
 	commitFix=CommitFix(laserLeftDistance,laserRightDistance);//判断能否进行矫正
 	if (fix_status & WAIT_AIM_DIRECTION)//1011 & 0001 
@@ -305,15 +308,22 @@ int FixTask()
 			AgainstWall(fixAngle,gRobot.pos.angle);
 			if (CheckAgainstWall())//检查靠墙
 			{
-		
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
 				if(commitFix)//当激光没问题
 				{
 					fixPosFirst(aimBorder);
-					map[0]=0;map[1]=0;map[2]=0;map[3]=0;//之前在判断最小距离墙面的时候将原来靠上的那面墙排除比较，现在恢复让其重新比较
+					map[0]=0;
+					map[1]=0;
+					map[2]=0;
+					map[3]=0;//之前在判断最小距离墙面的时候将原来靠上的那面墙排除比较，现在恢复让其重新比较
 					fixSuccessFlag=1;
 					//在这里改变状态码
 					fix_status=0;
-				}else //第二次矫正
+				}
+				else //第二次矫正
 				{
 					fixPosSec(aimBorder);//矫正当前的角度
 					againstTime++;
@@ -347,4 +357,21 @@ int FixTask()
 	{
 		gRobot.turnTime=8;
 	}
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixSuccessFlag);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fix_status);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)commitFix);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)aimBorder);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixAngle);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errSingle); //errSingle = realSingle - nowSingle
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errX0);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errY0);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getxRem());
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getyRem());
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.angle);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)againstTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserLeftDistance);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserRightDistance);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.turnTime);
 }

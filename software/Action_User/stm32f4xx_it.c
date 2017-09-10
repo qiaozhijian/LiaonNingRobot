@@ -240,7 +240,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			if (ch == 0x0d)
 			{
 
-				angle = -posture.ActVal[0] ;//角度
+				angle = -posture.ActVal[0] ;//�
 //				USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)posture.ActVal[0]);
 				posture.ActVal[1] = posture.ActVal[1];
 				posture.ActVal[2] = posture.ActVal[2];

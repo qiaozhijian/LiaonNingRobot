@@ -1,5 +1,5 @@
 Dependencies for Project 'demo', Target 'ACTION': (DO NOT MODIFY !)
-F (..\Action_User\main.c)(0x59B35C3C)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\main.o --omf_browse .\szw_stm32f407\main.crf --depend .\szw_stm32f407\main.d)
+F (..\Action_User\main.c)(0x59B503C0)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\main.o --omf_browse .\szw_stm32f407\main.crf --depend .\szw_stm32f407\main.d)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
 I (..\Libraries\CMSIS\core_cm4.h)(0x59AF994B)
 I (E:\Keil5\ARM\ARMCC\include\stdint.h)(0x574E3E26)
@@ -29,7 +29,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -67,7 +67,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -75,7 +75,7 @@ I (..\Action_User\pid.h)(0x59B29E2A)
 I (..\Action_User\camera.h)(0x59B35C3C)
 I (..\Action_User\avoid.h)(0x59B29E2A)
 I (..\Action_User\motor.h)(0x59AEC0B0)
-F (..\Action_User\sweep.c)(0x59B4E5B7)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\sweep.o --omf_browse .\szw_stm32f407\sweep.crf --depend .\szw_stm32f407\sweep.d)
+F (..\Action_User\sweep.c)(0x59B5209D)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\sweep.o --omf_browse .\szw_stm32f407\sweep.crf --depend .\szw_stm32f407\sweep.d)
 I (..\Action_User\config.h)(0x59B4E5B7)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
 I (..\Libraries\CMSIS\core_cm4.h)(0x59AF994B)
@@ -103,7 +103,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -141,7 +141,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -179,7 +179,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -189,7 +189,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x59759991)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x59759991)
 I (..\Action_User\avoid.h)(0x59B29E2A)
 I (..\Action_User\motor.h)(0x59AEC0B0)
-F (..\Action_User\shoot.c)(0x59B2AB90)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\shoot.o --omf_browse .\szw_stm32f407\shoot.crf --depend .\szw_stm32f407\shoot.d)
+F (..\Action_User\shoot.c)(0x59B4FC41)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\shoot.o --omf_browse .\szw_stm32f407\shoot.crf --depend .\szw_stm32f407\shoot.d)
 I (..\Action_User\config.h)(0x59B4E5B7)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
 I (..\Libraries\CMSIS\core_cm4.h)(0x59AF994B)
@@ -217,7 +217,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -227,7 +227,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x59759991)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x59759991)
 I (..\Action_User\avoid.h)(0x59B29E2A)
 I (..\Action_User\motor.h)(0x59AEC0B0)
-F (..\Action_User\fix.c)(0x59B4E764)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\fix.o --omf_browse .\szw_stm32f407\fix.crf --depend .\szw_stm32f407\fix.d)
+F (..\Action_User\fix.c)(0x59B5209F)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\fix.o --omf_browse .\szw_stm32f407\fix.crf --depend .\szw_stm32f407\fix.d)
 I (..\Action_User\config.h)(0x59B4E5B7)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
 I (..\Libraries\CMSIS\core_cm4.h)(0x59AF994B)
@@ -255,7 +255,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -293,7 +293,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -331,7 +331,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -357,7 +357,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x59759991)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x59759991)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x59759991)
 I (E:\Keil5\ARM\ARMCC\include\String.h)(0x574E3E26)
-F (..\Action_User\stm32f4xx_it.c)(0x59B29E2A)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\stm32f4xx_it.o --omf_browse .\szw_stm32f407\stm32f4xx_it.crf --depend .\szw_stm32f407\stm32f4xx_it.d)
+F (..\Action_User\stm32f4xx_it.c)(0x59B4EAEA)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\stm32f4xx_it.o --omf_browse .\szw_stm32f407\stm32f4xx_it.crf --depend .\szw_stm32f407\stm32f4xx_it.d)
 I (..\Action_User\stm32f4xx_it.h)(0x59AEC0B0)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h)(0x59759991)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
@@ -385,7 +385,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -425,7 +425,7 @@ I (..\Action_User\elmo.h)(0x59AEC0B0)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -521,7 +521,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h)(0x59A6C8B7)
 I (..\Action_User\sweep.h)(0x59B4E5B7)
 I (..\Action_User\shoot.h)(0x59AEC0B0)
 I (..\Action_User\circle.h)(0x59AEC0B0)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 I (..\Action_User\adc.h)(0x59AEC0B0)
 I (..\Action_User\task.h)(0x59B29E2A)
 I (..\Action_User\tools.h)(0x59AEC0B0)
@@ -544,7 +544,7 @@ I (..\Action_User\usart.h)(0x59AEC0B0)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h)(0x59759991)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x59759991)
 I (..\Libraries\CMSIS\system_stm32f4xx.h)(0x59759991)
-I (..\Action_User\fix.h)(0x59AEC0B0)
+I (..\Action_User\fix.h)(0x59B4ECF2)
 F (..\Action_User\movebase.c)(0x59B29E2A)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\movebase_1.o --omf_browse .\szw_stm32f407\movebase_1.crf --depend .\szw_stm32f407\movebase_1.d)
 I (..\Action_User\movebase.h)(0x59B29E2A)
 F (..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c)(0x59759991)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User --exceptions-IE:\LiaonNingRobot\software\MDK-ARM\RTE-IE:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IE:\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\misc.o --omf_browse .\szw_stm32f407\misc.crf --depend .\szw_stm32f407\misc.d)

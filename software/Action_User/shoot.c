@@ -20,7 +20,7 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	static float v = 0;//要求的速度
 	//static float rev = 0;//转动速度
 	static float x0=-150, y0=2400;//框的中心
-	static float g = 9.9;//重力加速度
+	//static float g = 9.9;//重力加速度
 	//static float courceAngle = 0;//定义航向角度
 	static float dx=0, dy=0;//定义坐标差值
 	static float alpha = 0;
@@ -28,27 +28,23 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	ballNum=getBallColor();
 	if (ballNum == 100)//加入球是白球
 	{
-		x0 = -150;
-		y0 = 2350;
+		x0 = -162.5;
+		y0 = 2335.35;
 	}else if (ballNum==1)//假如球是黑球
 	{
-		x0 = 150;
-		y0 = 2350;
+		x0 = 162.5;
+		y0 = 2335.35;
 	}
-
-	s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
-	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - 424.6f);
+	//计算航向角转轴的坐标
+	x = x - 118.36f*sinf(angle);
+	y = y + 118.36f*cosf(angle);
+	//计算发射装置的速度
+	s =21.16+ __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
+	v = 150.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - h);
 // v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
-//	launcher.rev = v  / PI / 66 ;
 	launcher.rev=0.01434f*v-6.086f;
-	
-//	x=x-161.85f*sinf(angle);
-//	y=y+161.85f*cosf(angle);
-	dx = x0 - x;//建立以车为原点的坐标系
+	dx = x0 - x;
 	dy = y0 - y;
-	
-	x = x - 97.2f*sinf(angle);
-	y = y + 97.2f*cosf(angle);
 	alpha = atan2(dy, dx) * 180 / PI ;
 	alpha = alpha - 90;
 	if (alpha>180)alpha -= 360;
@@ -56,31 +52,8 @@ Launcher_t Launcher(float x,float y,float angle,int ballNum)
 	launcher.courceAngle = angle - alpha;
 	if (launcher.courceAngle>180)launcher.courceAngle -= 360;
 	else if (launcher.courceAngle<-180)launcher.courceAngle += 360;
-
-//	//以下的处理过程是为了两个角度0位置在同一条直线上
-//	launcher.courceAngle = atan2(dy, dx) / PI * 180.f;
-//	if(launcher.courceAngle<=180&& launcher.courceAngle>=-90.f)
-//	{
-//		launcher.courceAngle -= 90;
-//	}
-//	else if (launcher.courceAngle < -90&& launcher.courceAngle>=-180)
-//	{
-//		launcher.courceAngle = 270 + launcher.courceAngle;
-//	}
-//	
-//	//得出航向角的值
-//	launcher.courceAngle = angle-launcher.courceAngle;
-//	//防止航向角大于180
-//	
-//	if(launcher.courceAngle>180)
-//	{
-//		launcher.courceAngle -= 360;
-//	}
-//	else if (launcher.courceAngle < -180)
-//	{
-//		launcher.courceAngle += 360;
-//	}
 	return launcher;
+
 }
 extern int stopUSARTsignal;
 extern int32_t nowShootVel;
