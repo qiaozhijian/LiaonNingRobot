@@ -108,7 +108,6 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 ****************************************************************************/
 CameraBaseWalk3Par_t AreaCheck(float x, float y)
 {
-	static int turnTime = 0;//定义转弯直线
 	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 	static CameraBaseWalk3Par_t cameraBaseWalk3Par;
 	static int circleChangeSymbolRem;
@@ -282,7 +281,7 @@ void Sub_Box(void)
 		setAimxsecond(Aimxsecond);
 		setAimysecond(Aimysecond);
 		Ball_counter=0;
-		d_Sub_Box(Ball_counter,maxFirstlayer,c_Aimxfirst,Aimxfirst,Aimyfirst,Aimxsecond,Aimysecond,maxSecondlayer);
+		d_Sub_Box(Ball_counter,maxFirstlayer,c_Aimxfirst,Aimxfirst,Aimyfirst,c_Aimxsecond,Aimxsecond,Aimysecond,maxSecondlayer);
 	}
 	
 

@@ -84,8 +84,3 @@ int getRightAdc()
 {
 	return 0.9403*Get_Adc_Average(ADC_Channel_14, 10)+435.445;
 }
-
-int WallShortDis()
-{
-	
-}

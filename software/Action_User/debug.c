@@ -1,6 +1,12 @@
 #include "debug.h"
 #include "config.h"
 extern Robot_t gRobot;
+void d_getVel(void)
+{
+	//开启航向电机接收
+	ReadActualPos(CAN1,GUN_YAW_ID);
+	ReadActualVel(CAN1,GUN_YAW_ID);
+}
 void d_Coor(void)
 {
 		USART_OUTF(gRobot.pos.angle);
@@ -26,15 +32,25 @@ void d_Line(int turnTime,int lineChangeSymbol,float disError,float angleError,fl
 		USART_OUTF(turnTimeLead);
 		USART_OUT_CHAR("\r\n");
 }
-void d_Sub_Box(int Ball_counter,int maxFirstlayer,int c_Aimxfirst,int Aimxfirst,int Aimyfirst,int Aimxsecond,int Aimysecond,int maxSecondlayer)
+void d_Sub_Box(int Ball_counter,int maxFirstlayer,int c_Aimxfirst,int Aimxfirst,int Aimyfirst,int c_Aimxsecond,int Aimxsecond,int Aimysecond,int maxSecondlayer)
 {
 		USART_OUTF(Ball_counter);
 		USART_OUTF(maxFirstlayer);
 		USART_OUTF(c_Aimxfirst);
 		USART_OUTF(Aimyfirst);
 		USART_OUTF(Aimyfirst);
+		USART_OUTF(maxSecondlayer);
 		USART_OUTF(Aimxsecond);
 		USART_OUTF(Aimysecond);
+		
+		USART_OUTF(Ball_counter);
+		USART_OUTF(maxFirstlayer);
+		USART_OUTF(c_Aimxfirst);
+		USART_OUTF(Aimyfirst);
+		USART_OUTF(Aimyfirst);
 		USART_OUTF(maxSecondlayer);
+		USART_OUTF(Aimxsecond);
+		USART_OUTF(Aimysecond);
+	
 		USART_OUT_CHAR("\r\n");
 }

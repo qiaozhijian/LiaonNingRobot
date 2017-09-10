@@ -1,32 +1,13 @@
-#include "stm32f4xx.h"
-#include "usart.h"
-#include "misc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "stm32f4xx_it.h"
-#include "gpio.h"
-#include "usart.h"
-#include "can.h"
-#include "stm32f4xx_usart.h"
-#include "arm_math.h"
 #include "config.h"
-#include "elmo.h"
-#include "sweep.h"
-#include "task.h"
-#include "circle.h"
-#include "camera.h"
-#include "shoot.h"
-#include "tools.h"
-#include "motor.h"
-
-//globle 变量
+//globle全局变量
 Robot_t gRobot;
 int main(void)
 {
 	robotInit();
+	//ReadActualPos(CAN1,GUN_YAW_ID);
 	while (1)
 	{
+		d_getVel();
 		while (getTimeFlag()) //10ms执行进入一次
 		{
 			//			if (gRobot.status & STATUS_SWEEP)
@@ -63,7 +44,8 @@ int main(void)
 			//			USART_OUTF(Key1);
 			//			USART_OUTF(Key2);
 			//			fireTask();
-			//      Sub_Box();
+			      Sub_Box();
+			//			Findball_3();
 			//			Findball_4();
       //			Debug();
 		}

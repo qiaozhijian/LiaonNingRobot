@@ -525,7 +525,6 @@ void WalkTask2(void)
 ****************************************************************************/
 void CirlceSweep(void)											//基础扫场程序
 {
-		static int Rchange=0;
 		x = gRobot.pos.x;												//矫正过的x坐标
 		y = gRobot.pos.y;												//矫正过的y坐标
 		angle = gRobot.pos.angle; 							//矫正过的角度角度

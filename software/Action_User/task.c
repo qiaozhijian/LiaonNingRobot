@@ -1,22 +1,4 @@
-#include "stm32f4xx.h"
-#include "usart.h"
-#include "misc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "stm32f4xx_it.h"
-#include "gpio.h"
-#include "usart.h"
-#include "can.h"
-#include "stm32f4xx_usart.h"
-#include "arm_math.h"
 #include "config.h"
-#include "task.h"
-#include "usart.h"
-#include "elmo.h"
-#include "motor.h"
-#include "dma.h"
-
 extern Robot_t gRobot;
 
 
@@ -28,7 +10,7 @@ void HardWare(void){
 	//CAN初始化
 	CAN_Config(CAN1, 500, GPIOB, GPIO_Pin_8, GPIO_Pin_9);
 	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);
-	
+//	
 	//激光测距初始化
 	Adc_Init();
 	//行程开关初始化
@@ -52,8 +34,8 @@ void elmoInit(void){
 	elmo_Enable(CAN2, 2);
 	
 	//收球电机初始化
-	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	CollectBallVelCtr(35);
+//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+//	CollectBallVelCtr(35);
 
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);

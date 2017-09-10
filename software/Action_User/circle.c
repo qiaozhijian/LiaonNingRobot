@@ -391,8 +391,8 @@ void Findball_1(void)
 			break;
 		case 1:
 			tmpFirst=countEatBallWay1(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,tmp.xstart,tmp.ystart,tmp.anglestart);
-		if(anglerem>0)ShunShiZhenCircleBiHuan(5000,tmpFirst.R,tmpFirst.x,tmpFirst.y);
-		else NiShiZhenCircleBiHuan(5000,tmpFirst.R,tmpFirst.x,tmpFirst.y);
+		if(anglerem>0)ShunShiZhenCircleBiHuan(500,tmpFirst.R,tmpFirst.x,tmpFirst.y);
+		else NiShiZhenCircleBiHuan(500,tmpFirst.R,tmpFirst.x,tmpFirst.y);
 			break;
 		case 2:
 			anglerem=getAngle();
@@ -400,8 +400,8 @@ void Findball_1(void)
 			break;
 		case 3:
 			tmpSecond=countEatBallWay1(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond ,tmp.xstart,tmp.ystart,tmp.anglestart);
-		if(anglerem<0)ShunShiZhenCircleBiHuan(5000,tmpSecond.R,tmpSecond.x,tmpSecond.y);
-		else NiShiZhenCircleBiHuan(5000,tmpSecond.R,tmpSecond.x,tmpSecond.y);
+		if(anglerem<0)ShunShiZhenCircleBiHuan(500,tmpSecond.R,tmpSecond.x,tmpSecond.y);
+		else NiShiZhenCircleBiHuan(500,tmpSecond.R,tmpSecond.x,tmpSecond.y);
 			break;
 		case 4:
 			flag=0;
@@ -467,7 +467,9 @@ void Findball_3(void)
 	{
 		case 0:
 			tmp=Container();
-			flag++;
+			flag=flag+4;
+		if(flag>200)
+			flag=1;
 		  break;
 		case 1:
 				Pointparking(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst);

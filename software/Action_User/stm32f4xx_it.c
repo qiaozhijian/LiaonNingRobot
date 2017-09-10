@@ -41,19 +41,38 @@
 /******************************************************************************/
 
 /************************************************************/
+extern Robot_t gRobot;
 float angle;				//定义角度
 float posX   = 0;	 	//定位系统返回的X坐标
 float posY   = 0;	 	//定位系统返回的Y坐标
 /****************CAn***start******************/
+typedef union{
+	uint8_t buffer[8];
+	int32_t receivebuff[2];
+}Msg_t;
 void CAN1_RX0_IRQHandler(void)
 {
-	static uint8_t buffer[8]={0};
-	static uint8_t length=1;
+	static Msg_t Msg; 
+	static uint8_t length=8;
 	static uint32_t StdId;
-	CAN_RxMsg(CAN1,&StdId,buffer,length);
+	CAN_RxMsg(CAN1,&StdId,Msg.buffer,length);
+	
 	if(StdId==0x30)
 	{
-		setBallColor(buffer[0]);
+		setBallColor(Msg.buffer[0]);
+	}
+	else if(StdId==0x280+GUN_YAW_ID)
+	{
+		if(Msg.receivebuff[0]==0x00005856)
+		{
+			gRobot.Yawvel=Msg.receivebuff[1];
+		}
+		else if(Msg.receivebuff[0]==0x00005850)
+		{
+			//得到位置信息
+			gRobot.Yawangle=(Msg.receivebuff[1]);
+			USART_OUT(UART5,(uint8_t*)"%d",Msg.receivebuff[1]);
+		}
 	}
 	//USART_OUT(UART5,(uint8_t*)"%d\r\n",buffer[0]);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
@@ -168,7 +187,6 @@ void USART1_IRQHandler(void)
 }
 
 
-extern Robot_t gRobot;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
 	static uint8_t ch;
@@ -283,7 +301,7 @@ void USART2_IRQHandler(void)
 		tmp=USART_ReceiveData(USART2);
 	  USART_SendData(UART5,tmp);
 /****************球最多的角度****************/
-if(LEVEL==2)
+if(LEVEL==3)
 {
 		if(tmp==0xDA||flag)
 		{
@@ -306,7 +324,6 @@ else if(LEVEL==4)
 			//当Ball_tmpcounter为0时表明已经没球了
 			Ball_tmpcounter=Ball_counter;
 			setF_ball(Ball_tmpcounter);
-			Ball_counter=0;
 		}
 		switch (i)
 		{

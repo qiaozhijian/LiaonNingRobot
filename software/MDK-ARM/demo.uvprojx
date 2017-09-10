@@ -10,8 +10,7 @@
       <TargetName>ACTION</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
-      <uAC6>0</uAC6>
+      <pCCUsed>5060300::V5.06 update 3 (build 300)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F405RGTx</Device>
@@ -426,11 +425,6 @@
               <FilePath>..\Action_User\pid.c</FilePath>
             </File>
             <File>
-              <FileName>movebase.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\movebase.c</FilePath>
-            </File>
-            <File>
               <FileName>debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\debug.c</FilePath>
@@ -489,11 +483,6 @@
               <FileName>tools.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\tools.c</FilePath>
-            </File>
-            <File>
-              <FileName>movebase.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\movebase.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -690,11 +679,5 @@
       </Groups>
     </Target>
   </Targets>
-
-  <RTE>
-    <apis/>
-    <components/>
-    <files/>
-  </RTE>
 
 </Project>
