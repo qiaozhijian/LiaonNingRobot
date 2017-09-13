@@ -53,7 +53,7 @@ typedef union{
 void CAN1_RX0_IRQHandler(void)
 {
 	static Msg_t Msg; 
-	static uint8_t length=8;
+	static uint8_t length=1;
 	static uint32_t StdId;
 	CAN_RxMsg(CAN1,&StdId,Msg.buffer,length);
 	
@@ -61,20 +61,20 @@ void CAN1_RX0_IRQHandler(void)
 	{
 		setBallColor(Msg.buffer[0]);
 	}
-	else if(StdId==0x280+GUN_YAW_ID)
-	{
-		if(Msg.receivebuff[0]==0x00005856)
-		{
-			gRobot.Yawvel=Msg.receivebuff[1];
-		}
-		else if(Msg.receivebuff[0]==0x00005850)
-		{
-			//得到位置信息
-			gRobot.Yawangle=(Msg.receivebuff[1]);
-			USART_OUT(UART5,(uint8_t*)"%d",Msg.receivebuff[1]);
-		}
-	}
-	//USART_OUT(UART5,(uint8_t*)"%d\r\n",buffer[0]);
+//	else if(StdId==0x280+GUN_YAW_ID)
+//	{
+//		if(Msg.receivebuff[0]==0x00005856)
+//		{
+//			gRobot.Yawvel=Msg.receivebuff[1];
+//		}
+//		else if(Msg.receivebuff[0]==0x00005850)
+//		{
+//			//得到位置信息
+//			gRobot.Yawangle=(Msg.receivebuff[1]);
+////			USART_OUT(UART5,(uint8_t*)"%d",Msg.receivebuff[1]);
+//		}
+//	}
+	USART_OUT(UART5,(uint8_t*)"%d\r\n",Msg.buffer[0]);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -116,17 +116,68 @@ void CAN2_RX0_IRQHandler(void)
 /************************************************************/
 
 /*************��ʱ��2******start************/
-
+int zhuan=0,mubiao=0; 
+int d_flag=0;
 void UART5_IRQHandler(void)
 {
-//	uint8_t data = 0;
-	if(USART_GetFlagStatus(UART5,USART_FLAG_ORE)!=RESET){
-//		data=USART_ReceiveData(UART5);
-	}
-	else if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
+	static int count=0;
+	static uint8_t tmp;
+	if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( UART5,USART_IT_RXNE);
-//		data=USART_ReceiveData(UART5);
+		tmp=USART_ReceiveData(UART5);
+		switch(count)
+		{
+			case 0:
+			if(tmp=='w')
+				count=7;
+			else if(tmp=='b')
+			{
+				count=6;
+			}
+			else if(tmp=='c')
+				count=5;
+			else if(tmp=='m')
+				count=1;
+			else if(tmp=='v')
+				count=3;
+			else if(tmp=='n')
+				count=2;
+			else if(tmp=='a')
+				count=4;
+			else count=0;
+			break;
+			case 1:
+				zhuan++;
+				count=0;
+			break;
+			case 2:
+				mubiao=mubiao+1;
+				count=0;
+			break;
+			case 3:
+				zhuan--;
+				count=0;
+			break;
+			case 4:
+				mubiao=mubiao-1;
+			count=0;
+			break;
+			case 5:
+				d_flag=1;
+				count=0;
+				break;
+			case 6:
+				setBallColor(1);
+				count=0;
+			break;
+			case 7:
+				setBallColor(100);
+				count=0;
+			break;
+			default:
+				break;
+		}
 	}
 	 
 }
@@ -305,7 +356,7 @@ if(LEVEL==3)
 {
 		if(tmp==0xDA||flag)
 		{
-			flag++;
+			flag++; 
 			if(flag==2)
 			{
 				setBestangle(tmp); 

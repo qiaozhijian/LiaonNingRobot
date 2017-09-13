@@ -110,7 +110,7 @@ void CheckOutline(void)//检测是否卡死
 	分情况：启动的时候，走直线的时候，过弯的时候，停下投球，矫正的时候。
 	不一定是小于1  根据应该有的速度设定
 	*/
-	if (stickError > 200)
+	if (stickError > 130)
 	{
 		xStick = getxRem();//记住卡死的坐标
 		yStick = getyRem();

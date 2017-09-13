@@ -416,13 +416,13 @@ uint8_t CAN_TxMsg(CAN_TypeDef* CANx,
 	TxMessage.ExtId=StdId;					 // extended identifier=StdId
 	TxMessage.IDE=CAN_Id_Standard ;			 // type of identifier for the message is Standard
 	TxMessage.RTR=CAN_RTR_Data  ;			 // the type of frame for the message that will be transmitted
-	TxMessage.DLC=len;						 // 发送两帧信息
+	TxMessage.DLC=len;						 // 
 	for(i=0;i<len;i++)
-		TxMessage.Data[i]=Msg[i];			 // 第一帧信息 
+		TxMessage.Data[i]=Msg[i];			 // 
   
 	mbox= CAN_Transmit(CANx, &TxMessage);         //1.4us	
 	i=0;
-	while((CAN_TransmitStatus(CANx, mbox)!= CAN_TxStatus_Ok));//等待238us
+	while((CAN_TransmitStatus(CANx, mbox)!= CAN_TxStatus_Ok));//
 	return 1;		
 }
 

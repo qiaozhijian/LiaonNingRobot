@@ -335,7 +335,7 @@
               <MiscControls>--exceptions</MiscControls>
               <Define>STM32F4XX, USE_STDPERIPH_DRIVER,__FPU_PRESENT=1,__FPU_USED=1,ARM_MATH_CM4,__CC_ARM</Define>
               <Undefine></Undefine>
-              <IncludePath>..\;..\Libraries\CMSIS;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\MDK-ARM;..\MAA;..\MAA\AHRS;..\MAA\MAA_Driver;..\Libraries\dsplib\Include;..\Libraries\dsplib;..\Action_User</IncludePath>
+              <IncludePath>..\;..\Libraries\CMSIS;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\MDK-ARM;..\MAA;..\MAA\AHRS;..\MAA\MAA_Driver;..\Libraries\dsplib\Include;..\Libraries\dsplib;..\Action_User;..\Control_Card</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -483,6 +483,46 @@
               <FileName>tools.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\tools.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CONTROLCARD</GroupName>
+          <Files>
+            <File>
+              <FileName>Bspline.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\Bspline.c</FilePath>
+            </File>
+            <File>
+              <FileName>calculate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\calculate.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>pathFollowing.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\pathFollowing.c</FilePath>
+            </File>
+            <File>
+              <FileName>posSystem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\posSystem.c</FilePath>
+            </File>
+            <File>
+              <FileName>ringbuffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\ringbuffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>SpeedPlaning.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control_Card\SpeedPlaning.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -2,6 +2,7 @@
 
 
 /**********************************************/
+extern Robot_t gRobot;
 /*******************逆时针画圆*****************/
 float CircleAnglePidControl(float ERR)
 {
@@ -361,13 +362,14 @@ Container_t Container(void)
 	tmp.tmpgetAimyfirst=getAimyfirst();
 	tmp.tmpgetAimxsecond=getAimxsecond();
 	tmp.tmpgetAimysecond=getAimysecond();
-	tmp.dis_start2first=Dis(getXpos(),getYpos(),getAimxfirst(),getAimyfirst());
+	tmp.dis_start2first=Dis(gRobot.pos.x,gRobot.pos.y,getAimxfirst(),getAimyfirst());
 	tmp.dis_first2second=Dis(getAimxfirst(),getAimyfirst(),getAimxsecond(),getAimysecond());
 	return tmp;
 }
+
+static int flag=0;
 /************************方案1对应找球1*************************/
 extern int t_FindBall;
-static int flag=0;
 void Findball_1(void)
 {
 	static CircleCenter_t tmpFirst;
@@ -462,25 +464,27 @@ void Findball_2()
 /************************找球方案3************************/
 void Findball_3(void)
 {
- static Container_t tmp;
+	static int flagcount=0;
+	static Container_t tmp;
 	switch(flag)
 	{
 		case 0:
 			tmp=Container();
-			flag=flag+4;
-		if(flag>200)
+			flagcount=flagcount+4;
+		if(flagcount>200)
 			flag=1;
 		  break;
 		case 1:
+			USART_OUT(UART5,(uint8_t*)"ttt%d\t%d\t%d\r\n",(int)tmp.tmpgetAimxfirst,(int)tmp.tmpgetAimyfirst,(int)Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos()));
 				Pointparking(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst);
-			if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<20)
+ 			if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<150)
 				{
 					 flag=2;
 				}
 			break;
 		case 2:
 			Pointparking(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond);
-			if(Dis(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond,getXpos(),getYpos())<20)
+			if(Dis(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond,getXpos(),getYpos())<150)
 				{
 					 flag=3;
 				}

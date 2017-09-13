@@ -1,13 +1,16 @@
 #include "config.h"
 //globle全局变量
 Robot_t gRobot;
+float rightadc,leftadc;
 int main(void)
 {
 	robotInit();
 	//ReadActualPos(CAN1,GUN_YAW_ID);
 	while (1)
 	{
-		d_getVel();
+		//d_getVel();
+//		rightadc=getRightAdc();
+//		leftadc=getLeftAdc();
 		while (getTimeFlag()) //10ms执行进入一次
 		{
 			//			if (gRobot.status & STATUS_SWEEP)
@@ -45,7 +48,7 @@ int main(void)
 			//			USART_OUTF(Key2);
 			//			fireTask();
 			      Sub_Box();
-			//			Findball_3();
+						Findball_3();
 			//			Findball_4();
       //			Debug();
 		}

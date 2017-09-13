@@ -49,6 +49,18 @@ void setBallColor(int temp)
 
 
 /************************GET***********************/
+float GetAngleZ()
+{
+	return getAngle();
+}
+float GetPosx()
+{
+	return getXpos();
+}
+float GetPosy()
+{
+	return getYpos();
+}
 int getF_ball(void)
 {
 	if(f_ball>0)return 1;

@@ -25,8 +25,7 @@
 #include "debug.h"
 #include "dma.h"
 #include "misc.h"
-
-
+#include "look.h"
 
 
 #define PERIOD					      0.01f
@@ -103,10 +102,10 @@
 
 
 //x , y 的最大最小值
-#define X_MAX 
-#define X_MIN
-#define Y_MAX
-#define Y_MIN
+#define Y_MIN 0
+#define X_MAX 2400
+#define X_MIN -2400
+#define Y_MAX 4800
 
 
 

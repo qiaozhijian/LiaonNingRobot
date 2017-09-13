@@ -85,18 +85,17 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		break;
 	}
 
-		USART_OUTF(gRobot.pos.x);
-		USART_OUTF(gRobot.pos.y);
-		USART_OUTF(turnChangeTimes);
-		USART_OUTF(cameraBaseWalk3Par.circleChangeSymbol);
-		USART_OUTF(angle);
-		USART_OUTF(angleError);
-		USART_OUTF(disError);
-		USART_OUTF(piddisShuchu);
-		USART_OUTF(pidZongShuchu);
-		USART_OUTF(cameraBaseWalk3Par.circleChangeSymbol);
-		USART_OUTF(cameraBaseWalk3Par.turnTime);
-		USART_OUT_CHAR("\r\n");
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnChangeTimes);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)cameraBaseWalk3Par.circleChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)cameraBaseWalk3Par.turnTime);
 }
 /****************************************************************************
 * 名    称：AreaCheck()
@@ -108,6 +107,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 ****************************************************************************/
 CameraBaseWalk3Par_t AreaCheck(float x, float y)
 {
+	static int turnTime = 0;//定义转弯直线
 	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 	static CameraBaseWalk3Par_t cameraBaseWalk3Par;
 	static int circleChangeSymbolRem;
@@ -209,6 +209,9 @@ int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)
 extern int Ball_counter;
 void Sub_Box(void)
 {
+	USART_OUT(UART5,(uint8_t*)"getf:%d\r\n",getF_ball());
+if(getF_ball())
+	{
 		int8_t leftAngLimit = -25;
 		int8_t rightAngLimit = 4;
 	
@@ -224,7 +227,7 @@ void Sub_Box(void)
 		float c_Secondbestangle=0;
 		float Aimxsecond=0,Aimysecond=0;
 //第一层
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			int8_t counter1 = 0;
 			for (int j = 0; j < Ball_counter; j++)
@@ -247,7 +250,7 @@ void Sub_Box(void)
 //第二层
 		leftAngLimit = -25;
 		rightAngLimit=-11;
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			int8_t counter2=0;
 			for (int j = 0; j < Ball_counter; j++)
@@ -280,8 +283,29 @@ void Sub_Box(void)
 	  Aimysecond = getYpos() +10* Dis(c_Aimxsecond, c_Aimysecond, 0, 0)*cosf((getAngle() + c_Secondbestangle)*PI / 180) + 220 * cos(getAngle()*PI / 180);
 		setAimxsecond(Aimxsecond);
 		setAimysecond(Aimysecond);
-		Ball_counter=0;
-		d_Sub_Box(Ball_counter,maxFirstlayer,c_Aimxfirst,Aimxfirst,Aimyfirst,c_Aimxsecond,Aimxsecond,Aimysecond,maxSecondlayer);
+		if (maxFirstlayer == 0)
+			{
+				Aimxfirst = 0;
+			}
+		if (maxSecondlayer == 0)
+			{
+				Aimxsecond = 0;
+			}
+	d_Sub_Box(Ball_counter,maxFirstlayer,c_Aimxfirst, Aimxfirst,Aimyfirst,c_Aimxsecond,Aimxsecond,Aimysecond,maxSecondlayer);
+				Ball_counter=0;
+		}
 	}
-	
+//void C_coorchange(int Ball_counter)
+//{
+//	Point_t Cardpoint[Ball_counter];
+//	for(int i=0;i<Ball_counter;i++)
+//	{
+//		Cardpoint[i].x=gRobot.pos.x-10* gRobot.camera[i].dis*sinf((gRobot.pos.angle + gRobot.camera[i].angle)*PI / 180) - 220 * sin(gRobot.pos.angle*PI / 180);
+//		Cardpoint[i].y=gRobot.pos.y+10* gRobot.camera[i].dis*cosf((gRobot.pos.angle + gRobot.camera[i].angle)*PI / 180) + 220 * cos(gRobot.pos.angle*PI / 180);
+//	}
+//}
+//void C_route()
+//{
+//	
+//}
 

@@ -98,9 +98,6 @@ void AgainstWall(float aimAngle,float angle)
 		{
 			VelCrl(CAN2, 1, 0);
 			VelCrl(CAN2, 2, 0);
-			setErr(0,-(2400-getLeftAdc()),0);
-			gRobot.laser.leftDistance=getLeftAdc();
-			gRobot.turnTime = 8;
 		}
 	}
 }
@@ -148,7 +145,7 @@ int turnTimeLead(int lineChangeSymbol)
 	return lead;
 }
 
-void Pointparking(float Pointx,float Pointy)
+int Pointparking(float Pointx,float Pointy)
 {
 //	static float V=700,gRobot.M;
 	static float x=0,y=0,angle=0;
@@ -175,7 +172,7 @@ void Pointparking(float Pointx,float Pointy)
 		}else if(dy<0)
 		{
 			aimAngle=0;
-		}
+		} 
 	}
 	
 	if((dx>0))
@@ -208,17 +205,18 @@ void Pointparking(float Pointx,float Pointy)
 		VelCrl(CAN2, 1,4000+AnglePidControl(angleError));	//pid中填入的是差值
 		VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
 	}
-	if(fabs(spacingError)<200&&fabs(spacingError)>150)
+	if(fabs(spacingError)<200&&fabs(spacingError)>80)
 	{
 		VelCrl(CAN2, 1,2000+AnglePidControl(angleError));	//pid中填入的是差值
 		VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
 	}
-	if(fabs(spacingError)>50&&fabs(spacingError)<150)
+	if(fabs(spacingError)>0&&fabs(spacingError)<80)
 	{		
-		VelCrl(CAN2, 1,AnglePidControl(angleError));			//pid中填入的是差值
-		VelCrl(CAN2, 2,-AnglePidControl(angleError));
+		VelCrl(CAN2, 1,0);			//pid中填入的是差值
+		VelCrl(CAN2, 2,0);
+		return 1;
 	}
-	
+	return 0;
 }
 extern float  angle;												//定义角度
 extern float posX ;	 												//定位系统返回的X坐标
@@ -337,7 +335,8 @@ void In2Out()																//基础扫场程序
 			
 
 		case 5:
-			AgainstWall(0,angle);
+		FixTask();
+//			AgainstWall(0,angle);
 		break;
 		
 		case 7:
@@ -495,7 +494,8 @@ void WalkTask2(void)
 
 		case 5:
 				//NiShiZhenCircleBiHuan(1500,1100,0,2400);
-			AgainstWall(0,angle);
+			FixTask();
+//			AgainstWall(0,angle);
 		break;
 		
 		case 7:
@@ -525,11 +525,12 @@ void WalkTask2(void)
 ****************************************************************************/
 void CirlceSweep(void)											//基础扫场程序
 {
+		static int Timer=0;
 		x = gRobot.pos.x;												//矫正过的x坐标
 		y = gRobot.pos.y;												//矫正过的y坐标
 		angle = gRobot.pos.angle; 							//矫正过的角度角度
 		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
-		switch (gRobot.turnTime)
+		switch(gRobot.turnTime)
 		{
 			case 0:
 				Line(600,3400,0,0,1);
@@ -549,7 +550,9 @@ void CirlceSweep(void)											//基础扫场程序
 			
 
 			case 5:
-				AgainstWall(0,angle);
+				FixTask();
+				ShootCtr(60);
+			//	AgainstWall(0,angle);
 			break;
 			
 			case 7:
@@ -557,7 +560,37 @@ void CirlceSweep(void)											//基础扫场程序
 			break;
 				
 			case 8:
-				fireTask();
+			if(gRobot.pos.y<2400)
+			{
+				angleError=angleErrorCount(0,gRobot.pos.angle);
+				VelCrl(CAN2, 1,AnglePidControl(angleError));
+				VelCrl(CAN2, 2,AnglePidControl(angleError));
+			}
+			else if(gRobot.pos.y>2400)
+			{
+				angleError=angleErrorCount(-180,gRobot.pos.angle);
+				VelCrl(CAN2, 1,AnglePidControl(angleError));
+				VelCrl(CAN2, 2,AnglePidControl(angleError));
+			}
+			if(fabs(angleError)<9)
+				gRobot.turnTime=9;
+			break;
+			
+			case 9:
+			if(Pointparking(gRobot.pos.x,2400)==1)
+				gRobot.turnTime=10;
+			break;
+			case 10:
+					fireTask();
+					Timer++;
+			if(Timer==3000)
+			{
+				gRobot.turnTime=15;
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+			}
 			break;
 		
 		
@@ -572,6 +605,7 @@ void CirlceSweep(void)											//基础扫场程序
 					gRobot.turnTime=13;
 				}
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
 				break;
 				
 			case 13:
@@ -580,20 +614,57 @@ void CirlceSweep(void)											//基础扫场程序
 					gRobot.turnTime=14;
 				}
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
+				CheckOutline();
 				break;
 				
 			case 14:
-				if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y<1700)
+				if(2050<gRobot.pos.y && gRobot.pos.y<2100 && gRobot.pos.x>1900)
 				{
 					gRobot.turnTime=5;
 				}
 				NiShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;
+				
+				
+				
+			case 15:
+				if(-50<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=16;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;
+			case 16:
+					if(-100<gRobot.pos.x && gRobot.pos.x<-50 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=17;
+				}
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+				CheckOutline();
+				break;
+			case 17:
+					if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=18;
+				}
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
+				break;
+			case 18:
+					if(gRobot.pos.x<-1900 && gRobot.pos.y>2000 && gRobot.pos.y<2050)
+				{
+					gRobot.turnTime=5;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
 				break;
 				
 				default:
 				break;
 		}
-		CheckOutline();
+		USART_OUT(UART5,(uint8_t*)"%d\r\n",gRobot.turnTime);
 }
 
 void WalkTask1(void)

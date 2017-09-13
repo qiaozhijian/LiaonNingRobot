@@ -178,7 +178,7 @@ case 1:
 		if(gRobot.turnTime==4)
 		{
 			lineChangeSymbol++;
-			gRobot.turnTime=0;
+			gRobot.turnTime=11;
 		}
 		if (lineChangeSymbol == 3)
 		{
@@ -188,7 +188,7 @@ case 1:
 //检查是否卡死，若卡死则触发避障
 		CheckOutline();
 //调试程序
-		d_Coor();
-		d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));
+		//d_Coor();
+		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));
 }
 

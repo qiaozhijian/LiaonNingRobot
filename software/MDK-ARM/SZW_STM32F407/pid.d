@@ -40,3 +40,4 @@
 .\szw_stm32f407\pid.o: ..\Action_User\debug.h
 .\szw_stm32f407\pid.o: ..\Action_User\dma.h
 .\szw_stm32f407\pid.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h
+.\szw_stm32f407\pid.o: ..\Action_User\look.h
