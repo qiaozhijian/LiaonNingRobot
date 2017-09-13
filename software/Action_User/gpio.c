@@ -95,6 +95,7 @@ void LEDInit(void)
 
 void BeepInit(void)
 {
+	
 }
 
 void TravelSwitch_Init(void)

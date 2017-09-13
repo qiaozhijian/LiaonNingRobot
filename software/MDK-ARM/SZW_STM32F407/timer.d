@@ -14,7 +14,6 @@
 .\szw_stm32f407\timer.o: ..\Action_User\config.h
 .\szw_stm32f407\timer.o: ..\Action_User\stm32f4xx_it.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
-.\szw_stm32f407\timer.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\math.h
 .\szw_stm32f407\timer.o: ..\Action_User\usart.h
 .\szw_stm32f407\timer.o: ..\Action_User\can.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
@@ -25,6 +24,7 @@
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\arm_math.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cm4.h
+.\szw_stm32f407\timer.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\math.h
 .\szw_stm32f407\timer.o: ..\Action_User\can.h
 .\szw_stm32f407\timer.o: ..\Action_User\elmo.h
 .\szw_stm32f407\timer.o: ..\Action_User\sweep.h
@@ -40,4 +40,5 @@
 .\szw_stm32f407\timer.o: ..\Action_User\avoid.h
 .\szw_stm32f407\timer.o: ..\Action_User\motor.h
 .\szw_stm32f407\timer.o: ..\Action_User\debug.h
-.\szw_stm32f407\timer.o: ..\Control_Card\motion\MotionCard.h
+.\szw_stm32f407\timer.o: ..\Action_User\dma.h
+.\szw_stm32f407\timer.o: ..\Action_User\look.h

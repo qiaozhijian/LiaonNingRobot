@@ -54,6 +54,9 @@ typedef struct {
 	float M;
 	
 	int turnTime;
+	//定义射球装置角度与距离
+	int Yawangle;
+	int Yawvel;
 
 }Robot_t;
 

@@ -1,7 +1,7 @@
 #ifndef FIX_H
 #define FIX_H
 
-
+#include "stdint.h"
 
 
 void setAngle(float val);
@@ -17,5 +17,16 @@ void setErr(float reaAngle,float realX,float realy);
 
 int getLeftAdc(void);
 int getRightAdc(void);
+typedef struct{//??????????????
+	float x;
+	float y;
+}AimPos_t;
+int getAimBorder(void);
+float getFixAngle(int aimBorder);
+int CommitFix(int laserLeftDistance,int laserRightDistance);
+void fixPosFirst(int aimBorder);
+void fixPosSec(int aimBorder);
+AimPos_t Go2NextWall(int aimBorder);
 
+int FixTask(void);
 #endif

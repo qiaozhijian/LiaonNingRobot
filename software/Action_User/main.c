@@ -1,40 +1,16 @@
-#include "stm32f4xx.h"
-#include "usart.h"
-#include "misc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "timer.h"
-#include "stm32f4xx_it.h"
-#include "gpio.h"
-#include "usart.h"
-#include "can.h"
-#include "math.h"
-#include "stm32f4xx_usart.h"
-#include "arm_math.h"
 #include "config.h"
-#include "elmo.h"
-#include "sweep.h"
-#include "task.h"
-#include "circle.h"
-#include "camera.h"
-#include "shoot.h"
-#include "tools.h"
-#include "motor.h"
-
-//globle 变量
+//globle全局变量
 Robot_t gRobot;
+float rightadc,leftadc;
 int main(void)
 {
 	robotInit();
-	//运动控制卡
-	ClearRingBuffer();
-	while(!BufferZizeInit(20))
-	{
-		USART_OUT(UART5,(uint8_t*)"BufferZizeInit Err");
-	}
-	Point_t Move[6]={{1000,1000},{1000,2000},{1000,3000},{1000,4000},{2000,4000},{4000,4000}};
+	//ReadActualPos(CAN1,GUN_YAW_ID);
 	while (1)
 	{
+		//d_getVel();
+//		rightadc=getRightAdc();
+//		leftadc=getLeftAdc();
 		while (getTimeFlag()) //10ms执行进入一次
 		{
 			//			if (gRobot.status & STATUS_SWEEP)
@@ -47,6 +23,7 @@ int main(void)
 			//			}
 			//			else if (gRobot.status & STATUS_CAMERA)
 			//			{
+			
 			//			}
 			//			else if (gRobot.status & STATUS_FIX)
 			//			{
@@ -68,14 +45,13 @@ int main(void)
 			//			逆时针旋转
 			//			CirlceSweep();
 			//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
-			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key1);
-			//			USART_OUT(UART5, (uint8_t *)"%d\t", (int)Key2);
+			//			USART_OUTF(Key1);
+			//			USART_OUTF(Key2);
 			//			fireTask();
-			//      Sub_Box();
+			      Sub_Box();
+						Findball_3();
 			//			Findball_4();
       //			Debug();
-			/*******控制卡测试************/
-			
 		}
 	}
 }

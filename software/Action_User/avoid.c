@@ -2,101 +2,101 @@
 
 extern Robot_t gRobot;
 
-static int turnTimeRemember;												   //¼Ç×¡ÔÚ¿¨ËÀµÄÊ±ºòÊÇÊ²Ã´Ö±ÏßµÄ×´Ì¬£¬µÈµ¹³µcase½áÊøºóÈÃÖØĞÂÌî×°
-static float xStick, yStick;															   //¿¨×¡Ê±´æ´¢µÄÎ»ÖÃÊı¾İ
+static int turnTimeRemember;												   //è®°ä½åœ¨å¡æ­»çš„æ—¶å€™æ˜¯ä»€ä¹ˆç›´çº¿çš„çŠ¶æ€ï¼Œç­‰å€’è½¦caseç»“æŸåè®©é‡æ–°å¡«è£…
+static float xStick, yStick;															   //å¡ä½æ—¶å­˜å‚¨çš„ä½ç½®æ•°æ®
 
  /****************************************************************************
-* Ãû    ³Æ£ºvoid BackCarIn(float angle)
-* ¹¦    ÄÜ£ºÄÚ»·ÌÓÒİ³ÌĞòºóÍË1.5s£¬Íâ×ª45¶È
-* Èë¿Ú²ÎÊı£ºangle//µ±Ç°½Ç¶È
-* ³ö¿Ú²ÎÊı£ºÎŞ
-* Ëµ    Ã÷£ºÎŞ
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼švoid BackCarIn(float angle)
+* åŠŸ    èƒ½ï¼šå†…ç¯é€ƒé€¸ç¨‹åºåé€€1.5sï¼Œå¤–è½¬45åº¦
+* å…¥å£å‚æ•°ï¼šangle//å½“å‰è§’åº¦
+* å‡ºå£å‚æ•°ï¼šæ— 
+* è¯´    æ˜ï¼šæ— 
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/
-void BackCarIn(float angle) //ÄÚ»·µ¹³µ³ÌĞò
+void BackCarIn(float angle) //å†…ç¯å€’è½¦ç¨‹åº
 {
-	static float aimAngle = 0;   //Ä¿±ê½Ç¶È
-	static float angleError = 0; //Ä¿±ê½Ç¶ÈÓëµ±Ç°½Ç¶ÈµÄÆ«²î
-	static int i = 0;																  //Ä¿±ê½Ç¶È±ä»»±êÖ¾Î»
-	static int j = 0; 																//ÔÚ´ËÉèÁ¢±êÖ¾Î»ÔÚĞÅºÅÁ¿10ms½øÈëÒ»´Î£¬´ïµ½ÑÓÊ±µÄĞ§¹û
-	if (i == 0)																		    //Ê¹Ä¿±ê½Ç¶ÈÆ«ÏòÓÒ±ß45
+	static float aimAngle = 0;   //ç›®æ ‡è§’åº¦
+	static float angleError = 0; //ç›®æ ‡è§’åº¦ä¸å½“å‰è§’åº¦çš„åå·®
+	static int i = 0;																  //ç›®æ ‡è§’åº¦å˜æ¢æ ‡å¿—ä½
+	static int j = 0; 																//åœ¨æ­¤è®¾ç«‹æ ‡å¿—ä½åœ¨ä¿¡å·é‡10msè¿›å…¥ä¸€æ¬¡ï¼Œè¾¾åˆ°å»¶æ—¶çš„æ•ˆæœ
+	if (i == 0)																		    //ä½¿ç›®æ ‡è§’åº¦åå‘å³è¾¹45
 	{
-		aimAngle = angle - 45; //ÈÃ³µÍ·Ä¿±ê½Ç¶ÈÓÒÆ«45¶È
+		aimAngle = angle - 45; //è®©è½¦å¤´ç›®æ ‡è§’åº¦å³å45åº¦
 		i = 1;
 	}
 	angleError = angleErrorCount(aimAngle,angle);
 	j++;
 	if (j < 150)
 	{
-		VelCrl(CAN2, 1, -6107); //pidÖĞÌîÈëµÄÊÇ²îÖµ
+		VelCrl(CAN2, 1, -6107); //pidä¸­å¡«å…¥çš„æ˜¯å·®å€¼
 		VelCrl(CAN2, 2,  6107);
 	}else if (j >=150)
 	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pidÖĞÌîÈëµÄÊÇ²îÖµ
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pidä¸­å¡«å…¥çš„æ˜¯å·®å€¼
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
 		if (fabs(angleError) < 5)
 		{
 			gRobot.turnTime = turnTimeRemember;
 			i = 0;
-			j = 0;//Çå¿Õ±êÖ¾Î»
+			j = 0;//æ¸…ç©ºæ ‡å¿—ä½
 		} 
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
 }
  /****************************************************************************
-* Ãû    ³Æ£ºvoid BackCarOut(float angle) 
-* ¹¦    ÄÜ£ºÍâ»·ÌÓÒİ³ÌĞòºóÍË1.5s£¬ÄÚ×ª45¶È
-* Èë¿Ú²ÎÊı£ºangle//µ±Ç°½Ç¶È
-* ³ö¿Ú²ÎÊı£ºÎŞ
-* Ëµ    Ã÷£ºÎŞ
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼švoid BackCarOut(float angle) 
+* åŠŸ    èƒ½ï¼šå¤–ç¯é€ƒé€¸ç¨‹åºåé€€1.5sï¼Œå†…è½¬45åº¦
+* å…¥å£å‚æ•°ï¼šangle//å½“å‰è§’åº¦
+* å‡ºå£å‚æ•°ï¼šæ— 
+* è¯´    æ˜ï¼šæ— 
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/
-void BackCarOut(float angle) //Íâ»·µ¹³µ³ÌĞò
+void BackCarOut(float angle) //å¤–ç¯å€’è½¦ç¨‹åº
 {
-	static float aimAngle = 0;   //Ä¿±ê½Ç¶È
-	static float angleError = 0; //Ä¿±ê½Ç¶ÈÓëµ±Ç°½Ç¶ÈµÄÆ«²î
-	static int i = 0;																  //Ä¿±ê½Ç¶È±ä»»±êÖ¾Î»
-	static int j = 0; 																//ÔÚ´ËÉèÁ¢±êÖ¾Î»ÔÚĞÅºÅÁ¿10ms½øÈëÒ»´Î£¬´ïµ½ÑÓÊ±µÄĞ§¹û
-	if (i == 0)																		  //Ê¹Ä¿±ê½Ç¶ÈÆ«ÏòÓÒ±ß45
+	static float aimAngle = 0;   //ç›®æ ‡è§’åº¦
+	static float angleError = 0; //ç›®æ ‡è§’åº¦ä¸å½“å‰è§’åº¦çš„åå·®
+	static int i = 0;																  //ç›®æ ‡è§’åº¦å˜æ¢æ ‡å¿—ä½
+	static int j = 0; 																//åœ¨æ­¤è®¾ç«‹æ ‡å¿—ä½åœ¨ä¿¡å·é‡10msè¿›å…¥ä¸€æ¬¡ï¼Œè¾¾åˆ°å»¶æ—¶çš„æ•ˆæœ
+	if (i == 0)																		  //ä½¿ç›®æ ‡è§’åº¦åå‘å³è¾¹45
 	{
-		aimAngle = angle + 45; //ÈÃ³µÍ·Ä¿±ê½Ç¶ÈÓÒÆ«45¶È
+		aimAngle = angle + 45; //è®©è½¦å¤´ç›®æ ‡è§’åº¦å³å45åº¦
 		i = 1;
 	}
 	angleError = angleErrorCount(aimAngle,angle);
 	j++;
 	if (j < 150)
 	{
-		VelCrl(CAN2, 1, -6107); //pidÖĞÌîÈëµÄÊÇ²îÖµ
+		VelCrl(CAN2, 1, -6107); //pidä¸­å¡«å…¥çš„æ˜¯å·®å€¼
 		VelCrl(CAN2, 2,  6107);
 	}else if (j >=150)
 	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pidÖĞÌîÈëµÄÊÇ²îÖµ
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pidä¸­å¡«å…¥çš„æ˜¯å·®å€¼
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
 		if (fabs(angleError) < 5)
 		{
 			gRobot.turnTime = turnTimeRemember;
 			i = 0;
-			j = 0;//Çå¿Õ±êÖ¾Î»
+			j = 0;//æ¸…ç©ºæ ‡å¿—ä½
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
 }
  /****************************************************************************
-* Ãû    ³Æ£ºvoid CheckOutline(void) 
-* ¹¦    ÄÜ£º¼ì²âÊÇ·ñ¿¨ËÀ
-* Èë¿Ú²ÎÊı£ºÎŞ
-* ³ö¿Ú²ÎÊı£ºÎŞ
-* Ëµ    Ã÷£ºµ±Ç°ÊÇÍ£ÔÚx=1000 y=0
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼švoid CheckOutline(void) 
+* åŠŸ    èƒ½ï¼šæ£€æµ‹æ˜¯å¦å¡æ­»
+* å…¥å£å‚æ•°ï¼šæ— 
+* å‡ºå£å‚æ•°ï¼šæ— 
+* è¯´    æ˜ï¼šå½“å‰æ˜¯åœåœ¨x=1000 y=0
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/
-void CheckOutline(void)//¼ì²âÊÇ·ñ¿¨ËÀ
+void CheckOutline(void)//æ£€æµ‹æ˜¯å¦å¡æ­»
 {
-	static int stickError = 0;													   //¿¨ËÀ´íÎó»ıÀÛÖµ
+	static int stickError = 0;													   //å¡æ­»é”™è¯¯ç§¯ç´¯å€¼
 	static float xError = 0, yError = 0;
 	turnTimeRemember = gRobot.turnTime;
 	xError = gRobot.pos.x - getxRem();
 	yError = gRobot.pos.y - getyRem();
-	//ÅĞ¶Ï½ø³Ìµ½ÄÄÒ»²½£¨Ìæ»»M£©  --summer
+	//åˆ¤æ–­è¿›ç¨‹åˆ°å“ªä¸€æ­¥ï¼ˆæ›¿æ¢Mï¼‰  --summer
 	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.M != 0)
 	{
 		stickError++;
@@ -106,34 +106,34 @@ void CheckOutline(void)//¼ì²âÊÇ·ñ¿¨ËÀ
 		stickError = 0;
 	}
 	/*
-	200Ì«´ó
-	·ÖÇé¿ö£ºÆô¶¯µÄÊ±ºò£¬×ßÖ±ÏßµÄÊ±ºò£¬¹ıÍäµÄÊ±ºò£¬Í£ÏÂÍ¶Çò£¬½ÃÕıµÄÊ±ºò¡£
-	²»Ò»¶¨ÊÇĞ¡ÓÚ1  ¸ù¾İÓ¦¸ÃÓĞµÄËÙ¶ÈÉè¶¨
+	200å¤ªå¤§
+	åˆ†æƒ…å†µï¼šå¯åŠ¨çš„æ—¶å€™ï¼Œèµ°ç›´çº¿çš„æ—¶å€™ï¼Œè¿‡å¼¯çš„æ—¶å€™ï¼Œåœä¸‹æŠ•çƒï¼ŒçŸ«æ­£çš„æ—¶å€™ã€‚
+	ä¸ä¸€å®šæ˜¯å°äº1  æ ¹æ®åº”è¯¥æœ‰çš„é€Ÿåº¦è®¾å®š
 	*/
-	if (stickError > 200)
+	if (stickError > 130)
 	{
-		xStick = getxRem();//¼Ç×¡¿¨ËÀµÄ×ø±ê
+		xStick = getxRem();//è®°ä½å¡æ­»çš„åæ ‡
 		yStick = getyRem();
 		gRobot.turnTime = 7;
 		stickError = 0;
 	}
 }
  /****************************************************************************
-* Ãû    ³Æ£ºvoid BackCarOut(float angle) 
-* ¹¦    ÄÜ£ºÄÚÍâ»·ÌÓÒİ³ÌĞòºÏ²¢
-* Èë¿Ú²ÎÊı£º xKRem,yKRem,angle¿¨×¡µÄÎ»ÖÃµÄx£¬y×ø±ê£¬ºÍµ±Ç°½Ç¶È
-* ³ö¿Ú²ÎÊı£ºÎŞ
-* Ëµ    Ã÷£ºÎŞ
-* µ÷ÓÃ·½·¨£ºÎŞ 
+* å    ç§°ï¼švoid BackCarOut(float angle) 
+* åŠŸ    èƒ½ï¼šå†…å¤–ç¯é€ƒé€¸ç¨‹åºåˆå¹¶
+* å…¥å£å‚æ•°ï¼š xKRem,yKRem,angleå¡ä½çš„ä½ç½®çš„xï¼Œyåæ ‡ï¼Œå’Œå½“å‰è§’åº¦
+* å‡ºå£å‚æ•°ï¼šæ— 
+* è¯´    æ˜ï¼šæ— 
+* è°ƒç”¨æ–¹æ³•ï¼šæ—  
 ****************************************************************************/
 void BackCar(float angle)
 {
 	angle=gRobot.pos.angle;
-	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//ÄÚ»·
+	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//å†…ç¯
 	{
-		BackCarOut(angle);
+		BackCarIn(angle);
 	}
-	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//Íâ»·
+	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//å¤–ç¯
 	{
 		BackCarOut(angle);
 	}

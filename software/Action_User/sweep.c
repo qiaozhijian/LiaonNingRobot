@@ -33,6 +33,8 @@
 //static float aimAngle = 0;   //目标角度
 //static float angleError = 0; //目标角度与当前角度的偏差
 extern Robot_t gRobot;
+//？？？？？     没必要     的全局变量不要有
+/*******/
 static float x = 0, y = 0, angle = 0;
 static float angleError = 0; //目标角度与当前角度的偏差
 static float aimAngle = 0;   //目标角度
@@ -41,7 +43,7 @@ static float disError = 0;   //距离偏差
 static float pidZongShuchu = 0, piddisShuchu = 0;
 static float spacingError = 0;
 static int lineChangeSymbol=0;
-
+/*****有必要的全局变量可以****/
 
 
  /****************************************************************************
@@ -55,6 +57,7 @@ static int lineChangeSymbol=0;
 int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
+	//？？？？？这两个要结合在一起，不能在矫正的时候卡死
 	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
 	{
 		againstTime++;
@@ -98,9 +101,6 @@ void AgainstWall(float aimAngle,float angle)
 		{
 			VelCrl(CAN2, 1, 0);
 			VelCrl(CAN2, 2, 0);
-			setErr(0,-(2400-getLeftAdc()),0);
-			gRobot.laser.leftDistance=getLeftAdc();
-			gRobot.turnTime = 8;
 		}
 	}
 }
@@ -112,11 +112,13 @@ void AgainstWall(float aimAngle,float angle)
 * 说    明：在函数内部修改vOut1,2等的值能够输出需要的速度
 * 调用方法：无 
 ****************************************************************************/
+//？？？？？？？SelectVelByCircle
 int Vchange(int lineChangeSymbol)
 {
-	static float vOut1 = 1300; 																//外环速度
-	static float vOut2 = 1600;
-	static float vIn = 1100;  																//内环速度
+	//？？？？？？加。f
+	const float vOut1 = 1300.0f; 																//外环速度
+	const float vOut2 = 1600;
+	const float vIn = 1100;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
 		gRobot.M = vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
@@ -130,10 +132,11 @@ int Vchange(int lineChangeSymbol)
 	}
 	return gRobot.M;
 }
-
+//？？？？？？？LineIndex
 int turnTimeLead(int lineChangeSymbol)
 {
-	static int lead=0;
+	//？？？？？？？不需要用static的
+  int lead=0;
 	if (lineChangeSymbol < 1)
 	{
 		lead=400;
@@ -148,7 +151,7 @@ int turnTimeLead(int lineChangeSymbol)
 	return lead;
 }
 
-void Pointparking(float Pointx,float Pointy)
+int Pointparking(float Pointx,float Pointy)
 {
 //	static float V=700,gRobot.M;
 	static float x=0,y=0,angle=0;
@@ -175,7 +178,7 @@ void Pointparking(float Pointx,float Pointy)
 		}else if(dy<0)
 		{
 			aimAngle=0;
-		}
+		} 
 	}
 	
 	if((dx>0))
@@ -208,18 +211,20 @@ void Pointparking(float Pointx,float Pointy)
 		VelCrl(CAN2, 1,4000+AnglePidControl(angleError));	//pid中填入的是差值
 		VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
 	}
-	if(fabs(spacingError)<200&&fabs(spacingError)>150)
+	if(fabs(spacingError)<200&&fabs(spacingError)>80)
 	{
 		VelCrl(CAN2, 1,2000+AnglePidControl(angleError));	//pid中填入的是差值
 		VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
 	}
-	if(fabs(spacingError)>50&&fabs(spacingError)<150)
+	if(fabs(spacingError)>0&&fabs(spacingError)<80)
 	{		
-		VelCrl(CAN2, 1,AnglePidControl(angleError));			//pid中填入的是差值
-		VelCrl(CAN2, 2,-AnglePidControl(angleError));
+		VelCrl(CAN2, 1,0);			//pid中填入的是差值
+		VelCrl(CAN2, 2,0);
+		return 1;
 	}
-	
+	return 0;
 }
+//？？？？？这种extern全局变量不能出现
 extern float  angle;												//定义角度
 extern float posX ;	 												//定位系统返回的X坐标
 extern float posY ;	 												//定位系统返回的Y坐标
@@ -337,7 +342,8 @@ void In2Out()																//基础扫场程序
 			
 
 		case 5:
-			AgainstWall(0,angle);
+		FixTask();
+//			AgainstWall(0,angle);
 		break;
 		
 		case 7:
@@ -362,19 +368,20 @@ void Debug(void)
 
 	
 #if DEBUG==1
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posX);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)posY);
+		USART_OUTF(gRobot.pos.x);
+		USART_OUTF(gRobot.pos.y);
+		USART_OUTF(posX);
+		USART_OUTF(posY);
 		
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)spacingError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.turnTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)lineChangeSymbol);
+		USART_OUTF(angle);//gRobot.pos.angle
+		USART_OUTF(angleError);
+		USART_OUTF(spacingError);
+		USART_OUTF(disError);
+		USART_OUTF(piddisShuchu);
+		USART_OUTF(pidZongShuchu);
+		USART_OUTF(gRobot.turnTime);
+		USART_OUTF(lineChangeSymbol);
+		USART_OUT_CHAR("\r\n");
 //		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
 //#elif
 #endif
@@ -494,7 +501,8 @@ void WalkTask2(void)
 
 		case 5:
 				//NiShiZhenCircleBiHuan(1500,1100,0,2400);
-			AgainstWall(0,angle);
+			FixTask();
+//			AgainstWall(0,angle);
 		break;
 		
 		case 7:
@@ -524,11 +532,12 @@ void WalkTask2(void)
 ****************************************************************************/
 void CirlceSweep(void)											//基础扫场程序
 {
+		static int Timer=0;
 		x = gRobot.pos.x;												//矫正过的x坐标
 		y = gRobot.pos.y;												//矫正过的y坐标
 		angle = gRobot.pos.angle; 							//矫正过的角度角度
 		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
-		switch (gRobot.turnTime)
+		switch(gRobot.turnTime)
 		{
 			case 0:
 				Line(600,3400,0,0,1);
@@ -548,7 +557,9 @@ void CirlceSweep(void)											//基础扫场程序
 			
 
 			case 5:
-				AgainstWall(0,angle);
+				FixTask();
+				ShootCtr(60);
+			//	AgainstWall(0,angle);
 			break;
 			
 			case 7:
@@ -556,7 +567,37 @@ void CirlceSweep(void)											//基础扫场程序
 			break;
 				
 			case 8:
-				fireTask();
+			if(gRobot.pos.y<2400)
+			{
+				angleError=angleErrorCount(0,gRobot.pos.angle);
+				VelCrl(CAN2, 1,AnglePidControl(angleError));
+				VelCrl(CAN2, 2,AnglePidControl(angleError));
+			}
+			else if(gRobot.pos.y>2400)
+			{
+				angleError=angleErrorCount(-180,gRobot.pos.angle);
+				VelCrl(CAN2, 1,AnglePidControl(angleError));
+				VelCrl(CAN2, 2,AnglePidControl(angleError));
+			}
+			if(fabs(angleError)<9)
+				gRobot.turnTime=9;
+			break;
+			
+			case 9:
+			if(Pointparking(gRobot.pos.x,2400)==1)
+				gRobot.turnTime=10;
+			break;
+			case 10:
+					fireTask();
+					Timer++;
+			if(Timer==3000)
+			{
+				gRobot.turnTime=15;
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+				USART_OUT(UART5,(uint8_t*)"hahahah");
+			}
 			break;
 		
 		
@@ -571,6 +612,7 @@ void CirlceSweep(void)											//基础扫场程序
 					gRobot.turnTime=13;
 				}
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
 				break;
 				
 			case 13:
@@ -579,20 +621,57 @@ void CirlceSweep(void)											//基础扫场程序
 					gRobot.turnTime=14;
 				}
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
+				CheckOutline();
 				break;
 				
 			case 14:
-				if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y<1700)
+				if(2050<gRobot.pos.y && gRobot.pos.y<2100 && gRobot.pos.x>1900)
 				{
 					gRobot.turnTime=5;
 				}
 				NiShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;
+				
+				
+				
+			case 15:
+				if(-50<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=16;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;
+			case 16:
+					if(-100<gRobot.pos.x && gRobot.pos.x<-50 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=17;
+				}
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+				CheckOutline();
+				break;
+			case 17:
+					if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y>1700)
+				{
+					gRobot.turnTime=18;
+				}
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
+				break;
+			case 18:
+					if(gRobot.pos.x<-1900 && gRobot.pos.y>2000 && gRobot.pos.y<2050)
+				{
+					gRobot.turnTime=5;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
 				break;
 				
 				default:
 				break;
 		}
-		CheckOutline();
+		USART_OUT(UART5,(uint8_t*)"%d\r\n",gRobot.turnTime);
 }
 
 void WalkTask1(void)

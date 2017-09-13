@@ -2,6 +2,7 @@
 
 
 /**********************************************/
+extern Robot_t gRobot;
 /*******************逆时针画圆*****************/
 float CircleAnglePidControl(float ERR)
 {
@@ -86,17 +87,18 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		v2=-M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)x);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)y);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dx);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)dy);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)kAngle);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)angle);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)angleError);//角度偏差
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)spacingError);//距离
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)aimAngle);
-		USART_OUT(UART5,(uint8_t*) "%d\t",(int)v1);
-		USART_OUT(UART5,(uint8_t*) "%d\r\n",(int)v2);
+		USART_OUTF(x);
+		USART_OUTF(y);
+		USART_OUTF(dx);
+		USART_OUTF(dy);
+		USART_OUTF(kAngle);
+		USART_OUTF(angle);
+		USART_OUTF(angleError);//角度偏差
+		USART_OUTF(spacingError);//距离
+		USART_OUTF(aimAngle);
+		USART_OUTF(v1);
+		USART_OUTF(v2);
+		USART_OUT_CHAR("\r\n");
 }
 /***********************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
@@ -360,13 +362,14 @@ Container_t Container(void)
 	tmp.tmpgetAimyfirst=getAimyfirst();
 	tmp.tmpgetAimxsecond=getAimxsecond();
 	tmp.tmpgetAimysecond=getAimysecond();
-	tmp.dis_start2first=Dis(getXpos(),getYpos(),getAimxfirst(),getAimyfirst());
+	tmp.dis_start2first=Dis(gRobot.pos.x,gRobot.pos.y,getAimxfirst(),getAimyfirst());
 	tmp.dis_first2second=Dis(getAimxfirst(),getAimyfirst(),getAimxsecond(),getAimysecond());
 	return tmp;
 }
+
+static int flag=0;
 /************************方案1对应找球1*************************/
 extern int t_FindBall;
-static int flag=0;
 void Findball_1(void)
 {
 	static CircleCenter_t tmpFirst;
@@ -390,8 +393,8 @@ void Findball_1(void)
 			break;
 		case 1:
 			tmpFirst=countEatBallWay1(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,tmp.xstart,tmp.ystart,tmp.anglestart);
-		if(anglerem>0)ShunShiZhenCircleBiHuan(5000,tmpFirst.R,tmpFirst.x,tmpFirst.y);
-		else NiShiZhenCircleBiHuan(5000,tmpFirst.R,tmpFirst.x,tmpFirst.y);
+		if(anglerem>0)ShunShiZhenCircleBiHuan(500,tmpFirst.R,tmpFirst.x,tmpFirst.y);
+		else NiShiZhenCircleBiHuan(500,tmpFirst.R,tmpFirst.x,tmpFirst.y);
 			break;
 		case 2:
 			anglerem=getAngle();
@@ -399,8 +402,8 @@ void Findball_1(void)
 			break;
 		case 3:
 			tmpSecond=countEatBallWay1(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond ,tmp.xstart,tmp.ystart,tmp.anglestart);
-		if(anglerem<0)ShunShiZhenCircleBiHuan(5000,tmpSecond.R,tmpSecond.x,tmpSecond.y);
-		else NiShiZhenCircleBiHuan(5000,tmpSecond.R,tmpSecond.x,tmpSecond.y);
+		if(anglerem<0)ShunShiZhenCircleBiHuan(500,tmpSecond.R,tmpSecond.x,tmpSecond.y);
+		else NiShiZhenCircleBiHuan(500,tmpSecond.R,tmpSecond.x,tmpSecond.y);
 			break;
 		case 4:
 			flag=0;
@@ -461,23 +464,27 @@ void Findball_2()
 /************************找球方案3************************/
 void Findball_3(void)
 {
- static Container_t tmp;
+	static int flagcount=0;
+	static Container_t tmp;
 	switch(flag)
 	{
 		case 0:
 			tmp=Container();
-			flag++;
+			flagcount=flagcount+4;
+		if(flagcount>200)
+			flag=1;
 		  break;
 		case 1:
+			USART_OUT(UART5,(uint8_t*)"ttt%d\t%d\t%d\r\n",(int)tmp.tmpgetAimxfirst,(int)tmp.tmpgetAimyfirst,(int)Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos()));
 				Pointparking(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst);
-			if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<20)
+ 			if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<150)
 				{
 					 flag=2;
 				}
 			break;
 		case 2:
 			Pointparking(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond);
-			if(Dis(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond,getXpos(),getYpos())<20)
+			if(Dis(tmp.tmpgetAimxsecond,tmp.tmpgetAimysecond,getXpos(),getYpos())<150)
 				{
 					 flag=3;
 				}

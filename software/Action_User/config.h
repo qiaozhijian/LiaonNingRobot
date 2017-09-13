@@ -23,8 +23,9 @@
 #include "avoid.h"
 #include "motor.h"
 #include "debug.h"
-#include "MotionCard.h"
-
+#include "dma.h"
+#include "misc.h"
+#include "look.h"
 
 
 #define PERIOD					      0.01f
@@ -86,8 +87,8 @@
 #define CAMERA_STATUS_1_START 0xDC
 #define CAMERA_STATUS_2_START 0xDA
 #define CAMERA_STATUS_3_START 0xD8
-#define CAMERA_STATUS_4_START 0xD6
-#define CAMERA_STATUS_5_END   0xD5
+#define CAMERA_STATUS_4_START 0xC6
+#define CAMERA_STATUS_5_END   0xC5
 
 
 //行程开关
@@ -101,10 +102,10 @@
 
 
 //x , y 的最大最小值
-#define X_MAX 
-#define X_MIN
-#define Y_MAX
-#define Y_MIN
+#define Y_MIN 0
+#define X_MAX 2400
+#define X_MIN -2400
+#define Y_MAX 4800
 
 
 
