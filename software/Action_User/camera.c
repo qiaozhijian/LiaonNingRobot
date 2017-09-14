@@ -114,12 +114,12 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 	static C_Walk3Par_t c_Walk3Par={0,1};
 	static int circleChangeSymbolRem;
 	static int temp1=0,temp2=0;//temp1=300 提前量267 900 提前460 1800 
-	static int changeFlag=0;//切换
+	static int changeFlag=0;//切换出摄像头状态又回来的时候给一个标志位
 	
 	if (circleChangeSymbol == 0)
 	{
-		temp1 = 2000;
-		temp2 = 1600;
+		temp1 = 1900;//1870
+		temp2 = 1600;//1450
 	}
 	else if (circleChangeSymbol == 1)
 	{
@@ -169,7 +169,7 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 		//SetTurnTimeChange(turnTimeChange);
 	} 
    
-	if(changeFlag==0)
+	if(changeFlag==1)
 	{
 		if ((x > -1200 && x < 1200) && (y > 1100 && y < 3700))//内环
 		{
@@ -180,13 +180,11 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 			c_Walk3Par.circleChangeSymbol = 1;
 		}
 	}
+	
 	if(turnTimeChange>=5)//转了5次弯道后
 	{
-		if(changeFlag==0)
-		{
-			c_Walk3Par.circleChangeSymbol=!c_Walk3Par.circleChangeSymbol;
-			changeFlag=1;
-		} 
+		c_Walk3Par.circleChangeSymbol=!c_Walk3Par.circleChangeSymbol;
+		turnTimeChange=0;
 	}
 	
 	if(getF_ball()!=0)//有球清空转弯次数
