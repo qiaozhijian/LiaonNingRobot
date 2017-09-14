@@ -3,7 +3,7 @@
 
 extern Robot_t gRobot;
 static int turnTimeChange = 0;//记住拐弯的次数
-static int circleChangeSymbol = 0;
+static int circleChangeSymbol = 1;
 extern Robot_t gRobot;
 /****************************************************************************
 * 名    称：CameraBaseWalk3(void)
@@ -36,10 +36,10 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			aimAngle = -90;
 			angleError = angleErrorCount(aimAngle,angle);
 		
-			VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
-			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //角度误差pid和距离误差相结合
+			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
 			CheckOutline();
-			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
+			pidZongShuchu = AnglePidControl(angleError - onceDistancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
 		break;
 
@@ -47,10 +47,10 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			disError = x-(850+c_Walk3Par.circleChangeSymbol*950);
 			aimAngle=0;
 			angleError=angleErrorCount(aimAngle,angle);
-			VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+			VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
 			CheckOutline();
-			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
+			pidZongShuchu = AnglePidControl(angleError + onceDistancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
 		break;
 				
@@ -59,8 +59,8 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			disError = y - (3700 + c_Walk3Par.circleChangeSymbol*500); 
 			aimAngle = 90;
 			angleError = angleErrorCount(aimAngle,angle);
-			VelCrl(CAN2, 1, M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + distancePidControl(disError)));
+			VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
 			CheckOutline();
 			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
@@ -71,8 +71,8 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			disError = x + (850 + c_Walk3Par.circleChangeSymbol*950); 
 			aimAngle = 180;
 			angleError = angleErrorCount(aimAngle,angle);
-			VelCrl(CAN2, 1, M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
-			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - distancePidControl(disError)));
+			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //pid中填入的是差值
+			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
 			CheckOutline();
 			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
 			piddisShuchu = distancePidControl(disError);
@@ -114,12 +114,12 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 	static C_Walk3Par_t c_Walk3Par={0,1};
 	static int circleChangeSymbolRem;
 	static int temp1=0,temp2=0;//temp1=300 提前量267 900 提前460 1800 
+	static int changeFlag=0;//切换
 	
-	
-		if (circleChangeSymbol == 0)
+	if (circleChangeSymbol == 0)
 	{
-		temp1 = 1870;
-		temp2 = 1450;
+		temp1 = 2000;
+		temp2 = 1600;
 	}
 	else if (circleChangeSymbol == 1)
 	{
@@ -165,36 +165,28 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 	if (c_Walk3Par.turnTime != turnTimeRem)
 	{
 		turnTimeChange++;//记住拐弯的次数
-		turnTimeChange = turnTimeChange % 7;//不让他超过6
+		turnTimeChange = turnTimeChange % 6;//不让他超过5
 		//SetTurnTimeChange(turnTimeChange);
 	} 
-
-	if (turnTimeChange < 5)
+   
+	if(changeFlag==0)
 	{
-		if(getF_ball()==0)
+		if ((x > -1200 && x < 1200) && (y > 1100 && y < 3700))//内环
 		{
-			if ((x > -1400 && x < 1400) && (y > 900 && y < 3900))//内环
-			{
-				c_Walk3Par.circleChangeSymbol = 0;
-			}
-			else if ((x < -1400 || x>1400) || (y < 900 || y>3900))//外环
-			{
-				c_Walk3Par.circleChangeSymbol = 1;
-			}
+			c_Walk3Par.circleChangeSymbol = 0;
 		}
-		
-		
-		if (circleChangeSymbolRem != c_Walk3Par.circleChangeSymbol)//当发现其切出摄像头状态再回来的时候圈位置变了，使得自动拐弯的turnTimeChange变量自动清空重新计数
+		else if ((x < -1200 || x>1200) || (y < 1100 || y>3700))//外环
 		{
-			turnTimeChange = 0;
+			c_Walk3Par.circleChangeSymbol = 1;
 		}
-
-	}else if (turnTimeChange == 5)//四条直线都走完了，还没发现球,取反
+	}
+	if(turnTimeChange>=5)//转了5次弯道后
 	{
-		c_Walk3Par.circleChangeSymbol = !c_Walk3Par.circleChangeSymbol;
-	}else if (turnTimeChange == 6)//给一条直线的调整时间
-	{
-		turnTimeChange = 2;
+		if(changeFlag==0)
+		{
+			c_Walk3Par.circleChangeSymbol=!c_Walk3Par.circleChangeSymbol;
+			changeFlag=1;
+		} 
 	}
 	
 	if(getF_ball()!=0)//有球清空转弯次数

@@ -75,7 +75,34 @@ int CheckAgainstWall(void)
 	return 0;
 
 }
- /****************************************************************************
+
+int CheckAgainstWall2(void)
+{
+	static int againstTime=0;//靠在墙上的时间
+	static int errtTime=0;
+	if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1&&//行程开关处罚并且坐标点不变
+		(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0))
+	{
+		againstTime++;
+	}else if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0
+	&&( (TRAVEL_SWITCH_LEFT!=1) || (TRAVEL_SWITCH_RIGHT!=1) )  )
+	{
+		errtTime++;//错误累加
+		againstTime=0;
+	}
+	if (againstTime > 150)
+	{
+		againstTime=0;
+		return 1; //另外一种标志方案
+	}
+	if(errtTime>150)
+	{
+		return 2;
+	}
+	return 0;
+
+}
+/****************************************************************************
 *
 名    称：void AgainstWall(float aimAngle,float angle)
 * 功    能：倒车靠墙程序
@@ -92,7 +119,7 @@ void AgainstWall(float aimAngle,float angle)
 	VelCrl(CAN2, 2, 5000 + AnglePidControl(angleError));
 	if (fabs(angleError) < 8)
 	{
-		if (CheckAgainstWall())
+		if (CheckAgainstWall()==1)
 		{
 			VelCrl(CAN2, 1, 0);
 			VelCrl(CAN2, 2, 0);

@@ -79,7 +79,7 @@ float distancePidControl(float ERR)
 float onceDistancePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 0.08; //0.2
+	static float Kp = 0.025; //0.2
 	static float Ki = 0;
 	static float Kd = 0;
 	static float OUTPUT;

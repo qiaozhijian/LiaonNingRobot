@@ -420,14 +420,14 @@
               <FilePath>..\Action_User\circle.c</FilePath>
             </File>
             <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\pid.c</FilePath>
-            </File>
-            <File>
               <FileName>movebase.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\movebase.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\pid.c</FilePath>
             </File>
           </Files>
         </Group>

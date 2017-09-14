@@ -21,7 +21,7 @@ void setYpos(float val)
 void setErrSingle(float reaAngle)
 {
 	errSingle = reaAngle - angle;
-	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
+//	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
 }
 
 
@@ -30,14 +30,14 @@ void setErrX(float realX)
 	float temp;
 	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
 	errX0 = realX - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
+//	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
 }
 void setErrY(float realy)
 {
 	float temp;
 	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
 	errY0 = realy - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
+//	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
 }
 
 
@@ -183,44 +183,65 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 		commitFix=1;	//说明能够进行矫正
 	}
 	
-	if(laserLeftDistance+laserRightDistance<4800-50)
-	{
-		commitFix=0;//说明要靠下一面墙
-	}
-	else
-	{
-		commitFix=1;	//说明能够进行矫正
-	} 
+//	if(laserLeftDistance+laserRightDistance<4800-50)
+//	{
+//		commitFix=0;//说明要靠下一面墙
+//	}
+//	else
+//	{
+//		commitFix=1;	//说明能够进行矫正
+//	} 
 //	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", commitFix);
 	return commitFix;
 }
 
 void fixPosFirst(int aimBorder)
 {
+	static float x=0,y=0;
+	x=gRobot.pos.x;//定位系统返回的错误坐标
+	y=gRobot.pos.y;
 	switch(aimBorder)
 	{
 		case LEFT_BORDER :
-		{
-			setErr(-90,X_MIN,getRightAdc());
-		}
+			if(getRightAdc()-y >= (4800-getLeftAdc()-y))
+			{
+				setErr(-90,X_MIN,getRightAdc());
+			}
+			else 
+			{
+				setErr(-90,X_MIN,4800-getLeftAdc());
+			}
 		break;
 		
 		case RIGHT_BORDER:
-		{
-			setErr(90,X_MAX,getLeftAdc());
-		}
+			if(getLeftAdc()-y >= (4800-getRightAdc()-y))
+			{
+				setErr(90,X_MAX,getLeftAdc());
+			}else 
+			{
+				setErr(90,X_MAX,4800-getRightAdc());
+			}
 		break;
 		
 		case UP_BORDER:
-		{
-			setErr(180,getRightAdc()-2400,Y_MAX);
-		}
+			if(((getRightAdc()-2400)-x) >= ((2400-getLeftAdc())-x))
+			{
+				setErr(180,getRightAdc()-2400,Y_MAX);
+			}else 
+			{
+				setErr(180,2400-getLeftAdc(),Y_MAX);
+			}
 		break;
 		
 		case DOWN_BORDER :
-		{
-			setErr(0,getLeftAdc()-2400,Y_MIN);
-		}
+			if(((getLeftAdc()-2400)-x) >= ((2400-getRightAdc())-x))
+			{
+				setErr(0,getLeftAdc()-2400,Y_MIN);
+			}
+			else
+			{
+				setErr(0,2400-getRightAdc(),Y_MIN);
+			}
 		break;
 	}
 	USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha1");
@@ -306,7 +327,7 @@ int FixTask(void)
 		if ((fix_status & AGAINST_Wall))//靠墙 1010 & 1000
 		{
 			AgainstWall(fixAngle,gRobot.pos.angle);
-			if (CheckAgainstWall())//检查靠墙
+			if (CheckAgainstWall()==1)//检查靠墙
 			{
 				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
 				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
@@ -338,7 +359,13 @@ int FixTask(void)
 					fix_status |= WAIT_AIM_DIRECTION;
 					fix_status |= TRY_SEC_FIX;
 				}
-			}/*else if()*///靠墙失败
+			}else if(CheckAgainstWall()==2)///靠墙失败
+			{
+					//状态码修改
+					fix_status = 0;
+					fix_status |= WAIT_AIM_DIRECTION;
+					fix_status |= TRY_SEC_FIX;
+			}
 		}
 	}
 	else if (fix_status & TRY_SEC_FIX)
