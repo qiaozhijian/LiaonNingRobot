@@ -60,7 +60,6 @@ else if (ballNum==1)//假如球是黑球
 			
 		launcher.rev=0.98f*(0.01434f*v-6.086f);
 		launcher.rev=launcher.rev+zhuan*zhuansu;
-		b_realvel=launcher.rev;
 			
 		//launcher.rev=v/(66*PI);
 		dx = x0 - x;
@@ -99,16 +98,18 @@ void fireTask(void)
 	{
 		
 		
-		
 //		if(gRobot.Yawangle!=launcher.courceAngle)
 //		{
 //			launcher.courceAngle+=launcher.courceAngle-gRobot.Yawangle;
 //		}
-		YawAngleCtr(launcher.courceAngle);
+		YawAngleCtr(launcher.courceAngle+4);
 	}
 //	if(stopUSARTsignal==0)
 //	{
-		ShootCtr(launcher.rev);
+		ShootCtr(launcher.rev-2.1);
+		USART_OUTF(launcher.rev-2.1);
+	  
+		USART_OUT_CHAR("\r\n");
 //	}
 //	if(10*fabs(nowShootVel-launcher.rev)<1)
 //	{
@@ -137,12 +138,8 @@ void fireTask(void)
 				PushBallReset();
 			}
 			waitAdjust%=300;
-			if(d_flag==1)
-			{
 				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
-				d_fireTask();
-				d_flag=0;
-			}
+			//	d_fireTask();
 }
 
 

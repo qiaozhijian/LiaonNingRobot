@@ -87,18 +87,18 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		v2=-M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		
-		USART_OUTF(x);
-		USART_OUTF(y);
-		USART_OUTF(dx);
-		USART_OUTF(dy);
-		USART_OUTF(kAngle);
-		USART_OUTF(angle);
-		USART_OUTF(angleError);//角度偏差
-		USART_OUTF(spacingError);//距离
-		USART_OUTF(aimAngle);
-		USART_OUTF(v1);
-		USART_OUTF(v2);
-		USART_OUT_CHAR("\r\n");
+//		USART_OUTF(x);
+//		USART_OUTF(y);
+//		USART_OUTF(dx);
+//		USART_OUTF(dy);
+//		USART_OUTF(kAngle);
+//		USART_OUTF(angle);
+//		USART_OUTF(angleError);//角度偏差
+//		USART_OUTF(spacingError);//距离
+//		USART_OUTF(aimAngle);
+//		USART_OUTF(v1);
+//		USART_OUTF(v2);
+//		USART_OUT_CHAR("\r\n");
 }
 /***********************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
@@ -532,6 +532,16 @@ void Findball_4(void)
 	if(fabs(Dis(Xstart,Ystart,getXpos(),getYpos()))>1500)flag=3;
 	t_FindBall=0;
 	}
+/************************找球方案5************************/
+void Findball_5(void)
+{
+	int angleError=0;
+	int aimangle=getBestangle()+gRobot.pos.angle;
+	angleError=angleErrorCount(aimangle,gRobot.pos.angle);
+		VelCrl(CAN2, 1, 7000 + AnglePidControl(angleError));
+		VelCrl(CAN2, 2, -7000 + AnglePidControl(angleError));
+//	USART_OUT(UART5,(uint8_t*)"haaaa%d\r\n",(int)aimangle);
+}
 /*******************找球函数*******************/
 void CameraFindball(int cmodel)
 {
@@ -548,6 +558,8 @@ void CameraFindball(int cmodel)
 		case 3:Findball_3();
 		break;
 		case 4:Findball_4();
+		break;
+		case 5:Findball_5();
 		break;
 		default:cmodel=0;
 		//USART_OUT();

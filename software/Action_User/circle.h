@@ -72,6 +72,7 @@ void Findball_1(void);
 void Findball_2(void);
 void Findball_3(void);
 void Findball_4(void);
+void Findball_5(void);
 void CameraFindball(int cmodel);
 #endif /* ___H */
 

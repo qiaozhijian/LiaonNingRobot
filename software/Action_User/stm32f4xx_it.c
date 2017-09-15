@@ -74,7 +74,7 @@ void CAN1_RX0_IRQHandler(void)
 ////			USART_OUT(UART5,(uint8_t*)"%d",Msg.receivebuff[1]);
 //		}
 //	}
-	USART_OUT(UART5,(uint8_t*)"%d\r\n",Msg.buffer[0]);
+	//USART_OUT(UART5,(uint8_t*)"%d\r\n",Msg.buffer[0]);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -303,6 +303,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				setXpos(posX);
 				setYpos(posY);
 				setAngle(angle);
+				gRobot.pos.x=getXpos();
+				gRobot.pos.y=getYpos();
+				gRobot.pos.angle=getAngle();
 			}
 			count = 0;
 			
@@ -310,10 +313,6 @@ void USART3_IRQHandler(void) //更新频率200Hz
 //			{
 //				
 //			}
-				
-			gRobot.pos.x=getXpos();
-			gRobot.pos.y=getYpos();
-			gRobot.pos.angle=getAngle();
 			break;
 
 		default:
@@ -339,8 +338,10 @@ void USART3_IRQHandler(void) //更新频率200Hz
 }
 //树莓派接收图片帧程序程序
 int Ball_counter=0;
+int Ballf=0;
 uint8_t tmp;
 extern Robot_t gRobot;
+extern int numcounter;
 void USART2_IRQHandler(void)
 {
 	static int Ball_tmpcounter=0;
@@ -350,7 +351,7 @@ void USART2_IRQHandler(void)
 	{
 	USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 		tmp=USART_ReceiveData(USART2);
-	  USART_SendData(UART5,tmp);
+//	  USART_SendData(UART5,tmp);
 /****************球最多的角度****************/
 if(LEVEL==3)
 {
@@ -364,6 +365,8 @@ if(LEVEL==3)
 			}
 //			else USART_OUT();
 		}
+		numcounter=0;
+		Ballf=1;
 	}
 /***************所有球的角度和距离***********/
 else if(LEVEL==4)

@@ -21,7 +21,7 @@ void setYpos(float val)
 void setErrSingle(float reaAngle)
 {
 	errSingle = reaAngle - angle;
-	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
+//	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
 }
 
 
@@ -30,14 +30,14 @@ void setErrX(float realX)
 	float temp;
 	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
 	errX0 = realX - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
+//	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
 }
 void setErrY(float realy)
 {
 	float temp;
 	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
 	errY0 = realy - temp;
-	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
+//	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
 }
 
 
@@ -70,7 +70,7 @@ void setErr(float reaAngle,float realX,float realy)
 */
 int getLeftAdc()
 {
-	return 0.9389*Get_Adc_Average(ADC_Channel_15, 10)+428.6575;
+	return 0.9389*Get_Adc_Average(ADC_Channel_15, 200)+428.6575;
 }
 /**
 *	参数 void
@@ -78,7 +78,7 @@ int getLeftAdc()
 */
 int getRightAdc()
 {
-	return 0.9403*Get_Adc_Average(ADC_Channel_14, 10)+435.445;
+	return 0.9403*Get_Adc_Average(ADC_Channel_14, 200)+435.445;
 }
 
 /**
@@ -93,7 +93,7 @@ static int map[4] = {0};
 int getAimBorder(void) //返回距离最小的边界
 {
 	static int i = 0;
-	static int min_num = 0;
+	int min_num = 0;
 	static int temp[4];
 	static int min_dis = 0;
 
@@ -165,7 +165,7 @@ static int fix_status=11;//需要矫正时赋值为11//矫正开始时赋值为1
 int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进行修正激光被挡或者不在激光处理范围内
 {
 	static int commitFix=0;//靠下一面墙的标志位
-	if(gRobot.laser.leftDistance>4000||gRobot.laser.leftDistance<40)
+	if(laserLeftDistance>4096+MOVEBASE_WIDTH/2||laserLeftDistance<40+MOVEBASE_WIDTH/2)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}
@@ -174,7 +174,7 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 		commitFix=1;	//说明能够进行矫正
 	}
 	
-	if(gRobot.laser.rightDistance>4000||gRobot.laser.rightDistance<40)
+	if(laserRightDistance>4096+MOVEBASE_WIDTH/2||laserRightDistance<40+MOVEBASE_WIDTH/2)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}
@@ -183,44 +183,64 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 		commitFix=1;	//说明能够进行矫正
 	}
 	
-	if(laserLeftDistance+laserRightDistance<4800-50)
-	{
-		commitFix=0;//说明要靠下一面墙
-	}
-	else
-	{
-		commitFix=1;	//说明能够进行矫正
-	} 
+//	if(laserLeftDistance+laserRightDistance<4800-50)
+//	{
+//		commitFix=0;//说明要靠下一面墙
+//	}
+//	else
+//	{
+//		commitFix=1;	//说明能够进行矫正
+//	} 
 //	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", commitFix);
 	return commitFix;
 }
-
 void fixPosFirst(int aimBorder)
 {
+	static float x=0,y=0;
+	x=gRobot.pos.x;//定位系统返回的错误坐标
+	y=gRobot.pos.y;
 	switch(aimBorder)
 	{
 		case LEFT_BORDER :
-		{
-			setErr(-90,X_MIN,getRightAdc());
-		}
+			if(fabs(getRightAdc()-y) <= fabs(4800-getLeftAdc()-y))
+			{
+				setErr(-90,X_MIN,getRightAdc());
+			}
+			else 
+			{
+				setErr(-90,X_MIN,4800-getLeftAdc());
+			}
 		break;
 		
 		case RIGHT_BORDER:
-		{
-			setErr(90,X_MAX,getLeftAdc());
-		}
+			if(fabs(getLeftAdc()-y) <= fabs(4800-getRightAdc()-y))
+			{
+				setErr(90,X_MAX,getLeftAdc());
+			}else 
+			{
+				setErr(90,X_MAX,4800-getRightAdc());
+			}
 		break;
 		
 		case UP_BORDER:
-		{
-			setErr(180,getRightAdc()-2400,Y_MAX);
-		}
+			if(fabs((getRightAdc()-2400)-x) <= fabs((2400-getLeftAdc())-x))
+			{
+				setErr(180,getRightAdc()-2400,Y_MAX);
+			}else 
+			{
+				setErr(180,2400-getLeftAdc(),Y_MAX);
+			}
 		break;
 		
 		case DOWN_BORDER :
-		{
-			setErr(0,getLeftAdc()-2400,Y_MIN);
-		}
+			if(fabs((getLeftAdc()-2400)-x) <= fabs((2400-getRightAdc())-x))
+			{
+				setErr(0,getLeftAdc()-2400,Y_MIN);
+			}
+			else
+			{
+				setErr(0,2400-getRightAdc(),Y_MIN);
+			}
 		break;
 	}
 	USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha1");
@@ -315,10 +335,6 @@ int FixTask(void)
 				if(commitFix)//当激光没问题
 				{
 					fixPosFirst(aimBorder);
-					map[0]=0;
-					map[1]=0;
-					map[2]=0;
-					map[3]=0;//之前在判断最小距离墙面的时候将原来靠上的那面墙排除比较，现在恢复让其重新比较
 					fixSuccessFlag=1;
 					//在这里改变状态码
 					fix_status=0;
@@ -356,7 +372,13 @@ int FixTask(void)
 	if(fixSuccessFlag==1)
 	{
 		fix_status=11;
-		gRobot.turnTime=8;
+		fixSuccessFlag= 0;
+		gRobot.turnTime=10;
+		againstTime=0;
+		map[0]=0;
+		map[1]=0;
+		map[2]=0;
+		map[3]=0;//之前在判断最小距离墙面的时候将原来靠上的那面墙排除比较，现在恢复让其重新比较
 	}
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixSuccessFlag);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fix_status);

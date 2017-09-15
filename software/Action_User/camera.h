@@ -4,12 +4,11 @@
 typedef struct {
 	
 	int turnTime;
-	int circleChangeSymbol;//记住circleChangeSymbol当摄像头找球搞得换圈的时候的时候进行清空turnTimeChange
+	int circleChangeSymbol;//circleChangeSymbol ;//内外圈标志位
 	
-}CameraBaseWalk3Par_t;
-
+}C_Walk3Par_t;
 	//全场区域检查
-	CameraBaseWalk3Par_t AreaCheck(float x, float y);
+	C_Walk3Par_t AreaCheck(float x, float y);
 	//摄像头走形
 	void CameraBaseWalk3(void);
 	//单个区域的检查
