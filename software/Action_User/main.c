@@ -8,9 +8,6 @@ int main(void)
 	//ReadActualPos(CAN1,GUN_YAW_ID);
 	while (1)
 	{
-		//d_getVel();
-		rightadc=(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_2));
-		leftadc=(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_0));
 		while (getTimeFlag()) //10ms执行进入一次
 		{
 					//USART_OUT(UART5,(uint8_t*)"%d\t%d\r\n",rightadc,leftadc);
