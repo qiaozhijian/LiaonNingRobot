@@ -19,9 +19,9 @@ void Pos_cfg(CAN_TypeDef *CANx, uint8_t ElmoNum, uint32_t acc, uint32_t dec, uin
 void VelCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, int vel);
 void PosCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, uint8_t rel_abs, int pos);
 
-void ReadActualPos(CAN_TypeDef *CANx, uint8_t ElmoNum);
 void ReadActualVoltage(CAN_TypeDef *CANx, uint8_t ElmoNum);
 void ReadActualCurrent(CAN_TypeDef *CANx, uint8_t ElmoNum);
 void ReadActualVel(CAN_TypeDef *CANx, uint8_t ElmoNum);
+void ReadActualPos(CAN_TypeDef *CANx, uint8_t ElmoNum);
 
 #endif

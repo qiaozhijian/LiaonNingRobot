@@ -577,9 +577,9 @@ switch(gRobot.turnTime)
 			{
 				gRobot.turnTime=15;
 				Timer=0;
-				CollectBallVelCtr(50);
+				CollectBallVelCtr(60);
 				Delay_ms(2000);
-				CollectBallVelCtr(50);
+				CollectBallVelCtr(60);
 			}
 			break;
 		

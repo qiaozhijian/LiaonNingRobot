@@ -42,9 +42,6 @@
 
 /************************************************************/
 extern Robot_t gRobot;
-float angle;				//定义角度
-float posX   = 0;	 	//定位系统返回的X坐标
-float posY   = 0;	 	//定位系统返回的Y坐标
 /****************CAn***start******************/
 typedef union{
 	uint8_t buffer[8];
@@ -52,29 +49,29 @@ typedef union{
 }Msg_t;
 void CAN1_RX0_IRQHandler(void)
 {
-	static Msg_t Msg; 
-	static uint8_t length=1;
+	static Msg_t Can1Msg; 
+	static uint8_t length=8;
 	static uint32_t StdId;
-	CAN_RxMsg(CAN1,&StdId,Msg.buffer,length);
-	
-	if(StdId==0x30)
+	CAN_RxMsg(CAN1,&StdId,Can1Msg.buffer,length);
+/**************球颜色识别CCD***************/
+if(StdId==0x30)
 	{
-		setBallColor(Msg.buffer[0]);
+		setBallColor(Can1Msg.buffer[0]);
 	}
-//	else if(StdId==0x280+GUN_YAW_ID)
-//	{
-//		if(Msg.receivebuff[0]==0x00005856)
-//		{
-//			gRobot.Yawvel=Msg.receivebuff[1];
-//		}
-//		else if(Msg.receivebuff[0]==0x00005850)
-//		{
-//			//得到位置信息
-//			gRobot.Yawangle=(Msg.receivebuff[1]);
-////			USART_OUT(UART5,(uint8_t*)"%d",Msg.receivebuff[1]);
-//		}
-//	}
-	//USART_OUT(UART5,(uint8_t*)"%d\r\n",Msg.buffer[0]);
+/***************航向角电机*****************/
+if(StdId==0x280+GUN_YAW_ID)
+	{
+//得到电机速度
+		if(Can1Msg.receivebuff[0]==0x00005856)
+		{
+			gRobot.Yawvel=Can1Msg.receivebuff[1];
+		}
+//得到位置信息
+		if(Can1Msg.receivebuff[0]==0x00005850)
+		{
+		 gRobot.Yawangle=(Can1Msg.receivebuff[1]);
+		}
+	}
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -95,11 +92,28 @@ void CAN1_RX0_IRQHandler(void)
   */
 void CAN2_RX0_IRQHandler(void)
 {
+	static Msg_t Can2Msg; 
 	static uint32_t StdId;
-	static uint8_t canReceice[8];
 	static uint8_t len=8;
-	CAN_RxMsg(CAN2,&StdId,canReceice,len);
-
+	CAN_RxMsg(CAN2,&StdId,Can2Msg.buffer,len);
+/***************左轮电机*****************/
+if(StdId==0x280+LEFT_MOTOR_WHEEL_ID)
+{
+	//得到电机速度
+		if(Can2Msg.receivebuff[0]==0x00005856)
+		{
+			gRobot.left.speed=Can2Msg.receivebuff[1];
+		}
+}
+/***************右轮电机*****************/
+if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
+{
+	//得到电机速度
+		if(Can2Msg.receivebuff[0]==0x00005856)
+		{
+			gRobot.right.speed=Can2Msg.receivebuff[1];
+		}
+}
 	CAN_ClearFlag(CAN2, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN2, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN2, CAN_FLAG_BOF);
@@ -187,25 +201,22 @@ typedef union
     int32_t velInt32;
     //通过串口发送数据每次只能发8位
     uint8_t velUint8[4];
-
-}BackShootTest_t;
-int stopUSARTsignal=0;
-int32_t nowShootVel=0;
+}MotoReceive_t;
 void USART1_IRQHandler(void)
 {
 	static int i=0,j=0;
-	uint8_t data = 0;
-	BackShootTest_t backShootTest ;
+	static uint8_t data = 0;
+	static MotoReceive_t backShootTest ;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET){
 		data=USART_ReceiveData(USART1);
 		if(data=='V')
 		{
 			i=0;
-			nowShootVel=backShootTest.velInt32;
+			gRobot.RealShooter.speed=backShootTest.velInt32;
 		}else if(data=='R')
 		{
 			i=0;
-			stopUSARTsignal=1;
+			gRobot.RealShooter.VelAchieve=1;
 		}
 		switch (i)
 		{
@@ -217,7 +228,7 @@ void USART1_IRQHandler(void)
 			case 1:
 				backShootTest.velUint8[j]=data;
 				j++;
-			  if(j>4)
+			  if(j>3)
 				{
 					j=0;
 					i=0;
@@ -237,7 +248,9 @@ void USART1_IRQHandler(void)
 	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)backShootTest.velInt32);
 }
 
-
+static float angle;
+static float posX;
+static float posY;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
 	static uint8_t ch;

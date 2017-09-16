@@ -17,6 +17,8 @@ typedef struct {
 typedef struct {
 	float angle;
 	float speed;
+//电机速度达到所给速度标志位
+	int VelAchieve;
 }Shooter_t;
 
 //位置
@@ -44,8 +46,12 @@ typedef struct {
 	Move_t right;
 	//激光的左右距离
 	Laser_t laser;
-	//射球的参数
-	Shooter_t shooter;
+	//白球射球参数
+	Shooter_t Wshooter;
+	//黑球射球参数
+	Shooter_t Bshooter;
+	//实际射球参数
+	Shooter_t RealShooter;
 	 //摄像头
 	Camera_t camera[10];
 	//车的位置
