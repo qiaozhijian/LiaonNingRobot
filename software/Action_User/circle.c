@@ -25,7 +25,6 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		static float 	spacingError;//定义两个点之间的距离
 		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;//当前坐标与圆心的差值
-		static float v1=0,v2=0;
 		//逆时针圆形闭环
 		x=getXpos();//当前x坐标
 		y=getYpos();//当前y坐标
@@ -84,8 +83,6 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		M2=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 		VelCrl(CAN2, 1, M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));      
 		VelCrl(CAN2, 2, -M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
-		v1=M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
-		v2=-M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		
 //		USART_OUTF(x);
 //		USART_OUTF(y);
@@ -96,8 +93,8 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 //		USART_OUTF(angleError);//角度偏差
 //		USART_OUTF(spacingError);//距离
 //		USART_OUTF(aimAngle);
-//		USART_OUTF(v1);
-//		USART_OUTF(v2);
+//		USART_OUTF(M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
+//		USART_OUTF(M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
 //		USART_OUT_CHAR("\r\n");
 }
 /***********************************************************/
@@ -362,7 +359,7 @@ Container_t Container(void)
 	tmp.tmpgetAimyfirst=getAimyfirst();
 	tmp.tmpgetAimxsecond=getAimxsecond();
 	tmp.tmpgetAimysecond=getAimysecond();
-	tmp.dis_start2first=Dis(gRobot.pos.x,gRobot.pos.y,getAimxfirst(),getAimyfirst());
+	tmp.dis_start2first=Dis(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y,getAimxfirst(),getAimyfirst());
 	tmp.dis_first2second=Dis(getAimxfirst(),getAimyfirst(),getAimxsecond(),getAimysecond());
 	return tmp;
 }
@@ -536,8 +533,8 @@ void Findball_4(void)
 void Findball_5(void)
 {
 	int angleError=0;
-	int aimangle=getBestangle()+gRobot.pos.angle;
-	angleError=angleErrorCount(aimangle,gRobot.pos.angle);
+	int aimangle=getBestangle()+gRobot.walk_t.pos.angle;
+	angleError=angleErrorCount(aimangle,gRobot.walk_t.pos.angle);
 		VelCrl(CAN2, 1, 7000 + AnglePidControl(angleError));
 		VelCrl(CAN2, 2, -7000 + AnglePidControl(angleError));
 //	USART_OUT(UART5,(uint8_t*)"haaaa%d\r\n",(int)aimangle);

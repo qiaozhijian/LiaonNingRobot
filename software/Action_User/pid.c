@@ -130,9 +130,9 @@ void Line(float aimX,float aimY,float aimAngle,int line1,int sign)
 	
 				
 					float adjust=0.f;
-		x=gRobot.pos.x;
-		y=gRobot.pos.y;
-		angle=gRobot.pos.angle;
+		x=gRobot.walk_t.pos.x;
+		y=gRobot.walk_t.pos.y;
+		angle=gRobot.walk_t.pos.angle;
 	
 	switch(line1)
 	{
@@ -157,8 +157,8 @@ case 1:
 			distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
 			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError +sign* distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError +sign* distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError +sign* distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError +sign* distancePidControl(disError)));
 			}
 			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
@@ -179,8 +179,8 @@ case 1:
 			lineChangeSymbol=0;
 			gRobot.turnTime = 11 ;
 		}
-							VelCrl(CAN2, 1, gRobot.M + adjust); //pid中填入的是差值
-					VelCrl(CAN2, 2, -gRobot.M + adjust);
+							VelCrl(CAN2, 1, gRobot.walk_t.right.base + adjust); //pid中填入的是差值
+					VelCrl(CAN2, 2,- gRobot.walk_t.left.base + adjust);
 //检查是否卡死，若卡死则触发避障  ？？？？？？？？？？？？放在mian。c里
 		CheckOutline();
 //调试程序

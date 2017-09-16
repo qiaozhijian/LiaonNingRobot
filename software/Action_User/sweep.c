@@ -58,7 +58,7 @@ int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
 	//这两个要结合在一起，不能在矫正的时候卡死
-	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
+	if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&gRobot.walk_t.left.base!=0)
 	{
 		againstTime++;
 	}
@@ -121,16 +121,16 @@ int Vchange(int lineChangeSymbol)
 	const float vIn = 1100;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
-		gRobot.M = vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
 	}else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
 	{
-		gRobot.M = vOut2 / (3.14f * WHEEL_DIAMETER) * 4096.f;
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vOut2 / (3.14f * WHEEL_DIAMETER) * 4096.f;
 	}
 	else if (lineChangeSymbol >= 3)
 	{
-		gRobot.M = vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
 	}
-	return gRobot.M;
+	return gRobot.walk_t.left.base;
 }
 //？？？？？？？LineIndex
 int turnTimeLead(int lineChangeSymbol)
@@ -162,9 +162,9 @@ int Pointparking(float Pointx,float Pointy)
 	static float 	spacingError;													//定义两个点之间的距离
 	static float kAngle;																//直线角度（用actan发回的数据）
 	static float dx,dy;
-	x=gRobot.pos.x;																			//当前x坐标
-	y=gRobot.pos.y;																			//当前y坐标
-	angle=gRobot.pos.angle;															//当前角度
+	x=gRobot.walk_t.pos.x;																			//当前x坐标
+	y=gRobot.walk_t.pos.y;																			//当前y坐标
+	angle=gRobot.walk_t.pos.angle;															//当前角度
 	spacingError=sqrt(pow(x-Pointx,2)+pow(y-Pointy,2));
 	dx=x-Pointx;
 	dy=y-Pointy;
@@ -234,9 +234,9 @@ void Debug(void)
 
 	
 #if DEBUG==1
-		USART_OUTF(gRobot.pos.x);
-		USART_OUTF(gRobot.pos.y);
-		USART_OUTF(angle);//gRobot.pos.angle
+		USART_OUTF(gRobot.walk_t.pos.x);
+		USART_OUTF(gRobot.walk_t.pos.y);
+		USART_OUTF(angle);//gRobot.walk_t.pos.angle
 		USART_OUTF(angleError);
 		USART_OUTF(spacingError);
 		USART_OUTF(disError);
@@ -266,11 +266,11 @@ void WalkTask2(void)
 {
 	
 	//边走边看坐标对不对
-		x = gRobot.pos.x;			//矫正过的x坐标
-		y = gRobot.pos.y;			//矫正过的y坐标
-		angle = gRobot.pos.angle; //矫正过的角度角度
+		x = gRobot.walk_t.pos.x;			//矫正过的x坐标
+		y = gRobot.walk_t.pos.y;			//矫正过的y坐标
+		angle = gRobot.walk_t.pos.angle; //矫正过的角度角度
 
-		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
 	
 		switch (gRobot.turnTime)
 		{
@@ -281,8 +281,8 @@ void WalkTask2(void)
 			distanceStraight = (2000 - LineChange()) - x;
 			if (fabs(distanceStraight) > 900)
 			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
+				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError - distancePidControl(disError)));
 			}
 			if (fabs(distanceStraight) < 900)
 			{
@@ -301,8 +301,8 @@ void WalkTask2(void)
 			distanceStraight = (4400 - LineChange()) - y;
 			if (fabs(distanceStraight) > 900)
 			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError + distancePidControl(disError)));
 			}
 			if (fabs(distanceStraight) < 900)
 			{
@@ -321,8 +321,8 @@ void WalkTask2(void)
 			distanceStraight = -(2000 - LineChange()) - x;
 			if (fabs(distanceStraight) > 900)
 			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError + distancePidControl(disError)));
 			}
 			if (fabs(distanceStraight) < 900)
 			{
@@ -341,8 +341,8 @@ void WalkTask2(void)
 			distanceStraight = y - (500 + LineChange());//100
 			if (fabs(distanceStraight) > 900)
 			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError - distancePidControl(disError)));
 			}
 			if (fabs(distanceStraight) < 900)
 			{
@@ -398,15 +398,16 @@ int numcounter=0;
 void CirlceSweep(void)											//基础扫场程序
 {
 		static int Timer=0;
-		static int Timer1=0;
-		x = gRobot.pos.x;												//矫正过的x坐标
-		y = gRobot.pos.y;												//矫正过的y坐标
-		angle = gRobot.pos.angle; 							//矫正过的角度角度
-		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
-switch(gRobot.turnTime)
+		x = gRobot.walk_t.pos.x;												//矫正过的x坐标
+		y = gRobot.walk_t.pos.y;												//矫正过的y坐标
+		angle = gRobot.walk_t.pos.angle; 							//矫正过的角度角度
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
+		switch(gRobot.turnTime)
 		{
 			case 0:
 				Line(600,3400,0,0,1);
+				/*条件拉出来*/
+				//turnTime+=check();
 			break;
 				
 			case 1:
@@ -430,9 +431,7 @@ switch(gRobot.turnTime)
 			case 7:
 				BackCar(angle);
 			break;
-				
-
-			break;
+			
 			case 10:
 					fireTask();
 					Timer++;
@@ -448,12 +447,12 @@ switch(gRobot.turnTime)
 		
 		
 			case 11:
-				if(200<gRobot.pos.x&&gRobot.pos.x<300)
+				if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
 					gRobot.turnTime=12;
 				break;
 				
 			case 12:
-				if(-100<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y<1700)
+				if(-100<gRobot.walk_t.pos.x && gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<1700)
 				{					gRobot.turnTime=13;
 				}
 			 // circlechange();
@@ -462,7 +461,7 @@ switch(gRobot.turnTime)
 				break;
 				
 			case 13:
-				if(-200<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y<1700)
+				if(-200<gRobot.walk_t.pos.x && gRobot.walk_t.pos.x<-100 && gRobot.walk_t.pos.y<1700)
 				{
 					gRobot.turnTime=14;
 				}
@@ -472,7 +471,7 @@ switch(gRobot.turnTime)
 				break;
 				
 			case 14:
-				if(2000<gRobot.pos.y && gRobot.pos.y<2100 && gRobot.pos.x>1900)
+				if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>1900)
 				{
 					gRobot.turnTime=5;
 				}
@@ -483,7 +482,7 @@ switch(gRobot.turnTime)
 				
 			//摄像头前面校正	
 			case 15:
-				if(-50<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y>1700)
+				if(-50<gRobot.walk_t.pos.x && gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>1700)
 				{
 					gRobot.turnTime=16;
 				}
@@ -499,18 +498,26 @@ switch(gRobot.turnTime)
 				default:
 					break;
 		}
-//		USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\r\n",gRobot.turnTime,(int)gRobot.pos.x,(int)gRobot.pos.y);
-//	  USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t%d\r\n",(int)gRobot.pos.x,(int)gRobot.pos.y,(int)getxRem(),(int)getyRem());
-//	  USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\r\n",(int)gRobot.turnTime,xSign(gRobot.pos.x)*ySign(gRobot.pos.y),xSign(getxRem())*ySign(getyRem()));
+//		USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\r\n",gRobot.turnTime,(int)gRobot.walk_t.pos.x,(int)gRobot.walk_t.pos.y);
+//	  USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.pos.x,(int)gRobot.walk_t.pos.y,(int)getxRem(),(int)getyRem());
+//	  USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\r\n",(int)gRobot.turnTime,xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y),xSign(getxRem())*ySign(getyRem()));
 //		USART_OUT(UART5,(uint8_t*)"camera:%d\r\n",(int)getF_ball());
 }
 
+
+/*
+	if  youqiu
+	if zuobian
+  if youbianduo
+*/
+
+
 void WalkTask1(void)
 {
-		x = gRobot.pos.x;												//矫正过的x坐标
-		y = gRobot.pos.y;												//矫正过的y坐标
-		angle = gRobot.pos.angle; 							//矫正过的角度角度
-		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
+		x = gRobot.walk_t.pos.x;												//矫正过的x坐标
+		y = gRobot.walk_t.pos.y;												//矫正过的y坐标
+		angle = gRobot.walk_t.pos.angle; 							//矫正过的角度角度
+		gRobot.walk_t.left.base=gRobot.walk_t.right.base=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
 		switch (gRobot.turnTime)
 		{
 				case 0:
@@ -522,8 +529,8 @@ void WalkTask1(void)
 				{
 						if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 					{
-						VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
-						VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + onceDistancePidControl(disError)));
+						VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError + onceDistancePidControl(disError)));
 					}
 						if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 					{
@@ -534,8 +541,8 @@ void WalkTask1(void)
 				{		
 					if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 					{
-						VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-						VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
+						VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError + distancePidControl(disError)));
 					}
 					if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 					{
@@ -555,8 +562,8 @@ void WalkTask1(void)
 				distanceStraight = -(600 + lineChangeSymbol*470) - x;
 				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 				{
-					VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-					VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
+					VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
+					VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError + distancePidControl(disError)));
 				}
 				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 				{
@@ -575,8 +582,8 @@ void WalkTask1(void)
 				distanceStraight = y - (1400 + lineChangeSymbol*350);//100
 				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 				{
-					VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
-					VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
+					VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
+					VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError - distancePidControl(disError)));
 				}
 				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 				{
@@ -595,8 +602,8 @@ void WalkTask1(void)
 				distanceStraight = (600 + lineChangeSymbol*470) - x;
 				if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
 				{
-					VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
-					VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
+					VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
+					VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError - distancePidControl(disError)));
 				}
 				if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
 				{

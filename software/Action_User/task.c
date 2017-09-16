@@ -69,23 +69,13 @@ void setRobotStatus(uint8_t status)
 {
     gRobot.status = status;
 }
-/**
-*   入口参数    direction 车的方向 
-*   GO_STRAIGHT
-*   GO_LEFT
-*   GO_RIGHT
-*   GO_BACK
-*/
-void setDirection(uint8_t direction)
-{
-    gRobot.direction = direction;
-}
+
 //
 void setPosition(Position_t *pos)
 {
-    gRobot.pos.x = pos->x;
-    gRobot.pos.y = pos->y;
-    gRobot.pos.angle = pos->angle;
+    gRobot.walk_t.pos.x = pos->x;
+    gRobot.walk_t.pos.y = pos->y;
+    gRobot.walk_t.pos.angle = pos->angle;
 }
 
 void setLeftMove()

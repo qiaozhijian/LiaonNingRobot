@@ -23,9 +23,9 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	static int turnChangeTimes=0;								//记住拐弯的次数
 	static C_Walk3Par_t c_Walk3Par;//摄像头走形的缩圈参数，和直线状态
 	
-	x = gRobot.pos.x;														//矫正过的x坐标
-	y = gRobot.pos.y;														//矫正过的y坐标
-	angle = gRobot.pos.angle; 									//矫正过的角度角度
+	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
+	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
+	angle = gRobot.walk_t.pos.angle; 									//矫正过的角度角度
 	c_Walk3Par=AreaCheck(x,y);
   switch (c_Walk3Par.turnTime)
 	{
@@ -86,11 +86,11 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		break;
 	}
 
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnChangeTimes);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)c_Walk3Par.circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.pos.angle
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
@@ -111,7 +111,6 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 //	static int turnTime = 0;//定义转弯直线
 	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 	static C_Walk3Par_t c_Walk3Par={0,1};
-	static int circleChangeSymbolRem;
 	static int temp1=0,temp2=0;//temp1=300 提前量267 900 提前460 1800 
 	static int changeFlag=0;//切换出摄像头状态又回来的时候给一个标志位
 	static int circleNum=0;
@@ -143,7 +142,6 @@ C_Walk3Par_t AreaCheck(float x, float y)//全区域检查函数
 	
 	
 	turnTimeRem = c_Walk3Par.turnTime;
-	circleChangeSymbolRem = c_Walk3Par.circleChangeSymbol;
 //检查在哪一个区域走相应的直线
 	if (CheckIn(x, y, 5, peakX_Area1, peakY_Area1) == 1)
 	{
@@ -254,10 +252,10 @@ if(getF_ball())
 			int8_t counter1 = 0;
 			for (int j = 0; j < Ball_counter; j++)
 			{
-				if(gRobot.camera[j].dis<=106.5)
+				if(gRobot.camera_t.camrCatch_t.camrPara[j].dis<=106.5)
 					{
 						
-						if (gRobot.camera[j].angle < rightAngLimit && gRobot.camera[j].angle > leftAngLimit)
+						if (gRobot.camera_t.camrCatch_t.camrPara[j].angle < rightAngLimit && gRobot.camera_t.camrCatch_t.camrPara[j].angle > leftAngLimit)
 							counter1++;
 					}
 			}
@@ -277,9 +275,9 @@ if(getF_ball())
 			int8_t counter2=0;
 			for (int j = 0; j < Ball_counter; j++)
 			{
-				 if(gRobot.camera[j].dis>106.5)
+				 if(gRobot.camera_t.camrCatch_t.camrPara[j].dis>106.5)
 					{
-						if (gRobot.camera[j].angle < rightAngLimit && gRobot.camera[j].angle > leftAngLimit)
+						if (gRobot.camera_t.camrCatch_t.camrPara[j].angle < rightAngLimit && gRobot.camera_t.camrCatch_t.camrPara[j].angle > leftAngLimit)
 							counter2++;
 					}
 			}
@@ -322,8 +320,8 @@ if(getF_ball())
 //	Point_t Cardpoint[Ball_counter];
 //	for(int i=0;i<Ball_counter;i++)
 //	{
-//		Cardpoint[i].x=gRobot.pos.x-10* gRobot.camera[i].dis*sinf((gRobot.pos.angle + gRobot.camera[i].angle)*PI / 180) - 220 * sin(gRobot.pos.angle*PI / 180);
-//		Cardpoint[i].y=gRobot.pos.y+10* gRobot.camera[i].dis*cosf((gRobot.pos.angle + gRobot.camera[i].angle)*PI / 180) + 220 * cos(gRobot.pos.angle*PI / 180);
+//		Cardpoint[i].x=gRobot.walk_t.pos.x-10* gRobot.camera_t.camrCatch_t.camrPara[i].dis*sinf((gRobot.walk_t.pos.angle + gRobot.camera_t.camrCatch_t.camrPara[i].angle)*PI / 180) - 220 * sin(gRobot.walk_t.pos.angle*PI / 180);
+//		Cardpoint[i].y=gRobot.walk_t.pos.y+10* gRobot.camera_t.camrCatch_t.camrPara[i].dis*cosf((gRobot.walk_t.pos.angle + gRobot.camera_t.camrCatch_t.camrPara[i].angle)*PI / 180) + 220 * cos(gRobot.walk_t.pos.angle*PI / 180);
 //	}
 //}
 //void C_route()

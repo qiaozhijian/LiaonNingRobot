@@ -85,9 +85,9 @@ void fireTask(void)
 	static Launcher_t launcher;
 	static int timeCounter=0;
 	CollectBallVelCtr(0);
-	x=gRobot.pos.x;														//当前x坐标
-	y=gRobot.pos.y;														//当前y坐标
-	angle=gRobot.pos.angle;										//当前角度
+	x=gRobot.walk_t.pos.x;														//当前x坐标
+	y=gRobot.walk_t.pos.y;														//当前y坐标
+	angle=gRobot.walk_t.pos.angle;										//当前角度
 	ballNum=getBallColor();
 	
 	timeCounter++;
@@ -98,15 +98,15 @@ void fireTask(void)
 	{
 		
 		
-//		if(gRobot.Yawangle!=launcher.courceAngle)
+//		if(gRobot.shoot_t.real.Yawangle!=launcher.courceAngle)
 //		{
-//			launcher.courceAngle+=launcher.courceAngle-gRobot.Yawangle;
+//			launcher.courceAngle+=launcher.courceAngle-gRobot.shoot_t.real.Yawangle;
 //		}
 		YawAngleCtr(launcher.courceAngle+2);
 	}
 //	if(stopUSARTsignal==0)
 //	{
-		ShootCtr(launcher.rev-2.1);
+		ShootCtr(launcher.rev-2.1f);
 		//USART_OUTF(launcher.rev-2.1);
 	  
 	//	USART_OUT_CHAR("\r\n");

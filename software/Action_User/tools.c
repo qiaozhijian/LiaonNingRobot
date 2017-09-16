@@ -117,7 +117,7 @@ float Anglechange(float angle)
 	tmp1=fabs(angle);
 	tmp2=180/PI*asinf(140*sinf((tmp1)*PI/180)/sqrt(20384+7840*cosf((tmp1)*PI/180)));
 	if(angle<0)tmp2=-tmp2;
-	tmp3=gRobot.pos.angle+tmp2;
+	tmp3=gRobot.walk_t.pos.angle+tmp2;
 	if(tmp3<-180)tmp3+=360;
 	else if(tmp3>180)tmp3-=360;
 	return tmp3;
@@ -137,7 +137,7 @@ int ySign(int val)
 void circlechange(void)
 {
 		static int circlerem;
-	 if(xSign(gRobot.pos.x)*ySign(gRobot.pos.y)!=xSign(getxRem())*ySign(getyRem()))
+	 if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)!=xSign(getxRem())*ySign(getyRem()))
 		 circlerem++;
 	 if(circlerem%4==0)
 		 gRobot.turnTime=gRobot.turnTime+1;
@@ -150,12 +150,12 @@ void circlechange(void)
 //	switch(change)
 //	{
 //		case 0:
-//			if(xSign(gRobot.pos.x)*ySign(gRobot.pos.y)<0)
+//			if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)<0)
 //				circlerem++;
 //				change=1;
 //			break;
 //		case 1:
-//			if(xSign(gRobot.pos.x)*ySign(gRobot.pos.y)>0)
+//			if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)>0)
 //				circlerem++;
 //				change=0;
 //		break;

@@ -39,7 +39,7 @@
 ".\szw_stm32f407\stm32f4xx_dcmi.o"
 ".\szw_stm32f407\stm32f4xx_dma.o"
 ".\szw_stm32f407\stm32f4xx_exti.o"
-".\szw_stm32f407\stm32f4xx_flash_1.o"
+".\szw_stm32f407\stm32f4xx_flash.o"
 ".\szw_stm32f407\stm32f4xx_fsmc.o"
 ".\szw_stm32f407\stm32f4xx_gpio.o"
 ".\szw_stm32f407\stm32f4xx_hash.o"

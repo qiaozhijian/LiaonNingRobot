@@ -61,15 +61,9 @@ if(StdId==0x30)
 /***************航向角电机*****************/
 if(StdId==0x280+GUN_YAW_ID)
 	{
-//得到电机速度
-		if(Can1Msg.receivebuff[0]==0x00005856)
-		{
-			gRobot.Yawvel=Can1Msg.receivebuff[1];
-		}
-//得到位置信息
 		if(Can1Msg.receivebuff[0]==0x00005850)
 		{
-		 gRobot.Yawangle=(Can1Msg.receivebuff[1]);
+		 gRobot.shoot_t.real.angle=(Can1Msg.receivebuff[1]);
 		}
 	}
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
@@ -102,7 +96,7 @@ if(StdId==0x280+LEFT_MOTOR_WHEEL_ID)
 	//得到电机速度
 		if(Can2Msg.receivebuff[0]==0x00005856)
 		{
-			gRobot.left.speed=Can2Msg.receivebuff[1];
+			gRobot.walk_t.left.real=Can2Msg.receivebuff[1];
 		}
 }
 /***************右轮电机*****************/
@@ -111,7 +105,7 @@ if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 	//得到电机速度
 		if(Can2Msg.receivebuff[0]==0x00005856)
 		{
-			gRobot.right.speed=Can2Msg.receivebuff[1];
+			gRobot.walk_t.right.real=Can2Msg.receivebuff[1];
 		}
 }
 	CAN_ClearFlag(CAN2, CAN_FLAG_EWG);
@@ -212,11 +206,11 @@ void USART1_IRQHandler(void)
 		if(data=='V')
 		{
 			i=0;
-			gRobot.RealShooter.speed=backShootTest.velInt32;
+			gRobot.shoot_t.real.speed=backShootTest.velInt32;
 		}else if(data=='R')
 		{
 			i=0;
-			gRobot.RealShooter.VelAchieve=1;
+			gRobot.shoot_t.real.VelAchieve=1;
 		}
 		switch (i)
 		{
@@ -316,9 +310,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				setXpos(posX);
 				setYpos(posY);
 				setAngle(angle);
-				gRobot.pos.x=getXpos();
-				gRobot.pos.y=getYpos();
-				gRobot.pos.angle=getAngle();
+				gRobot.walk_t.pos.x=getXpos();
+				gRobot.walk_t.pos.y=getYpos();
+				gRobot.walk_t.pos.angle=getAngle();
 			}
 			count = 0;
 			
@@ -399,11 +393,11 @@ else if(LEVEL==4)
 				i++;
 				break;
 			case 1:
-				gRobot.camera[j].angle=tmp;
+				gRobot.camera_t.camrCatch_t.camrPara[j].angle=tmp;
 			  i++;
 				break;
 			case 2:  
-				gRobot.camera[j].dis=tmp;
+				gRobot.camera_t.camrCatch_t.camrPara[j].dis=tmp;
  				i=1;
 				j++;
 			Ball_counter++;

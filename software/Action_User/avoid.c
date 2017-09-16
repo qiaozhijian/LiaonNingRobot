@@ -94,10 +94,10 @@ void CheckOutline(void)//检测是否卡死
 	static int stickError = 0;													   //卡死错误积累值
 	static float xError = 0, yError = 0;
 	turnTimeRemember = gRobot.turnTime;
-	xError = gRobot.pos.x - getxRem();
-	yError = gRobot.pos.y - getyRem();
+	xError = gRobot.walk_t.pos.x - getxRem();
+	yError = gRobot.walk_t.pos.y - getyRem();
 	//判断进程到哪一步（替换M）  --summer
-	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.M != 0)
+	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.walk_t.left.base != 0)
 	{
 		stickError++;
 	}
@@ -128,7 +128,7 @@ void CheckOutline(void)//检测是否卡死
 ****************************************************************************/
 void BackCar(float angle)
 {
-	angle=gRobot.pos.angle;
+	angle=gRobot.walk_t.pos.angle;
 	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
 	{
 		BackCarIn(angle);

@@ -25,7 +25,7 @@
 #include "debug.h"
 #include "dma.h"
 #include "misc.h"
-#include "look.h"
+#include "MotionCard.h"
 
 
 #define PERIOD					      0.01f

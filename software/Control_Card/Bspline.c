@@ -384,7 +384,6 @@ int BspSegment(int num, Pose_t* points, KeyPointInf_t* keyPoint)
 	float length = 0;
 	float Len = 0;
 	float startLength = 0;
-	float beforeLength = 0;
 	float endLength = 0;
 
 	//计算分段之后的点的个数，然后分配内存空间
@@ -393,8 +392,6 @@ int BspSegment(int num, Pose_t* points, KeyPointInf_t* keyPoint)
 
 	for (int i = 0; i < num + 1; i++)
 	{
-		if (i == num - 1)
-			beforeLength = length;
 		for (float u = 0.01f; u <= 1; u += 0.01f)
 		{
 			float b0 = 1.0f / 6 * (1 - u) * (1 - u) * (1 - u);
@@ -423,7 +420,6 @@ int BspSegment(int num, Pose_t* points, KeyPointInf_t* keyPoint)
 //	keyPoint = (Act3WheelPose *)malloc(sizeof(ActLine2)* number);
 	int resultNum = number + 1;
 	
-	float sumLen = length;
 	Len = 0;
 	length = 0;
 	
