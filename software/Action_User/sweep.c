@@ -57,20 +57,20 @@ static int lineChangeSymbol=0;
 int CheckAgainstWall(void)
 {
 	static int againstTime=0;//靠在墙上的时间
-//	这两个要结合在一起，不能在矫正的时候卡死
-//	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
-//	{
-//		againstTime++;
-//	}
-	if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	//这两个要结合在一起，不能在矫正的时候卡死
+	if(fabs(gRobot.pos.x-getxRem())<1&&fabs(gRobot.pos.y-getyRem())<1&&gRobot.M!=0)
 	{
 		againstTime++;
 	}
+//	if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+//	{
+//		againstTime++;
+//	}
 	else
 	{
 		againstTime = 0;
 	}
-	if (againstTime > 80)
+	if (againstTime > 130)
 	{
 		againstTime=0;
 		return 1; //另外一种标志方案
@@ -573,10 +573,13 @@ switch(gRobot.turnTime)
 			case 10:
 					fireTask();
 					Timer++;
-			if(Timer>2000)
+			if(Timer>3500)
 			{
 				gRobot.turnTime=15;
 				Timer=0;
+				CollectBallVelCtr(50);
+				Delay_ms(2000);
+				CollectBallVelCtr(50);
 			}
 			break;
 		
@@ -588,8 +591,7 @@ switch(gRobot.turnTime)
 				
 			case 12:
 				if(-100<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y<1700)
-				{
-					gRobot.turnTime=13;
+				{					gRobot.turnTime=13;
 				}
 			 // circlechange();
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
@@ -618,37 +620,37 @@ switch(gRobot.turnTime)
 				
 			//摄像头前面校正	
 			case 15:
-				if(-100<gRobot.pos.x && gRobot.pos.x<100 && gRobot.pos.y>1700)
+				if(-50<gRobot.pos.x && gRobot.pos.x<0 && gRobot.pos.y>1700)
 				{
 					gRobot.turnTime=16;
 				}
-				CollectBallVelCtr(35);
-			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
+				ShunShiZhenCircleBiHuan(1800,2000,0,2400);
 				CheckOutline();
-				break;
-				
-				
+				break;  
 			case 16:
-				CameraBaseWalk3();
-				if(Ballf)
+					if(-100<gRobot.pos.x && gRobot.pos.x<-50 && gRobot.pos.y>1700)
 				{
 					gRobot.turnTime=17;
 				}
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
 				CheckOutline();
 				break;
 			case 17:
-				Findball_5();
-				if(LimitTurn(gRobot.pos.x,gRobot.pos.y))
-					gRobot.turnTime=16;
-					numcounter++;
-				if(numcounter>200)
+					if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y>1700)
 				{
-					gRobot.turnTime=16;
+					gRobot.turnTime=18;
 				}
-					Ballf=0;
-				
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
 				break;
-				
+			case 18:
+					if(gRobot.pos.x>1900 && gRobot.pos.y>2700 && gRobot.pos.y<2800)
+				{
+					gRobot.turnTime=5;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;				
 				default:
 					break;
 		}

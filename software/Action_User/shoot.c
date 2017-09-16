@@ -102,14 +102,14 @@ void fireTask(void)
 //		{
 //			launcher.courceAngle+=launcher.courceAngle-gRobot.Yawangle;
 //		}
-		YawAngleCtr(launcher.courceAngle+4);
+		YawAngleCtr(launcher.courceAngle+2);
 	}
 //	if(stopUSARTsignal==0)
 //	{
 		ShootCtr(launcher.rev-2.1);
-		USART_OUTF(launcher.rev-2.1);
+		//USART_OUTF(launcher.rev-2.1);
 	  
-		USART_OUT_CHAR("\r\n");
+	//	USART_OUT_CHAR("\r\n");
 //	}
 //	if(10*fabs(nowShootVel-launcher.rev)<1)
 //	{
@@ -133,11 +133,12 @@ void fireTask(void)
 			{
 				PushBall();
 			}
-			if(waitAdjust<=153&&waitAdjust>150)
+			if(waitAdjust<=203&&waitAdjust>200
+				)
 			{	
 				PushBallReset();
 			}
-			waitAdjust%=300;
+			waitAdjust%=400;
 				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
 			//	d_fireTask();
 }
