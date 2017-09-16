@@ -41,7 +41,7 @@ int main(void)
 			//			WalkTask1();
 			//			WalkTask2();
 			//			逆时针旋转
-			   CirlceSweep();
+			       CirlceSweep();
 			//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
 			//			USART_OUTF(Key1);
 			//			USART_OUTF(Key2);

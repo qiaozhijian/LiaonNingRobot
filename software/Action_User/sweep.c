@@ -224,140 +224,6 @@ int Pointparking(float Pointx,float Pointy)
 	}
 	return 0;
 }
-//？？？？？这种extern全局变量不能出现
-extern float  angle;												//定义角度
-extern float posX ;	 												//定位系统返回的X坐标
-extern float posY ;	 												//定位系统返回的Y坐标
-void In2Out()																//基础扫场程序
-{
-		x = gRobot.pos.x;												//矫正过的x坐标
-		y = gRobot.pos.y;												//矫正过的y坐标
-		angle = gRobot.pos.angle; 							//矫正过的角度角度
-		gRobot.M=Vchange(lineChangeSymbol);			//通过判定lineChangeSymbol给速度脉冲赋值
-		switch (gRobot.turnTime)
-		{
-			case 0:
-				disError = x-(600+ lineChangeSymbol*470);
-				aimAngle=0;
-				angleError=angleErrorCount(aimAngle,angle);
-				distanceStraight=(3400+ lineChangeSymbol*350)-y;
-				if(lineChangeSymbol<1)
-				{
-						if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
-					{
-						VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
-						VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + onceDistancePidControl(disError)));
-					}else if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
-					{
-						distanceStraight = 0;
-						gRobot.turnTime = 1;
-					}
-				}else if(lineChangeSymbol>=1)
-				{		
-					if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
-					{
-						VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-						VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
-					}
-					if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
-					{
-						distanceStraight = 0;
-						gRobot.turnTime = 1;
-					}
-				}
-				CheckOutline();
-				pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
-				piddisShuchu = distancePidControl(disError);
-			break;
-				
-		case 1:
-			disError = y - (3400 +  lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
-			aimAngle = 90;
-			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = -(600 +  lineChangeSymbol*470) - x;
-			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
-			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError + distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError + distancePidControl(disError)));
-			}
-			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
-			{
-				distanceStraight = 0;
-				gRobot.turnTime = 2;
-			}
-			CheckOutline();
-			pidZongShuchu = AnglePidControl(angleError + distancePidControl(disError));
-			piddisShuchu = distancePidControl(disError);
-		break;
-
-		case 2:
-			disError = x + (600 +  lineChangeSymbol*470); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-			aimAngle = 180;
-			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = y - (1400 -  lineChangeSymbol*350);//100
-			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
-			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
-			}
-			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
-			{
-				distanceStraight = 0;
-				gRobot.turnTime = 3;
-			}
-			CheckOutline();
-			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
-			piddisShuchu = distancePidControl(disError);
-		break;
-
-		case 3:
-			disError = y - (1400 -  lineChangeSymbol*350); //初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-			aimAngle = -90;
-			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = (600 +  lineChangeSymbol*470) - x;
-			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
-			{
-				VelCrl(CAN2, 1, gRobot.M + AnglePidControl(angleError - distancePidControl(disError))); //角度误差pid和距离误差相结合
-				VelCrl(CAN2, 2, -gRobot.M + AnglePidControl(angleError - distancePidControl(disError)));
-			}
-			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
-			{
-				distanceStraight = 0;
-				gRobot.turnTime = 0; //重新进入循环
-//				if (lineChangeSymbol < 4)
-//				{
-//					lineChangeSymbol++;
-//				}
-				lineChangeSymbol++;
-				if (lineChangeSymbol == 3)
-				{
-					lineChangeSymbol=0;
-					gRobot.turnTime = 5;
-				}
-			}
-			CheckOutline();
-			pidZongShuchu = AnglePidControl(angleError - distancePidControl(disError));
-			piddisShuchu = distancePidControl(disError);
-		break;
-			
-
-		case 5:
-		FixTask();
-//			AgainstWall(0,angle);
-		break;
-		
-		case 7:
-			BackCar(angle);
-		break;
-			
-		case 8:
-			fireTask();
-		break;
-
-		default:
-		break;
-		}
-}
 
 void Debug(void)
 {
@@ -370,9 +236,6 @@ void Debug(void)
 #if DEBUG==1
 		USART_OUTF(gRobot.pos.x);
 		USART_OUTF(gRobot.pos.y);
-		USART_OUTF(posX);
-		USART_OUTF(posY);
-		
 		USART_OUTF(angle);//gRobot.pos.angle
 		USART_OUTF(angleError);
 		USART_OUTF(spacingError);
@@ -624,33 +487,15 @@ switch(gRobot.turnTime)
 				{
 					gRobot.turnTime=16;
 				}
-				ShunShiZhenCircleBiHuan(1800,2000,0,2400);
+				NiShiZhenCircleBiHuan(1800,2000,0,2400);
 				CheckOutline();
 				break;  
 			case 16:
-					if(-100<gRobot.pos.x && gRobot.pos.x<-50 && gRobot.pos.y>1700)
-				{
-					gRobot.turnTime=17;
-				}
-				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-				CheckOutline();
+				CameraBaseWalk3();
 				break;
 			case 17:
-					if(-150<gRobot.pos.x && gRobot.pos.x<-100 && gRobot.pos.y>1700)
-				{
-					gRobot.turnTime=18;
-				}
-				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-				CheckOutline();
+				
 				break;
-			case 18:
-					if(gRobot.pos.x>1900 && gRobot.pos.y>2700 && gRobot.pos.y<2800)
-				{
-					gRobot.turnTime=5;
-				}
-				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-				CheckOutline();
-				break;				
 				default:
 					break;
 		}
