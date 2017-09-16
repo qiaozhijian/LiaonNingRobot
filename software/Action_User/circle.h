@@ -36,11 +36,6 @@ typedef struct {
 	float y;
 	float R;
 }CircleCenter2_t;
-//定义点的坐标结构体
-typedef struct {  
-	float x;
-	float y;
-}Point_t;
 //定义结构体来存储要改变数据的瞬间值
 typedef struct {
 	 float xstart,ystart,anglestart;
