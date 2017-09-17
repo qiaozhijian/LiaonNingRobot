@@ -16,13 +16,13 @@ float LauncherPidControl(float ERR)
 
 //////////////////////////////////
 //测试
-float b_realvel=0;
-float b_realangle=0;
-float w_realvel=0;
-float w_realangle=0;
- float zhuansu=0.5;
- float mubiaoangle=1 ;
-extern int zhuan,mubiao;
+//float b_realvel=0;
+//float b_realangle=0;
+//float w_realvel=0;
+//float w_realangle=0;
+// float zhuansu=0.5;
+// float mubiaoangle=1 ;
+//extern int zhuan,mubiao;
 /*******************/
 
 Launcher_t Launcher(float x,float y,float angle,int ballNum)
@@ -59,7 +59,7 @@ else if (ballNum==1)//假如球是黑球
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 			
 		launcher.rev=0.98f*(0.01434f*v-6.086f);
-		launcher.rev=launcher.rev+zhuan*zhuansu;
+		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
 		//launcher.rev=v/(66*PI);
 		dx = x0 - x;
@@ -102,11 +102,13 @@ void fireTask(void)
 //		{
 //			launcher.courceAngle+=launcher.courceAngle-gRobot.shoot_t.real.Yawangle;
 //		}
+		
 		YawAngleCtr(launcher.courceAngle+2);
 	}
+	ShootCtr(launcher.rev-2.1f);
 //	if(stopUSARTsignal==0)
 //	{
-		ShootCtr(launcher.rev-2.1f);
+		
 		//USART_OUTF(launcher.rev-2.1);
 	  
 	//	USART_OUT_CHAR("\r\n");
@@ -131,12 +133,12 @@ void fireTask(void)
 				waitAdjust++;
 			if(waitAdjust<=3&&waitAdjust>0)
 			{
-				PushBall();
+				//PushBall();
 			}
 			if(waitAdjust<=203&&waitAdjust>200
 				)
 			{	
-				PushBallReset();
+				//PushBallReset();
 			}
 			waitAdjust%=400;
 				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	

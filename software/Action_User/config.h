@@ -66,12 +66,12 @@
 
 
 //车的状态码
-#define STATUS_SWEEP   (1<<0) //状态 基础扫场
-#define STATUS_CAMERA_WALK   (1<<1) //状态 摄像头走形
-#define STATUS_CAMERA  (1<<2) //状态 摄像头
-#define STATUS_SHOOTER (1<<3) //状态 射球
-#define STATUS_FIX     (1<<4) //状态 矫正
-#define STATUS_AVOID   (1<<5) //状态 避障
+#define STATUS_SWEEP   1 //状态 基础扫场
+#define STATUS_CAMERA_WALK   2 //状态 摄像头走形
+#define STATUS_CAMERA  4 //状态 摄像头
+#define STATUS_SHOOTER 8 //状态 射球
+#define STATUS_FIX     16 //状态 矫正
+#define STATUS_AVOID   32 //状态 避障
 
 
 

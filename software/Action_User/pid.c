@@ -120,71 +120,77 @@ sign:符号位
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void Line(float aimX,float aimY,float aimAngle,int line1,int sign)
+	void Line(float aimX,float aimY,float aimAngle,int line1,int sign)
 {
-		static float x = 0, y = 0, angle = 0;
-		static float angleError = 0; 											//目标角度与当前角度的偏差
-		static float distanceStraight = 0;								//提前量
-		static float disError = 0;   											//距离偏差
+		static float x = 0, y = 0, angle = 0;				
 		static int lineChangeSymbol=0;
-	
-				
-					float adjust=0.f;
 		x=gRobot.walk_t.pos.x;
 		y=gRobot.walk_t.pos.y;
 		angle=gRobot.walk_t.pos.angle;
 	
+	  Vchange(lineChangeSymbol);
+	
 	switch(line1)
 	{
 case 0:
-		disError = x-(aimX+ sign*lineChangeSymbol*470);
-		angleError=angleErrorCount(aimAngle,angle);;
-		distanceStraight=sign*(aimY+ sign*lineChangeSymbol*350)-sign*y;
-		if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+		gRobot.walk_t.pid.disError = x-(aimX+ sign*lineChangeSymbol*470);
+		gRobot.walk_t.pid.angleError=angleErrorCount(aimAngle,angle);;
+		gRobot.walk_t.pid.distanceStraight=sign*(aimY+ sign*lineChangeSymbol*350)-sign*y;
+		
+		if (fabs(gRobot.walk_t.pid.distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
-				adjust=AnglePidControl(angleError +(lineChangeSymbol<1)*sign* onceDistancePidControl(disError))
-				+(lineChangeSymbol>=1)*sign* distancePidControl(disError);
+					if(lineChangeSymbol<1)
+					{
+						VelCrl(CAN2, 1,gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2, -gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError)));
+					}
+					else if(lineChangeSymbol>=1)
+					{
+						VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+						VelCrl(CAN2, 2, -gRobot.walk_t.right.base+ AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError)));
+					}
 			}
-		else if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+		else if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
-					distanceStraight = 0;
-					gRobot.turnTime ++;
+					gRobot.walk_t.pid.distanceStraight = 0;
+					gRobot.walk_t.turntime ++;
 			}
 				break;
 case 1:
-			disError = y - (aimY +  sign*lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
-			angleError = angleErrorCount(aimAngle,angle);
-			distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
-			if (fabs(distanceStraight) > turnTimeLead(lineChangeSymbol))
+			gRobot.walk_t.pid.disError = y - (aimY +  sign*lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
+			gRobot.walk_t.pid.distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
+			if (fabs(gRobot.walk_t.pid.distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
-				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(angleError +sign* distancePidControl(disError))); //pid中填入的是差值
-				VelCrl(CAN2, 2,- gRobot.walk_t.left.base + AnglePidControl(angleError +sign* distancePidControl(disError)));
+				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+				VelCrl(CAN2, 2, -gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError)));
 			}
-			if (fabs(distanceStraight) < turnTimeLead(lineChangeSymbol))
+			if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
-				distanceStraight = 0;
-				gRobot.turnTime++;
+				gRobot.walk_t.pid.distanceStraight = 0;
+				gRobot.walk_t.turntime++;
 			}
 			break;
 			default:
 			break;
-	}
-		if(gRobot.turnTime==4)
-		{
-			lineChangeSymbol++;
-			gRobot.turnTime=11;
 		}
-		if (lineChangeSymbol == 3)
-		{
-			lineChangeSymbol=0;
-			gRobot.turnTime = 11 ;
-		}
-							VelCrl(CAN2, 1, gRobot.walk_t.right.base + adjust); //pid中填入的是差值
-					VelCrl(CAN2, 2,- gRobot.walk_t.left.base + adjust);
-//检查是否卡死，若卡死则触发避障  ？？？？？？？？？？？？放在mian。c里
+//检查是否卡死，若卡死则触发避障
 		CheckOutline();
 //调试程序
 		//d_Coor();
 		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));
+}
+
+/****************************************************************************
+* 名    称：Line1()
+* 功    能：条件检查函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void ConditionCheck()
+{
+	
 }
 

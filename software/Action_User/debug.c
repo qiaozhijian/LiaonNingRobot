@@ -14,11 +14,11 @@ void d_Coor(void)
 		USART_OUTF(gRobot.walk_t.pos.y);
 		USART_OUT_CHAR("\r\n");
 }
-extern float rightadc,leftadc;
-extern float b_realvel;
-extern float b_realangle;
-extern float w_realvel;
-extern float w_realangle;
+//extern float rightadc,leftadc;
+//extern float b_realvel;
+//extern float b_realangle;
+//extern float w_realvel;
+//extern float w_realangle;
 //void d_fireTask(int ballNum,int waitAdjust,float courceAngle,float rev)
 //{
 ////		USART_OUTF(ballNum);
@@ -55,19 +55,19 @@ void d_Sub_Box(int Ball_counter,int maxFirstlayer,int c_Aimxfirst,int Aimxfirst,
 		USART_OUTF(Aimysecond);
 		USART_OUT_CHAR("\r\n");
 }
-extern int ballNum;
-void d_fireTask()
-{
-		USART_OUTF(gRobot.walk_t.pos.angle);
-//		USART_OUTF(gRobot.walk_t.pos.x);
-//		USART_OUTF(gRobot.walk_t.pos.y);
-		USART_OUTF(leftadc);
-		USART_OUTF(rightadc);
-		USART_OUT_INT(ballNum);
-		USART_OUTF(b_realvel);
-		USART_OUTF(b_realangle);
-		USART_OUTF(w_realvel);
-		USART_OUTF(w_realangle);
-	  
-		USART_OUT_CHAR("\r\n");
-}
+//extern int ballNum;
+//void d_fireTask()
+//{
+//		USART_OUTF(gRobot.walk_t.pos.angle);
+////		USART_OUTF(gRobot.walk_t.pos.x);
+////		USART_OUTF(gRobot.walk_t.pos.y);
+//		USART_OUTF(leftadc);
+//		USART_OUTF(rightadc);
+//		USART_OUT_INT(ballNum);
+//		USART_OUTF(b_realvel);
+//		USART_OUTF(b_realangle);
+//		USART_OUTF(w_realvel);
+//		USART_OUTF(w_realangle);
+//	  
+//		USART_OUT_CHAR("\r\n");
+//}

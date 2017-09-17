@@ -374,9 +374,9 @@ void FixTask(void)
 	
 	if(fixSuccessFlag==1)
 	{
+		gRobot.status&=~STATUS_FIX;
 		fix_status=11;
 		fixSuccessFlag= 0;
-		gRobot.turnTime=10;
 		againstTime=0;
 		map[0]=0;
 		map[1]=0;

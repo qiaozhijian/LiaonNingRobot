@@ -73,13 +73,10 @@ int getBallColor(void);
 float Xcoorchange(float x,float y,float angle);
 float Ycoorchange(float x,float y,float angle);
 float Anglechange(float angle);
-/**********************符号判断**********************/
-int xSign(int val);
-int ySign(int val);
 /**********************oher tools********************/
 int LimitTurn(float x,float y);
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop);
-void circlechange(void);
+int circlechange(void);
 #endif /* ___H */
 
 

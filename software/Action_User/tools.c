@@ -122,48 +122,42 @@ float Anglechange(float angle)
 	else if(tmp3>180)tmp3-=360;
 	return tmp3;
 }
-/*******************符号判断函数****************/
-int xSign(int val)
-{
-	if(val>0)return 1;
-	else return -1;
-}
-int ySign(int val)
-{
-	if(val>2400)return 1;
-	else return -1;
-}
 
-void circlechange(void)
+
+/*******************缩圈计数函数****************/
+int circlechange(void)
 {
-		static int circlerem;
-	 if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)!=xSign(getxRem())*ySign(getyRem()))
-		 circlerem++;
-	 if(circlerem%4==0)
-		 gRobot.turnTime=gRobot.turnTime+1;
-		USART_OUT(UART5,(uint8_t*)"%d",circlerem, (int)gRobot.turnTime);
+	static uint8_t Quadrant=1;//象限
+	static int circlenum=0;
+	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y<2400&&Quadrant==0x01)
+	{
+			circlenum++;
+			Quadrant=0x0C;
+	}
+	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y>2400&&Quadrant==0x0C)
+	{
+			circlenum++;
+			Quadrant=0x0A;
+	}
+	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y>2400&&Quadrant==0x0A)
+	{
+			circlenum++;
+			Quadrant=0x07;
+	}
+	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y<2400&&Quadrant==0x07)
+	{
+			circlenum++;
+			Quadrant=0x0E;
+	}
+	
+	if(circlenum==4)
+	{
+		circlenum=0;
+		return 1;
+	}
+	else
+	return 0;
 }
-//void circlechange(void)
-//{
-//	static int circlerem=0;
-//	static int change=0;
-//	switch(change)
-//	{
-//		case 0:
-//			if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)<0)
-//				circlerem++;
-//				change=1;
-//			break;
-//		case 1:
-//			if(xSign(gRobot.walk_t.pos.x)*ySign(gRobot.walk_t.pos.y)>0)
-//				circlerem++;
-//				change=0;
-//		break;
-//		default:
-//			break;
-//		}
-//	gRobot.turnTime=gRobot.turnTime+(int)circlerem/4;
-//}
 int LimitTurn(float x,float y)
 {
 	

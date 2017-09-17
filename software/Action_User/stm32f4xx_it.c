@@ -63,9 +63,20 @@ if(StdId==0x280+GUN_YAW_ID)
 	{
 		if(Can1Msg.receivebuff[0]==0x00005850)
 		{
-		 gRobot.shoot_t.real.angle=(Can1Msg.receivebuff[1]);
+		 gRobot.shoot_t.real.angle=Can1Msg.receivebuff[1];
 		}
+		USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.angle);
 	}
+/**************鏀剁悆鐢垫満*****************/
+if(StdId==0x280+COLLECT_BALL_ID)
+	{
+		if(Can1Msg.receivebuff[0]==0x00005856)
+		{
+		 gRobot.collect_t.real.speed=Can1Msg.receivebuff[1];
+		}
+		USART_OUT(UART5,(uint8_t*)"collect:%d\r\n",(int)gRobot.collect_t.real.speed);
+	}
+
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -78,12 +89,7 @@ if(StdId==0x280+GUN_YAW_ID)
 	CAN_ClearFlag(CAN1, CAN_FLAG_FOV1);
 }
 
-/**
-  * @brief  CAN2 receive FIFO0 interrupt request handler
-  * @note
-  * @param  None
-  * @retval None
-  */
+
 void CAN2_RX0_IRQHandler(void)
 {
 	static Msg_t Can2Msg; 
@@ -120,10 +126,6 @@ if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 	CAN_ClearFlag(CAN2, CAN_FLAG_FOV1);
 }
 
-/****************驱动器CAN1接口模块****end******************/
-/************************************************************/
-
-/*************定时器2******start************/
 int zhuan=0,mubiao=0; 
 int d_flag=0;
 void UART5_IRQHandler(void)
@@ -239,7 +241,9 @@ void USART1_IRQHandler(void)
 		data=USART_ReceiveData(USART1);
 	}
 	
-	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)backShootTest.velInt32);
+	USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t\r\n",(int)backShootTest.velInt32,i,j);
+	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
+	
 }
 
 static float angle;
@@ -348,7 +352,7 @@ int Ball_counter=0;
 int Ballf=0;
 uint8_t tmp;
 extern Robot_t gRobot;
-extern int numcounter;
+//extern int numcounter;
 void USART2_IRQHandler(void)
 {
 	static int Ball_tmpcounter=0;
@@ -372,7 +376,6 @@ if(LEVEL==3)
 			}
 //			else USART_OUT();
 		}
-		numcounter=0;
 		Ballf=1;
 	}
 /***************鎵�鏈夌悆鐨勮搴﹀拰璺濈***********/
