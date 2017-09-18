@@ -1,7 +1,6 @@
 #include "config.h"
 
 extern Robot_t gRobot;
-
 static int turnTimeRemember;												   //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
 static float xStick, yStick;															   //卡住时存储的位置数据
 
@@ -39,6 +38,8 @@ void BackCarIn(float angle) //内环倒车程序
 			gRobot.turnTime = turnTimeRemember;
 			i = 0;
 			j = 0;//清空标志位
+			turnTimeRemember=0;
+			gRobot.status=25;
 		} 
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -77,6 +78,8 @@ void BackCarOut(float angle) //外环倒车程序
 			gRobot.turnTime = turnTimeRemember;
 			i = 0;
 			j = 0;//清空标志位
+			turnTimeRemember=0;
+			gRobot.status=25;
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -116,6 +119,7 @@ void CheckOutline(void)//检测是否卡死
 		yStick = getyRem();
 		gRobot.turnTime = 7;
 		stickError = 0;
+		
 	}
 }
  /****************************************************************************
@@ -138,4 +142,66 @@ void BackCar(float angle)
 		BackCarOut(angle);
 	}
 }	
+void CheckOutline2(void)//检测是否卡死
+{
+	static int stickError = 0;													   //卡死错误积累值
+	static int remTim=0;//用于定时计算速度平均数
+	//每100ms做为速度平均的一个周期
+	turnTimeRemember = gRobot.turnTime;
+	if(remTim<1)
+	{
+		gRobot.avoid_t.posRem.x=getXpos();
+		gRobot.avoid_t.posRem.y=getYpos();
+	}
+	remTim++;
+	if(remTim>=1)
+	{
+		//通过计算出来的真实速度,注意要和定位系统的到轮子的距离进行转化运算
+		gRobot.walk_t.right.real=sqrt((gRobot.walk_t.pos.x-gRobot.avoid_t.posRem.x)*(gRobot.walk_t.pos.x-gRobot.avoid_t.posRem.x)
+		+(gRobot.walk_t.pos.y-gRobot.avoid_t.posRem.y)*(gRobot.walk_t.pos.y-gRobot.avoid_t.posRem.y))/remTim;
+	}
+	remTim%=11;
+	
+	
+	if(gRobot.walk_t.right.real<=gRobot.walk_t.right.aim/30)
+	{
+	  stickError++;
+	}else
+	{
+		stickError = 0;
+	}
+	if (stickError > 10)
+	{
+		xStick = getxRem();//记住卡死的坐标
+		yStick = getyRem();
+		//改变状态码
+		stickError = 0;
+		gRobot.turnTime = 7;
+	}
+}
 
+
+
+void CheckOutline3(void)//检测是否卡死
+{
+	static int stickError = 0;													   //卡死错误积累值
+	//每100ms做为速度平均的一个周期
+	turnTimeRemember = gRobot.turnTime;
+	if(gRobot.walk_t.right.real<=gRobot.walk_t.right.aim*0.3f)
+	{
+	  stickError++;
+	}else
+	{
+		stickError = 0;
+	}
+	if (stickError > 10)
+	{
+		xStick = getxRem();//记住卡死的坐标
+		yStick = getyRem();
+		//改变状态码
+		stickError = 0;
+		gRobot.avoid_t.signal=0;//清零
+		gRobot.status=32;
+	}
+	USART_OUT(UART5,(uint8_t *)"%d\r\n",stickError);
+}

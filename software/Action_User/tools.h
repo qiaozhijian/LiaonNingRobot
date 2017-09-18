@@ -77,6 +77,8 @@ float Anglechange(float angle);
 int LimitTurn(float x,float y);
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop);
 int circlechange(void);
+/**********************数球函数**********************/
+
 #endif /* ___H */
 
 

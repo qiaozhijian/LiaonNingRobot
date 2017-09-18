@@ -1,19 +1,26 @@
 #include "config.h"
 //globle全局变量
 Robot_t gRobot={0};
-int rightadc,leftadc;
+static int count=0;
+static int change=0;
 int main(void)
 {
 	robotInit();
-	ReadActualVel(CAN1,COLLECT_BALL_ID);
 //ReadActualPos(CAN1);
 
 	gRobot.status=25;
+	//gRobot.status=6;
 	//ReadActualPos(CAN1,GUN_YAW_ID);
 	while (1)
 	{
 		while (getTimeFlag()) //10ms执行进入一次
-		{
+		{	
+			count++;
+			if(count>2)
+			{
+				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);
+				count=0;
+			}
 						if (gRobot.status & STATUS_SWEEP)
 						{
 							In2Out();
@@ -26,24 +33,39 @@ int main(void)
 						else if (gRobot.status & STATUS_SHOOTER)
 						{
 							fireTask();
+						}	
+						else if(gRobot.status&STATUS_AVOID)
+						{
+							BackCar(gRobot.walk_t.pos.angle);
+						}	
+						else if(gRobot.status & STATUS_CAMERA_WALK)
+						{
+							CameraBaseWalk3();
 						}
-					
-//						else if(gRobot.status& STATUS_CAMERA_WALK)
-//						{
-
-//						}
-//						else if (gRobot.status & STATUS_CAMERA)
-//						{
-//			
-//						}
-//		
-			//			else if(gRobot.status&STATUS_AVOID)
-			//			{
-
-			//			}
-
-			
+						else if (gRobot.status & STATUS_CAMERA)
+						{
+							Findball_5();
+						}
+					if(gRobot.avoid_t.signal)
+					{
+						CheckOutline3();
+					}
+//USART_OUTF(gRobot.collect_t.real.speed);
+//USART_OUT_CHAR("\r\n");
 			/**************临时测试********/
+//if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
+//	{
+//		change=1;
+//	}
+//if(change==1)
+//	{
+//		CameraBaseWalk3();
+//		change=0;
+//	}
+//if(change==0)
+//	{
+//		Findball_5();
+//	}
 			//			WalkTask1();
 			//			WalkTask2();
 			//			逆时针旋转

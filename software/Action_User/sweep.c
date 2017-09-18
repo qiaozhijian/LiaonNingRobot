@@ -29,20 +29,21 @@
     变量定义区
  
 ****************************************************************************/
+extern Robot_t gRobot;
+static int lineChangeSymbol=0;
 //static float x = 0, y = 0, angle = 0;//当前的x,y坐标和angle
 //static float aimAngle = 0;   //目标角度
 //static float angleError = 0; //目标角度与当前角度的偏差
-extern Robot_t gRobot;
+
 //？？？？？     没必要     的全局变量不要有
 /*******/
-static float x = 0, y = 0, angle = 0;
-static float angleError = 0; //目标角度与当前角度的偏差
-static float aimAngle = 0;   //目标角度
-static float distanceStraight = 0;//提前量
-static float disError = 0;   //距离偏差
-static float pidZongShuchu = 0, piddisShuchu = 0;
-static float spacingError = 0;
-static int lineChangeSymbol=0;
+//static float x = 0, y = 0, angle = 0;
+//static float angleError = 0; //目标角度与当前角度的偏差
+//static float aimAngle = 0;   //目标角度
+//static float distanceStraight = 0;//提前量
+//static float disError = 0;   //距离偏差
+//static float pidZongShuchu = 0, piddisShuchu = 0;
+//static float spacingError = 0;
 /*****有必要的全局变量可以****/
 
 
@@ -91,18 +92,17 @@ int CheckAgainstWall(void)
 ****************************************************************************/
 void AgainstWall(float aimAngle,float angle)
 {
-	static float angleError=0;
-	angleError = angleErrorCount(aimAngle,angle);
-	VelCrl(CAN2, 1, -5000 + AnglePidControl(angleError));
-	VelCrl(CAN2, 2, 5000 + AnglePidControl(angleError));
-	if (fabs(angleError) < 8)
-	{
-		if (CheckAgainstWall())
-		{
-			VelCrl(CAN2, 1, 0);
-			VelCrl(CAN2, 2, 0);
-		}
-	}
+	gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
+	VelCrl(CAN2, 1, -5000 + AnglePidControl(gRobot.walk_t.pid.angleError));
+	VelCrl(CAN2, 2, 5000 + AnglePidControl(gRobot.walk_t.pid.angleError));
+//	if (fabs(gRobot.walk_t.pid.angleError) < 8)
+//	{
+//		if (CheckAgainstWall())
+//		{
+//			VelCrl(CAN2, 1, 0);
+//			VelCrl(CAN2, 2, 0);
+//		}
+//	}
 }
  /****************************************************************************
 * 名    称：void Vchange(int lineChangeSymbol)
@@ -239,30 +239,30 @@ int Pointparking(float Pointx,float Pointy)
 	return 0;
 }
 
-void Debug(void)
-{
-	
-#define DEBUG_SWEEP 1
-	
-#define DEBUG 1
+//void Debug(void)
+//{
+//	
+//#define DEBUG_SWEEP 1
+//	
+//#define DEBUG 1
 
-	
-#if DEBUG==1
-		USART_OUTF(gRobot.walk_t.pos.x);
-		USART_OUTF(gRobot.walk_t.pos.y);
-		USART_OUTF(angle);//gRobot.walk_t.pos.angle
-		USART_OUTF(angleError);
-		USART_OUTF(spacingError);
-		USART_OUTF(disError);
-		USART_OUTF(piddisShuchu);
-		USART_OUTF(pidZongShuchu);
-		USART_OUTF(gRobot.turnTime);
-		USART_OUTF(lineChangeSymbol);
-		USART_OUT_CHAR("\r\n");
-//		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
-//#elif
-#endif
-}
+//	
+//#if DEBUG==1
+//		USART_OUTF(gRobot.walk_t.pos.x);
+//		USART_OUTF(gRobot.walk_t.pos.y);
+//		USART_OUTF(angle);//gRobot.walk_t.pos.angle
+//		USART_OUTF(angleError);
+//		USART_OUTF(spacingError);
+//		USART_OUTF(disError);
+//		USART_OUTF(piddisShuchu);
+//		USART_OUTF(pidZongShuchu);
+//		USART_OUTF(gRobot.turnTime);
+//		USART_OUTF(lineChangeSymbol);
+//		USART_OUT_CHAR("\r\n");
+////		USART_OUT(USART1, (uint8_t *)"%d\t", (int)stickError);
+////#elif
+//#endif
+//}
 
 int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4为内圈返回缩圈距离
 {
@@ -286,9 +286,15 @@ int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4�
 ****************************************************************************/
 void In2Out(void)
 {
+	USART_OUT(UART5,(uint8_t*)"turn:%d",(int)gRobot.walk_t.turntime);
+	if(gRobot.walk_t.right.real>2000)
+	{
+		gRobot.avoid_t.signal=1;
+	}
   switch(gRobot.walk_t.turntime)
 	{
-		case 0:
+		//内圈
+		  case 0:
 				Line(600,3400,0,0,1);
 			break;
 				
@@ -303,27 +309,20 @@ void In2Out(void)
 			case 3:
 				Line(600,1400,-90,1,-1);
 			break;
-			
+		
 			case 4:
 				if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
 					gRobot.walk_t.turntime=5;
 				break;
-				
+			//圆外圈	
 			case 5:
-				if(-100<gRobot.walk_t.pos.x && gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<1700)
-				{					
-					gRobot.walk_t.turntime=6;
-				}
-			 // circlechange();
+			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
 				CheckOutline();
 				break;
 				
 			case 6:
-				if(-200<gRobot.walk_t.pos.x && gRobot.walk_t.pos.x<-100 && gRobot.walk_t.pos.y<1700)
-				{
-					gRobot.walk_t.turntime=7;
-				}
+				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
 				CheckOutline();
 				break;
@@ -340,6 +339,7 @@ void In2Out(void)
 		default:
 			break;
 	}
+
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 

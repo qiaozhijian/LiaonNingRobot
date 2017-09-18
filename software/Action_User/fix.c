@@ -315,6 +315,7 @@ void FixTask(void)
 	AimPos_t aimPos;//二次矫正的停车位
 	
 	/***/
+	gRobot.avoid_t.signal=0;																	//关闭checkoutline()
 	commitFix=CommitFix(laserLeftDistance,laserRightDistance);//判断能否进行矫正
 	
 	
@@ -331,10 +332,12 @@ void FixTask(void)
 			AgainstWall(fixAngle,gRobot.walk_t.pos.angle);
 			if (CheckAgainstWall())//检查靠墙
 			{
-				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
-				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
-				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
-				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+					VelCrl(CAN2, 1, 0);
+					VelCrl(CAN2, 2, 0);
+//				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+//				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+//				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
+//				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
 				if(commitFix)//当激光没问题
 				{
 					fixPosFirst(aimBorder);
@@ -385,23 +388,23 @@ void FixTask(void)
 	}
 	
 	
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixSuccessFlag);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fix_status);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)commitFix);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)aimBorder);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixAngle);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errSingle); //errSingle = realSingle - nowSingle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errX0);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errY0);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getxRem());
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getyRem());
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.angle);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)againstTime);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserLeftDistance);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserRightDistance);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.turnTime);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixSuccessFlag);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fix_status);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)commitFix);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)aimBorder);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)fixAngle);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errSingle); //errSingle = realSingle - nowSingle
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errX0);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)errY0);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getxRem());
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)getyRem());
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.angle);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)againstTime);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserLeftDistance);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserRightDistance);
+//		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.turnTime);
 	
 		
 }

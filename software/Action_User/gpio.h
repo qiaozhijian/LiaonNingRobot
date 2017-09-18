@@ -17,7 +17,7 @@
 #define BLUE_LED_OFF			GPIO_SetBits(GPIOE, GPIO_Pin_6)
 #define RED_LED_OFF				GPIO_SetBits(GPIOC, GPIO_Pin_0)
 
-#define TRAVEL_SWITCH_LEFT		    	(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0))
+#define TRAVEL_SWITCH_LEFT		    	(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_2))
 #define TRAVEL_SWITCH_RIGHT         (GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0))
 
 #define LEVEL 3

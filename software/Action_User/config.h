@@ -91,11 +91,6 @@
 #define CAMERA_STATUS_5_END   0xC5
 
 
-//行程开关
-#define TRAVELSWITCH1 		(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0))
-#define TRAVELSWITCH2 		(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_0))
-
-
 //蜂鸣器
 #define BEEP_ON          		 GPIO_SetBits(GPIOE, GPIO_Pin_7)
 #define BEEP_OFF         		 GPIO_ResetBits(GPIOE, GPIO_Pin_7)

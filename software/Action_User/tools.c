@@ -129,34 +129,36 @@ int circlechange(void)
 {
 	static uint8_t Quadrant=1;//象限
 	static int circlenum=0;
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y<2400&&Quadrant==0x01)
+	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y<2400&&Quadrant==1)
 	{
 			circlenum++;
-			Quadrant=0x0C;
+			Quadrant=2;
 	}
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y>2400&&Quadrant==0x0C)
+	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y>2400&&Quadrant==2)
 	{
 			circlenum++;
-			Quadrant=0x0A;
+			Quadrant=3;
 	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y>2400&&Quadrant==0x0A)
+	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y>2400&&Quadrant==3)
 	{
 			circlenum++;
-			Quadrant=0x07;
+			Quadrant=4;
 	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y<2400&&Quadrant==0x07)
+	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y<2400&&Quadrant==4)
 	{
 			circlenum++;
-			Quadrant=0x0E;
+			Quadrant=1;
 	}
-	
-	if(circlenum==4)
+	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)circlenum);
+	if(circlenum>3)
 	{
 		circlenum=0;
 		return 1;
 	}
 	else
+	{
 	return 0;
+	}
 }
 int LimitTurn(float x,float y)
 {
@@ -175,4 +177,13 @@ int LimitTurn(float x,float y)
 		return 1;
 	}
 	return 0;
+}
+int CollectBallNum(void)
+{
+	static int Ballnum=0;
+	static int Ballnumold=0;
+	if(Ballnum-gRobot.collect_t.real.speed>10000)
+		Ballnum++;
+	Ballnumold=gRobot.collect_t.real.speed;
+	return Ballnum; 
 }

@@ -80,7 +80,7 @@ typedef struct {
 }CamrCatch_t;
 
 typedef struct {
-	int a;
+	int turnTime;
 	
 }CamrBaseWalk_t;
 
@@ -92,8 +92,14 @@ typedef struct{
 
 /******************走行进程结构体***********************/
 typedef struct{
-		int a;
+	float x;
+	float y;
+}PosRem_t;
+
+typedef struct{
+		int signal;
 		Pid_t pid;
+	  PosRem_t posRem;
 }Avoid_t;
 
 /******************走行进程结构体***********************/

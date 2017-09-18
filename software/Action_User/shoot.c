@@ -80,21 +80,27 @@ extern int d_flag;
 int ballNum=1;
 void fireTask(void)
 {
-	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
+//	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
 	static Launcher_t launcher;
-	static int timeCounter=0;
+	static int yawCount=0;
+	static int noBallCount=0;//没球计时间
+	static int noBall=0;
+	static int YesBallCount=0;//有球时推的时间
+
 	CollectBallVelCtr(0);
+	
 	x=gRobot.walk_t.pos.x;														//当前x坐标
 	y=gRobot.walk_t.pos.y;														//当前y坐标
 	angle=gRobot.walk_t.pos.angle;										//当前角度
+	
 	ballNum=getBallColor();
 	
-	timeCounter++;
-	timeCounter%=4;
+	yawCount++;
+	yawCount%=4;
 	
 	launcher=Launcher(x,y,angle,ballNum);
-	if(timeCounter==3)
+	if(yawCount==3)
 	{
 		
 		
@@ -106,41 +112,60 @@ void fireTask(void)
 		YawAngleCtr(launcher.courceAngle+2);
 	}
 	ShootCtr(launcher.rev-2.1f);
-//	if(stopUSARTsignal==0)
-//	{
-		
-		//USART_OUTF(launcher.rev-2.1);
-	  
-	//	USART_OUT_CHAR("\r\n");
-//	}
-//	if(10*fabs(nowShootVel-launcher.rev)<1)
-//	{
-//		stopUSARTsignal=0;
-//	}
-//	if(ballNum==20)
-//	{
-//			waitAdjust++;
-//			if(waitAdjust<=3&&waitAdjust>0)
-//			{
-//				PushBall();
-//			}
-//			if(waitAdjust<=53&&waitAdjust>50)
-//			{	
-//				PushBallReset();
-//			}
-//			waitAdjust%=100;
-//	}
-				waitAdjust++;
-			if(waitAdjust<=3&&waitAdjust>0)
-			{
-				//PushBall();
-			}
-			if(waitAdjust<=203&&waitAdjust>200
-				)
-			{	
-				//PushBallReset();
-			}
-			waitAdjust%=400;
+//				waitAdjust++;
+//if(waitAdjust<=3&&waitAdjust>0)
+//{
+//	PushBall();
+//}
+//if(waitAdjust<=Period/2+3&&waitAdjust>Period/2)
+//{	
+//	PushBallReset();
+//}
+
+/**********************************
+测试版***************************/
+if(ballNum==0)
+	{
+		YesBallCount=0;
+		noBallCount++;
+		if(noBallCount<=3&&noBallCount>0)
+		{
+			PushBall();
+		}else if(noBallCount<=53&&noBallCount>50)
+		{	
+			PushBallReset();
+		}
+		if(noBallCount>=299)
+		{ 
+			noBall++;
+		}
+			noBallCount%=300;
+	}
+	
+	if(ballNum!=0)
+	{
+		noBallCount=0;
+		noBall=0;
+		YesBallCount++;
+		if(YesBallCount<=3&&YesBallCount>0)
+		{
+			PushBall();
+		}else if(YesBallCount<=203&&YesBallCount>200)
+		{	
+			PushBallReset();
+		}
+			YesBallCount%=400;
+	}
+	if(noBall>6)
+	{
+		CollectBallVelCtr(55);
+		Delay_ms(1000);
+		gRobot.status=6;
+	}
+	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
+	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
+	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+
 				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
 			//	d_fireTask();
 }

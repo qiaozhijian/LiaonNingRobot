@@ -42,6 +42,9 @@
 
 /************************************************************/
 extern Robot_t gRobot;
+int counttt=0;
+int countt=0;
+int count=0;
 /****************CAn***start******************/
 typedef union{
 	uint8_t buffer[8];
@@ -53,6 +56,7 @@ void CAN1_RX0_IRQHandler(void)
 	static uint8_t length=8;
 	static uint32_t StdId;
 	CAN_RxMsg(CAN1,&StdId,Can1Msg.buffer,length);
+	countt++;
 /**************球颜色识别CCD***************/
 if(StdId==0x30)
 	{
@@ -65,16 +69,15 @@ if(StdId==0x280+GUN_YAW_ID)
 		{
 		 gRobot.shoot_t.real.angle=Can1Msg.receivebuff[1];
 		}
-		USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.angle);
+		//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.angle);
 	}
 /**************收球电机*****************/
 if(StdId==0x280+COLLECT_BALL_ID)
 	{
 		if(Can1Msg.receivebuff[0]==0x00005856)
 		{
-		 gRobot.collect_t.real.speed=Can1Msg.receivebuff[1];
+		  gRobot.collect_t.real.speed=Can1Msg.receivebuff[1];
 		}
-		USART_OUT(UART5,(uint8_t*)"collect:%d\r\n",(int)gRobot.collect_t.real.speed);
 	}
 
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
@@ -89,10 +92,9 @@ if(StdId==0x280+COLLECT_BALL_ID)
 	CAN_ClearFlag(CAN1, CAN_FLAG_FOV1);
 }
 
-
 void CAN2_RX0_IRQHandler(void)
 {
-	static Msg_t Can2Msg; 
+	 Msg_t Can2Msg; 
 	static uint32_t StdId;
 	static uint8_t len=8;
 	CAN_RxMsg(CAN2,&StdId,Can2Msg.buffer,len);
@@ -241,8 +243,8 @@ void USART1_IRQHandler(void)
 		data=USART_ReceiveData(USART1);
 	}
 	
-	USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t\r\n",(int)backShootTest.velInt32,i,j);
-	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
+//	USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t\r\n",(int)backShootTest.velInt32,i,j);
+//	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
 	
 }
 
