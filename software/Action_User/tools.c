@@ -162,7 +162,7 @@ int circlechange(void)
 }
 int LimitTurn(float x,float y)
 {
-	
+//内环
 	if(x<1850&&y<=550)//设立极限拐弯区域,优先级先为最大
 	{
 		return 1;
@@ -178,12 +178,12 @@ int LimitTurn(float x,float y)
 	}
 	return 0;
 }
-int CollectBallNum(void)
-{
-	static int Ballnum=0;
-	static int Ballnumold=0;
-	if(Ballnum-gRobot.collect_t.real.speed>10000)
-		Ballnum++;
-	Ballnumold=gRobot.collect_t.real.speed;
-	return Ballnum; 
-}
+//int CollectBallNum(void)
+//{
+//	static int Ballnum=0;
+//	static int Ballnumold=0;
+//	if(Ballnum-gRobot.collect_t.real.speed>10000)
+//		Ballnum++;
+//	Ballnumold=gRobot.collect_t.real.speed;
+//	return Ballnum; 
+//}

@@ -31,7 +31,7 @@ typedef struct {
 }CircleCenter_t;
 //定义圆心结构体
 typedef struct {
-	int checkOnSameLine;//定义一个变量判断是否三个点在同一条直线上
+	int checkOnSameLine;       //定义一个变量判断是否三个点在同一条直线上
 	float x;
 	float y;
 	float R;
@@ -67,7 +67,7 @@ void Findball_1(void);
 void Findball_2(void);
 void Findball_3(void);
 void Findball_4(void);
-void Findball_5(void);
+float Findball_5(void);
 void CameraFindball(int cmodel);
 #endif /* ___H */
 

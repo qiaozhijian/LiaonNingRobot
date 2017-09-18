@@ -65,6 +65,28 @@ float lookup(float leftadc,float rightadc,Measure_t * measure)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-
+int BinarySearch(float *array, float T)
+{
+	int low, high, mid;
+	low = 0;
+	high = length - 1;
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+		if (array[mid] < T)
+		{
+			low = mid + 1;
+		}
+		else if (array[mid]>T)
+		{
+			high = mid - 1;
+		}
+		else
+		{
+			return mid;
+		}
+	}
+	return mid;
+}
 
 

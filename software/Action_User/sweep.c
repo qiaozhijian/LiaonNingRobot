@@ -286,12 +286,24 @@ int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4�
 ****************************************************************************/
 void In2Out(void)
 {
-	USART_OUT(UART5,(uint8_t*)"turn:%d",(int)gRobot.walk_t.turntime);
 	if(gRobot.walk_t.right.real>2000)
 	{
 		gRobot.avoid_t.signal=1;
 	}
-  switch(gRobot.walk_t.turntime)
+	if(fabs(gRobot.avoid_t.posRem.angle-gRobot.walk_t.pid.aimAngle)>90 && gRobot.avoid_t.passflag==1)
+	{
+		gRobot.avoid_t.passflag=0;
+		if(gRobot.walk_t.turntime>=8)
+		{
+			gRobot.walk_t.turntime=gRobot.walk_t.turntime+4;
+		}
+		else if(gRobot.walk_t.turntime<=8)
+		{
+			gRobot.walk_t.turntime=gRobot.walk_t.turntime-4;
+		}
+		
+	}
+ switch(gRobot.walk_t.turntime)
 	{
 		//内圈
 		  case 0:
@@ -334,6 +346,29 @@ void In2Out(void)
 					gRobot.walk_t.turntime=0;
 				}
 				NiShiZhenCircleBiHuan(1800,2100,0,2400);
+				CheckOutline();
+				break;
+				
+		//顺时针
+			case 8:
+			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+				CheckOutline();
+				break;
+				
+			case 9:
+				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+				CheckOutline();
+				break;
+				
+			case 10:
+				if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>1900)
+				{
+					gRobot.status&=~STATUS_SWEEP;
+					gRobot.walk_t.turntime=0;
+				}
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
 				CheckOutline();
 				break;
 		default:

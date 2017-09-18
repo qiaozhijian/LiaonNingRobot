@@ -124,11 +124,14 @@ sign:符号位
 {
 		static float x = 0, y = 0, angle = 0;				
 		static int lineChangeSymbol=0;
-		x=gRobot.walk_t.pos.x;
+	
+		x=gRobot.walk_t.pos.x;											//赋值当前姿态
 		y=gRobot.walk_t.pos.y;
 		angle=gRobot.walk_t.pos.angle;
 	
-	  Vchange(lineChangeSymbol);
+		gRobot.avoid_t.posRem.angle=aimAngle;				//记录当前的目标角度
+	
+	Vchange(lineChangeSymbol);										//脉冲转换为速度
 	
 	switch(line1)
 	{

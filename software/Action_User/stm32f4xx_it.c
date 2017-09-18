@@ -42,21 +42,19 @@
 
 /************************************************************/
 extern Robot_t gRobot;
-int counttt=0;
-int countt=0;
-int count=0;
 /****************CAn***start******************/
+/******************电机速度*******************/
 typedef union{
 	uint8_t buffer[8];
 	int32_t receivebuff[2];
 }Msg_t;
+
 void CAN1_RX0_IRQHandler(void)
 {
 	static Msg_t Can1Msg; 
 	static uint8_t length=8;
 	static uint32_t StdId;
 	CAN_RxMsg(CAN1,&StdId,Can1Msg.buffer,length);
-	countt++;
 /**************球颜色识别CCD***************/
 if(StdId==0x30)
 	{
@@ -69,7 +67,6 @@ if(StdId==0x280+GUN_YAW_ID)
 		{
 		 gRobot.shoot_t.real.angle=Can1Msg.receivebuff[1];
 		}
-		//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.angle);
 	}
 /**************收球电机*****************/
 if(StdId==0x280+COLLECT_BALL_ID)
@@ -193,6 +190,7 @@ void UART5_IRQHandler(void)
 	}
 	 
 }
+
 typedef union
 {
     //这个32位整型数是给电机发送的速度（脉冲/s）
@@ -203,49 +201,61 @@ typedef union
 void USART1_IRQHandler(void)
 {
 	static int i=0,j=0;
-	static uint8_t data = 0;
+	 uint8_t data = 0;
 	static MotoReceive_t backShootTest ;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET){
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 		data=USART_ReceiveData(USART1);
-		if(data=='V')
-		{
-			i=0;
-			gRobot.shoot_t.real.speed=backShootTest.velInt32;
-		}else if(data=='R')
-		{
-			i=0;
-			gRobot.shoot_t.real.VelAchieve=1;
-		}
 		switch (i)
 		{
 			case 0:
 				if(data=='A')
-				i=1;
+				{
+					i=1;
+				}
+				else
+				{					
+					i=0;
+				}
 				break;
 				
 			case 1:
 				backShootTest.velUint8[j]=data;
 				j++;
-			  if(j>3)
+			  if(j>=4)
 				{
 					j=0;
-					i=0;
+					i++;
 				}
+				break;
+				
+			case 2:
+				// 终止符 
+				if (data == 'R')
+				{
+					//主控蓝牙给发射台蓝牙发送的速度（脉冲每秒）
+					gRobot.shoot_t.real.speed =backShootTest.velInt32 ;
+				}
+				else if (data == 'V')
+				{
+					//发射台蓝牙返回的射球机当前转速（脉冲每秒）
+					gRobot.shoot_t.aim.VelAchieve = 1;
+				}
+				i = 0;
 			break;
 			
-			default://USART_OUT();
+			default:
+				i=0;
 			break;
 		}
 	}
 	else if(USART_GetITStatus(USART1, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( USART1,USART_IT_RXNE);
-		data=USART_ReceiveData(USART1);
 	}
 	
 //	USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t\r\n",(int)backShootTest.velInt32,i,j);
 //	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
-	
 }
 
 static float angle;

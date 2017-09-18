@@ -2,7 +2,6 @@
 //globle全局变量
 Robot_t gRobot={0};
 static int count=0;
-static int change=0;
 int main(void)
 {
 	robotInit();
@@ -16,8 +15,9 @@ int main(void)
 		while (getTimeFlag()) //10ms执行进入一次
 		{	
 			count++;
-			if(count>2)
+			if(count>5)
 			{
+//				ShootCtr(60);
 				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);
 				count=0;
 			}
@@ -78,6 +78,7 @@ int main(void)
 			//			Findball_3();
 			//			Findball_5();
       //			Debug();
+			USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.speed);
 		}
 	}
 }

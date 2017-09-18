@@ -1,8 +1,9 @@
 #include "config.h"
 
 extern Robot_t gRobot;
-static int turnTimeRemember;												   //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
-static float xStick, yStick;															   //卡住时存储的位置数据
+
+static int turnTimeRemember;												 //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
+static float xStick, yStick;												//卡住时存储的位置数据
 
  /****************************************************************************
 * 名    称：void BackCarIn(float angle)
@@ -12,34 +13,39 @@ static float xStick, yStick;															   //卡住时存储的位置数据
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCarIn(float angle) //内环倒车程序
+void BackCarIn(float angle) 												//内环倒车程序
 {
-	static float aimAngle = 0;   //目标角度
-	static float angleError = 0; //目标角度与当前角度的偏差
+	static float aimAngle = 0;   											//目标角度
+	static float angleError = 0; 											//目标角度与当前角度的偏差
 	static int i = 0;																  //目标角度变换标志位
 	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	if (i == 0)																		    //使目标角度偏向右边45
-	{
-		aimAngle = angle - 45; //让车头目标角度右偏45度
-		i = 1;
-	}
+ if (i == 0)																		    //使目标角度偏向右边45
+		{
+			aimAngle = angle - 45;												//让车头目标角度右偏45度
+			i = 1;
+		}
 	angleError = angleErrorCount(aimAngle,angle);
 	j++;
 	if (j < 150)
+		{
+			VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
+			VelCrl(CAN2, 2,  6107);
+		}else if(j >=150)
 	{
-		VelCrl(CAN2, 1, -6107); //pid中填入的是差值
-		VelCrl(CAN2, 2,  6107);
-	}else if (j >=150)
-	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); 	//pid中填入的是差值
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
 		if (fabs(angleError) < 5)
 		{
+			
 			gRobot.turnTime = turnTimeRemember;
-			i = 0;
-			j = 0;//清空标志位
+			i = 0;	
+			j = 0;																				//清空标志位
 			turnTimeRemember=0;
-			gRobot.status=25;
+			
+			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
+			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
+			
+			gRobot.status=25;                             //切换到基础走形
 		} 
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -52,22 +58,22 @@ void BackCarIn(float angle) //内环倒车程序
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCarOut(float angle) //外环倒车程序
+void BackCarOut(float angle) 											//外环倒车程序
 {
-	static float aimAngle = 0;   //目标角度
-	static float angleError = 0; //目标角度与当前角度的偏差
-	static int i = 0;																  //目标角度变换标志位
-	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static float aimAngle = 0;  									  //目标角度
+	static float angleError = 0; 										//目标角度与当前角度的偏差
+	static int i = 0;																//目标角度变换标志位
+	static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
 	if (i == 0)																		  //使目标角度偏向右边45
 	{
-		aimAngle = angle + 45; //让车头目标角度右偏45度
+		aimAngle = angle + 45; 												//让车头目标角度右偏45度
 		i = 1;
 	}
 	angleError = angleErrorCount(aimAngle,angle);
 	j++;
 	if (j < 150)
 	{
-		VelCrl(CAN2, 1, -6107); //pid中填入的是差值
+		VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
 		VelCrl(CAN2, 2,  6107);
 	}else if (j >=150)
 	{
@@ -77,9 +83,13 @@ void BackCarOut(float angle) //外环倒车程序
 		{
 			gRobot.turnTime = turnTimeRemember;
 			i = 0;
-			j = 0;//清空标志位
+			j = 0;																		 //清空标志位
 			turnTimeRemember=0;
-			gRobot.status=25;
+			
+			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
+			gRobot.avoid_t.passflag=1;                 //检测是否执行过倒车
+			
+			gRobot.status=25;                          //切换到基础走形
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -92,14 +102,14 @@ void BackCarOut(float angle) //外环倒车程序
 * 说    明：当前是停在x=1000 y=0
 * 调用方法：无 
 ****************************************************************************/
-void CheckOutline(void)//检测是否卡死
+void CheckOutline(void)																	//检测是否卡死
 {
-	static int stickError = 0;													   //卡死错误积累值
+	static int stickError = 0;													  //卡死错误积累值
 	static float xError = 0, yError = 0;
 	turnTimeRemember = gRobot.turnTime;
 	xError = gRobot.walk_t.pos.x - getxRem();
 	yError = gRobot.walk_t.pos.y - getyRem();
-	//判断进程到哪一步（替换M）  --summer
+																												//判断进程到哪一步（替换M）  --summer
 	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.walk_t.left.base != 0)
 	{
 		stickError++;
@@ -115,7 +125,7 @@ void CheckOutline(void)//检测是否卡死
 	*/
 	if (stickError > 130)
 	{
-		xStick = getxRem();//记住卡死的坐标
+		xStick = getxRem();																	//记住卡死的坐标
 		yStick = getyRem();
 		gRobot.turnTime = 7;
 		stickError = 0;
@@ -133,54 +143,15 @@ void CheckOutline(void)//检测是否卡死
 void BackCar(float angle)
 {
 	angle=gRobot.walk_t.pos.angle;
-	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
-	{
-		BackCarIn(angle);
-	}
-	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
-	{
-		BackCarOut(angle);
-	}
+	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))			//内环
+		{
+			BackCarIn(angle);
+		}
+	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))	//外环
+		{
+			BackCarOut(angle);
+		}
 }	
-void CheckOutline2(void)//检测是否卡死
-{
-	static int stickError = 0;													   //卡死错误积累值
-	static int remTim=0;//用于定时计算速度平均数
-	//每100ms做为速度平均的一个周期
-	turnTimeRemember = gRobot.turnTime;
-	if(remTim<1)
-	{
-		gRobot.avoid_t.posRem.x=getXpos();
-		gRobot.avoid_t.posRem.y=getYpos();
-	}
-	remTim++;
-	if(remTim>=1)
-	{
-		//通过计算出来的真实速度,注意要和定位系统的到轮子的距离进行转化运算
-		gRobot.walk_t.right.real=sqrt((gRobot.walk_t.pos.x-gRobot.avoid_t.posRem.x)*(gRobot.walk_t.pos.x-gRobot.avoid_t.posRem.x)
-		+(gRobot.walk_t.pos.y-gRobot.avoid_t.posRem.y)*(gRobot.walk_t.pos.y-gRobot.avoid_t.posRem.y))/remTim;
-	}
-	remTim%=11;
-	
-	
-	if(gRobot.walk_t.right.real<=gRobot.walk_t.right.aim/30)
-	{
-	  stickError++;
-	}else
-	{
-		stickError = 0;
-	}
-	if (stickError > 10)
-	{
-		xStick = getxRem();//记住卡死的坐标
-		yStick = getyRem();
-		//改变状态码
-		stickError = 0;
-		gRobot.turnTime = 7;
-	}
-}
-
-
 
 void CheckOutline3(void)//检测是否卡死
 {

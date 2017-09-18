@@ -169,8 +169,9 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yStart, float angle)//吃球方案1，得出圆形的圆心
 {
 //	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-	static float a = 0, b = 0, c = 0, d = 0;//两条直线的参数前两个为车所在的直线的垂线，后两个为车的起始位和球区域中点的形成的弦的垂直平分线
-	static float xMid = 0, yMid = 0;//垂直平分线的中点
+	static float a = 0, b = 0, c = 0, d = 0;    //两条直线的参数前两个为车所在的直线的垂线，
+																							//后两个为车的起始位和球区域中点的形成的弦的垂直平分线
+	static float xMid = 0, yMid = 0;            //垂直平分线的中点
 	static float dx = 0, dy = 0;//
 	static int step = 0;
 	static CircleCenter_t circleCenter;
@@ -219,12 +220,12 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 
 
 	//第二条直线
-	if (1000*dy<1&&1000*dy>-1)//当垂直平分线k不存在的时候(与x轴垂直)
+	if (1000*dy<1&&1000*dy>-1)					//当垂直平分线k不存在的时候(与x轴垂直)
 	{
 //		x2 = xMid;
 		step +=1;
 	}
-	else if (1000*dx<1&&1000*dx>-1)//垂直平分线与x轴平行
+	else if (1000*dx<1&&1000*dx>-1)			//垂直平分线与x轴平行
 	{
 		c = 0;
 		d = yMid;
@@ -241,7 +242,7 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 
 	switch (step)
 	{
-		case 2://两条直线平行直接爆炸返回中点
+		case 2:													//两条直线平行直接爆炸返回中点
 			circleCenter.x = xMid;
 			circleCenter.y = yMid;
 			step = 0;
@@ -530,14 +531,9 @@ void Findball_4(void)
 	t_FindBall=0;
 	}
 /************************找球方案5************************/
-void Findball_5(void)
+float Findball_5(void)
 {
-	int angleError=0;
-	int aimangle=getBestangle()+gRobot.walk_t.pos.angle;
-	angleError=angleErrorCount(aimangle,gRobot.walk_t.pos.angle);
-		VelCrl(CAN2, 1, 7000 + AnglePidControl(angleError));
-		VelCrl(CAN2, 2, -7000 + AnglePidControl(angleError));
-//	USART_OUT(UART5,(uint8_t*)"haaaa%d\r\n",(int)aimangle);
+	return getBestangle()*20;
 }
 /*******************找球函数*******************/
 void CameraFindball(int cmodel)

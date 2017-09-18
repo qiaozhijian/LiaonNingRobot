@@ -4,6 +4,7 @@
 
 /*************************PID调解***********************/
 typedef struct{
+		float aimAngle;
 		float disError;
 		float angleError;
 		float distanceStraight;
@@ -38,7 +39,7 @@ typedef struct{
 }Walk_t;
 
 
-/******************走行进程结构体***********************/
+/******************射球结构体***********************/
 
 //发射电机参数
 typedef struct {
@@ -54,7 +55,7 @@ typedef struct{
 	ShootPara_t real;
 }Shoot_t;
 
-/******************走行进程结构体***********************/
+/******************矫正结构体***********************/
 //激光距离
 typedef struct {
 	int left;
@@ -66,22 +67,22 @@ typedef struct{
 	Laser_t laser;
 }Fix_t;
 
-/******************走行进程结构体***********************/
+/******************摄像头结构体***********************/
 //摄像头
 typedef struct {
-	int8_t angle;
-	uint8_t dis;
+	int8_t angle;                //摄像头下球的角度()
+	uint8_t dis;                 //摄像头下球到摄像头的距离(cm)
 }CamrBallPara_t;
 
 
 typedef struct {
  //摄像头
-	CamrBallPara_t camrPara[10];
+	CamrBallPara_t camrPara[10];  //摄像头数据
 }CamrCatch_t;
 
 typedef struct {
 	int turnTime;
-	
+	int findturn;
 }CamrBaseWalk_t;
 
 typedef struct{
@@ -90,31 +91,31 @@ typedef struct{
 	Pid_t camerapid;
 }Camera_t;
 
-/******************走行进程结构体***********************/
+/******************避障结构体***********************/
 typedef struct{
 	float x;
 	float y;
+	float angle;
 }PosRem_t;
 
 typedef struct{
-		int signal;
-		Pid_t pid;
-	  PosRem_t posRem;
+	int signal;				//开启逃逸与关闭逃逸检测函数Chechoutline()
+	int passflag;     //每经过backcare一次被置1
+	Pid_t pid;				//判断逃逸倒车后的角度与目标角度的差值
+	PosRem_t posRem;  //记录进入backcare时的姿态
 }Avoid_t;
 
-/******************走行进程结构体***********************/
+/******************辊子收球结构体***********************/
 //收球电机参数
 typedef struct {
 	float angle;
-	float speed;
-//电机速度达到所给速度标志位
-	int VelAchieve;
+	float speed;     //辊子的速度
+	int VelAchieve;  //电机速度达到所给速度标志位
 }CollectPara_t;
 
 typedef struct{
-	CollectPara_t aim;
-	//实际射球参数
-	CollectPara_t real;
+	CollectPara_t aim;  //辊子收球目标
+	CollectPara_t real; //辊子当前姿态
 }Collect_t;
 
 /******************机器人结构体*********************/

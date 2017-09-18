@@ -29,7 +29,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	case 0:
 			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			disError = y - (1100 - circleChangeSymbol*500); 
-			aimAngle = -90;
+			aimAngle = -90+Findball_5();
 			angleError = angleErrorCount(aimAngle,angle);
 		
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //角度误差pid和距离误差相结合
@@ -41,7 +41,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 
 		case 1:
 			disError = x-(850+circleChangeSymbol*1150);
-			aimAngle=0;
+			aimAngle=0+Findball_5();
 			angleError=angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
 			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
@@ -52,7 +52,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		case 2:
 			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			disError = y - (3700 + circleChangeSymbol*500); 
-			aimAngle = 90;
+			aimAngle = 90+Findball_5();
 			angleError = angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
 			VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
@@ -63,7 +63,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		case 3:
 			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
 			disError = x + (850 + circleChangeSymbol*1150); 
-			aimAngle = 180;
+			aimAngle = 180+Findball_5();
 			angleError = angleErrorCount(aimAngle,angle);
 			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //pid中填入的是差值
 			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
