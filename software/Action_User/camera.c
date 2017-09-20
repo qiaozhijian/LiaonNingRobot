@@ -74,11 +74,6 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			gRobot.walk_t.right.aim =M+AnglePidControl(angleError - distancePidControl(disError));
 //			piddisShuchu = distancePidControl(disError);
 		break;
-
-
-		case 7://倒车程序
-			BackCar(angle);
-		break;
 			
 		default:
 		break;

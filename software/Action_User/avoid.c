@@ -111,7 +111,7 @@ void CheckOutline(void)																	//检测是否卡死
 	xError = gRobot.walk_t.pos.x - getxRem();
 	yError = gRobot.walk_t.pos.y - getyRem();
 																												//判断进程到哪一步（替换M）  --summer
-	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.walk_t.left.base != 0)
+	if (fabs(xError) < 1 && fabs(yError) < 1 && gRobot.walk_t.left.base >2000)
 	{
 		stickError++;
 	}
@@ -128,8 +128,9 @@ void CheckOutline(void)																	//检测是否卡死
 	{
 		xStick = getxRem();																	//记住卡死的坐标
 		yStick = getyRem();
-		gRobot.turnTime = 7;
 		stickError = 0;
+		gRobot.avoid_t.signal=0;              //清零
+		gRobot.status=32;
 		
 	}
 }

@@ -161,6 +161,9 @@ if(ballNum==0)
 		CollectBallVelCtr(55);
 		Delay_ms(1000);
 		gRobot.status=6;
+		noBall=0;
+		YesBallCount=0;
+		noBallCount=0;
 	}
 	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);

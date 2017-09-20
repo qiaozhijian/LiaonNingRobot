@@ -6,7 +6,7 @@ static int count=0;
 int main(void)
 {
 	robotInit();
-	gRobot.status=6;
+	gRobot.status=25;
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
@@ -48,6 +48,7 @@ int main(void)
 					if(gRobot.avoid_t.signal)
 					{
 						CheckOutline3();
+						CheckOutline();
 					}
 /*****************************************临时测试*****************************************/
 USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
