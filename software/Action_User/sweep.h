@@ -13,4 +13,5 @@ void Debug(void);                                 //debug
 void Vchange(int lineChangeSymbol);               //速度与脉冲的转换
 int LaserStart(void);                             //激光启动
 void WalkOne(void);
+void Run(void);
 #endif

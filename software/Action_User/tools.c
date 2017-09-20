@@ -133,80 +133,17 @@ float Anglechange(float angle)
 	else if(tmp3>180)tmp3-=360;
 	return tmp3;
 }
-/****************************************************************************
-* 名    称：circlechange()	
-* 功    能：记录当前的圈数以及是优弧还是劣弧
-* 入口参数：当前的坐标
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-int circlechange(void)
+/************************电机的参数读取***********************/
+void MotorRead(void)
 {
-	static uint8_t Quadrant=1;//象限
-	static int circlenum=0;
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y<2400&&Quadrant==1)
-	{
-			circlenum++;
-			Quadrant=2;
-	}
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y>2400&&Quadrant==2)
-	{
-			circlenum++;
-			Quadrant=3;
-	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y>2400&&Quadrant==3)
-	{
-			circlenum++;
-			Quadrant=4;
-	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y<2400&&Quadrant==4)
-	{
-			circlenum++;
-			Quadrant=1;
-	}
-	if(circlenum>3)
-	{
-		circlenum=0;
-		return 1;
-	}
-	else
-	{
-	return 0;
-	}
+	static int count=0;
+		 count++;
+			if(count>5)
+			{
+				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);     //读取CAN2电机速度
+				//ReadActualPos(CAN2,);                       //读取CAN2电机位置
+				//ReadActualVel(CAN1,RIGHT_MOTOR_WHEEL_ID);   //读取CAN1电机速度
+				ReadActualPos(CAN1,GUN_YAW_ID);               //读取CAN1电机位置
+				count=0;
+			}
 }
-/****************************************************************************
-* 名    称：LimitTurn()	
-* 功    能：极限拐弯
-* 入口参数：当前的坐标
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-int LimitTurn(float x,float y)
-{
-//内环
-	if(x<1850&&y<=550)//设立极限拐弯区域,优先级先为最大
-	{
-		return 1;
-	}else if(x>=1850&&y<4250)
-	{
-		return 1;
-	}else if(x>-1850&&y>=4250)
-	{
-		return 1;
-	}else if(x<=-1850&&y>550)
-	{
-		return 1;
-	}
-	return 0;
-}
-//int CollectBallNum(void)
-//{
-//	static int Ballnum=0;
-//	static int Ballnumold=0;
-//	if(Ballnum-gRobot.collect_t.real.speed>10000)
-//		Ballnum++;
-//	Ballnumold=gRobot.collect_t.real.speed;
-//	return Ballnum; 
-//}

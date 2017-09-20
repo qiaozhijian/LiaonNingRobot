@@ -14,7 +14,7 @@ typedef struct{
 //机器人缩圈标志
 typedef struct{
 	int turntime;
-	int circlrnum;
+	int circlenum;
 }CircleChange_t;
 //轮子状态 速度和调节量  
 typedef struct{
@@ -41,8 +41,7 @@ typedef struct{
 	//Pid调解
 	Pid_t pid;
 	//走形的切换
-	int turntime;	
-	int circlenum;
+	CircleChange_t circlechange;
 }Walk_t;
 
 

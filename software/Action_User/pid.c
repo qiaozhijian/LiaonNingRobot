@@ -156,7 +156,7 @@ case 0:
 		else if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 					gRobot.walk_t.pid.distanceStraight = 0;
-					gRobot.walk_t.turntime ++;
+					gRobot.walk_t.circlechange.turntime ++;
 			}
 				break;
 case 1:
@@ -171,7 +171,7 @@ case 1:
 			if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 				gRobot.walk_t.pid.distanceStraight = 0;
-				gRobot.walk_t.turntime++;
+				gRobot.walk_t.circlechange.turntime ++;
 			}
 			break;
 			default:

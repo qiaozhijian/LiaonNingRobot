@@ -1,37 +1,33 @@
+/**
+  ******************************************************************************
+  * @file	    main.c
+  * @author	  Action
+  * @version  V1.0.0
+  * @date	    2017/07/24
+  * @brief	  Whirling Death(死亡旋风)...
+  ******************************************************************************
+  * @attention
+  *			None
+  ******************************************************************************/
 #include "config.h"
-//globle全局变量
 Robot_t gRobot={0};
-static int count=0;
-
 int main(void)
 {
-	robotInit();
 	gRobot.status=25;
+	robotInit();
+
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
 		{	
-			count++;
-			if(count>5)
-			{
-				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);     //读取电机速度
-				//ReadActualPos(CAN1,);                        //读取电机位置
-				count=0;
-			}
+			      MotorRead();      
 						if (gRobot.status & STATUS_SWEEP)
 						{
-							if(LaserStart()<=2)
-								{
-								  In2Out(LaserStart());
-								}else if(LaserStart()>2)
-								{
-								  WalkOne();
-								}
+							 Run();
 						}
 						else if (gRobot.status & STATUS_FIX)
 						{
-								FixTask();
-								ShootCtr(60);
+							FixTask();
 						}
 						else if (gRobot.status & STATUS_SHOOTER)
 						{
@@ -49,11 +45,11 @@ int main(void)
 						{
 							Findball_5();
 						}
-					if(gRobot.avoid_t.signal)
-					{
-						CheckOutline3();
-						//CheckOutline();
-					}
+					  if(gRobot.avoid_t.signal)
+						{
+							CheckOutline3();
+							//CheckOutline();
+						}
 /*****************************************临时测试*****************************************/
 USART_OUT(UART5,(uint8_t*)"%d",(int)gRobot.avoid_t.passflag);				
 USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
@@ -76,6 +72,7 @@ USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.rea
 			//       CirlceSweep();
 			//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
 			//			USART_OUTF(Key1);
+			
 			//			USART_OUTF(Key2);
 			//			fireTask();
 			//      Sub_Box();

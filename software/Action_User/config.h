@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "dma.h"
 #include "misc.h"
+#include "condition.h"
 #include "MotionCard.h"
 
 /* Private include ------------------------------------------------------------------------------------*/

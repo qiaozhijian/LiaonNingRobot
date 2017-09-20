@@ -1,9 +1,11 @@
 #include "config.h"
+extern Robot_t gRobot;
 
 static float angle=0,xpos=0,ypos=0;
-static float errSingle=0; //errSingle = realSingle - nowSingle
+static float errSingle=0;                //errSingle = realSingle - nowSingle
 static float errX0=0;
 static float errY0=0;
+
 void setAngle(float val)
 {
 	angle=val;
@@ -17,30 +19,44 @@ void setYpos(float val)
 	ypos=val;
 }
 
-
+/****************************************************************************
+* 名    称：setErrSingle() setErrX() setErrY()
+* 功    能：得到误差
+* 入口参数：无
+* 出口参数：激光与真实值的误差
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void setErrSingle(float reaAngle)
 {
 	errSingle = reaAngle - angle;
-//	USART_OUT(USART1,(uint8_t*) "setSingle %d\r\n", (int)errSingle);
 }
-
-
 void setErrX(float realX)
 {
 	float temp;
 	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
 	errX0 = realX - temp;
-//	USART_OUT(USART1,(uint8_t*)"setErrX %d\r\n", (int)errX0);
 }
 void setErrY(float realy)
 {
 	float temp;
 	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
 	errY0 = realy - temp;
-//	USART_OUT(USART1,(uint8_t*)"setErrY %d\r\n", (int)errY0);
 }
-
-
+void setErr(float reaAngle,float realX,float realy)
+{
+	setErrSingle(reaAngle);
+	setErrX(realX);
+	setErrY(realy);
+}
+/****************************************************************************
+* 名    称：getAngle() getXpos() getYpos()
+* 功    能：得到正确的姿态
+* 入口参数：无
+* 出口参数：正确的姿态值
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 float getAngle(void)
 {
 	if (angle + errSingle > 180)
@@ -58,39 +74,33 @@ float getYpos(void)
 {
 	return xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180) + errY0;
 }
-void setErr(float reaAngle,float realX,float realy)
-{
-	setErrSingle(reaAngle);
-	setErrX(realX);
-	setErrY(realy);
-}
-/**
-*	参数 void
-*	返回值 得到左侧激光运算后返回的距离
-*/
+/****************************************************************************
+* 名    称：getLeftAdc()	getRightAdc()
+* 功    能：减小激光误差
+* 入口参数：无
+* 出口参数：拟合后的激光值
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 int getLeftAdc()
 {
 	return 0.9389*Get_Adc_Average(ADC_Channel_15, 200)+428.6575;
 }
-/**
-*	参数 void
-*	返回值 得到右侧激光运算后返回的距离
-*/
 int getRightAdc()
 {
 	return 0.9403*Get_Adc_Average(ADC_Channel_14, 200)+435.445;
 }
 
-/**
-* @author Haoan Feng
-* 参数
-* 获取最佳的停车地点
-* 返回  0 Left 1 Right 2 Up 3 Down
-* 可重入
-*/
-extern Robot_t gRobot;
+/****************************************************************************
+* 名    称：getAimBorder()	
+* 功    能：返回距离最小的边界，获取最佳的停车地点
+* 入口参数：无
+* 出口参数： 0 Left 1 Right 2 Up 3 Down
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 static int map[4] = {0};
-int getAimBorder(void) //返回距离最小的边界
+int getAimBorder(void) 
 {
 	static int i = 0;
 	int min_num = 0;
@@ -104,7 +114,7 @@ int getAimBorder(void) //返回距离最小的边界
 	temp[0] = 2400 + x; //Left
 	temp[1] = 2400 - x; //Right
 	temp[2] = 4800 - y; //Up
-	temp[3] = y;		//Down
+	temp[3] = y;		    //Down
 	min_dis = temp[0];
 	for (i = 1; i < 4; i++)
 	{
@@ -119,7 +129,7 @@ int getAimBorder(void) //返回距离最小的边界
 }
 #define LEFT_BORDER 0  //左边界
 #define RIGHT_BORDER 1 //右边界
-#define UP_BORDER 2	//上边界
+#define UP_BORDER 2	   //上边界
 #define DOWN_BORDER 3  //下边界
 //需要进行边界修改
 //#define Y_MIN (320 + 200)
@@ -127,9 +137,17 @@ int getAimBorder(void) //返回距离最小的边界
 //#define X_MIN (-2400 + 320 + 200)
 //#define Y_MAX (4800 - 320 - 200)
 
-static int fixSuccessFlag = 0; //修正成功标志位//到时把这个变量放入结构体当中
 
-float getFixAngle(int aimBorder)//得到修正角度
+/****************************************************************************
+* 名    称：getFixAngle()	
+* 功    能：得到修正角度
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+static int fixSuccessFlag = 0; //修正成功标志位//到时把这个变量放入结构体当中
+float getFixAngle(int aimBorder)
 {
 	switch (aimBorder)
 	{
@@ -161,7 +179,14 @@ static int fix_status=11;//需要矫正时赋值为11//矫正开始时赋值为1
 #define TRY_FIRST_FIX 2
 #define TRY_SEC_FIX 4
 #define AGAINST_Wall 8
-
+/****************************************************************************
+* 名    称：CommitFix()	
+* 功    能：
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进行修正激光被挡或者不在激光处理范围内
 {
 	static int commitFix=0;//靠下一面墙的标志位
@@ -194,6 +219,14 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 //	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", commitFix);
 	return commitFix;
 }
+/****************************************************************************
+* 名    称：fixPosFirst()	
+* 功    能：
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void fixPosFirst(int aimBorder)
 {
 	static float x=0,y=0;
@@ -245,7 +278,14 @@ void fixPosFirst(int aimBorder)
 	}
 	USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha1");
 }
-
+/****************************************************************************
+* 名    称：fixPosSec()	
+* 功    能：
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void fixPosSec(int aimBorder)//矫正当前墙的坐标
 {
 	static float aimFixAngle=0;
@@ -274,14 +314,21 @@ void fixPosSec(int aimBorder)//矫正当前墙的坐标
 		USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
 		USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha4");
 }
-
+/****************************************************************************
+* 名    称：Go2NextWall()	
+* 功    能：靠下一面墙
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的目标点
 {
 	AimPos_t aimPos;
 	switch (aimBorder)
 	{
 		case LEFT_BORDER:
-			aimPos.x=-1800;//第二次靠墙判断最小距离墙面之后代入定点停车
+			aimPos.x=-1800;							//第二次靠墙判断最小距离墙面之后代入定点停车
 			aimPos.y=2400;
 		break;
 
@@ -302,35 +349,44 @@ AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的�
 	}
 	return aimPos;
 }
-
+/****************************************************************************
+* 名    称：FixTask()	
+* 功    能：坐标矫正
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void FixTask(void)
 {
 	//修正状态
-	static int againstTime=0;//靠墙的次数
-	static int aimBorder=0;//目标边界
-	static float fixAngle=0;//矫正角度
-	int laserLeftDistance=getLeftAdc();//左边激光
-	int laserRightDistance=getRightAdc();//右边激光
+	static int againstTime=0;																	//靠墙的次数
+	static int aimBorder=0;																		//目标边界
+	static float fixAngle=0;																	//矫正角度
+	int laserLeftDistance=getLeftAdc();												//左边激光
+	int laserRightDistance=getRightAdc();											//右边激光
 	static int commitFix=0;
-	AimPos_t aimPos;//二次矫正的停车位
+	AimPos_t aimPos;																					//二次矫正的停车位
+	
+	ShootCtr(60);
 	
 	/***/
 	gRobot.avoid_t.signal=0;																	//关闭checkoutline()
 	commitFix=CommitFix(laserLeftDistance,laserRightDistance);//判断能否进行矫正
 	
 	
-	if (fix_status & WAIT_AIM_DIRECTION)//1011 & 0001 
+	if (fix_status & WAIT_AIM_DIRECTION)											//1011 & 0001 
 	{
 		aimBorder = getAimBorder();
-		fix_status &= ~WAIT_AIM_DIRECTION;//1011 & 1110 将此位滞空=1010
-		fixAngle=getFixAngle(aimBorder);//矫正角度也是当前靠墙的角度
+		fix_status &= ~WAIT_AIM_DIRECTION;											//1011 & 1110 将此位滞空=1010
+		fixAngle=getFixAngle(aimBorder);												//矫正角度也是当前靠墙的角度
 	} 
-	else if (fix_status & TRY_FIRST_FIX)//第一次矫正 1010 & 0010
+	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
-		if ((fix_status & AGAINST_Wall))//靠墙 1010 & 1000
+		if ((fix_status & AGAINST_Wall))												//靠墙 1010 & 1000
 		{
 			AgainstWall(fixAngle,gRobot.walk_t.pos.angle);
-			if (CheckAgainstWall())//检查靠墙
+			if (CheckAgainstWall())																//检查靠墙
 			{
 					VelCrl(CAN2, 1, 0);
 					VelCrl(CAN2, 2, 0);
@@ -342,12 +398,12 @@ void FixTask(void)
 				{
 					fixPosFirst(aimBorder);
 					fixSuccessFlag=1;
-					//在这里改变状态码
-					fix_status=0;
+						fix_status=0;																		//在这里改变状态码
+				
 				}
-				else //第二次矫正
+				else 																								//第二次矫正
 				{
-					fixPosSec(aimBorder);//矫正当前的角度
+					fixPosSec(aimBorder);															//矫正当前的角度
 					againstTime++;
 					fixSuccessFlag=0;
 					if(againstTime>=2)

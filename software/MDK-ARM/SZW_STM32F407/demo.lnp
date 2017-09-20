@@ -19,6 +19,7 @@
 ".\szw_stm32f407\usart.o"
 ".\szw_stm32f407\motor.o"
 ".\szw_stm32f407\tools.o"
+".\szw_stm32f407\condition.o"
 ".\szw_stm32f407\bspline.o"
 ".\szw_stm32f407\calculate.o"
 ".\szw_stm32f407\flash.o"

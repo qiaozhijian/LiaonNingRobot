@@ -258,24 +258,9 @@ void In2Out(int lineChangeSymbol)
 {
 	//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.turntime);
 	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.passflag);
-	if(gRobot.walk_t.right.real>2000)
-	{
-		gRobot.avoid_t.signal=1;
-	}
-	if(gRobot.avoid_t.passflag==1)
-	{
-		gRobot.avoid_t.passflag=0;
-		if(gRobot.walk_t.turntime>=8)
-		{
-			gRobot.walk_t.turntime=gRobot.walk_t.turntime-3;
-		}
-		else if(gRobot.walk_t.turntime<8)
-		{
-			gRobot.walk_t.turntime=gRobot.walk_t.turntime+3;
-		}
-		
-	}
- switch(gRobot.walk_t.turntime)
+	//条件判断
+	In2OutChange();
+ switch(gRobot.walk_t.circlechange.turntime)
 	{
 		//内圈
 		  case 0:
@@ -295,50 +280,31 @@ void In2Out(int lineChangeSymbol)
 			break;
 		
 			case 4:
-				if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
-					gRobot.walk_t.turntime=5;
-				break;
-			//圆外圈	
-			case 5:
-			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
-				break;
+			break;
 				
-			case 6:
-				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
+			case 5:
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
-				break;
+			break;
+			
+			case 6:
+			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
+			 break;	
 				
 			case 7:
-				if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>1900)
-				{
-					gRobot.status&=~STATUS_SWEEP;
-					gRobot.walk_t.turntime=0;
-				}
-				NiShiZhenCircleBiHuan(1800,2100,0,2400);
-				break;
-				
-		//顺时针
-			case 8:
-			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-				break;
-				
-			case 9:
-				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
-				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-				break;
-				
-			case 10:
-				if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>1900)
-				{
-					gRobot.status&=~STATUS_SWEEP;
-					gRobot.walk_t.turntime=0;
-				}
-				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-				break;
-		default:
 			break;
+				
+			case 8:
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+
+			case 9:
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+			break;
+		  default:
+			break;
+
 	}
 }
 /****************************************************************************
@@ -380,22 +346,49 @@ int LaserStart(void)
 	static int statue=0;
 	if(lasercount<300)    
 	 lasercount++;
-	if(getLeftAdc()<500&&lasercount==200)
+	if(getLeftAdc()<500&&lasercount==300)
 	{
 		lasercount=302;
 		statue=1;
 	}
-	if(getRightAdc()<500&&lasercount==200)
+	if(getRightAdc()<500&&lasercount==300)
 	{
 		lasercount=302;
 		statue=2;
 	}
-	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==200)
+	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==300)
 	{
 		lasercount=302;
 	  statue=3;
 	}
 	return statue;
 } 
+/****************************************************************************
+* 名    称：Run()	
+* 功    能：hahaha
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void Run(void)
+{
+	switch(LaserStart())
+	{
+		case 1:
+			In2Out(1);
+			break;
+		case 2:
+			In2Out(2);
+			break;
+		case 3:
+			WalkOne();
+			break;
+		case 4:
+			break;
+		default:
+			break;
+	}
+}
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 

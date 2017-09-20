@@ -73,10 +73,10 @@ int getBallColor(void);
 float Xcoorchange(float x,float y,float angle);
 float Ycoorchange(float x,float y,float angle);
 float Anglechange(float angle);
+/**********************读电机************************/
+void MotorRead(void);
 /**********************oher tools********************/
-int LimitTurn(float x,float y);
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop);
-int circlechange(void);
 /**********************数球函数**********************/
 
 #endif /* ___H */

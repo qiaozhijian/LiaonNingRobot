@@ -484,6 +484,11 @@
               <FileType>1</FileType>
               <FilePath>..\Action_User\tools.c</FilePath>
             </File>
+            <File>
+              <FileName>condition.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\condition.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
