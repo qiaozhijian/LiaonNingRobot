@@ -1,3 +1,14 @@
+/**
+  ******************************************************************************
+  * @file	  moveBase.c
+  * @author	  Action
+  * @version   V1.0.0
+  * @date	  2017/07/24
+  * @brief	 2017省赛掷球部分
+  ******************************************************************************
+  * @attention
+  *			None
+  ******************************************************************************/
 #include "config.h"
 
 extern Robot_t gRobot;
@@ -14,16 +25,15 @@ float LauncherPidControl(float ERR)
 	return OUTPUT;
 }
 
-//////////////////////////////////
-//测试
-//float b_realvel=0;
-//float b_realangle=0;
-//float w_realvel=0;
-//float w_realangle=0;
-// float zhuansu=0.5;
-// float mubiaoangle=1 ;
-//extern int zhuan,mubiao;
-/*******************/
+
+ /****************************************************************************
+* 名    称：Launcher()
+* 功    能：射球数据处理函数
+* 入口参数：(x,y,angle):当前姿态，ballNum:当前球球的号码(黑1、白100)
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 
 Launcher_t Launcher(float x,float y,float angle,int ballNum)
 {
@@ -76,23 +86,30 @@ else if (ballNum==1)//假如球是黑球
 		else if (launcher.courceAngle<-180)launcher.courceAngle += 360;
 		return launcher;
 }
-
-int ballNum=1;
+ /****************************************************************************
+* 名    称：fireTask()
+* 功    能：掷球执行函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+static int ballNum=1;
 void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
 	static Launcher_t launcher;
 	static int yawCount=0;
-	static int noBallCount=0;//没球计时间
+	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
-	static int YesBallCount=0;//有球时推的时间
+	static int YesBallCount=0;									//有球时推的时间
 
 	CollectBallVelCtr(0);
 	
-	x=gRobot.walk_t.pos.x;														//当前x坐标
-	y=gRobot.walk_t.pos.y;														//当前y坐标
-	angle=gRobot.walk_t.pos.angle;										//当前角度
+	x=gRobot.walk_t.pos.x;											 //当前x坐标
+	y=gRobot.walk_t.pos.y;											 //当前y坐标
+	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	
 	ballNum=getBallColor();
 	
@@ -122,8 +139,7 @@ void fireTask(void)
 //	PushBallReset();
 //}
 
-/**********************************
-测试版***************************/
+/**********************************测试版***************************/
 if(ballNum==0)
 	{
 		YesBallCount=0;
@@ -165,9 +181,9 @@ if(ballNum==0)
 		YesBallCount=0;
 		noBallCount=0;
 	}
-	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
-	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
-	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+//	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
+//	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
+//	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
 			//	d_fireTask();

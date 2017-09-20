@@ -20,9 +20,13 @@ int main(void)
 			}
 						if (gRobot.status & STATUS_SWEEP)
 						{
-							if(LaserStart())
-							In2Out(LaserStart());
-							//WalkOne();
+							if(LaserStart()<=2)
+								{
+								  In2Out(LaserStart());
+								}else if(LaserStart()>2)
+								{
+								  WalkOne();
+								}
 						}
 						else if (gRobot.status & STATUS_FIX)
 						{
@@ -48,9 +52,10 @@ int main(void)
 					if(gRobot.avoid_t.signal)
 					{
 						CheckOutline3();
-						CheckOutline();
+						//CheckOutline();
 					}
 /*****************************************临时测试*****************************************/
+USART_OUT(UART5,(uint8_t*)"%d",(int)gRobot.avoid_t.passflag);				
 USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
 //if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
 //	{

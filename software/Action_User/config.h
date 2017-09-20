@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/**********INCLUDE*************/
+/* Private include ------------------------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 #include "stm32f4xx_adc.h"
@@ -27,7 +27,7 @@
 #include "misc.h"
 #include "MotionCard.h"
 
-
+/* Private include ------------------------------------------------------------------------------------*/
 #define PERIOD					      0.01f
 
 /*      车的基本信息      */
@@ -106,5 +106,4 @@
 
 
 #endif
-
 

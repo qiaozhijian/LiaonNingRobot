@@ -12,23 +12,6 @@
   */
 /* Includes -------------------------------------------------------------------------------------------*/
 #include "config.h"
-/* Private typedef ------------------------------------------------------------------------------------*/
-/* Private define -------------------------------------------------------------------------------------*/
-/* Private macro --------------------------------------------------------------------------------------*/
-/* Private variables ----------------------------------------------------------------------------------*/
-/* Private function prototypes ------------------------------------------------------------------------*/
-/* Private functions ----------------------------------------------------------------------------------*/
-/****************************************************************************
- 
-    宏定 义区
- 
-****************************************************************************/
-
-/****************************************************************************
- 
-    变量定义区
- 
-****************************************************************************/
 extern Robot_t gRobot;
 static int lineChangeSymbol=0;
 /*****有必要的全局变量可以****/
@@ -279,16 +262,16 @@ void In2Out(int lineChangeSymbol)
 	{
 		gRobot.avoid_t.signal=1;
 	}
-	if(fabs(gRobot.avoid_t.posRem.angle-gRobot.walk_t.pid.aimAngle)>90 && gRobot.avoid_t.passflag==1)
+	if(gRobot.avoid_t.passflag==1)
 	{
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.turntime>=8)
 		{
-			gRobot.walk_t.turntime=gRobot.walk_t.turntime-4;
+			gRobot.walk_t.turntime=gRobot.walk_t.turntime-3;
 		}
 		else if(gRobot.walk_t.turntime<8)
 		{
-			gRobot.walk_t.turntime=gRobot.walk_t.turntime+4;
+			gRobot.walk_t.turntime=gRobot.walk_t.turntime+3;
 		}
 		
 	}
@@ -397,17 +380,17 @@ int LaserStart(void)
 	static int statue=0;
 	if(lasercount<300)    
 	 lasercount++;
-	if(getLeftAdc()<500&&lasercount==300)
+	if(getLeftAdc()<500&&lasercount==200)
 	{
 		lasercount=302;
 		statue=1;
 	}
-	if(getRightAdc()<500&&lasercount==300)
+	if(getRightAdc()<500&&lasercount==200)
 	{
 		lasercount=302;
 		statue=2;
 	}
-	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==300)
+	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==200)
 	{
 		lasercount=302;
 	  statue=3;

@@ -184,16 +184,3 @@ case 1:
 		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));
 }
 
-/****************************************************************************
-* 名    称：Line1()
-* 功    能：条件检查函数
-* 入口参数：无
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-void ConditionCheck()
-{
-	
-}
-

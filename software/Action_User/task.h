@@ -3,6 +3,7 @@
 #include "config.h"
 
 /*************************PID调解***********************/
+//PID调解的相关参数
 typedef struct{
 		float aimAngle;
 		float disError;
@@ -10,6 +11,11 @@ typedef struct{
 		float distanceStraight;
 }Pid_t;
 /******************走行进程结构体***********************/
+//机器人缩圈标志
+typedef struct{
+	int turntime;
+	int circlrnum;
+}CircleChange_t;
 //轮子状态 速度和调节量  
 typedef struct{
 	float aim;
@@ -36,6 +42,7 @@ typedef struct{
 	Pid_t pid;
 	//走形的切换
 	int turntime;	
+	int circlenum;
 }Walk_t;
 
 
