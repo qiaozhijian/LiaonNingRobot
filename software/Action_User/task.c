@@ -1,7 +1,14 @@
 #include "config.h"
 extern Robot_t gRobot;
 
-
+ /****************************************************************************
+* 名    称：HardWare(void)
+* 功    能：外设初始化
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void HardWare(void){
 	TIM_Init(TIM2, 99, 83, 0, 0); 
 	//10ms定时器TIM3用于控制WalkTask周期
@@ -26,7 +33,15 @@ void HardWare(void){
 	//蓝牙串口
 	UART5DMAInit(115200);
 }
-
+ /****************************************************************************
+* 名    称：elmoInit()
+* 功    能：电机初始化
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+* 注意：
+****************************************************************************/
 void elmoInit(void){
 	
 	elmo_Init(CAN2);
@@ -38,6 +53,14 @@ void elmoInit(void){
 
 	
 }
+ /****************************************************************************
+* 名    称：robotInit
+* 功    能：机器人初始化
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void robotInit(void)
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -48,40 +71,8 @@ void robotInit(void)
 	
 	Delay_ms(6000);
 	Delay_ms(6000);
-	//Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	//CollectBallVelCtr(55);
-	//Delay_ms(6000);
+//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+//	CollectBallVelCtr(55);
+//	Delay_ms(6000);                                         //让辊子转起来
 	
-}
-
-/**
-*设置机器人的状态
-* 入口参数 status :
-*   STATUS_SWEEP 
-*   STATUS_CAMERA_WALK 
-*   STATUS_CAMERA
-*   STATUS_SHOOTER 
-*   STATUS_FIX 
-*   STATUS_AVOID
-*   如果同时设置多个状态，那么各个状态之间按位或
-*/
-void setRobotStatus(uint8_t status)
-{
-    gRobot.status = status;
-}
-
-//
-void setPosition(Position_t *pos)
-{
-    gRobot.walk_t.pos.x = pos->x;
-    gRobot.walk_t.pos.y = pos->y;
-    gRobot.walk_t.pos.angle = pos->angle;
-}
-
-void setLeftMove()
-{
-}
-
-void setRightMove()
-{
 }

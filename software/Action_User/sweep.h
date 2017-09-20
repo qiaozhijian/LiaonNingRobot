@@ -3,15 +3,14 @@
 
 float angleErrorCount(float aimAngle,float angle);//计算角度偏差作为pid
 
-int turnTimeLead(int lineChangeSymbol);
+int turnTimeLead(int lineChangeSymbol);           //计算提前量
 
-int CheckAgainstWall(void);
-int Pointparking(float Pointx,float Pointy);
-void AgainstWall(float aimAngle,float angle);
-void In2Out(void);
-void Debug(void);
-void CirlceSweep(void);
-void WalkTask1(void);
-void WalkTask2(void);
-void Vchange(int lineChangeSymbol);
+int CheckAgainstWall(void);                       //检测是否靠墙
+int Pointparking(float Pointx,float Pointy);      //定点停车
+void AgainstWall(float aimAngle,float angle);     //靠墙
+void In2Out(int lineChangeSymbol);                //刚开始的基础扫场程序
+void Debug(void);                                 //debug                        
+void Vchange(int lineChangeSymbol);               //速度与脉冲的转换
+int LaserStart(void);                             //激光启动
+void WalkOne(void);
 #endif

@@ -131,7 +131,11 @@ void UART5_IRQHandler(void)
 {
 	static int count=0;
 	static uint8_t tmp;
-	if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
+	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
+	{
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+	else if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( UART5,USART_IT_RXNE);
 		tmp=USART_ReceiveData(UART5);
@@ -201,9 +205,15 @@ typedef union
 void USART1_IRQHandler(void)
 {
 	static int i=0,j=0;
-	 uint8_t data = 0;
+	static uint8_t data = 0;
 	static MotoReceive_t backShootTest ;
-	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET){
+	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
+		{
+				USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+		}
+	else if(USART_GetITStatus(USART1, USART_IT_RXNE)==SET)   
+	{
+		USART_ClearITPendingBit( USART1,USART_IT_RXNE);
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 		data=USART_ReceiveData(USART1);
 		switch (i)
@@ -211,7 +221,7 @@ void USART1_IRQHandler(void)
 			case 0:
 				if(data=='A')
 				{
-					i=1;
+					i++;
 				}
 				else
 				{					
@@ -230,16 +240,16 @@ void USART1_IRQHandler(void)
 				break;
 				
 			case 2:
-				// 终止符 
+				 // 终止符 
 				if (data == 'R')
 				{
-					//主控蓝牙给发射台蓝牙发送的速度（脉冲每秒）
-					gRobot.shoot_t.real.speed =backShootTest.velInt32 ;
+					//标志
+					gRobot.shoot_t.aim.VelAchieve = 1;
 				}
 				else if (data == 'V')
-				{
+				{ 
 					//发射台蓝牙返回的射球机当前转速（脉冲每秒）
-					gRobot.shoot_t.aim.VelAchieve = 1;
+					gRobot.shoot_t.real.speed =backShootTest.velInt32 / 4096;
 				}
 				i = 0;
 			break;
@@ -247,17 +257,12 @@ void USART1_IRQHandler(void)
 			default:
 				i=0;
 			break;
-		}
-	}
-	else if(USART_GetITStatus(USART1, USART_IT_RXNE)==SET)   
-	{
-		USART_ClearITPendingBit( USART1,USART_IT_RXNE);
 	}
 	
 //	USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t\r\n",(int)backShootTest.velInt32,i,j);
 //	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
 }
-
+}
 static float angle;
 static float posX;
 static float posY;
@@ -370,7 +375,11 @@ void USART2_IRQHandler(void)
 	static int Ball_tmpcounter=0;
 	static int i=0,	j=0;
 	static int flag=0;
-	if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)
+ if(USART_GetFlagStatus(USART2,USART_FLAG_ORE)!=RESET)
+		{
+				USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+		}
+	else if (USART_GetITStatus(USART2, USART_IT_RXNE) == SET)
 	{
 	USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 		tmp=USART_ReceiveData(USART2);

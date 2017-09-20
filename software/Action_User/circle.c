@@ -1,9 +1,13 @@
 #include "config.h"
-
-
-/**********************************************/
 extern Robot_t gRobot;
-/*******************逆时针画圆*****************/
+/****************************************************************************
+* 名    称：CircleAnglePidControl
+* 功    能：画圆的角度PID
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 float CircleAnglePidControl(float ERR)
 {
 	static int ERR_OLD=0;
@@ -14,6 +18,14 @@ float CircleAnglePidControl(float ERR)
 	ERR_OLD=ERR;
 	return OUTPUT;
 }
+/****************************************************************************
+* 名    称：CircleAnglePidControl
+* 功    能：画圆的角度PID
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 {
 		int M1,M2,V1,V2;//定义速度，输入的脉冲
@@ -97,7 +109,14 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 //		USART_OUTF(M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
 //		USART_OUT_CHAR("\r\n");
 }
-/***********************************************************/
+/****************************************************************************
+* 名    称：CircleAnglePidControl
+* 功    能：画圆的角度PID
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 {
 		int M1,M2,V1,V2;//定义速度，输入的脉冲
@@ -165,7 +184,14 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			VelCrl(CAN2, 1, M2+CircleAnglePidControl(angleError-spacingPidControl(spacingError)));      
 			VelCrl(CAN2, 2, -(M1-CircleAnglePidControl(angleError-spacingPidControl(spacingError))));
 }
-/**********************************吃球路线1*************************/
+/****************************************************************************
+* 名    称：countEatBallWay1
+* 功    能：吃球路线1
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yStart, float angle)//吃球方案1，得出圆形的圆心
 {
 //	static float x1 = 0, y1 = 0, x2 = 0, y2 = 0;
@@ -314,11 +340,20 @@ CircleCenter_t countEatBallWay1(float xBall, float yBall, float xStart, float yS
 	circleCenter.R = sqrt((circleCenter.x - xStart)*(circleCenter.x - xStart) + (circleCenter.y - yStart)*(circleCenter.y - yStart));
 	return circleCenter;
 }
-/********************************吃球路线2***************************/
+/****************************************************************************
+* 名    称：countCircleCenter2
+* 功    能：吃球路线2
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 CircleCenter2_t countCircleCenter2(Point_t p1, Point_t p2, Point_t p3)
 {
-	static float a = 0.f, b = 0.f, c = 0.f, d = 0.f;////p1,p2个点的坐标差值	//p2,p3点的坐标差值
-	static float e = 0.f, f = 0.f;//计算公式中后面的定值
+	//p1,p2个点的坐标差值	//p2,p3点的坐标差值
+	static float a = 0.f, b = 0.f, c = 0.f, d = 0.f;
+	//计算公式中后面的定值
+	static float e = 0.f, f = 0.f;
 	static CircleCenter2_t circleCenter2;
 	//p1,p2个点的坐标差值
 	a = p1.x - p2.x;
@@ -328,7 +363,8 @@ CircleCenter2_t countCircleCenter2(Point_t p1, Point_t p2, Point_t p3)
 	d = p1.y - p3.y;
 	e = ((p1.x*p1.x - p2.x*p2.x) + (p1.y*p1.y - p2.y*p2.y)) / 2;
 	f = ((p1.x*p1.x - p3.x*p3.x) + (p1.y*p1.y - p3.y*p3.y)) / 2;
-	if ((a / b)!=(c / d))//三个点不在同一条直线上
+	//三个点不在同一条直线上
+	if ((a / b)!=(c / d))
 	{
 		circleCenter2.checkOnSameLine = 0;
 		circleCenter2.x = (b*f - d*e) / (b*c - a*d);
@@ -535,7 +571,14 @@ float Findball_5(void)
 {
 	return getBestangle()*20;
 }
-/*******************找球函数*******************/
+/****************************************************************************
+* 名    称：CameraFindball
+* 功    能：调用找球函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void CameraFindball(int cmodel)
 {
 	if(t_FindBall>300)

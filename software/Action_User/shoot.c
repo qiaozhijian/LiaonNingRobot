@@ -51,14 +51,17 @@ else if (ballNum==1)//假如球是黑球
 		y0 = 2335.35;
 	}
 		//计算航向角转轴的坐标
-		x = x - 118.36f*sinf(angle);
-		y = y + 118.36f*cosf(angle);
+		x = x - 97.2f*sinf(angle);
+		y = y + 97.2f*cosf(angle);
 		//计算发射装置的速度
-		s =21.16f+ __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
-		v = 157.f / __sqrtf(2.0f) * s / __sqrtf(1.234f*s - h);
+		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
+	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
+
+		//v = 157.f / s / __sqrtf(1.234f*s - h);
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
-			
-		launcher.rev=0.98f*(0.01434f*v-6.086f);
+		
+	  launcher.rev=0.01402f*v-5.457f;
+		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
 		//launcher.rev=v/(66*PI);
@@ -74,9 +77,6 @@ else if (ballNum==1)//假如球是黑球
 		return launcher;
 }
 
-extern int stopUSARTsignal;
-extern int32_t nowShootVel;
-extern int d_flag;
 int ballNum=1;
 void fireTask(void)
 {
@@ -111,7 +111,7 @@ void fireTask(void)
 		
 		YawAngleCtr(launcher.courceAngle+2);
 	}
-	ShootCtr(launcher.rev-2.1f);
+	ShootCtr(launcher.rev);
 //				waitAdjust++;
 //if(waitAdjust<=3&&waitAdjust>0)
 //{

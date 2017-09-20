@@ -31,19 +31,6 @@
 ****************************************************************************/
 extern Robot_t gRobot;
 static int lineChangeSymbol=0;
-//static float x = 0, y = 0, angle = 0;//当前的x,y坐标和angle
-//static float aimAngle = 0;   //目标角度
-//static float angleError = 0; //目标角度与当前角度的偏差
-
-//？？？？？     没必要     的全局变量不要有
-/*******/
-//static float x = 0, y = 0, angle = 0;
-//static float angleError = 0; //目标角度与当前角度的偏差
-//static float aimAngle = 0;   //目标角度
-//static float distanceStraight = 0;//提前量
-//static float disError = 0;   //距离偏差
-//static float pidZongShuchu = 0, piddisShuchu = 0;
-//static float spacingError = 0;
 /*****有必要的全局变量可以****/
 
 
@@ -74,7 +61,7 @@ int CheckAgainstWall(void)
 	if (againstTime > 130)
 	{
 		againstTime=0;
-		return 1; //另外一种标志方案
+		return 1; 	//另外一种标志方案
 	}
 	else
 	{
@@ -176,9 +163,9 @@ int Pointparking(float Pointx,float Pointy)
 	static float 	spacingError;													//定义两个点之间的距离
 	static float kAngle;																//直线角度（用actan发回的数据）
 	static float dx,dy;
-	x=gRobot.walk_t.pos.x;																			//当前x坐标
-	y=gRobot.walk_t.pos.y;																			//当前y坐标
-	angle=gRobot.walk_t.pos.angle;															//当前角度
+	x=gRobot.walk_t.pos.x;															//当前x坐标
+	y=gRobot.walk_t.pos.y;															//当前y坐标
+	angle=gRobot.walk_t.pos.angle;											//当前角度
 	spacingError=sqrt(pow(x-Pointx,2)+pow(y-Pointy,2));
 	dx=x-Pointx;
 	dy=y-Pointy;
@@ -217,22 +204,22 @@ int Pointparking(float Pointx,float Pointy)
 	angleError=angleErrorCount(aimAngle,angle);
 	if(fabs(spacingError)>250)
 	{
-		VelCrl(CAN2, 1,6000+AnglePidControl(angleError));//pid中填入的是差值
+		VelCrl(CAN2, 1,6000+AnglePidControl(angleError));			//pid中填入的是差值
 		VelCrl(CAN2, 2,-6000+AnglePidControl(angleError));
 	}
-	if(fabs(spacingError)>200&&fabs(spacingError)<250)	//设立减速环带
+	if(fabs(spacingError)>200&&fabs(spacingError)<250)			//设立减速环带
 	{
-		VelCrl(CAN2, 1,4000+AnglePidControl(angleError));	//pid中填入的是差值
+		VelCrl(CAN2, 1,4000+AnglePidControl(angleError));		  //pid中填入的是差值
 		VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
 	}
 	if(fabs(spacingError)<200&&fabs(spacingError)>80)
 	{
-		VelCrl(CAN2, 1,2000+AnglePidControl(angleError));	//pid中填入的是差值
+		VelCrl(CAN2, 1,2000+AnglePidControl(angleError));			//pid中填入的是差值
 		VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
 	}
 	if(fabs(spacingError)>0&&fabs(spacingError)<80)
 	{		
-		VelCrl(CAN2, 1,0);			//pid中填入的是差值
+		VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 		VelCrl(CAN2, 2,0);
 		return 1;
 	}
@@ -279,13 +266,15 @@ int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4�
 /****************************************************************************
 * 名    称：In2Out()	
 * 功    能：主扫场控制程序
-* 入口参数：无
+* 入口参数：lineChangeSymbol(改变第一圈的位置)
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void In2Out(void)
+void In2Out(int lineChangeSymbol)
 {
+	//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.turntime);
+	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.passflag);
 	if(gRobot.walk_t.right.real>2000)
 	{
 		gRobot.avoid_t.signal=1;
@@ -295,11 +284,11 @@ void In2Out(void)
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.turntime>=8)
 		{
-			gRobot.walk_t.turntime=gRobot.walk_t.turntime+4;
-		}
-		else if(gRobot.walk_t.turntime<=8)
-		{
 			gRobot.walk_t.turntime=gRobot.walk_t.turntime-4;
+		}
+		else if(gRobot.walk_t.turntime<8)
+		{
+			gRobot.walk_t.turntime=gRobot.walk_t.turntime+4;
 		}
 		
 	}
@@ -330,13 +319,11 @@ void In2Out(void)
 			case 5:
 			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
-				CheckOutline();
 				break;
 				
 			case 6:
 				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
-				CheckOutline();
 				break;
 				
 			case 7:
@@ -346,20 +333,17 @@ void In2Out(void)
 					gRobot.walk_t.turntime=0;
 				}
 				NiShiZhenCircleBiHuan(1800,2100,0,2400);
-				CheckOutline();
 				break;
 				
 		//顺时针
 			case 8:
 			  gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-				CheckOutline();
 				break;
 				
 			case 9:
 				gRobot.walk_t.turntime=gRobot.walk_t.turntime+circlechange();
 				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-				CheckOutline();
 				break;
 				
 			case 10:
@@ -369,21 +353,66 @@ void In2Out(void)
 					gRobot.walk_t.turntime=0;
 				}
 				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-				CheckOutline();
 				break;
 		default:
 			break;
 	}
-
 }
 /****************************************************************************
-* 名    称：In2Out()	
+* 名    称：Out2In()	
 * 功    能：主扫场控制程序
+* 入口参数：lineChangeSymbol(改变第一圈的位置)
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void WalkOne()
+{
+	static int turntime=0;
+	switch(turntime)
+	{
+		case 0:
+			if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
+			  turntime=1;
+		  ShunShiZhenCircleBiHuan(800,500,-100,600);
+			break;
+		case 1:
+			In2Out(0);
+		break;
+		default:
+		  break;
+	}
+}
+/****************************************************************************
+* 名    称：LaserStart()	
+* 功    能：激光启动程序
 * 入口参数：无
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-//void 
+int LaserStart(void)
+{
+	static int lasercount=0;       //让激光执行一段时间再生效
+	static int statue=0;
+	if(lasercount<300)    
+	 lasercount++;
+	if(getLeftAdc()<500&&lasercount==300)
+	{
+		lasercount=302;
+		statue=1;
+	}
+	if(getRightAdc()<500&&lasercount==300)
+	{
+		lasercount=302;
+		statue=2;
+	}
+	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==300)
+	{
+		lasercount=302;
+	  statue=3;
+	}
+	return statue;
+} 
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 

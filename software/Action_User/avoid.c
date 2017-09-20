@@ -2,7 +2,8 @@
 
 extern Robot_t gRobot;
 
-static int turnTimeRemember;												 //记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
+static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
+static int statueRemember;                          //记住卡死时的状态码
 static float xStick, yStick;												//卡住时存储的位置数据
 
  /****************************************************************************
@@ -45,7 +46,7 @@ void BackCarIn(float angle) 												//内环倒车程序
 			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
 			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
 			
-			gRobot.status=25;                             //切换到基础走形
+			gRobot.status=statueRemember;                 //切换到进入避障前的大状态
 		} 
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -66,16 +67,16 @@ void BackCarOut(float angle) 											//外环倒车程序
 	static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
 	if (i == 0)																		  //使目标角度偏向右边45
 	{
-		aimAngle = angle + 45; 												//让车头目标角度右偏45度
+		aimAngle = angle + 60; 												//让车头目标角度右偏45度
 		i = 1;
 	}
 	angleError = angleErrorCount(aimAngle,angle);
 	j++;
-	if (j < 150)
+	if (j < 100)
 	{
 		VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
 		VelCrl(CAN2, 2,  6107);
-	}else if (j >=150)
+	}else if (j >=100)
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
@@ -89,7 +90,7 @@ void BackCarOut(float angle) 											//外环倒车程序
 			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
 			gRobot.avoid_t.passflag=1;                 //检测是否执行过倒车
 			
-			gRobot.status=25;                          //切换到基础走形
+			gRobot.status=statueRemember;              //切换到进入避障前的大状态
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -106,7 +107,7 @@ void CheckOutline(void)																	//检测是否卡死
 {
 	static int stickError = 0;													  //卡死错误积累值
 	static float xError = 0, yError = 0;
-	turnTimeRemember = gRobot.turnTime;
+	statueRemember=gRobot.status;
 	xError = gRobot.walk_t.pos.x - getxRem();
 	yError = gRobot.walk_t.pos.y - getyRem();
 																												//判断进程到哪一步（替换M）  --summer
@@ -133,9 +134,9 @@ void CheckOutline(void)																	//检测是否卡死
 	}
 }
  /****************************************************************************
-* 名    称：void BackCarOut(float angle) 
-* 功    能：内外环逃逸程序合并
-* 入口参数： xKRem,yKRem,angle卡住的位置的x，y坐标，和当前角度
+* 名    称：BackCar
+* 功    能：倒车
+* 入口参数：当前角度
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
@@ -152,12 +153,19 @@ void BackCar(float angle)
 			BackCarOut(angle);
 		}
 }	
-
+ /****************************************************************************
+* 名    称：CheckOutline3()
+* 功    能：检测是否卡死
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 void CheckOutline3(void)//检测是否卡死
 {
-	static int stickError = 0;													   //卡死错误积累值
+	static int stickError = 0;							//卡死错误积累值
 	//每100ms做为速度平均的一个周期
-	turnTimeRemember = gRobot.turnTime;
+	statueRemember=gRobot.status;
 	if(gRobot.walk_t.right.real<=gRobot.walk_t.right.aim*0.3f)
 	{
 	  stickError++;
@@ -167,11 +175,11 @@ void CheckOutline3(void)//检测是否卡死
 	}
 	if (stickError > 10)
 	{
-		xStick = getxRem();//记住卡死的坐标
+		xStick = getxRem();                  //记住卡死的坐标
 		yStick = getyRem();
 		//改变状态码
 		stickError = 0;
-		gRobot.avoid_t.signal=0;//清零
+		gRobot.avoid_t.signal=0;              //清零
 		gRobot.status=32;
 	}
 	USART_OUT(UART5,(uint8_t *)"%d\r\n",stickError);

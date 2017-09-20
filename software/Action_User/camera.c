@@ -24,6 +24,10 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
 	angle = gRobot.walk_t.pos.angle; 									//矫正过的角度角度
 	AreaCheck(x,y);
+	if(gRobot.walk_t.right.real>2000)
+	{
+		gRobot.avoid_t.signal=1;
+	}
   switch (gRobot.camera_t.camrBaseWalk_t.turnTime)
 	{
 	case 0:

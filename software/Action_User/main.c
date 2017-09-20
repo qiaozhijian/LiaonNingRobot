@@ -2,28 +2,27 @@
 //globle全局变量
 Robot_t gRobot={0};
 static int count=0;
+
 int main(void)
 {
 	robotInit();
-//ReadActualPos(CAN1);
-
-	gRobot.status=25;
-	//gRobot.status=6;
-	//ReadActualPos(CAN1,GUN_YAW_ID);
+	gRobot.status=6;
 	while (1)
 	{
-		while (getTimeFlag()) //10ms执行进入一次
+		while (getTimeFlag())                              //10ms执行进入一次
 		{	
 			count++;
 			if(count>5)
 			{
-//				ShootCtr(60);
-				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);
+				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);     //读取电机速度
+				//ReadActualPos(CAN1,);                        //读取电机位置
 				count=0;
 			}
 						if (gRobot.status & STATUS_SWEEP)
 						{
-							In2Out();
+							if(LaserStart())
+							In2Out(LaserStart());
+							//WalkOne();
 						}
 						else if (gRobot.status & STATUS_FIX)
 						{
@@ -50,9 +49,8 @@ int main(void)
 					{
 						CheckOutline3();
 					}
-//USART_OUTF(gRobot.collect_t.real.speed);
-//USART_OUT_CHAR("\r\n");
-			/**************临时测试********/
+/*****************************************临时测试*****************************************/
+USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
 //if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
 //	{
 //		change=1;
@@ -79,6 +77,7 @@ int main(void)
 			//			Findball_5();
       //			Debug();
 			USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.speed);
+/*****************************************临时测试*****************************************/			
 		}
 	}
 }

@@ -129,6 +129,8 @@ sign:符号位
 	
 		gRobot.avoid_t.posRem.angle=aimAngle;				//记录当前的目标角度
 	
+		lineChangeSymbol=lineChangeSymbol-1;
+	
 	Vchange(0);										//脉冲转换为速度
 	
 	switch(line1)
