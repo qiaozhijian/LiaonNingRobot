@@ -51,8 +51,9 @@ int main(void)
 							//CheckOutline();
 						}
 /*****************************************临时测试*****************************************/
-USART_OUT(UART5,(uint8_t*)"%d",(int)gRobot.avoid_t.passflag);				
-USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
+USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.passflag);				
+//USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
+USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
 //if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
 //	{
 //		change=1;

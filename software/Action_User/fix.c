@@ -147,20 +147,32 @@ int getAimBorder(void)
 * 调用方法：无 
 ****************************************************************************/
 static int fixSuccessFlag = 0; //修正成功标志位//到时把这个变量放入结构体当中
-float getFixAngle(int aimBorder)
+FixPara_t getFixPara(int aimBorder)
 {
+	FixPara_t fixPara={0};
 	switch (aimBorder)
 	{
 		case LEFT_BORDER:
-			return -90;
+			fixPara.angle=-90;
+			fixPara.spacingError=getXpos()+2400;
+		break;
+		
 		case RIGHT_BORDER:
-			return 90;
+			fixPara.angle=90;
+			fixPara.spacingError=2400-getXpos();
+		break;
+		
 		case UP_BORDER:
-			return 180;
+			fixPara.angle=180;
+			fixPara.spacingError=4800-getYpos();
+		break;
+		
 		case DOWN_BORDER:
-			return 0;
+			fixPara.angle=0;
+			fixPara.spacingError=getYpos();
+		break;
 	}
-	return 0;
+	return fixPara;
 }
 
 /**
@@ -288,9 +300,9 @@ void fixPosFirst(int aimBorder)
 ****************************************************************************/
 void fixPosSec(int aimBorder)//矫正当前墙的坐标
 {
-	static float aimFixAngle=0;
-	aimFixAngle=getFixAngle(aimBorder);
-	setErrSingle(aimFixAngle); //修正角度
+	static FixPara_t aimFixPara={0};
+	aimFixPara=getFixPara(aimBorder);
+	setErrSingle(aimFixPara.angle); //修正角度
 	switch (aimBorder)
 	{
 		case LEFT_BORDER:
@@ -362,7 +374,7 @@ void FixTask(void)
 	//修正状态
 	static int againstTime=0;																	//靠墙的次数
 	static int aimBorder=0;																		//目标边界
-	static float fixAngle=0;																	//矫正角度
+	FixPara_t fixPara={0};																	//矫正角度和距离墙的距离
 	int laserLeftDistance=getLeftAdc();												//左边激光
 	int laserRightDistance=getRightAdc();											//右边激光
 	static int commitFix=0;
@@ -379,13 +391,14 @@ void FixTask(void)
 	{
 		aimBorder = getAimBorder();
 		fix_status &= ~WAIT_AIM_DIRECTION;											//1011 & 1110 将此位滞空=1010
-		fixAngle=getFixAngle(aimBorder);												//矫正角度也是当前靠墙的角度
+//		fixPara=getFixPara(aimBorder);												//矫正角度也是当前靠墙的角度
 	} 
 	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
 		if ((fix_status & AGAINST_Wall))												//靠墙 1010 & 1000
 		{
-			AgainstWall(fixAngle,gRobot.walk_t.pos.angle);
+			fixPara=getFixPara(aimBorder);											//矫正角度也是当前靠墙的角度
+			AgainstWall(fixPara.angle,gRobot.walk_t.pos.angle,fixPara.spacingError);
 			if (CheckAgainstWall())																//检查靠墙
 			{
 					VelCrl(CAN2, 1, 0);

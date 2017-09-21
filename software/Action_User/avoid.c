@@ -129,7 +129,7 @@ void CheckOutline(void)																	//检测是否卡死
 		xStick = getxRem();																	//记住卡死的坐标
 		yStick = getyRem();
 		stickError = 0;
-		gRobot.avoid_t.signal=0;              //清零
+		gRobot.avoid_t.signal=0;                            //清零
 		gRobot.status=32;
 		
 	}
@@ -180,8 +180,18 @@ void CheckOutline3(void)//检测是否卡死
 		yStick = getyRem();
 		//改变状态码
 		stickError = 0;
-		gRobot.avoid_t.signal=0;              //清零
+		gRobot.avoid_t.signal=0;             //清零
 		gRobot.status=32;
 	}
 	USART_OUT(UART5,(uint8_t *)"%d\r\n",stickError);
 }
+/****************************************************************************
+* 名    称：()	
+* 功    能：靠墙时后面有车决绝方案
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+
+/********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

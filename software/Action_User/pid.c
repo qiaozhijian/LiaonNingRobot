@@ -99,10 +99,36 @@ float onceDistancePidControl(float ERR)
 	ERR_OLD = ERR;
 	return OUTPUT;
 }
+/****************************************************************************
+* 名    称：spacingPidControl(float ERR)
+* 功    能：定点PID
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
 float spacingPidControl(float ERR)
 {
 	static int ERR_OLD = 0;
 	static float Kp = 0.05; //0.1
+	static float Ki = 0;
+	static float Kd = 1;
+	static float OUTPUT;
+	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
+	ERR_OLD = ERR;
+	return OUTPUT;
+}
+/****************************************************************************
+* 名    称：AgainstWallPidControl()
+* 功    能：倒车PID控制
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+float AgainstWallPidControl(float ERR)
+{
+	static int ERR_OLD = 0;
+	static float Kp = 10; //0.1
 	static float Ki = 0;
 	static float Kd = 1;
 	static float OUTPUT;
@@ -131,7 +157,7 @@ sign:符号位
 	
 		lineChangeSymbol=lineChangeSymbol-1;
 	
-	Vchange(0);										//脉冲转换为速度
+	  Vchange(0);										              //脉冲转换为速度
 	
 	switch(line1)
 	{
@@ -144,16 +170,14 @@ case 0:
 			{
 					if(lineChangeSymbol<1)
 					{
-						VelCrl(CAN2, 1,gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+						VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
 						VelCrl(CAN2, 2, -gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError)));
-					}
-					else if(lineChangeSymbol>=1)
+					}else if(lineChangeSymbol>=1)
 					{
 						VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
 						VelCrl(CAN2, 2, -gRobot.walk_t.right.base+ AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError)));
 					}
-			}
-		else if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
+			}else if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 					gRobot.walk_t.pid.distanceStraight = 0;
 					gRobot.walk_t.circlechange.turntime ++;
@@ -163,6 +187,7 @@ case 1:
 			gRobot.walk_t.pid.disError = y - (aimY +  sign*lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
 			gRobot.walk_t.pid.distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
+
 			if (fabs(gRobot.walk_t.pid.distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
 				VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
@@ -177,9 +202,7 @@ case 1:
 			default:
 			break;
 		}
-//检查是否卡死，若卡死则触发避障
-		CheckOutline();
-//调试程序
+		//调试程序
 		//d_Coor();
 		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));
 }

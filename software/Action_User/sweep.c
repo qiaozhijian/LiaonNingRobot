@@ -41,7 +41,7 @@ int CheckAgainstWall(void)
 	{
 		againstTime = 0;
 	}
-	if (againstTime > 130)
+	if (againstTime > 30)
 	{
 		againstTime=0;
 		return 1; 	//另外一种标志方案
@@ -60,11 +60,11 @@ int CheckAgainstWall(void)
 * 说    明：当前是停在x=1000 y=0
 * 调用方法：无 
 ****************************************************************************/
-void AgainstWall(float aimAngle,float angle)
+void AgainstWall(float aimAngle,float angle,float spacingError)
 {
 	gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
-	VelCrl(CAN2, 1, -5000 + AnglePidControl(gRobot.walk_t.pid.angleError));
-	VelCrl(CAN2, 2, 5000 + AnglePidControl(gRobot.walk_t.pid.angleError));
+	VelCrl(CAN2, 1, -5000 + AnglePidControl(gRobot.walk_t.pid.angleError)-AgainstWallPidControl(spacingError));
+	VelCrl(CAN2, 2, 5000 + AnglePidControl(gRobot.walk_t.pid.angleError)+AgainstWallPidControl(spacingError));
 //	if (fabs(gRobot.walk_t.pid.angleError) < 8)
 //	{
 //		if (CheckAgainstWall())
@@ -304,7 +304,6 @@ void In2Out(int lineChangeSymbol)
 			break;
 		  default:
 			break;
-
 	}
 }
 /****************************************************************************
@@ -324,8 +323,11 @@ void WalkOne()
 			if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
 			  turntime=1;
 		  ShunShiZhenCircleBiHuan(800,500,-100,600);
-			break;
+		break;
 		case 1:
+			Ygoal(300,1400,-90,-1,0);
+		break;
+		case 2:
 			In2Out(0);
 		break;
 		default:
@@ -363,6 +365,51 @@ int LaserStart(void)
 	}
 	return statue;
 } 
+/****************************************************************************
+* 名    称：Xgoal()
+* 功    能：走目标直线X
+* 入口参数：无
+* 出口参数：无
+* 说    明：(0度)sign=1;(180度)sign=-1;lineChangeSymbol正常情况下为0
+* 调用方法：无 
+****************************************************************************/
+void Xgoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol)
+{
+	  static float x = 0, y = 0, angle = 0;				
+		x=gRobot.walk_t.pos.x;											//赋值当前姿态
+		y=gRobot.walk_t.pos.y;
+		angle=gRobot.walk_t.pos.angle;
+	
+	  gRobot.walk_t.pid.disError = x-(aimX+ sign*lineChangeSymbol*470);
+		gRobot.walk_t.pid.angleError=angleErrorCount(aimAngle,angle);;
+		gRobot.walk_t.pid.distanceStraight=sign*(aimY+ sign*lineChangeSymbol*350)-sign*y;
+	
+		VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+		VelCrl(CAN2, 2, -gRobot.walk_t.right.base+ AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError)));
+}
+/****************************************************************************
+* 名    称：Ygoal()
+* 功    能：走目标直线Y
+* 入口参数：aimX:目标X aimY:目标y aimAngle:目标角度,sign:直线标志,
+           lineChangeSymbol：缩圈量
+* 出口参数：无
+* 说    明：(90度)sign=1;(-90度)sign=-1;lineChangeSymbol正常情况下为0
+* 调用方法：无 
+****************************************************************************/
+void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol)
+{
+		static float x = 0, y = 0, angle = 0;				
+		x=gRobot.walk_t.pos.x;											//赋值当前姿态
+		y=gRobot.walk_t.pos.y;
+		angle=gRobot.walk_t.pos.angle;
+		
+		gRobot.walk_t.pid.disError = y - (aimY +  sign*lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+		gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
+		gRobot.walk_t.pid.distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
+	
+		VelCrl(CAN2, 1, gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError))); //pid中填入的是差值
+		VelCrl(CAN2, 2, -gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError)));
+}
 /****************************************************************************
 * 名    称：Run()	
 * 功    能：hahaha

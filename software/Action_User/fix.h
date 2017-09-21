@@ -25,7 +25,11 @@ typedef struct{
 
 int getAimBorder(void);
 
-float getFixAngle(int aimBorder);
+typedef struct{
+		float angle;
+		float spacingError;
+}FixPara_t;
+FixPara_t getFixPara(int aimBorder);
 
 int CommitFix(int laserLeftDistance,int laserRightDistance);
 

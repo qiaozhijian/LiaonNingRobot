@@ -140,29 +140,23 @@ void fireTask(void)
 //}
 
 /**********************************测试版***************************/
-if(ballNum==0)
-	{
-		YesBallCount=0;
-		noBallCount++;
-		if(noBallCount<=3&&noBallCount>0)
-		{
-			PushBall();
-		}else if(noBallCount<=53&&noBallCount>50)
-		{	
-			PushBallReset();
-		}
-		if(noBallCount>=299)
-		{ 
-			noBall++;
-		}
-			noBallCount%=300;
-	}
-	
-	if(ballNum!=0)
-	{
-		noBallCount=0;
-		noBall=0;
-		YesBallCount++;
+//if(ballNum==0)
+//	{
+//		YesBallCount=0;
+//		noBallCount++;
+//		if(noBallCount<=3&&noBallCount>0)
+//		{
+//			PushBall();
+//		}else if(noBallCount<=53&&noBallCount>50)
+//		{	
+//			PushBallReset();
+//		}
+//		if(noBallCount>=299)
+//		{ 
+//			noBall++;
+//		}
+//			noBallCount%=300;
+//	}
 		if(YesBallCount<=3&&YesBallCount>0)
 		{
 			PushBall();
@@ -170,9 +164,24 @@ if(ballNum==0)
 		{	
 			PushBallReset();
 		}
-			YesBallCount%=400;
+		YesBallCount++;
+		YesBallCount%=400;
+	
+	if(ballNum==0)
+	{
+		noBallCount++;
+		if(noBallCount>=200)
+		{ 
+			noBall++;
+		}
+		noBallCount%=200;
+	}else if(ballNum!=0)
+	{
+		noBall=0;
+		noBallCount=0;
 	}
-	if(noBall>6)
+	
+	if(noBall>3)
 	{
 		CollectBallVelCtr(55);
 		Delay_ms(1000);
