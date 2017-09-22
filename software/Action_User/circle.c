@@ -28,26 +28,26 @@ float CircleAnglePidControl(float ERR)
 ****************************************************************************/
 void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 {
-		int M1,M2,V1,V2;//定义速度，输入的脉冲
+		int M1,M2,V1,V2;																				 //定义速度，输入的脉冲
 		static float x=0.f,y=0.f,angle=0.f;
-		static float aimAngle=0;//目标角度
-		static float angleError=0;//目标角度与当前角度的偏差
-		static float distanceCenter=0;//当前坐标与圆心的差值
-		static float k;//定义斜率
-		static float 	spacingError;//定义两个点之间的距离
-		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
-		static float dx,dy;//当前坐标与圆心的差值
+		static float aimAngle=0;                                 //目标角度
+		static float angleError=0;                               //目标角度与当前角度的偏差
+		static float distanceCenter=0;                           //当前坐标与圆心的差值
+		static float k;                                          //定义斜率
+		static float 	spacingError;                              //定义两个点之间的距离
+		static float kAngle;                                     //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
+		static float dx,dy;                                      //当前坐标与圆心的差值
 		//逆时针圆形闭环
-		x=getXpos();//当前x坐标
-		y=getYpos();//当前y坐标
-		angle=getAngle();//当前角度
+		x=getXpos();                                             //当前x坐标
+		y=getYpos();                                             //当前y坐标
+		angle=getAngle();                                        //当前角度
 		distanceCenter=sqrt((x-X0)*(x-X0)+(y-Y0)*(y-Y0));
 		spacingError=distanceCenter-R; 
 		dx=x-X0;
 		dy=y-Y0;
 		k=dy/dx;
 		kAngle=atan(-1/k)*180/PI;
-		if(fabs(dy)<1)//判断特殊角度
+		if(fabs(dy)<1)                                            //判断特殊角度
 		{
 			if(dx>0)
 			{
@@ -71,19 +71,19 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		
 		if((dx>0))
 		{
-			if(dy>0)//在第一象限
+			if(dy>0)                    //在第一象限
 			{
 				aimAngle=kAngle+90;
-			}else if(dy<0)//在第四象限
+			}else if(dy<0)              //在第四象限
 			{
 				aimAngle=-(90-kAngle);
 			}
 		}else if(dx<0)
 		{
-			if(dy>0)//在第二象限
+			if(dy>0)                    //在第二象限
 			{
 				aimAngle=kAngle+90;
-			}else if(dy<0)//在第三象限
+			}else if(dy<0)              //在第三象限
 			{
 				aimAngle=-(90-kAngle);
 			}
@@ -119,18 +119,18 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 ****************************************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 {
-		int M1,M2,V1,V2;//定义速度，输入的脉冲
+		int M1,M2,V1,V2;																					 //定义速度，输入的脉冲
 		static float x=0.f,y=0.f,angle=0.f;
-		static float aimAngle=0;//目标角度
-		static float angleError=0;//目标角度与当前角度的偏差
-		static float distanceCenter=0;//当前坐标与圆心的差值
-		static float /*a=-1,b=1,c=0,*/k;//定义斜率
-		static float 	spacingError;//定义两个点之间的距离
-		static float kAngle;//当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
+		static float aimAngle=0;																	 //目标角度
+		static float angleError=0;																 //目标角度与当前角度的偏差
+		static float distanceCenter=0;														 //当前坐标与圆心的差值
+		static float /*a=-1,b=1,c=0,*/k;													 //定义斜率
+		static float 	spacingError;																 //定义两个点之间的距离
+		static float kAngle;																			 //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
 		static float dx,dy;
-		x=getXpos();//当前x坐标
-		y=getYpos();//当前y坐标
-		angle=getAngle();//当前角度
+		x=getXpos();																							 //当前x坐标
+		y=getYpos();																							 //当前y坐标
+		angle=getAngle();																					 //当前角度
 		distanceCenter=sqrt((x-X0)*(x-X0)+(y-Y0)*(y-Y0));
 		spacingError=distanceCenter-R;  
 		dx=x-X0;
@@ -159,19 +159,19 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			
 			if(dx>0)
 			{
-				if(dy>0)//在第一象限
+				if(dy>0)          //在第一象限
 				{
 					aimAngle=kAngle-90.f;
-				}else if(dy<0)//在第四象限
+				}else if(dy<0)    //在第四象限
 				{
 					aimAngle=90.f+kAngle;
 				}
 			}else if(dx<0)
 			{
-				if(dy>0)//在第二象限
+				if(dy>0)          //在第二象限
 				{
 					aimAngle=kAngle-90.f;
-				}else if(dy<0)//在第三象限
+				}else if(dy<0)    //在第三象限
 				{
 					aimAngle=90.f+kAngle;
 				}
@@ -569,7 +569,7 @@ void Findball_4(void)
 /************************找球方案5************************/
 float Findball_5(void)
 {
-	return getBestangle()*20;
+	return getBestangle()*2;
 }
 /****************************************************************************
 * 名    称：CameraFindball

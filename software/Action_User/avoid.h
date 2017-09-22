@@ -2,9 +2,10 @@
 #define AVOID_H
 
 
-void CheckOutline(void);//¼ì²âÊÇ·ñ¿¨ËÀ
-void BackCarIn(float angle);//ÄÚ»·µ¹³µ³ÌĞò
-void BackCarOut(float angle); //Íâ»·µ¹³µ³ÌĞò
-void BackCar(float angle);
-
+void CheckOutline(void);         //é¿éšœæ£€æµ‹
+void BackCarIn(float angle);     //å†…ç¯å€’è½¦
+void BackCarOut(float angle);    //å¤–ç¯å€’è½¦
+void BackCar(float angle);       //å€’è½¦ç¨‹åº
+int CheckEnemy(void);            //fixtaskå‰æ£€æµ‹æ˜¯å¦é å¢™
+int Turn180(void);
 #endif

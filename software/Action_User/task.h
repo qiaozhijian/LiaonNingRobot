@@ -13,8 +13,16 @@ typedef struct{
 /******************走行进程结构体***********************/
 //机器人缩圈标志
 typedef struct{
+	//
 	int turntime;
+	//
+	int turntimerem;
+	//车再那一边
 	int circlenum;
+	//车所再象限
+	int quadrant;
+	//车的顺逆方向
+	int direction;
 }CircleChange_t;
 //轮子状态 速度和调节量  
 typedef struct{
@@ -123,6 +131,15 @@ typedef struct{
 	CollectPara_t aim;  //辊子收球目标
 	CollectPara_t real; //辊子当前姿态
 }Collect_t;
+/******************辊子收球结构体***********************/
+typedef struct{
+	float pos;
+	float posrem;
+	float turntime;
+}PushPara_t;
+typedef struct{
+	PushPara_t real;
+}Push_t;
 
 /******************机器人结构体*********************/
 typedef struct {
@@ -141,6 +158,8 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
+	/******************收球进程***********************/
+	Push_t push_t;
 	
 	int turnTime; 			//	分开
 

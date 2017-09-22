@@ -5,3 +5,4 @@
 int circlechange(void);
 int LimitTurn(float x,float y);
 void In2OutChange(void);
+int LineCheck(int position);

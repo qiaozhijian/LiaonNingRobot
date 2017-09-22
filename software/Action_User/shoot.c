@@ -118,45 +118,34 @@ void fireTask(void)
 	
 	launcher=Launcher(x,y,angle,ballNum);
 	if(yawCount==3)
-	{
-		
-		
+	{	
 //		if(gRobot.shoot_t.real.Yawangle!=launcher.courceAngle)
 //		{
 //			launcher.courceAngle+=launcher.courceAngle-gRobot.shoot_t.real.Yawangle;
 //		}
-		
 		YawAngleCtr(launcher.courceAngle+2);
 	}
-	ShootCtr(launcher.rev);
-//				waitAdjust++;
-//if(waitAdjust<=3&&waitAdjust>0)
-//{
-//	PushBall();
-//}
-//if(waitAdjust<=Period/2+3&&waitAdjust>Period/2)
-//{	
-//	PushBallReset();
-//}
+	//投球被打断
+	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
+	{
+//		VelCrl(CAN2, 1,-7000); 
+//	  VelCrl(CAN2, 2, 7000);
+		FixTask();
+		YesBallCount=201;
+	}
+	else
+	{
+	  ShootCtr(launcher.rev);
+	}
 
 /**********************************测试版***************************/
-//if(ballNum==0)
-//	{
-//		YesBallCount=0;
-//		noBallCount++;
-//		if(noBallCount<=3&&noBallCount>0)
-//		{
-//			PushBall();
-//		}else if(noBallCount<=53&&noBallCount>50)
-//		{	
-//			PushBallReset();
-//		}
-//		if(noBallCount>=299)
-//		{ 
-//			noBall++;
-//		}
-//			noBallCount%=300;
-//	}
+    if(fabs(gRobot.push_t.real.pos-gRobot.push_t.real.posrem)<10)
+		{
+			gRobot.push_t.real.turntime++;
+		}
+		gRobot.push_t.real.posrem=gRobot.push_t.real.pos;
+		
+		
 		if(YesBallCount<=3&&YesBallCount>0)
 		{
 			PushBall();
@@ -180,7 +169,7 @@ void fireTask(void)
 		noBall=0;
 		noBallCount=0;
 	}
-	
+	//脱离状态
 	if(noBall>3)
 	{
 		CollectBallVelCtr(55);
@@ -190,12 +179,16 @@ void fireTask(void)
 		YesBallCount=0;
 		noBallCount=0;
 	}
+	
+	if(gRobot.push_t.real.turntime>30)
+	{
+		gRobot.push_t.real.turntime=0;
+		
+	}
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
-				//d_fireTask(ballNum,waitAdjust,launcher.courceAngle,launcher.rev);	
-			//	d_fireTask();
 }
 
 

@@ -2,7 +2,7 @@
 
 extern Robot_t gRobot;
 
-static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
+//static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
 static int statueRemember;                          //记住卡死时的状态码
 static float xStick, yStick;												//卡住时存储的位置数据
 
@@ -38,15 +38,17 @@ void BackCarIn(float angle) 												//内环倒车程序
 		if (fabs(angleError) < 5)
 		{
 			
-			gRobot.turnTime = turnTimeRemember;
+			//gRobot.turnTime = turnTimeRemember;
 			i = 0;	
 			j = 0;																				//清空标志位
-			turnTimeRemember=0;
+			//turnTimeRemember=0;
 			
 			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
 			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
+			gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
 			
 			gRobot.status=statueRemember;                 //切换到进入避障前的大状态
+			gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
 		} 
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -82,15 +84,17 @@ void BackCarOut(float angle) 											//外环倒车程序
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
 		if (fabs(angleError) < 5)
 		{
-			gRobot.turnTime = turnTimeRemember;
+			//gRobot.turnTime = turnTimeRemember;
 			i = 0;
 			j = 0;																		 //清空标志位
-			turnTimeRemember=0;
+			//turnTimeRemember=0;
 			
 			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
 			gRobot.avoid_t.passflag=1;                 //检测是否执行过倒车
+			gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
 			
 			gRobot.status=statueRemember;              //切换到进入避障前的大状态
+			gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -183,15 +187,146 @@ void CheckOutline3(void)//检测是否卡死
 		gRobot.avoid_t.signal=0;             //清零
 		gRobot.status=32;
 	}
-	USART_OUT(UART5,(uint8_t *)"%d\r\n",stickError);
+	//USART_OUT(UART5,(uint8_t *)"%d\r\n",stickError);
 }
 /****************************************************************************
-* 名    称：()	
+* 名    称：void CheckEnemy(void)	
 * 功    能：靠墙时后面有车决绝方案
 * 入口参数：无
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
+* 注    意: 车的方向顺:0 逆:1
 ****************************************************************************/
-
+/*
+用激光检测距离靠墙的距离与定位器的距离偏差是否很大，如果很大
+不靠墙	
+*/
+int CheckEnemy(void)
+{
+	#ifndef YES
+	#define NO 0
+	#define YES 1
+	#endif
+	
+	switch(LineCheck(gRobot.walk_t.circlechange.direction))
+	{
+		case 1://X=2400
+			 if(gRobot.walk_t.circlechange.direction==0)
+			   {
+					 if(fabs(2400-gRobot.walk_t.pos.x-getLeftAdc())>500)
+					 {
+						 return NO;
+					 }else{
+						return YES;
+				   }
+			   }else if(gRobot.walk_t.circlechange.direction==1)
+				 {
+				   if(fabs(2400-gRobot.walk_t.pos.x-getRightAdc())>500)
+					 {
+						 return NO;
+					 }else
+				 {
+						return YES;
+				 }
+				 }
+			break;
+		case 2://Y=4800
+			   	if(gRobot.walk_t.circlechange.direction==0)
+			   {
+					 if(fabs(4800-gRobot.walk_t.pos.y-getLeftAdc())>500)
+					 {
+						 return NO;
+					 }else{
+						return YES;
+				   }
+			   }else if(gRobot.walk_t.circlechange.direction==1)
+				 {
+				   if(fabs(4800-gRobot.walk_t.pos.y-getRightAdc())>500)
+					 {
+						 return NO;
+					 }else
+				 {
+						return YES;
+				 }
+				 }
+			break;
+		case 3://X=-2400
+					if(gRobot.walk_t.circlechange.direction==0)
+			   {
+					 if(fabs(2400+gRobot.walk_t.pos.x-getLeftAdc())>500)
+					 {
+						 return NO;
+					 }else{
+						return YES;
+				   }
+			   }else if(gRobot.walk_t.circlechange.direction==1)
+				 {
+				   if(fabs(2400+gRobot.walk_t.pos.x-getRightAdc())>500)
+					 {
+						 return NO;
+					 }else
+				 {
+						return YES;
+				 }
+				 }
+			break;
+		case 4://Y=0
+						if(gRobot.walk_t.circlechange.direction==0)
+			   {
+					 if(fabs(gRobot.walk_t.pos.y-getLeftAdc())>500)
+					 {
+						 return NO;
+					 }else{
+						return YES;
+				   }
+			   }else if(gRobot.walk_t.circlechange.direction==1)
+				 {
+				   if(fabs(gRobot.walk_t.pos.y-getRightAdc())>500)
+					 {
+						 return NO;
+					 }else
+				 {
+						return YES;
+				 }
+				 }
+			break;
+		default:
+			break;
+	}
+	return YES;
+}
+/****************************************************************************
+* 名    称：TurnACorer(void)	
+* 功    能：逆时针转角函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+* 注    意: 
+****************************************************************************/
+int Turn180(void)
+{
+	USART_OUT(UART5,(uint8_t*)"rr%d\t%d\t%d\r\n",(int)angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle),(int)gRobot.walk_t.pos.angle,(int)gRobot.avoid_t.pid.aimAngle);
+	//内圈
+	if(gRobot.walk_t.circlechange.turntime==4 && gRobot.walk_t.circlechange.turntime==7)
+	{
+		gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
+		
+		VelCrl(CAN2, 1, -10*fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)));
+		VelCrl(CAN2, 2,0);
+	}else if(gRobot.walk_t.circlechange.turntime==5 && gRobot.walk_t.circlechange.turntime==8)
+	{
+		VelCrl(CAN2, 1, 10*fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)));
+		VelCrl(CAN2, 2,0);
+	}
+	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) <10)
+	{
+		return 1;
+	}
+	else
+	{
+	 return 0;
+	}
+}
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

@@ -14,7 +14,7 @@
 extern Robot_t gRobot;
 static int turnTimeChange = 0;//记住拐弯的次数
 static int circleChangeSymbol=1;//切换圈的标志
-extern Robot_t gRobot;
+static int EnemyIs=0;
 
 /****************************************************************************
 * 名    称：CameraBaseWalk3(void)
@@ -31,9 +31,9 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	static float aimAngle = 0;   								//目标角度
 	static float angleError = 0; 								//目标角度与当前角度的偏差
 	static float disError = 0;   								//距离偏差
-	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
-	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
-	angle = gRobot.walk_t.pos.angle; 									//矫正过的角度角度
+	x = gRobot.walk_t.pos.x;										//矫正过的x坐标
+	y = gRobot.walk_t.pos.y;										//矫正过的y坐标
+	angle = gRobot.walk_t.pos.angle; 						//矫正过的角度角度
 	AreaCheck(x,y);
 	if(gRobot.walk_t.right.real>2000)
 	{
@@ -51,6 +51,11 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
 			gRobot.walk_t.right.aim =M + AnglePidControl(angleError - onceDistancePidControl(disError));
 //			piddisShuchu = distancePidControl(disError);
+			if(EnemyIs==1)
+			{
+				EnemyIs=0;
+				gRobot.status=24;
+			}
 		
 		break;
 
@@ -194,7 +199,13 @@ void AreaCheck(float x, float y)//全区域检查函数
 	{
 		circleNum=0;
 		turnTimeChange=0;
-		gRobot.status=24;
+		if(CheckEnemy())
+		{
+		  gRobot.status=24;
+		}else
+		{
+			EnemyIs=1;
+		}
 	}
 //	if(getF_ball()!=0)//有球清空转弯次数
 //	{

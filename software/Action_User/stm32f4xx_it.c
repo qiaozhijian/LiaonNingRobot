@@ -40,10 +40,11 @@
 /*            Cortex-M4 Processor Exceptions Handlers                         */
 /******************************************************************************/
 
-/************************************************************/
+
 extern Robot_t gRobot;
 /****************CAn***start******************/
-/******************电机速度*******************/
+/******************5856电机速度*******************/
+/******************5850电机位置*******************/
 typedef union{
 	uint8_t buffer[8];
 	int32_t receivebuff[2];
@@ -76,7 +77,14 @@ if(StdId==0x280+COLLECT_BALL_ID)
 		  gRobot.collect_t.real.speed=Can1Msg.receivebuff[1];
 		}
 	}
-
+/**************推球电机*****************/
+if(StdId==0x280+PUSH_BALL_ID)
+	{
+		if(Can1Msg.receivebuff[0]==0x00005850)
+		{
+		  gRobot.push_t.real.pos=Can1Msg.receivebuff[1];
+		}
+	}
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
 	CAN_ClearFlag(CAN1, CAN_FLAG_EPV);
 	CAN_ClearFlag(CAN1, CAN_FLAG_BOF);
@@ -322,7 +330,6 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			{
 
 				angle = -posture.ActVal[0] ;//角度
-//				USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)posture.ActVal[0]);
 				posture.ActVal[1] = posture.ActVal[1];
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
@@ -336,14 +343,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				gRobot.walk_t.pos.angle=getAngle();
 			}
 			count = 0;
-			
-//			if(CheckAgainstWall())
-//			{
-//				
-//			}
 			break;
 
-		default:
+		 default:
 			count = 0;
 			break;
 		}
@@ -383,7 +385,6 @@ void USART2_IRQHandler(void)
 	{
 	USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 		tmp=USART_ReceiveData(USART2);
-//	  USART_SendData(UART5,tmp);
 /****************球最多的角度****************/
 if(LEVEL==3)
 {
@@ -395,7 +396,6 @@ if(LEVEL==3)
 				setBestangle(tmp); 
 				flag=0;
 			}
-//			else USART_OUT();
 		}
 		Ballf=1;
 	}

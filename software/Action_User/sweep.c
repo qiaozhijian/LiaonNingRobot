@@ -233,8 +233,15 @@ int Pointparking(float Pointx,float Pointy)
 ////#elif
 //#endif
 //}
-
-int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4为内圈返回缩圈距离
+/****************************************************************************
+* 名    称：LineChange()	
+* 功    能：设立缩圈函数
+* 入口参数：无
+* 出口参数：返回缩圈距离
+* 说    明：symbol=0,1,2时为外圈，3,4为内圈
+* 调用方法：无 
+****************************************************************************/
+int LineChange(void)			   //，
 {
 	if (lineChangeSymbol < 3)
 	{
@@ -253,63 +260,30 @@ int LineChange(void)			   //设立缩圈函数，symbol=0,1,2时为外圈，3,4�
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
+* 注    意: 0:逆 1:顺
 ****************************************************************************/
-void In2Out(int lineChangeSymbol)
+void In2Out(int lineChangeSymbol,int direction)
 {
 	//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.turntime);
 	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.passflag);
 	//条件判断
 	In2OutChange();
- switch(gRobot.walk_t.circlechange.turntime)
+	switch(direction)
 	{
-		//内圈
-		  case 0:
-				Line(600,3400,0,0,1,1);
+		case 0:
+			ClockWise();
 			break;
-				
-			case 1:
-				Line(-600,3400,90,1,1,1);
+		case 1:
+			AntiClockWise();
 			break;
-
-			case 2:
-				Line(-600,1400,180,0,-1,1);
-			break;
-
-			case 3:
-				Line(600,1400,-90,1,-1,1);
-			break;
-		
-			case 4:
-				NiShiZhenCircleBiHuan(1800,1100,0,2400);
-			break;
-				
-			case 5:
-				NiShiZhenCircleBiHuan(1800,1600,0,2400);
-			break;
-			
-			case 6:
-			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
-			 break;	
-				
-			case 7:
-				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-			break;
-				
-			case 8:
-				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-			break;
-
-			case 9:
-				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-			break;
-		  default:
+		default:
 			break;
 	}
 }
 /****************************************************************************
-* 名    称：Out2In()	
-* 功    能：主扫场控制程序
-* 入口参数：lineChangeSymbol(改变第一圈的位置)
+* 名    称：WalkOne()	
+* 功    能：挡车程序
+* 入口参数：无
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
@@ -328,7 +302,7 @@ void WalkOne()
 			Ygoal(300,1400,-90,-1,0);
 		break;
 		case 2:
-			In2Out(0);
+			In2Out(0,1);
 		break;
 		default:
 		  break;
@@ -423,10 +397,12 @@ void Run(void)
 	switch(LaserStart())
 	{
 		case 1:
-			In2Out(1);
+			//逆时针
+			In2Out(1,1);
 			break;
 		case 2:
-			In2Out(2);
+			//顺时针
+			In2Out(1,0);
 			break;
 		case 3:
 			WalkOne();
@@ -434,6 +410,118 @@ void Run(void)
 		case 4:
 			break;
 		default:
+			break;
+	}
+}
+/****************************************************************************
+* 名    称：ClockWise()	
+* 功    能：顺时针行驶
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void ClockWise(void)
+{
+	switch(gRobot.walk_t.circlechange.turntime)
+	{
+		//内圈
+		  case 0:
+				Line(-600,3400,0,0,1,1);
+			break;
+				
+			case 1:
+				Line(600,3400,-90,1,1,1);
+			break;
+
+			case 2:
+				Line(600,1400,180,0,-1,1);
+			break;
+
+			case 3:
+				Line(-600,1400,90,1,-1,1);
+			break;
+		
+			case 4:
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+			break;
+				
+			case 5:
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+			
+			case 6:
+			  ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+			 break;	
+				
+			case 7:
+				NiShiZhenCircleBiHuan(1800,1100,0,2400);
+			break;
+				
+			case 8:
+				NiShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+
+			case 9:
+				NiShiZhenCircleBiHuan(1800,2100,0,2400);
+			break;
+		  default:
+			break;
+	}
+}
+/****************************************************************************
+* 名    称：AntiClockWise ()	
+* 功    能：逆时针行驶
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void AntiClockWise(void)
+{
+	switch(gRobot.walk_t.circlechange.turntime)
+	{
+		//内圈
+		  case 0:
+				Line(600,3400,0,0,1,1);
+			break;
+				
+			case 1:
+				Line(-600,3400,90,1,1,1);
+			break;
+
+			case 2:
+				Line(-600,1400,180,0,-1,1);
+			break;
+
+			case 3:
+				Line(600,1400,-90,1,-1,1);
+			break;
+		
+			case 4:
+				NiShiZhenCircleBiHuan(1800,1100,0,2400);
+			break;
+				
+			case 5:
+				NiShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+			
+			case 6:
+			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
+			 break;	
+				
+			case 7:
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+			break;
+				
+			case 8:
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+
+			case 9:
+				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
+			break;
+		  default:
 			break;
 	}
 }

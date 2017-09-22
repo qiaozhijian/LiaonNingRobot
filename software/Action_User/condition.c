@@ -31,6 +31,9 @@ void In2OutChange(void)
 	//启动避障逆向
 	if(gRobot.avoid_t.passflag==1)
 	{
+	if(Turn180())
+	{
+		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.circlechange.turntime>=7 && gRobot.walk_t.circlechange.turntime!=9)
 		{
@@ -56,10 +59,16 @@ void In2OutChange(void)
 				gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+3;
 			}else if(gRobot.walk_t.circlechange.circlenum>1)
 			{
-					gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+4;
+				gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+4;
 			}
-		}		
+		}	
+			  gRobot.walk_t.circlechange.circlenum=0;	
+	}else 
+	{
+	//让switch变为default
+		gRobot.walk_t.circlechange.turntime=100;
 	}
+}
 	//路径切换
 	if(gRobot.walk_t.circlechange.turntime==4||gRobot.walk_t.circlechange.turntime==5||(gRobot.walk_t.circlechange.turntime==7||gRobot.walk_t.circlechange.turntime==8))
 	{
@@ -93,26 +102,26 @@ void In2OutChange(void)
 ****************************************************************************/
 int circlechange(void)
 {
-	static uint8_t Quadrant=1;//象限
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y<2400&&Quadrant==1)
+	//Quadrant//象限
+	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant==4)
 	{
 			gRobot.walk_t.circlechange.circlenum++;
-			Quadrant=2;
+			gRobot.walk_t.circlechange.quadrant=1;
 	}
-	if(gRobot.walk_t.pos.x>0&&gRobot.walk_t.pos.y>2400&&Quadrant==2)
+	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant==1)
 	{
 			gRobot.walk_t.circlechange.circlenum++;
-			Quadrant=3;
+			gRobot.walk_t.circlechange.quadrant=2;
 	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y>2400&&Quadrant==3)
+	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant==2)
 	{
 		  gRobot.walk_t.circlechange.circlenum++;
-			Quadrant=4;
+			gRobot.walk_t.circlechange.quadrant=3;
 	}
-	if(gRobot.walk_t.pos.x<0&&gRobot.walk_t.pos.y<2400&&Quadrant==4)
+	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant==3)
 	{
 			gRobot.walk_t.circlechange.circlenum++;
-			Quadrant=1;
+			gRobot.walk_t.circlechange.quadrant=4;
 	}
 	if(gRobot.walk_t.circlechange.circlenum>3)
 	{
@@ -150,3 +159,53 @@ int LimitTurn(float x,float y)
 	}
 	return 0;
 }
+/****************************************************************************
+* 名    称：void LineCheck() 
+* 功   
+能：判断车的侧边是那一边
+* 入口参数：当前的坐标
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int LineCheck(int position) 
+{
+	switch(position)
+	{
+		case 0:
+			if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
+			{
+				return 3;
+			}else if(70<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<110)
+			{
+				return 4;
+			}else if(-110<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<-70)
+			{
+				return 2;
+			}else if(160<gRobot.walk_t.pos.angle || gRobot.walk_t.pos.angle<-160)
+			{
+			  return 1;
+			}
+			
+			break;
+		case 1:
+				if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
+			{
+				return 1;
+			}else if(70<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<110)
+			{
+				return 2;
+			}else if(-110<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<-70)
+			{
+				return 4;
+			}else if(160<gRobot.walk_t.pos.angle || gRobot.walk_t.pos.angle<-160)
+			{
+			  return 3;
+			}
+			break;
+		default:
+			break;	
+  }
+	return 0;
+}
+/********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

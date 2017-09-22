@@ -13,9 +13,8 @@
 Robot_t gRobot={0};
 int main(void)
 {
-	gRobot.status=25;
 	robotInit();
-
+	
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
