@@ -142,6 +142,7 @@ void UART5_IRQHandler(void)
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
 	{
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+		tmp=USART_ReceiveData(UART5);
 	}
 	else if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
 	{
@@ -218,11 +219,11 @@ void USART1_IRQHandler(void)
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
 		{
 				USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+				data=USART_ReceiveData(USART1);
 		}
 	else if(USART_GetITStatus(USART1, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( USART1,USART_IT_RXNE);
-		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 		data=USART_ReceiveData(USART1);
 		switch (i)
 		{
@@ -352,17 +353,6 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	}
 	else
 	{
-		USART_ClearITPendingBit(USART3, USART_IT_PE);
-		USART_ClearITPendingBit(USART3, USART_IT_TXE);
-		USART_ClearITPendingBit(USART3, USART_IT_TC);
-		USART_ClearITPendingBit(USART3, USART_IT_ORE_RX);
-		USART_ClearITPendingBit(USART3, USART_IT_IDLE);
-		USART_ClearITPendingBit(USART3, USART_IT_LBD);
-		USART_ClearITPendingBit(USART3, USART_IT_CTS);
-		USART_ClearITPendingBit(USART3, USART_IT_ERR);
-		USART_ClearITPendingBit(USART3, USART_IT_ORE_ER);
-		USART_ClearITPendingBit(USART3, USART_IT_NE);
-		USART_ClearITPendingBit(USART3, USART_IT_FE);
 		USART_ReceiveData(USART3);
 	}
 }

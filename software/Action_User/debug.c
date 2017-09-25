@@ -34,7 +34,6 @@ void d_Coor(void)
 //}
 void d_Line(int turnTime,int lineChangeSymbol,float disError,float angleError,float distanceStraight,float turnTimeLead)
 {
-		USART_OUTF(gRobot.turnTime);
 		USART_OUTF(lineChangeSymbol);
 		USART_OUTF(disError);
 		USART_OUTF(angleError);

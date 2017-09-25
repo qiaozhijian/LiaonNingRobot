@@ -16,9 +16,7 @@
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_gpio.h"
 #include "config.h"
-#include "fix.h"
-#include "tools.h"
-
+extern Robot_t gRobot;
 
 /**
   * @brief  Configures the TIMx's interrupt time.
@@ -250,15 +248,20 @@ void TIM3_IRQHandler(void)
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-		tim3Counter++;
+		tim3Counter=0;
 		t_FindBall++;
 		t_FindBall%=65535;
+		tim3Counter++;
 		if(tim3Counter%2)
 		{
-			xRem=getXpos();
-			yRem=getYpos();
+			xRem=gRobot.walk_t.pos.x;
+			yRem=gRobot.walk_t.pos.y;
 			setxRem(xRem);
 			setyRem(yRem);
+		}
+		if(tim3Counter>400)
+		{
+			tim3Counter=0;
 		}
 	}
 

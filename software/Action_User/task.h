@@ -1,7 +1,27 @@
 #ifndef  __TASK_H
 #define  __TASK_H
 #include "config.h"
+/******************位矢结构体***********************/
+typedef struct{
+	float detax;
+	float detay;
+	float detas;
+	float detaangle;
+	float averageV;
+}displacement_t; 
+/******************矫正结构体***********************/
+//激光距离
+typedef struct {
+	int left;
+	int right;
+	//激光启动
+	int statue;
+}Laser_t;
 
+typedef struct{
+	//激光的左右距离
+	Laser_t laser;
+}Fix_t;
 /*************************PID调解***********************/
 //PID调解的相关参数
 typedef struct{
@@ -50,6 +70,10 @@ typedef struct{
 	Pid_t pid;
 	//走形的切换
 	CircleChange_t circlechange;
+	//激光启动
+	Laser_t laser;
+	//位移计算量 
+	displacement_t displacement;
 }Walk_t;
 
 
@@ -68,18 +92,6 @@ typedef struct{
 	//实际射球参数
 	ShootPara_t real;
 }Shoot_t;
-
-/******************矫正结构体***********************/
-//激光距离
-typedef struct {
-	int left;
-	int right;
-}Laser_t;
-
-typedef struct{
-	//激光的左右距离
-	Laser_t laser;
-}Fix_t;
 
 /******************摄像头结构体***********************/
 //摄像头
@@ -120,6 +132,10 @@ typedef struct{
 }Avoid_t;
 
 /******************辊子收球结构体***********************/
+//光电门数球程序
+typedef struct{
+  int ballcount;
+}PhotoElectric_t;
 //收球电机参数
 typedef struct {
 	float angle;
@@ -143,7 +159,6 @@ typedef struct{
 
 /******************机器人结构体*********************/
 typedef struct {
-	
 	/******************进程选择***********************/
 	uint8_t status;
 	/******************射球进程***********************/	
@@ -160,8 +175,6 @@ typedef struct {
 	Collect_t collect_t;
 	/******************收球进程***********************/
 	Push_t push_t;
-	
-	int turnTime; 			//	分开
 
 }Robot_t;
 

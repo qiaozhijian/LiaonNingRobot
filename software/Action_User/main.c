@@ -14,12 +14,12 @@ Robot_t gRobot={0};
 int main(void)
 {
 	robotInit();
-	
+	while(LaserStart());
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
 		{	
-			      MotorRead();      
+			      MotorRead();   
 						if (gRobot.status & STATUS_SWEEP)
 						{
 							 Run();
@@ -38,7 +38,8 @@ int main(void)
 						}	
 						else if(gRobot.status & STATUS_CAMERA_WALK)
 						{
-							CameraBaseWalk3();
+							//CameraBaseWalk3();
+							CameraBaseWalk2();
 						}
 						else if (gRobot.status & STATUS_CAMERA)
 						{
@@ -46,13 +47,28 @@ int main(void)
 						}
 					  if(gRobot.avoid_t.signal)
 						{
-							CheckOutline3();
+							//CheckOutline3();
 							//CheckOutline();
+							DetaS();	
 						}
 /*****************************************临时测试*****************************************/
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.passflag);				
-//USART_OUT(UART5,(uint8_t*)"ttt\t%d\t%d\t%d\t%d\r\n",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
-USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
+USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.signal);
+
+						
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.passflag);	
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.circlenum);
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.direction);
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle));
+//						
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.y);			
+//						
+//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.pid.aimAngle);	
+////USART_OUT(UART5,(uint8_t*)"%d\t%d\t%d\t%d\t",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
+//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
+//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntimerem);
+//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.status);
 //if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
 //	{
 //		change=1;
@@ -79,7 +95,7 @@ USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
 			//			Findball_3();
 			//			Findball_5();
       //			Debug();
-			USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.speed);
+		  //USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.shoot_t.real.speed);
 /*****************************************临时测试*****************************************/			
 		}
 	}

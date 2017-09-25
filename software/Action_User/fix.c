@@ -407,7 +407,7 @@ void FixTask(void)
 //				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
 //				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
 //				USART_OUT(UART5, (uint8_t *)"%s\t\r\n", "hahahahahha5");
-				if(commitFix)//当激光没问题
+				if(commitFix)//当激光没问题时 
 				{
 					fixPosFirst(aimBorder);
 					fixSuccessFlag=1;
@@ -474,8 +474,6 @@ void FixTask(void)
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserLeftDistance);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)laserRightDistance);
 //		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.turnTime);
-	
-		
 }
 
 

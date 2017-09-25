@@ -11,6 +11,8 @@
 	void Sub_Box(void);
 	void SetTurnTimeChange(int temp);
 	int GetTurnTimeChange(void);
-void CheckOutline3(void);
+  void CheckOutline3(void);
+  int CheckArea2(float x, float y, int circleSymbol);
+	void CameraBaseWalk2(void);
 
 #endif

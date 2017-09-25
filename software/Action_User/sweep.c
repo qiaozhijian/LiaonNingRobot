@@ -264,8 +264,6 @@ int LineChange(void)			   //，
 ****************************************************************************/
 void In2Out(int lineChangeSymbol,int direction)
 {
-	//USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.turntime);
-	//USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.passflag);
 	//条件判断
 	In2OutChange();
 	switch(direction)
@@ -319,25 +317,34 @@ void WalkOne()
 int LaserStart(void)
 {
 	static int lasercount=0;       //让激光执行一段时间再生效
-	static int statue=0;
 	if(lasercount<300)    
 	 lasercount++;
-	if(getLeftAdc()<500&&lasercount==300)
+	if(getLeftAdc()<500 && lasercount==300)
 	{
 		lasercount=302;
-		statue=1;
+		gRobot.walk_t.laser.statue=1;
+		gRobot.walk_t.circlechange.direction=0;
+		return 0;
 	}
-	if(getRightAdc()<500&&lasercount==300)
+	if(getRightAdc()<500 && lasercount==300)
 	{
 		lasercount=302;
-		statue=2;
+		gRobot.walk_t.laser.statue=1;
+		gRobot.walk_t.circlechange.direction=1;
+		return 0;
 	}
-	if(getRightAdc()<500&&getLeftAdc()<500&&lasercount==300)
+	if(getRightAdc()<500 && getLeftAdc()<500&&lasercount==300)
 	{
 		lasercount=302;
-	  statue=3;
+	  gRobot.walk_t.laser.statue=2;
+		return 0;
 	}
-	return statue;
+	//防止跳变
+	if(lasercount>300)
+	{
+		lasercount=0;
+	}
+	return 1;
 } 
 /****************************************************************************
 * 名    称：Xgoal()
@@ -386,7 +393,7 @@ void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol)
 }
 /****************************************************************************
 * 名    称：Run()	
-* 功    能：hahaha
+* 功    能：程序运行分类
 * 入口参数：无
 * 出口参数：无
 * 说    明：无
@@ -394,20 +401,17 @@ void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol)
 ****************************************************************************/
 void Run(void)
 {
-	switch(LaserStart())
+	switch(gRobot.walk_t.laser.statue)
 	{
 		case 1:
 			//逆时针
-			In2Out(1,1);
+			//顺时针
+			In2Out(1,gRobot.walk_t.circlechange.direction);
 			break;
 		case 2:
-			//顺时针
-			In2Out(1,0);
-			break;
-		case 3:
 			WalkOne();
 			break;
-		case 4:
+		case 3:
 			break;
 		default:
 			break;
@@ -453,18 +457,6 @@ void ClockWise(void)
 			case 6:
 			  ShunShiZhenCircleBiHuan(1800,2100,0,2400);
 			 break;	
-				
-			case 7:
-				NiShiZhenCircleBiHuan(1800,1100,0,2400);
-			break;
-				
-			case 8:
-				NiShiZhenCircleBiHuan(1800,1600,0,2400);
-			break;
-
-			case 9:
-				NiShiZhenCircleBiHuan(1800,2100,0,2400);
-			break;
 		  default:
 			break;
 	}
@@ -509,18 +501,6 @@ void AntiClockWise(void)
 			case 6:
 			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
 			 break;	
-				
-			case 7:
-				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-			break;
-				
-			case 8:
-				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-			break;
-
-			case 9:
-				ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-			break;
 		  default:
 			break;
 	}

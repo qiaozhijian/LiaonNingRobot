@@ -33,6 +33,10 @@ void HardWare(void){
 //	
 	//激光测距初始化
 	Adc_Init();
+	//蜂鸣器初始化
+  BeepInit();
+	//光电开关初始化
+	PhotoelectricityInit();
 	//行程开关初始化
 	TravelSwitch_Init();
 	//树莓派拉电平
@@ -101,7 +105,7 @@ void robotInit(void)
 	
 	Delay_ms(6000);
 	Delay_ms(6000);
-	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	CollectBallVelCtr(55);                                       //让辊子转起来
+//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+//	CollectBallVelCtr(55);                                       //让辊子转起来
 	
 }

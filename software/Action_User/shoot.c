@@ -38,24 +38,24 @@ float LauncherPidControl(float ERR)
 Launcher_t Launcher(float x,float y,float angle,int ballNum)
 {
 	static Launcher_t launcher;
-	static float s = 0;//车到圆环中心的距离
-	static float h = 424.6;//发射口到框的高度，垂直高度
-	static float v = 0;//要求的速度
+	static float s = 0;                    //车到圆环中心的距离
+	static float h = 424.6;                //发射口到框的高度，垂直高度
+	static float v = 0;                    //要求的速度
 	//static float rev = 0;//转动速度
-	static float x0=-150, y0=2400;//框的中心
+	static float x0=-150, y0=2400;         //框的中心
 	//static float g = 9.9;//重力加速度
 	//static float courceAngle = 0;//定义航向角度
-	static float dx=0, dy=0;//定义坐标差值
+	static float dx=0, dy=0;               //定义坐标差值
 	static float alpha = 0;
 	//算出发射装置的坐标
 	ballNum=getBallColor();
-if (ballNum == 100)//加入球是白球
+if (ballNum == 100)                      //加入球是白球
 	{
 		x0 = -162.5;
 		y0 = 2335.35;
 	}
 
-else if (ballNum==1)//假如球是黑球
+else if (ballNum==1)                     //假如球是黑球
 	{
 		x0 = 162.5;
 		y0 = 2335.35;
@@ -141,11 +141,10 @@ void fireTask(void)
 /**********************************测试版***************************/
     if(fabs(gRobot.push_t.real.pos-gRobot.push_t.real.posrem)<10)
 		{
+			//计算推球失败次数
 			gRobot.push_t.real.turntime++;
 		}
 		gRobot.push_t.real.posrem=gRobot.push_t.real.pos;
-		
-		
 		if(YesBallCount<=3&&YesBallCount>0)
 		{
 			PushBall();
@@ -168,22 +167,22 @@ void fireTask(void)
 	{
 		noBall=0;
 		noBallCount=0;
-	}
+	} 
+	
 	//脱离状态
-	if(noBall>3)
-	{
-		CollectBallVelCtr(55);
-		Delay_ms(1000);
-		gRobot.status=6;
-		noBall=0;
-		YesBallCount=0;
-		noBallCount=0;
-	}
+//	if(noBall>3)
+//	{
+//		CollectBallVelCtr(55);
+//		Delay_ms(1000);
+//		gRobot.status=6;
+//		noBall=0;
+//		YesBallCount=0;
+//		noBallCount=0;
+//	}
 	
 	if(gRobot.push_t.real.turntime>30)
 	{
 		gRobot.push_t.real.turntime=0;
-		
 	}
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);

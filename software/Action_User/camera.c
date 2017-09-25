@@ -344,3 +344,219 @@ if(getF_ball())
 //	
 //}
 
+void CameraBaseWalk2(void)
+{
+	static int M=12214;
+	static float x = 0, y = 0, angle = 0;
+	static float aimAngle = 0;   								//目标角度
+	static float angleError = 0; 								//目标角度与当前角度的偏差
+	static float disError = 0;   
+	static int circleChangeSymbol=2;
+//	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
+//	static int circleNum=0;
+	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
+	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
+	angle = gRobot.walk_t.pos.angle;
+//	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.turnTime;
+	if(gRobot.walk_t.right.real>2000)
+	{
+		gRobot.avoid_t.signal=1;
+	}
+
+	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.turnTime=0;
+	}else if(x>250+circleChangeSymbol*500&&y<3100+circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.turnTime=1;
+	}else if(x>-250-circleChangeSymbol*500&&y>3100+circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.turnTime=2;
+	}else if(x<-250-circleChangeSymbol*500&&y>1700-circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.turnTime=3;
+	}
+	
+	circleChangeSymbol = CheckArea2(x,y,circleChangeSymbol);//通过走的区域判断是否走完
+	
+
+	switch (gRobot.camera_t.camrBaseWalk_t.turnTime)
+	{
+	case 0:
+			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+			disError = y - (1300- circleChangeSymbol*500); 
+			aimAngle = -90+Findball_5();
+			angleError = angleErrorCount(aimAngle,angle);
+			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //角度误差pid和距离误差相结合
+			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
+			gRobot.walk_t.right.aim =M + AnglePidControl(angleError - onceDistancePidControl(disError));
+	break;
+
+	case 1:
+		disError = x-(600+circleChangeSymbol*700);
+		aimAngle=0+Findball_5();
+		angleError=angleErrorCount(aimAngle,angle);
+		VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+		VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
+		gRobot.walk_t.right.aim =M+AnglePidControl(angleError + onceDistancePidControl(disError));
+	break;
+				
+	case 2:
+		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+		disError = y - (3500 + circleChangeSymbol*500); 
+		aimAngle = 90+Findball_5();
+		angleError = angleErrorCount(aimAngle,angle);
+		VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
+		VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
+		gRobot.walk_t.right.aim =M+ AnglePidControl(angleError + distancePidControl(disError));
+	break;
+
+	case 3:
+		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
+		disError = x + (600 + circleChangeSymbol*700); 
+		aimAngle = 180+Findball_5();
+		angleError = angleErrorCount(aimAngle,angle);
+		VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //pid中填入的是差值
+		VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
+		gRobot.walk_t.right.aim =M+AnglePidControl(angleError - distancePidControl(disError));
+	break;
+			
+	default:
+	break;
+	}
+
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
+//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
+//		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.turnTime);
+}									//摄像头基础走形
+int CircleSymbolKeep(float x,float y)
+{
+	static int circleChangeSymbol=0;
+	if(x>=1600||x<=-1600||y<=800||y>=4000)
+	{
+		circleChangeSymbol=2;
+	}else if((x<1600&&x>-1600&&y>=800&&y<=4000)&&(x>800&&x<-800&&y>=800&&y<=4000))
+	{
+		circleChangeSymbol=1;
+	}else if((x<=800&&x>-800&&y>=1600&&y<=3200))
+	{
+		circleChangeSymbol=0;
+	}
+	return circleChangeSymbol;
+}
+
+int CheckArea2(float x, float y, int circleSymbol)
+{
+	static int min = 2;
+	//int min = 2;
+	static int area = 0;
+	int a = 0, b = 0;
+	static int areaRem = 5;
+	static int areaCheckSymbol = 1;
+	static int checkMode = 1;//判断行列
+	static int runArea[4][3][3];
+	int compare[3] = { 0 };//比较哪列或者哪行的数最少
+	y = y - 2400;//将圆心移动至中心
+	a = fabs(x / 800);
+	b = fabs(y / 800);
+	if (a >= 3)
+	{
+		a = 2;
+	}
+	if (b >= 3)
+	{
+		b = 2;
+	}
+	areaRem = area;
+	if (x > 0 && y < 0)
+	{
+		area = 0;
+		checkMode = 1;
+	}
+	else if (x > 0 && y > 0)
+	{
+		area = 1;
+		checkMode = 2;
+	}
+	else if (x < 0 && y>0)
+	{
+		area = 2;
+		checkMode = 1;
+	}
+	else if (x < 0 && y < 0)
+	{
+		area = 3;
+		checkMode = 2;
+	}
+
+	
+	if (areaRem != area)
+	{
+		areaCheckSymbol = 1;//打开行列检查
+	}
+	/*areaCheckSymbol = 1;*/
+
+	if(areaCheckSymbol)
+	{
+		switch (checkMode)
+		{
+			case 1:
+				for (int list = 2; list >= 0; list--)
+				{
+					for (int line = circleSymbol; line >= 0; line--)//当前行
+					{
+						compare[list] += runArea[area][line][list];
+					}
+				}
+				for (int i = 2; i >= 0; i--)
+				{
+					if (compare[min] > compare[i])
+					{
+						min = i;
+					}
+				}
+			break;
+
+			case 2:
+				for (int line = 2; line >= 0; line--)
+				{
+					for (int list = circleSymbol; list >= 0; list--)//当前行
+					{
+						compare[line] += runArea[area][list][line];
+					}
+				}
+				for (int j = 2; j >= 0; j--)
+				{
+					if (compare[min] > compare[j])
+					{
+						min = j;
+					}
+				}
+			break;
+			
+			default:
+			break;
+		}
+		areaCheckSymbol = 0;
+	}
+	runArea[area][b][a] = 1;//写入该区域已经走过
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)x);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)y);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	min);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	checkMode);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	area);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	a);
+	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	b);
+	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)areaCheckSymbol);
+	return min;
+}
+

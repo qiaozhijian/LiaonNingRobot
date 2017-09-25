@@ -41,4 +41,5 @@
 .\szw_stm32f407\debug.o: ..\Action_User\dma.h
 .\szw_stm32f407\debug.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\szw_stm32f407\debug.o: ..\Action_User\condition.h
+.\szw_stm32f407\debug.o: ..\Action_User\collect.h
 .\szw_stm32f407\debug.o: ..\Control_Card\MotionCard.h

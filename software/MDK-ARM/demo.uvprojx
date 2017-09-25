@@ -420,11 +420,6 @@
               <FilePath>..\Action_User\circle.c</FilePath>
             </File>
             <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\pid.c</FilePath>
-            </File>
-            <File>
               <FileName>debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\debug.c</FilePath>
@@ -433,6 +428,16 @@
               <FileName>dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>collect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\collect.c</FilePath>
             </File>
           </Files>
         </Group>

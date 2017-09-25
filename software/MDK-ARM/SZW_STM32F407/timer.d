@@ -42,4 +42,5 @@
 .\szw_stm32f407\timer.o: ..\Action_User\debug.h
 .\szw_stm32f407\timer.o: ..\Action_User\dma.h
 .\szw_stm32f407\timer.o: ..\Action_User\condition.h
+.\szw_stm32f407\timer.o: ..\Action_User\collect.h
 .\szw_stm32f407\timer.o: ..\Control_Card\MotionCard.h

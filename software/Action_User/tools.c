@@ -126,7 +126,7 @@ float Anglechange(float angle)
 	static float tmp2=0;
 	static float tmp3=0;
 	tmp1=fabs(angle);
-	tmp2=180/PI*asinf(140*sinf((tmp1)*PI/180)/sqrt(20384+7840*cosf((tmp1)*PI/180)));
+	tmp2=180.f/PI*asinf(140.f*sinf((tmp1)*PI/180.f)/sqrt(20384.f+7840.f*cosf((tmp1)*PI/180.f)));
 	if(angle<0)tmp2=-tmp2;
 	tmp3=gRobot.walk_t.pos.angle+tmp2;
 	if(tmp3<-180)tmp3+=360;
@@ -142,8 +142,9 @@ void MotorRead(void)
 			{
 				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);     //读取CAN2电机速度
 				//ReadActualPos(CAN2,);                       //读取CAN2电机位置
-				//ReadActualVel(CAN1,RIGHT_MOTOR_WHEEL_ID);   //读取CAN1电机速度
-				ReadActualPos(CAN1,GUN_YAW_ID);               //读取CAN1电机位置
+				//ReadActualVel(CAN1,PUSH_BALL_ID);   //读取CAN1电机速度
+				//ReadActualPos(CAN1,PUSH_BALL_ID);               //读取CAN1电机位置
 				count=0;
 			}
 }
+/********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

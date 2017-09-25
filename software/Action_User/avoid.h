@@ -8,4 +8,5 @@ void BackCarOut(float angle);    //外环倒车
 void BackCar(float angle);       //倒车程序
 int CheckEnemy(void);            //fixtask前检测是否靠墙
 int Turn180(void);
+void DetaS(void);
 #endif
