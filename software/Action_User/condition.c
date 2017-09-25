@@ -24,7 +24,7 @@ extern Robot_t gRobot;
 void In2OutChange(void)
 {
 	//启动避障条件
-  if(gRobot.walk_t.right.real>2000)
+  if(gRobot.walk_t.right.real>6107 && gRobot.avoid_t.passflag==0)
 	{
 		gRobot.avoid_t.signal=1;
 	}

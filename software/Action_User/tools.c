@@ -147,4 +147,23 @@ void MotorRead(void)
 				count=0;
 			}
 }
+/************************脉冲转速度***********************/
+float Pulse2Vel(float Pulse)
+{
+	static float vel=0;                 //定位器的速度
+	vel=Pulse*(PI*WHEEL_DIAMETER)/4096.f;
+	return vel;
+}
+/************************比较两个数的大小******************/
+int TwoNumCompare(float num1,float num2)
+{
+	if(num1>num2)
+	{
+		return 0;
+	}
+	else 
+	{
+		return 1;
+	}
+}
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

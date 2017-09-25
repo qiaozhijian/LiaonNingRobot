@@ -341,28 +341,15 @@ int Turn180(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-float CheckOutline2(void)
-{
-	return 0;
-}
- /****************************************************************************
-* 名    称：DeataS()
-* 功    能：计算10毫秒走过的距离
-* 入口参数：比例
-* 出口参数：车的速度(mm/ms)
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-
-void DetaS(void)
+void CheckOutline2(void)
 {
 	//static float detas=0.f;	
 	static int count=0;
 	static float vx=0;
 	static float vy=0;
+	static float aimv=0.0f;
 	static float lastx=0;
 	static float lasty=0;
-	static float laterV=0;
 	static int stickError=0;
 	statueRemember=gRobot.status;
 	count++;
@@ -371,8 +358,9 @@ if(count==5){
 	vx=(gRobot.walk_t.pos.x-lastx)/5*100;
 	vy=(gRobot.walk_t.pos.y-lasty)/5*100;
 	
+	aimv=Pulse2Vel(gRobot.walk_t.right.base+gRobot.walk_t.left.base)*0.5f;
 	gRobot.walk_t.displacement.averageV=__sqrtf(vx*vx+vy*vy);
-	if(laterV/3>gRobot.walk_t.displacement.averageV)
+	if(TwoNumCompare(gRobot.walk_t.displacement.averageV,aimv*0.2f))
 	{
 		stickError++;
 	}
@@ -380,7 +368,7 @@ if(count==5){
 	{
 		stickError=0;
 	}
-	if(stickError==1)
+	if(stickError==2)
 	{
 		stickError=0;
 		xStick = getxRem();                  //记住卡死的坐标
@@ -391,16 +379,15 @@ if(count==5){
 	}
 	lastx=gRobot.walk_t.pos.x;
 	lasty=gRobot.walk_t.pos.y;
-	laterV=gRobot.walk_t.displacement.averageV;
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)vx);
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)vy);
+	USART_OUT(UART5,(uint8_t*)"%d\t",(int)aimv);
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)__sqrtf(vx*vx+vy*vy));
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
   USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.y);	
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)stickError);	
 	USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.status);	
 	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
-	
 	
 }
 }

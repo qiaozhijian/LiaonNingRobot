@@ -339,11 +339,6 @@ if(getF_ball())
 //		Cardpoint[i].y=gRobot.walk_t.pos.y+10* gRobot.camera_t.camrCatch_t.camrPara[i].dis*cosf((gRobot.walk_t.pos.angle + gRobot.camera_t.camrCatch_t.camrPara[i].angle)*PI / 180) + 220 * cos(gRobot.walk_t.pos.angle*PI / 180);
 //	}
 //}
-//void C_route()
-//{
-//	
-//}
-
 void CameraBaseWalk2(void)
 {
 	static int M=12214;
@@ -358,7 +353,7 @@ void CameraBaseWalk2(void)
 	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
 	angle = gRobot.walk_t.pos.angle;
 //	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.turnTime;
-	if(gRobot.walk_t.right.real>2000)
+	if(gRobot.walk_t.right.real>6107)
 	{
 		gRobot.avoid_t.signal=1;
 	}
@@ -463,9 +458,25 @@ int CheckArea2(float x, float y, int circleSymbol)
 	static int checkMode = 1;//判断行列
 	static int runArea[4][3][3];
 	int compare[3] = { 0 };//比较哪列或者哪行的数最少
-	y = y - 2400;//将圆心移动至中心
-	a = fabs(x / 800);
-	b = fabs(y / 800);
+	
+	if(x>=250&&y<=3100)
+	{
+		a = fabs((x-250) / 700);
+		b = fabs(y / 1000);
+	}else if(x>=-250&&y>=3100)
+	{
+		a = fabs((x+250) / 900);
+		b = fabs((y-3100) / 560);	
+	}else if(x<-250&&y>1700)
+	{
+		a = fabs((x+250) / 700);
+		b = fabs((y-1700) / 1000);	
+	}else if(x<250&&y<1700)
+	{
+		a = fabs((x-250) / 900);
+		b = fabs((y) / 560);	
+	}
+	
 	if (a >= 3)
 	{
 		a = 2;
@@ -474,27 +485,26 @@ int CheckArea2(float x, float y, int circleSymbol)
 	{
 		b = 2;
 	}
+	
 	areaRem = area;
-	if (x > 0 && y < 0)
+	if(x>=250&&y<=3100)
 	{
 		area = 0;
 		checkMode = 1;
-	}
-	else if (x > 0 && y > 0)
+	}else if(x>=-250&&y>=3100)
 	{
 		area = 1;
-		checkMode = 2;
-	}
-	else if (x < 0 && y>0)
+		checkMode = 2;	
+	}else if(x<-250&&y>1700)
 	{
 		area = 2;
-		checkMode = 1;
-	}
-	else if (x < 0 && y < 0)
+		checkMode = 1;	
+	}else if(x<250&&y<1700)
 	{
 		area = 3;
 		checkMode = 2;
 	}
+
 
 	
 	if (areaRem != area)

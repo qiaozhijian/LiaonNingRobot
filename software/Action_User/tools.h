@@ -73,11 +73,15 @@ int getBallColor(void);
 float Xcoorchange(float x,float y,float angle);
 float Ycoorchange(float x,float y,float angle);
 float Anglechange(float angle);
-/**********************读电机************************/
+/******************读电机速度与位置******************/
 void MotorRead(void);
-/**********************oher tools********************/
+/**********************脉冲转速度********************/
+float Pulse2Vel(float Pulse);
+/*****************比较两个数的大小*******************/
+int TwoNumCompare(float num1,float num2);
+/*********************计算两点间的距离***************/
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop);
-/**********************数球函数**********************/
+/**********************oher tools********************/
 
 #endif /* ___H */
 

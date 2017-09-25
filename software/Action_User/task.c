@@ -105,7 +105,7 @@ void robotInit(void)
 	
 	Delay_ms(6000);
 	Delay_ms(6000);
-//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-//	CollectBallVelCtr(55);                                       //让辊子转起来
+	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+	CollectBallVelCtr(55);                                       //让辊子转起来
 	
 }

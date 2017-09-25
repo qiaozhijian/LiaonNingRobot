@@ -49,7 +49,7 @@ int main(void)
 						{
 							//CheckOutline3();
 							//CheckOutline();
-							DetaS();	
+							CheckOutline2();	
 						}
 /*****************************************临时测试*****************************************/
 USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.avoid_t.signal);

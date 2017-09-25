@@ -1,5 +1,5 @@
 Dependencies for Project 'demo', Target 'ACTION': (DO NOT MODIFY !)
-F (..\Action_User\main.c)(0x59C7D56E)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\main.o --omf_browse .\szw_stm32f407\main.crf --depend .\szw_stm32f407\main.d)
+F (..\Action_User\main.c)(0x59C8EA7D)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\main.o --omf_browse .\szw_stm32f407\main.crf --depend .\szw_stm32f407\main.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -30,10 +30,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -41,7 +41,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\task.c)(0x59C7D405)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\task.o --omf_browse .\szw_stm32f407\task.crf --depend .\szw_stm32f407\task.d)
+F (..\Action_User\task.c)(0x59C8DBEB)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\task.o --omf_browse .\szw_stm32f407\task.crf --depend .\szw_stm32f407\task.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -72,10 +72,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -83,7 +83,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\sweep.c)(0x59C7C3FB)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\sweep.o --omf_browse .\szw_stm32f407\sweep.crf --depend .\szw_stm32f407\sweep.d)
+F (..\Action_User\sweep.c)(0x59C8E2A4)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\sweep.o --omf_browse .\szw_stm32f407\sweep.crf --depend .\szw_stm32f407\sweep.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -114,10 +114,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -125,7 +125,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\avoid.c)(0x59C881CC)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\avoid.o --omf_browse .\szw_stm32f407\avoid.crf --depend .\szw_stm32f407\avoid.d)
+F (..\Action_User\avoid.c)(0x59C8EA2C)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\avoid.o --omf_browse .\szw_stm32f407\avoid.crf --depend .\szw_stm32f407\avoid.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -156,10 +156,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -167,7 +167,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\camera.c)(0x59C7AECC)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\camera.o --omf_browse .\szw_stm32f407\camera.crf --depend .\szw_stm32f407\camera.d)
+F (..\Action_User\camera.c)(0x59C8E936)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\camera.o --omf_browse .\szw_stm32f407\camera.crf --depend .\szw_stm32f407\camera.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -198,10 +198,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -209,7 +209,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\shoot.c)(0x59C7BFD1)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\shoot.o --omf_browse .\szw_stm32f407\shoot.crf --depend .\szw_stm32f407\shoot.d)
+F (..\Action_User\shoot.c)(0x59C8ECB0)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\shoot.o --omf_browse .\szw_stm32f407\shoot.crf --depend .\szw_stm32f407\shoot.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -240,10 +240,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -282,10 +282,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -293,7 +293,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\circle.c)(0x59C72868)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\circle.o --omf_browse .\szw_stm32f407\circle.crf --depend .\szw_stm32f407\circle.d)
+F (..\Action_User\circle.c)(0x59C8C97C)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\circle.o --omf_browse .\szw_stm32f407\circle.crf --depend .\szw_stm32f407\circle.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -324,10 +324,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -367,10 +367,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
@@ -395,7 +395,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h)(0x599AD7AC)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\arm_math.h)(0x59AFD8A2)
 I (D:\program files\mdk521a\ARM\ARMCC\include\math.h)(0x59800402)
-F (..\Action_User\pid.c)(0x59C61D8D)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\pid.o --omf_browse .\szw_stm32f407\pid.crf --depend .\szw_stm32f407\pid.d)
+F (..\Action_User\pid.c)(0x59C8C417)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\pid.o --omf_browse .\szw_stm32f407\pid.crf --depend .\szw_stm32f407\pid.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -426,10 +426,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -437,7 +437,48 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\collect.c)(0x59C7ABC5)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\collect.o --omf_browse .\szw_stm32f407\collect.crf --depend .\szw_stm32f407\collect.d)
+F (..\Action_User\collect.c)(0x59C88E88)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\collect.o --omf_browse .\szw_stm32f407\collect.crf --depend .\szw_stm32f407\collect.d)
+I (..\Action_User\config.h)(0x59C7AEB2)
+I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
+I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
+I (D:\program files\mdk521a\ARM\ARMCC\include\stdint.h)(0x574E3E26)
+I (..\Libraries\CMSIS\core_cmInstr.h)(0x599AD7AC)
+I (..\Libraries\CMSIS\core_cmFunc.h)(0x599AD7AC)
+I (..\Libraries\CMSIS\core_cm4_simd.h)(0x599AD7AC)
+I (..\Libraries\CMSIS\system_stm32f4xx.h)(0x599AD7AC)
+I (..\Action_User\stm32f4xx_it.h)(0x59BC0291)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h)(0x599AD7AC)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h)(0x599AD7AC)
+I (..\Action_User\usart.h)(0x59BC0291)
+I (..\Action_User\timer.h)(0x59BC0291)
+I (..\Action_User\can.h)(0x59AF99EB)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x599AD7AC)
+I (D:\program files\mdk521a\ARM\ARMCC\include\String.h)(0x574E3E26)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h)(0x599AD7AC)
+I (..\Action_User\gpio.h)(0x59C7AC00)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x599AD7AC)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h)(0x599AD7AC)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h)(0x599AD7AC)
+I (..\Libraries\CMSIS\arm_math.h)(0x59AFD8A2)
+I (D:\program files\mdk521a\ARM\ARMCC\include\math.h)(0x59800402)
+I (..\Action_User\elmo.h)(0x59C20497)
+I (..\Action_User\sweep.h)(0x59C4FB86)
+I (..\Action_User\shoot.h)(0x59C6030D)
+I (..\Action_User\circle.h)(0x59C21D89)
+I (..\Action_User\fix.h)(0x59C346DD)
+I (..\Action_User\adc.h)(0x59BC0291)
+I (..\Action_User\task.h)(0x59C7D31B)
+I (..\Action_User\tools.h)(0x59C8CB65)
+I (..\Action_User\pid.h)(0x59C346DD)
+I (..\Action_User\camera.h)(0x59C72354)
+I (..\Action_User\avoid.h)(0x59C8EA64)
+I (..\Action_User\motor.h)(0x59BC0291)
+I (..\Action_User\debug.h)(0x59BC0291)
+I (..\Action_User\dma.h)(0x59BC0291)
+I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
+I (..\Action_User\condition.h)(0x59C36BA4)
+I (..\Action_User\collect.h)(0x59C7A4B5)
+I (..\Control_Card\MotionCard.h)(0x59BC0291)
 F (..\Action_User\can.c)(0x59C79ECA)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\can.o --omf_browse .\szw_stm32f407\can.crf --depend .\szw_stm32f407\can.d)
 I (..\Action_User\can.h)(0x59AF99EB)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x599AD7AC)
@@ -483,10 +524,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -527,10 +568,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -627,17 +668,17 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\tools.c)(0x59C74E75)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\tools.o --omf_browse .\szw_stm32f407\tools.crf --depend .\szw_stm32f407\tools.d)
+F (..\Action_User\tools.c)(0x59C8CAAC)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\tools.o --omf_browse .\szw_stm32f407\tools.crf --depend .\szw_stm32f407\tools.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -668,10 +709,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)
@@ -679,7 +720,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x599AD7AC)
 I (..\Action_User\condition.h)(0x59C36BA4)
 I (..\Action_User\collect.h)(0x59C7A4B5)
 I (..\Control_Card\MotionCard.h)(0x59BC0291)
-F (..\Action_User\condition.c)(0x59C74705)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\condition.o --omf_browse .\szw_stm32f407\condition.crf --depend .\szw_stm32f407\condition.d)
+F (..\Action_User\condition.c)(0x59C8E661)(-c --cpu Cortex-M4.fp -g -O0 -Otime --apcs=interwork --split_sections -I ..\ -I ..\Libraries\CMSIS -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\MDK-ARM -I ..\MAA -I ..\MAA\AHRS -I ..\MAA\MAA_Driver -I ..\Libraries\dsplib\Include -I ..\Libraries\dsplib -I ..\Action_User -I ..\Control_Card --exceptions-IC:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE-I"D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include"-I"D:\program files\mdk521a\ARM\CMSIS\Include"-D__UVISION_VERSION="521" -DSTM32F405xx -DSTM32F4XX -DUSE_STDPERIPH_DRIVER -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4 -D__CC_ARM --C99-o .\szw_stm32f407\condition.o --omf_browse .\szw_stm32f407\condition.crf --depend .\szw_stm32f407\condition.d)
 I (..\Action_User\config.h)(0x59C7AEB2)
 I (..\Libraries\CMSIS\stm32f4xx.h)(0x599AD7AC)
 I (..\Libraries\CMSIS\core_cm4.h)(0x599AD7AC)
@@ -710,10 +751,10 @@ I (..\Action_User\circle.h)(0x59C21D89)
 I (..\Action_User\fix.h)(0x59C346DD)
 I (..\Action_User\adc.h)(0x59BC0291)
 I (..\Action_User\task.h)(0x59C7D31B)
-I (..\Action_User\tools.h)(0x59C346DD)
+I (..\Action_User\tools.h)(0x59C8CB65)
 I (..\Action_User\pid.h)(0x59C346DD)
 I (..\Action_User\camera.h)(0x59C72354)
-I (..\Action_User\avoid.h)(0x59C775C7)
+I (..\Action_User\avoid.h)(0x59C8EA64)
 I (..\Action_User\motor.h)(0x59BC0291)
 I (..\Action_User\debug.h)(0x59BC0291)
 I (..\Action_User\dma.h)(0x59BC0291)

@@ -1,4 +1,4 @@
-//#include "config.h"
+#include "config.h"
 //int maoCountBall(void)
 //{
 //	static float blindTime = 0.0f;//被遮挡的时间
@@ -22,3 +22,6 @@
 //		return Count;
 //	}
 //}
+
+
+

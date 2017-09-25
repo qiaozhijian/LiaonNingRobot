@@ -128,8 +128,6 @@ void fireTask(void)
 	//投球被打断
 	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
 	{
-//		VelCrl(CAN2, 1,-7000); 
-//	  VelCrl(CAN2, 2, 7000);
 		FixTask();
 		YesBallCount=201;
 	}

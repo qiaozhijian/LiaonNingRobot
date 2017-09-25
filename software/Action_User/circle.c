@@ -28,15 +28,15 @@ float CircleAnglePidControl(float ERR)
 ****************************************************************************/
 void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 {
-		int M1,M2,V1,V2;																				 //定义速度，输入的脉冲
-		static float x=0.f,y=0.f,angle=0.f;
-		static float aimAngle=0;                                 //目标角度
-		static float angleError=0;                               //目标角度与当前角度的偏差
-		static float distanceCenter=0;                           //当前坐标与圆心的差值
-		static float k;                                          //定义斜率
-		static float 	spacingError;                              //定义两个点之间的距离
-		static float kAngle;                                     //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
-		static float dx,dy;                                      //当前坐标与圆心的差值
+		static float V1=0.0f,V2=0.0f;																				 //定义速度，输入的脉冲
+		static float x=0.0f,y=0.0f,angle=0.0f;
+		static float aimAngle=0.0f;                                 //目标角度
+		static float angleError=0.0f;                               //目标角度与当前角度的偏差
+		static float distanceCenter=0.0f;                           //当前坐标与圆心的差值
+		static float k=0.0f;                                        //定义斜率
+		static float spacingError=0.0f;                             //定义两个点之间的距离
+		static float kAngle=0.0f;                                   //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
+		static float dx=0.0f,dy=0.0f;                               //当前坐标与圆心的差值
 		//逆时针圆形闭环
 		x=getXpos();                                             //当前x坐标
 		y=getYpos();                                             //当前y坐标
@@ -91,23 +91,17 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		angleError=angleErrorCount(aimAngle,angle);
 		V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
-		M1=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
-		M2=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
-		VelCrl(CAN2, 1, M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));      
-		VelCrl(CAN2, 2, -M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
+		gRobot.walk_t.right.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+		gRobot.walk_t.left.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 		
-//		USART_OUTF(x);
-//		USART_OUTF(y);
-//		USART_OUTF(dx);
-//		USART_OUTF(dy);
-//		USART_OUTF(kAngle);
-//		USART_OUTF(angle);
-//		USART_OUTF(angleError);//角度偏差
-//		USART_OUTF(spacingError);//距离
-//		USART_OUTF(aimAngle);
-//		USART_OUTF(M1+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
-//		USART_OUTF(M2+CircleAnglePidControl(angleError+spacingPidControl(spacingError)));
-//		USART_OUT_CHAR("\r\n");
+		gRobot.walk_t.right.adjust=CircleAnglePidControl(angleError+spacingPidControl(spacingError));
+		gRobot.walk_t.left.adjust=CircleAnglePidControl(angleError+spacingPidControl(spacingError));
+		
+		gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
+		gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+		
+		VelCrl(CAN2, 1, gRobot.walk_t.right.aim);      
+		VelCrl(CAN2, 2, gRobot.walk_t.left.aim);
 }
 /****************************************************************************
 * 名    称：CircleAnglePidControl
@@ -119,15 +113,15 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 ****************************************************************************/
 void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 {
-		int M1,M2,V1,V2;																					 //定义速度，输入的脉冲
-		static float x=0.f,y=0.f,angle=0.f;
-		static float aimAngle=0;																	 //目标角度
-		static float angleError=0;																 //目标角度与当前角度的偏差
-		static float distanceCenter=0;														 //当前坐标与圆心的差值
-		static float /*a=-1,b=1,c=0,*/k;													 //定义斜率
-		static float 	spacingError;																 //定义两个点之间的距离
-		static float kAngle;																			 //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
-		static float dx,dy;
+		static float V1=0.0f,V2=0.0f;																					 //定义速度，输入的脉冲
+		static float x=0.0f,y=0.0f,angle=0.0f;
+		static float aimAngle=0.0f;																	 //目标角度
+		static float angleError=0.0f;																 //目标角度与当前角度的偏差
+		static float distanceCenter=0.0f;														 //当前坐标与圆心的差值
+		static float /*a=-1,b=1,c=0,*/k=0.0f;													 //定义斜率
+		static float 	spacingError=0.0f;																 //定义两个点之间的距离
+		static float kAngle=0.0f;																			 //当前点与圆相交点的切线的速度方向（用actan处理的角度制的数据）
+		static float dx=0.0f,dy=0.0f;
 		x=getXpos();																							 //当前x坐标
 		y=getYpos();																							 //当前y坐标
 		angle=getAngle();																					 //当前角度
@@ -179,10 +173,17 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			angleError=angleErrorCount(aimAngle,angle);
 			V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 			V2=((R-(WHEEL_TREAD/2))/R)*V;
-			M1=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
-			M2=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
-			VelCrl(CAN2, 1, M2+CircleAnglePidControl(angleError-spacingPidControl(spacingError)));      
-			VelCrl(CAN2, 2, -(M1-CircleAnglePidControl(angleError-spacingPidControl(spacingError))));
+			gRobot.walk_t.right.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+			gRobot.walk_t.left.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
+			
+			gRobot.walk_t.right.adjust=CircleAnglePidControl(angleError-spacingPidControl(spacingError));
+		  gRobot.walk_t.left.adjust=CircleAnglePidControl(angleError-spacingPidControl(spacingError));
+		
+			gRobot.walk_t.right.aim=gRobot.walk_t.left.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.right.base+gRobot.walk_t.left.adjust;
+		
+			VelCrl(CAN2, 1,gRobot.walk_t.right.aim);      
+			VelCrl(CAN2, 2,gRobot.walk_t.left.aim);
 }
 /****************************************************************************
 * 名    称：countEatBallWay1
