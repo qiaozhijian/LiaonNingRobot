@@ -146,6 +146,7 @@ typedef struct {
 typedef struct{
 	CollectPara_t aim;  //辊子收球目标
 	CollectPara_t real; //辊子当前姿态
+	PhotoElectric_t PhotoElectric;
 }Collect_t;
 /******************辊子收球结构体***********************/
 typedef struct{

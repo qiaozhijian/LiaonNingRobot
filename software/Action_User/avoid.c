@@ -343,7 +343,6 @@ int Turn180(void)
 ****************************************************************************/
 void CheckOutline2(void)
 {
-	//static float detas=0.f;	
 	static int count=0;
 	static float vx=0;
 	static float vy=0;

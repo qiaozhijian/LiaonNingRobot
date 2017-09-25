@@ -240,6 +240,7 @@ void TIM5_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
 	}
 }
+
 int t_FindBall=0;
 void TIM3_IRQHandler(void)
 {
@@ -266,15 +267,13 @@ void TIM3_IRQHandler(void)
 	}
 
 }
-
-
-
-//֨ʱǷ4  
+  
 void TIM4_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM4, TIM_IT_Update)==SET)
-	{                                  
+	{  
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+		gRobot.collect_t.PhotoElectric.ballcount=maoCountBall();
 	}
 }
 
