@@ -22,6 +22,7 @@ extern Robot_t gRobot;
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
+void elmoInit(void);
 void HardWare(void){
 	TIM_Init(TIM2, 99, 83, 0, 0); 
 	//10ms定时器TIM3用于控制WalkTask周期
@@ -31,6 +32,7 @@ void HardWare(void){
 	//CAN初始化
 	CAN_Config(CAN1, 500, GPIOB, GPIO_Pin_8, GPIO_Pin_9);
 	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);	
+	elmoInit();
 	//激光测距初始化
 	Adc_Init();
 	//蜂鸣器初始化
@@ -62,8 +64,8 @@ void HardWare(void){
 void elmoInit(void){
 	
 	elmo_Init(CAN2);
-	elmo_Enable(CAN2, 1);
-	elmo_Enable(CAN2, 2);
+	elmo_Disable(CAN2, 1);
+	elmo_Disable(CAN2, 2);
 	
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);

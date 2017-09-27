@@ -3,7 +3,7 @@
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\stm32f4xx.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cm4.h
-.\szw_stm32f407\timer.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\stdint.h
+.\szw_stm32f407\timer.o: E:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cmInstr.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cmFunc.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cm4_simd.h
@@ -17,14 +17,14 @@
 .\szw_stm32f407\timer.o: ..\Action_User\usart.h
 .\szw_stm32f407\timer.o: ..\Action_User\can.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
-.\szw_stm32f407\timer.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\String.h
+.\szw_stm32f407\timer.o: E:\Keil5\ARM\ARMCC\Bin\..\include\String.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h
 .\szw_stm32f407\timer.o: ..\Action_User\gpio.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h
 .\szw_stm32f407\timer.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\arm_math.h
 .\szw_stm32f407\timer.o: ..\Libraries\CMSIS\core_cm4.h
-.\szw_stm32f407\timer.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\math.h
+.\szw_stm32f407\timer.o: E:\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\szw_stm32f407\timer.o: ..\Action_User\can.h
 .\szw_stm32f407\timer.o: ..\Action_User\elmo.h
 .\szw_stm32f407\timer.o: ..\Action_User\sweep.h
@@ -38,9 +38,9 @@
 .\szw_stm32f407\timer.o: ..\Action_User\pid.h
 .\szw_stm32f407\timer.o: ..\Action_User\camera.h
 .\szw_stm32f407\timer.o: ..\Action_User\avoid.h
+.\szw_stm32f407\timer.o: ..\Control_Card\MotionCard.h
 .\szw_stm32f407\timer.o: ..\Action_User\motor.h
 .\szw_stm32f407\timer.o: ..\Action_User\debug.h
 .\szw_stm32f407\timer.o: ..\Action_User\dma.h
 .\szw_stm32f407\timer.o: ..\Action_User\condition.h
 .\szw_stm32f407\timer.o: ..\Action_User\collect.h
-.\szw_stm32f407\timer.o: ..\Control_Card\MotionCard.h
