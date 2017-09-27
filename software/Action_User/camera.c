@@ -341,12 +341,14 @@ if(getF_ball())
 //}
 void CameraBaseWalk2(void)
 {
-	static int M=12214;
+	//static int M=12214;
 	static float x = 0, y = 0, angle = 0;
 	static float aimAngle = 0;   								//目标角度
 	static float angleError = 0; 								//目标角度与当前角度的偏差
 	static float disError = 0;   
 	static int circleChangeSymbol=2;
+	gRobot.walk_t.right.base=12214;
+	gRobot.walk_t.left.base=12214;
 //	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 //	static int circleNum=0;
 	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
@@ -379,57 +381,76 @@ void CameraBaseWalk2(void)
 	{
 	case 0:
 			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-			disError = y - (1300- circleChangeSymbol*500); 
-			aimAngle = -90+Findball_5();
-			angleError = angleErrorCount(aimAngle,angle);
-			VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //角度误差pid和距离误差相结合
-			VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
-			gRobot.walk_t.right.aim =M + AnglePidControl(angleError - onceDistancePidControl(disError));
+			gRobot.camera_t.camerapid.disError= y - (1300- circleChangeSymbol*500*Findball_5()); 
+			gRobot.camera_t.camerapid.aimAngle=-90;
+			gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+
+			gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+	
+			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
+			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
 	break;
 
 	case 1:
-		disError = x-(600+circleChangeSymbol*700);
-		aimAngle=0+Findball_5();
-		angleError=angleErrorCount(aimAngle,angle);
-		VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
-		VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
-		gRobot.walk_t.right.aim =M+AnglePidControl(angleError + onceDistancePidControl(disError));
+			gRobot.camera_t.camerapid.disError = x-(600+circleChangeSymbol*700*Findball_5());
+			gRobot.camera_t.camerapid.aimAngle=0;
+			gRobot.camera_t.camerapid.angleError=angleErrorCount(aimAngle,angle);
+		
+			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+		
+			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
+			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
 	break;
 				
 	case 2:
-		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
-		disError = y - (3500 + circleChangeSymbol*500); 
-		aimAngle = 90+Findball_5();
-		angleError = angleErrorCount(aimAngle,angle);
-		VelCrl(CAN2, 1, M + AnglePidControl(angleError + onceDistancePidControl(disError))); //pid中填入的是差值
-		VelCrl(CAN2, 2, -M + AnglePidControl(angleError + onceDistancePidControl(disError)));
-		gRobot.walk_t.right.aim =M+ AnglePidControl(angleError + distancePidControl(disError));
+			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			gRobot.camera_t.camerapid.disError = y - (3500 + circleChangeSymbol*500*Findball_5()); 
+			gRobot.camera_t.camerapid.aimAngle= 90;
+			gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+		
+			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+		
+			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
+			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
 	break;
 
 	case 3:
 		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-		disError = x + (600 + circleChangeSymbol*700); 
-		aimAngle = 180+Findball_5();
-		angleError = angleErrorCount(aimAngle,angle);
-		VelCrl(CAN2, 1, M + AnglePidControl(angleError - onceDistancePidControl(disError))); //pid中填入的是差值
-		VelCrl(CAN2, 2, -M + AnglePidControl(angleError - onceDistancePidControl(disError)));
-		gRobot.walk_t.right.aim =M+AnglePidControl(angleError - distancePidControl(disError));
+		gRobot.camera_t.camerapid.disError = x + (600 + circleChangeSymbol*700*Findball_5()); 
+		gRobot.camera_t.camerapid.aimAngle = 180;
+		gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+	
+		gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+		gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
+		gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
+		gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+	  
+	  VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
+		VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
 	break;
 			
 	default:
 	break;
 	}
-
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
-//		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.camera_t.camerapid.angleError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.camera_t.camerapid.disError);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
+		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.turnTime);
 }									//摄像头基础走形
 int CircleSymbolKeep(float x,float y)
 {

@@ -30,17 +30,16 @@ void In2OutChange(void)
 	}
 	//启动避障逆向
 	if(gRobot.avoid_t.passflag==1)
-	{
-		if(gRobot.walk_t.circlechange.turntime==6)
-		{
-			gRobot.avoid_t.passflag=0;
-			gRobot.status&=~STATUS_SWEEP;
-		}
+{
+//		if(gRobot.walk_t.circlechange.turntime==6)
+//		{
+//			gRobot.avoid_t.passflag=0;
+//			gRobot.status&=~STATUS_SWEEP;
+//		}
 	if(Turn180())
 	{
 		//方向取反
 		gRobot.walk_t.circlechange.direction=!gRobot.walk_t.circlechange.direction;
-		//USART_OUT(UART5,(uint8_t*)"turn180:%d\r\n",(int)gRobot.walk_t.circlechange.direction);
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.circlechange.turntime<4)	
@@ -53,15 +52,15 @@ void In2OutChange(void)
 		      gRobot.walk_t.circlechange.turntime=2;	 
 			 }
 		}
-   //判断剩下的是优弧还是劣弧
-		if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<6)
-		{
-			if(gRobot.walk_t.circlechange.circlenum>2)
-			 {
-					gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+1;
-					gRobot.walk_t.circlechange.circlenum=0;	
-			 }
-		}
+//   //判断剩下的是优弧还是劣弧
+//		if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<6)
+//		{
+//			if(gRobot.walk_t.circlechange.circlenum>2)
+//			 {
+//					gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+1;
+//					gRobot.walk_t.circlechange.circlenum=0;	
+//			 }
+//		}
 	}else 
 	{
 	//让switch变为default语句
@@ -69,8 +68,8 @@ void In2OutChange(void)
 	}
 }
 	
-  //绕圆函数
-	if(gRobot.walk_t.circlechange.turntime>3 && gRobot.walk_t.circlechange.turntime<7)
+  //绕圆缩圈函数
+	if(gRobot.walk_t.circlechange.turntime>3 && gRobot.walk_t.circlechange.turntime<6)
 	{
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+circlechange();
 	}
@@ -83,7 +82,11 @@ void In2OutChange(void)
 				gRobot.walk_t.circlechange.turntime=0;
 			}
 	}
-	
+	//turntime溢出
+	if(gRobot.walk_t.circlechange.turntime>=6)
+	{
+		FixTask();
+	}
 }
 /****************************************************************************
 * 名    称：circlechange()	

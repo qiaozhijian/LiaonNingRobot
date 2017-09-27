@@ -570,7 +570,27 @@ void Findball_4(void)
 /************************找球方案5************************/
 float Findball_5(void)
 {
-	return getBestangle()*2;
+ static float line=1;
+ static int CameraTurnOld=0;
+	if(CameraTurnOld!=gRobot.camera_t.camrBaseWalk_t.turnTime)
+	{
+		line=1;
+	}else
+	{
+		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.turnTime;
+	}	
+ if(gRobot.walk_t.circlechange.direction==1)
+	{
+		if(getBestangle()>5)
+		{
+			line=line/2.0f;
+		}else if(getBestangle()<-5)
+		{
+			line=line*2.0f;
+		}
+	}
+	USART_OUTF(line);
+	return line; 
 }
 /****************************************************************************
 * 名    称：CameraFindball

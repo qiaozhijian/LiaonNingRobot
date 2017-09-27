@@ -26,12 +26,11 @@ void HardWare(void){
 	TIM_Init(TIM2, 99, 83, 0, 0); 
 	//10ms定时器TIM3用于控制WalkTask周期
 	TIM_Init(TIM3, 999, 839, 0, 1);
-	//1ms定时器用于光电门
+	//1ms定时器用于调用光电门计数函数
 	TIM_Init(TIM4, 99, 839, 0, 1);
 	//CAN初始化
 	CAN_Config(CAN1, 500, GPIOB, GPIO_Pin_8, GPIO_Pin_9);
-	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);
-//	
+	CAN_Config(CAN2, 500, GPIOB, GPIO_Pin_5, GPIO_Pin_6);	
 	//激光测距初始化
 	Adc_Init();
 	//蜂鸣器初始化
@@ -106,7 +105,6 @@ void robotInit(void)
 	
 	Delay_ms(6000);
 	Delay_ms(6000);
-	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-	CollectBallVelCtr(55);                                       //让辊子转起来
-	
+//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+//	CollectBallVelCtr(55);                                       //让辊子转起来
 }

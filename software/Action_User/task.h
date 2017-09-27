@@ -29,6 +29,7 @@ typedef struct{
 		float disError;
 		float angleError;
 		float distanceStraight;
+		int pidtime;
 }Pid_t;
 /******************走行进程结构体***********************/
 //机器人缩圈标志
