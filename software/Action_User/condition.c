@@ -40,6 +40,9 @@ void In2OutChange(void)
 	{
 		//方向取反
 		gRobot.walk_t.circlechange.direction=!gRobot.walk_t.circlechange.direction;
+		//象限计数清零
+		gRobot.walk_t.circlechange.circlenum=0;
+		//恢复到进入逃逸前的turntime
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.circlechange.turntime<3)	

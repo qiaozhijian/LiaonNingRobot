@@ -357,14 +357,14 @@ int CheckEnemy(void)
 	}
  //判断是否满足条件
 	//时间条件
-//	gRobot.avoid_t.pid.pidtime++;
-//	if(gRobot.avoid_t.pid.pidtime>400)
-//	{
-//		gRobot.avoid_t.pid.pidtime=0;
-//		return 1;
-//	}
+	gRobot.avoid_t.pid.pidtime++;
+	if(gRobot.avoid_t.pid.pidtime>400)
+	{
+		gRobot.avoid_t.pid.pidtime=0;
+		return 1;
+	}
 	//角度条件
-	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) <20)
+	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) <5)
 	{
 		return 1;
 	}
@@ -407,7 +407,7 @@ if(count==5){
 	{
 		stickError=0;
 	}
-	if(stickError==2)
+	if(stickError==10)
 	{
 		stickError=0;
 		xStick = getxRem();                  //记住卡死的坐标
