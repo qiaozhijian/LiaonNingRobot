@@ -50,11 +50,9 @@ void In2OutChange(void)
 		{
 			if(gRobot.walk_t.circlechange.turntime==0)
 		   {  
-			   USART_OUT(UART5,(uint8_t*)"kkkkk");
 				 gRobot.walk_t.circlechange.turntime=2;	 
 			 }else if(gRobot.walk_t.circlechange.turntime==2)
 			 {
-				 USART_OUT(UART5,(uint8_t*)"lllll");
 			   gRobot.walk_t.circlechange.turntime=0;
 			 }
 		}

@@ -166,4 +166,24 @@ int TwoNumCompare(float num1,float num2)
 		return 1;
 	}
 }
+/************************求最大值******************/
+float Max(float a,float b)
+{
+	int max = a;
+	if (b > max)
+	{
+		max = b;
+	}
+	return max;
+}
+/************************求最小值******************/
+float Min(float a, float b)
+{
+	int min = a;
+	if (b < min)
+	{
+		min = b;
+	}
+	return min;
+}
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

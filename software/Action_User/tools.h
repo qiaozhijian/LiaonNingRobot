@@ -81,7 +81,12 @@ float Pulse2Vel(float Pulse);
 int TwoNumCompare(float num1,float num2);
 /*********************计算两点间的距离***************/
 double Dis(float Xstart,float Ystart,float Xstop,float Ystop);
+/************************求最大值******************/
+float Max(float a,float b);
+/************************求最小值******************/
+float Min(float a,float b);
 /**********************oher tools********************/
+
 
 #endif /* ___H */
 

@@ -17,14 +17,14 @@ int main(void)
 	while(LaserStart());
 	while (1)
 	{
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.turntime);
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.direction);
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.circlenum);
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.pid.aimAngle);
-	  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);
-		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.turntimerem);
-		USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)));
+//		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
+		USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
+//		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.direction);
+//		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.circlenum);
+//		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.avoid_t.pid.aimAngle);
+//	  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);
+//		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.turntimerem);
+//		USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)));
 		
 		while (getTimeFlag())                              //10ms执行进入一次
 		{	
@@ -43,7 +43,7 @@ int main(void)
 						}	
 						else if(gRobot.status&STATUS_AVOID)
 						{
-							BackCar(gRobot.walk_t.pos.angle);
+							Escape();
 						}	
 						else if(gRobot.status & STATUS_CAMERA_WALK)
 						{

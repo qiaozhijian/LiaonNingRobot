@@ -141,25 +141,49 @@ void CheckOutline(void)																	//检测是否卡死
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCar(float angle)
+void BackCar(float angle) 											//外环倒车程序
 {
-	
-		gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
-		gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
-		gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;	
-		
-		gRobot.status=statueRemember;                 //切换到进入避障前的大状态
-		gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
-//	angle=gRobot.walk_t.pos.angle;
-//	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))			//内环
-//		{
-//			//BackCarIn(angle);
-//		}
-//	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))	//外环
-//		{
-//			BackCarOut(angle);
-//		}
-}	
+	static float aimAngle = 0;  									  //目标角度
+	static float angleError = 0; 										//目标角度与当前角度的偏差
+	static int i = 0;																//目标角度变换标志位
+	static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	int sign=0;///通过判断在外在内查看它应该外拐内拐
+	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))			//内环
+	{
+			sign=-1;
+	}
+	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))	//外环
+	{
+			sign=1;
+	}
+//	if(direction=shunshizhen)
+//	{
+//		sign=-sign;
+//	}
+	if (i == 0)																		  //使目标角度偏向右边45
+	{
+		aimAngle = angle +sign*60; 												//让车头目标角度右偏45度
+		i = 1;
+	}
+	angleError = angleErrorCount(aimAngle,angle);
+	j++;
+	if (j < 100)
+	{
+		VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
+		VelCrl(CAN2, 2,  6107);
+	}else if (j >=100)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			//gRobot.turnTime = turnTimeRemember;
+			i = 0;
+			j = 0;																		 //清空标志位
+		gRobot.status=statueRemember; 
+		}
+	}
+}
  /****************************************************************************
 * 名    称：CheckOutline3()
 * 功    能：检测是否卡死
@@ -402,7 +426,7 @@ if(count==5){
 	{
 		stickError=0;
 	}
-	if(stickError==10)
+	if(stickError==5)
 	{
 		stickError=0;
 		xStick = getxRem();                  //记住卡死的坐标
@@ -410,6 +434,7 @@ if(count==5){
 		//改变状态码
 		gRobot.status=32;                    //进入backcar
 		gRobot.avoid_t.signal=0;             //清零
+		JudgeStick();                        //判断卡死的区域
 	}
 lastx=gRobot.walk_t.pos.x;
 lasty=gRobot.walk_t.pos.y;
@@ -424,5 +449,323 @@ USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.status);
 USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
 	
 }
+}
+/****************************************************************************
+* 名    称：void Escape(void)
+* 功    能：逃逸执行函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+static int stickStatus=0;//判断现在卡死的状态
+void Escape(void)
+{
+	float angle=getAngle();
+	USART_OUT(UART5,(uint8_t*)"stick:%d\r\n",(int)stickStatus);
+	switch(stickStatus)
+	{
+		case 1://内圈撞墙
+			USART_OUT(UART5,(uint8_t*)"case1");
+			BackCar(angle);
+		break;
+		
+		case 2://外圈撞墙
+			USART_OUT(UART5,(uint8_t*)"case2");
+			BackCar(angle);
+		break;
+		
+		case 3://和车撞
+			//SoundOut();
+		USART_OUT(UART5,(uint8_t*)"case3");
+		if(statueRemember==25)
+		{
+			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
+			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
+			gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
+			
+			gRobot.status=statueRemember;              //切换到进入避障前的大状态
+			gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
+		}else if(statueRemember==6)
+		{
+		  BackCar(angle);
+		}
+		break;
+		
+		case 4://和内圈角撞
+			USART_OUT(UART5,(uint8_t*)"case4");
+			BackCar(angle);
+		break;
+		
+		case 5://和外圈角撞
+			USART_OUT(UART5,(uint8_t*)"case5");
+			BackCar(angle);
+		break;
+		
+		default:
+		break;
+	}
+}
+/****************************************************************************
+* 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
+* 功    能：检查是否撞车
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void JudgeStick(void)
+{
+	float x = getXpos(), y = getYpos(), angle = getAngle();
+	static Point_t cP[4];//车的四个顶点
+	CarPointTrans(x, y, angle, cP);
+	stickStatus = CheckIntersect(x, y, angle, cP);
+	USART_OUT(UART5,(uint8_t*)"x=%d\t",(int)x);
+	USART_OUT(UART5,(uint8_t*)"y=%d\t",(int)y);
+	USART_OUT(UART5,(uint8_t*)"angle=%d\t\r\n",(int)angle);
+}
+//	cP[0] leftUp;
+//	cP[1] letDown;
+//	cP[2] rightDown;
+//	cP[3] rightUp;
+/****************************************************************************
+* 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
+* 功    能：检查撞到的状态
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int CheckIntersect(float x, float y, float angle, Point_t cP[4])//检查是否与边相交
+{
+	static Point_t boardPointOut[4];//boardPoint
+	static Point_t boardPointIn[4];
+	int StickOut[4] = {0};
+	int StickIn[4] = {0};
+	int intersect = 0;
+	int stickCornor = 0;//卡角标志位
+	//外框木板点群
+	boardPointOut[0].x = -2400; 	boardPointOut[1].x = -2400;
+	boardPointOut[0].y = 4800;    boardPointOut[1].y = 0;
+
+	boardPointOut[2].x = 2400;    boardPointOut[3].x = 2400;
+	boardPointOut[2].y = 0;				boardPointOut[3].y = 4800;
+
+	//铁框点群
+	boardPointIn[0].x = -250; 		boardPointIn[1].x = -250;
+	boardPointIn[0].y = 3100;    	boardPointIn[1].y = 1700;
+
+	boardPointIn[2].x = 250;      boardPointIn[3].x = 250;
+	boardPointIn[2].y = 1700;			boardPointIn[3].y = 3100;
+
+	CarPointTrans(x,y,angle,cP);//得到车的4个顶点
+	//////循环检查每一边
+	for (int m = 0, n = 3; m <= 3; n = m++)
+	{
+		for (int i = 0, j = 3; i <= 3; j = i++)
+		{
+			if (CheckStraddle(cP[m], cP[n], boardPointOut[i], boardPointOut[j]))
+			{
+				StickOut[i] = 1;
+			}
+		}
+	}
+	
+	for (int m = 0, n = 3; m <= 3; n = m++)
+	{
+		for (int i = 0, j = 3; i <= 3; j = i++)
+		{
+			if (CheckStraddle(cP[m], cP[n], boardPointIn[i], boardPointIn[j]))
+			{
+				StickIn[i] = 1;
+			}
+		}
+	}
+	/////////看看是在哪里卡住的
+	if (StickOut[0] == 1 || StickOut[1] == 1 || StickOut[2] == 1 || StickOut[3] == 1)
+	{
+		intersect = 2;
+	}
+	else
+	{
+		intersect = 0;
+	}
+
+	if (intersect != 2)
+	{
+		if (StickIn[0] == 1 || StickIn[1] == 1 || StickIn[2] == 1 || StickIn[3] == 1)
+		{
+			intersect = 1;
+		}
+		else
+		{
+			intersect = 0;
+		}
+	}
+
+	
+	///////////接下来判断是否卡在角
+	if (intersect == 2)//判断是否卡在墙角
+	{
+		if ((StickOut[0] + StickOut[1] + StickOut[2] + StickOut[3]) == 2)
+		{
+			if (StickOut[0] + StickOut[1] == 2 || StickOut[1] + StickOut[2] == 2 || StickOut[2] + StickOut[3] == 2 || StickOut[3] + StickOut[0] == 2)//卡在墙角
+			{
+				stickCornor = 2;
+			}
+			else
+			{
+				stickCornor = 0;
+			}
+		}
+	}
+	else if (intersect == 1)//判断是否卡在铁框角
+	{
+		if ((StickIn[0] + StickIn[1] + StickIn[2] + StickIn[3]) == 2)
+		{
+			if (StickIn[0] + StickIn[1] == 2 || StickIn[1] + StickIn[2] == 2 || StickIn[2] + StickIn[3] == 2 || StickIn[3] + StickIn[0] == 2)//卡在墙角
+			{
+				stickCornor = 1;
+			}
+			else
+			{
+				stickCornor = 0;
+			}
+		}
+	}
+	else
+	{
+		stickCornor = 0;
+	}
+	
+	if (intersect == 2)
+	{
+		stickStatus = 2;//卡在外框边
+	}
+	else if (intersect == 1)
+	{
+		stickStatus = 1;//卡在内框边
+	}
+	else if (intersect == 0)
+	{
+		stickStatus = 3;//和车碰撞
+	}		
+
+	if(stickCornor==0)
+	{
+		stickStatus=stickStatus;
+	}
+	else if(stickCornor==1)
+	{
+		stickStatus=4;//卡在内圈角落
+	}else if(stickCornor==2)
+	{
+		stickStatus=5;//卡在外圈角落
+	}
+	USART_OUT(UART5,(uint8_t*)"stickCornor=%d\t",(int)stickCornor);
+	USART_OUT(UART5,(uint8_t*)"intersect=%d\t",(int)intersect);
+	USART_OUT(UART5,(uint8_t*)"stickStatus=%d\t",(int)stickStatus);
+	//USART_OUT(UART5,(uint8_t*)"%d %d %d %d %d %d %d %d\t\r\n",(int)StickIn[0], StickIn[1], StickIn[2], StickIn[3], StickOut[0], StickOut[1], StickOut[2], StickOut[3]);	
+	
+	return stickStatus;
+}
+/****************************************************************************
+* 名    称：CheckStraddle(Point_t c1, Point_t c2, Point_t b1, Point_t b2)
+* 功    能：检查车的点是否出去
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int CheckStraddle(Point_t c1, Point_t c2, Point_t b1, Point_t b2)//分别传入车的两边的参数和边界点的参数
+{
+	//两个向量相乘的值
+	float temp1 = ((b2.x - c2.x)*(c1.y - c2.y) - (c1.x - c2.x)*(b2.y - c2.y))*((b1.x - c2.x)*(c1.y - c2.y) - (c1.x - c2.x)*(b1.y - c2.y));
+	//两个向量相乘的值
+	float temp2 = ((c1.x - b2.x)*(b1.y - b2.y) - (b1.x - b2.x)*(c1.y - b2.y))*((c2.x - b2.x)*(b1.y - b2.y) - (b1.x - b2.x)*(c2.y - b2.y));
+	if (Max(c1.x, c2.x) >= Min(b1.x, b2.x) && Max(b1.x, b2.x) >= Min(c1.x, c2.x) && Max(c1.y, c2.y) >= Min(b1.y, b2.y) && Max(b1.y, b2.y) >= Min(c1.y, c2.y))//快速排斥实验
+	{
+		if (temp1 <= 0 && temp2 <= 0)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+/****************************************************************************
+* 名    称：CarPointTrans(float x, float y, float angle, Point_t cP[4])
+* 功    能：转换车的四个角坐标
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void CarPointTrans(float x, float y, float angle, Point_t cP[4])//将定位系统转换为车的四个角落
+{
+	static float carLength = 500.f;
+	static float wheelLength = 500.f;
+	float xieBian = sqrt(wheelLength*wheelLength / 4 + carLength* carLength);
+	float  angle1 = angle / 180 * PI;
+	float  angle2 = angle + 90;
+	float  angle3 = angle + 90;
+	if (angle2 >= 180)
+	{
+		angle2 = angle2 - 360;
+	}
+	else if (angle2 <= -180)
+	{
+		angle2 = angle2 + 360;
+	}
+
+	if (angle3 >= 180)
+	{
+		angle3 = angle3 - 360;
+	}
+	else if (angle3 <= -180)
+	{
+		angle3 = angle3 + 360;
+	}
+	angle2 = angle2 / 180 * PI - atanf(wheelLength / 2 / carLength);
+	angle3 = angle3 / 180 * PI + atanf(wheelLength / 2 / carLength);
+
+	cP[1].x = x - wheelLength / 2 * cosf(angle1);
+	cP[1].y = y - wheelLength / 2 * sinf(angle1);
+
+	cP[2].x = x + wheelLength / 2 * cosf(angle1);
+	cP[2].y = y + wheelLength / 2 * sinf(angle1);
+
+
+	cP[0].x = x + xieBian*cosf(angle3);
+	cP[0].y = y + xieBian*sinf(angle3);
+
+	cP[3].x = x + xieBian*cosf(angle2);
+	cP[3].y = y + xieBian*sinf(angle2);
+	//USART_OUT(UART5,(uint8_t*)"angle2=%d\t angle3=%d\r\n",(int)angle2 / PI * 180,angle3 / PI * 180);
+	// ("luX=%f luY=%f ldX=%f ldY=%f rdX=%f rdY=%f ruX=%f ruY=%f\n", cP[0].x, cP[0].y, cP[1].x, cP[1].y, cP[2].x, cP[2].y, cP[3].x, cP[3].y);
+}
+/****************************************************************************
+* 名    称：SoundOut()
+* 功    能：
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void SoundOut(void)//试探对方车是否能动
+{
+	static float forwardY=0;//y轴上移动的距离
+	static int soundOutTime=0;//定义试探时间
+	VelCrl(CAN2, 1, 20000);
+	VelCrl(CAN2, 2, 20000);
+	soundOutTime++;
+	forwardY=gRobot.walk_t.pos.y-yStick;
+	if(soundOutTime>300)//让其向前加速撞3秒
+	{
+		soundOutTime=0;
+		if(forwardY<0)
+		{
+			//跳至反向跑
+		}
+	}
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

@@ -36,10 +36,10 @@
 .\szw_stm32f407\collect.o: ..\Action_User\pid.h
 .\szw_stm32f407\collect.o: ..\Action_User\camera.h
 .\szw_stm32f407\collect.o: ..\Action_User\avoid.h
+.\szw_stm32f407\collect.o: ..\Control_Card\MotionCard.h
 .\szw_stm32f407\collect.o: ..\Action_User\motor.h
 .\szw_stm32f407\collect.o: ..\Action_User\debug.h
 .\szw_stm32f407\collect.o: ..\Action_User\dma.h
 .\szw_stm32f407\collect.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\szw_stm32f407\collect.o: ..\Action_User\condition.h
 .\szw_stm32f407\collect.o: ..\Action_User\collect.h
-.\szw_stm32f407\collect.o: ..\Control_Card\MotionCard.h
