@@ -81,8 +81,9 @@ void elmoInit(void){
 ****************************************************************************/
 void variableInit(void)
 {
-	gRobot.status=25;
-	gRobot.walk_t.circlechange.quadrant=4;  
+	//大状态初始值为run
+	gRobot.status=25; 
+	//车的初始方向默认为逆时针
 	gRobot.walk_t.circlechange.direction=1;
 }
  /****************************************************************************
@@ -105,6 +106,6 @@ void robotInit(void)
 	
 	Delay_ms(6000);
 	Delay_ms(6000);
-//	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-//	CollectBallVelCtr(55);                                       //让辊子转起来
+	Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
+	CollectBallVelCtr(55);                                       //让辊子转起来
 }

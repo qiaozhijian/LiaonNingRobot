@@ -89,7 +89,7 @@ void Vchange(int lineChangeSymbol)
 	//中环速度
 	const float vOut2 = 1600;
 	//内环速度
-	const float vIn = 1100;  																//内环速度
+	const float vIn = 1500;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
 		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
@@ -319,21 +319,21 @@ int LaserStart(void)
 	static int lasercount=0;       //让激光执行一段时间再生效
 	if(lasercount<300)    
 	 lasercount++;
-	if(getLeftAdc()<500 && lasercount==300)
+	if(getLeftAdc()<600 && lasercount==300)
 	{
 		lasercount=302;
 		gRobot.walk_t.laser.statue=1;
 		gRobot.walk_t.circlechange.direction=0;
 		return 0;
 	}
-	if(getRightAdc()<500 && lasercount==300)
+	if(getRightAdc()<600 && lasercount==300)
 	{
 		lasercount=302;
 		gRobot.walk_t.laser.statue=1;
 		gRobot.walk_t.circlechange.direction=1;
 		return 0;
 	}
-	if(getRightAdc()<500 && getLeftAdc()<500&&lasercount==300)
+	if(getRightAdc()<600 && getLeftAdc()<600&&lasercount==300)
 	{
 		lasercount=302;
 	  gRobot.walk_t.laser.statue=2;

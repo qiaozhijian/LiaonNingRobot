@@ -70,7 +70,7 @@ else if (ballNum==1)                     //假如球是黑球
 		//v = 157.f / s / __sqrtf(1.234f*s - h);
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
-	  launcher.rev=0.01402f*v-5.457f;
+	  launcher.rev=0.01402f*v-5.457f+2.0f;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			

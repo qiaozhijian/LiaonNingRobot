@@ -204,6 +204,7 @@ void AreaCheck(float x, float y)//全区域检查函数
 		  gRobot.status=24;
 		}else
 		{
+			//发现敌人
 			EnemyIs=1;
 		}
 	}
@@ -244,7 +245,6 @@ int CheckIn(float x, float y, int pointNum, float * peakX, float  * peakY)
 extern int Ball_counter;
 void Sub_Box(void)
 {
-	USART_OUT(UART5,(uint8_t*)"getf:%d\r\n",getF_ball());
 if(getF_ball())
 	{
 		int8_t leftAngLimit = -25;
@@ -342,10 +342,7 @@ if(getF_ball())
 void CameraBaseWalk2(void)
 {
 	//static int M=12214;
-	static float x = 0, y = 0, angle = 0;
-	static float aimAngle = 0;   								//目标角度
-	static float angleError = 0; 								//目标角度与当前角度的偏差
-	static float disError = 0;   
+	static float x = 0, y = 0, angle = 0; 							
 	static int circleChangeSymbol=2;
 	gRobot.walk_t.right.base=12214;
 	gRobot.walk_t.left.base=12214;
@@ -381,9 +378,9 @@ void CameraBaseWalk2(void)
 	{
 	case 0:
 			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-			gRobot.camera_t.camerapid.disError= y - (1300- circleChangeSymbol*500*Findball_5()); 
+			gRobot.camera_t.camerapid.disError= y - (1300- circleChangeSymbol*500+Findball_5()); 
 			gRobot.camera_t.camerapid.aimAngle=-90;
-			gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+			gRobot.camera_t.camerapid.angleError= angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 
 			gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
@@ -395,9 +392,9 @@ void CameraBaseWalk2(void)
 	break;
 
 	case 1:
-			gRobot.camera_t.camerapid.disError = x-(600+circleChangeSymbol*700*Findball_5());
+			gRobot.camera_t.camerapid.disError = x-(600+circleChangeSymbol*700-Findball_5());
 			gRobot.camera_t.camerapid.aimAngle=0;
-			gRobot.camera_t.camerapid.angleError=angleErrorCount(aimAngle,angle);
+			gRobot.camera_t.camerapid.angleError=angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 		
 			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
@@ -410,9 +407,9 @@ void CameraBaseWalk2(void)
 				
 	case 2:
 			//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
-			gRobot.camera_t.camerapid.disError = y - (3500 + circleChangeSymbol*500*Findball_5()); 
+			gRobot.camera_t.camerapid.disError = y - (3500 + circleChangeSymbol*500-Findball_5()); 
 			gRobot.camera_t.camerapid.aimAngle= 90;
-			gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+			gRobot.camera_t.camerapid.angleError= angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 		
 			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
@@ -425,9 +422,9 @@ void CameraBaseWalk2(void)
 
 	case 3:
 		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-		gRobot.camera_t.camerapid.disError = x + (600 + circleChangeSymbol*700*Findball_5()); 
+		gRobot.camera_t.camerapid.disError = x + (600 + circleChangeSymbol*700-Findball_5()); 
 		gRobot.camera_t.camerapid.aimAngle = 180;
-		gRobot.camera_t.camerapid.angleError= angleErrorCount(aimAngle,angle);
+		gRobot.camera_t.camerapid.angleError= angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 	
 		gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 		gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));

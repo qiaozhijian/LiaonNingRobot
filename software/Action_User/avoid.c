@@ -4,7 +4,8 @@ extern Robot_t gRobot;
 
 //static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
 static int statueRemember;                          //记住卡死时的状态码
-static float xStick, yStick;												//卡住时存储的位置数据
+static float xStick=0;
+static float yStick=0;												//卡住时存储的位置数据
 
  /****************************************************************************
 * 名    称：void BackCarIn(float angle)
@@ -148,7 +149,6 @@ void BackCar(float angle)
 		gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;	
 		
 		gRobot.status=statueRemember;                 //切换到进入避障前的大状态
-		gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
 //	angle=gRobot.walk_t.pos.angle;
 //	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))			//内环
 //		{
@@ -298,7 +298,7 @@ int CheckEnemy(void)
 	return YES;
 }
 /****************************************************************************
-* 名    称：TurnACorer(void)	
+* 名    称：Turn180(void)	
 * 功    能：逆时针转角函数
 * 入口参数：无
 * 出口参数：无
@@ -306,54 +306,63 @@ int CheckEnemy(void)
 * 调用方法：无 
 * 注    意: 
 ****************************************************************************/
-int Turn180(void)
+ int Turn180(void)
 {
-	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) >90)
+	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) >100)
 	{
 		if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==0) 
-		{		
-			VelCrl(CAN2, 1, -5000);     //顺时针
+		{	
+			USART_OUT(UART5,(uint8_t*)"ssss");
+			VelCrl(CAN2, 1, -1000);     //顺时针
 			VelCrl(CAN2, 2, 10000);
 		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==0)
 		{
+			USART_OUT(UART5,(uint8_t*)"aaaaaa");
 			VelCrl(CAN2, 1,-10000);
-			VelCrl(CAN2, 2,5000);
+			VelCrl(CAN2, 2,1000);
 		}else if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==1)
-		{		
+		{	
+      USART_OUT(UART5,(uint8_t*)"bbbbb");
 			VelCrl(CAN2, 1, -10000);    //逆时针
-			VelCrl(CAN2, 2, 5000);
+			VelCrl(CAN2, 2, 1000);
 		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==1)
 		{
-			VelCrl(CAN2, 1,-5000);
+			USART_OUT(UART5,(uint8_t*)"cccc");
+			VelCrl(CAN2, 1,-1000);
 			VelCrl(CAN2, 2,10000);
 		}
-  }else if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle))<90)
+  }else if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle))<100)
 	{
 		if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==0) 
-		{		
+		{
+      USART_OUT(UART5,(uint8_t*)"ddddd");			
 			VelCrl(CAN2, 1, 10000);     //顺时针
-			VelCrl(CAN2, 2, -1000);
+			VelCrl(CAN2, 2, 0);
 		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==0)
 		{
-			VelCrl(CAN2, 1,1000);
+			USART_OUT(UART5,(uint8_t*)"eeeeee");
+			VelCrl(CAN2, 1,0);
 			VelCrl(CAN2, 2,-10000);
 		}else if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==1)
 		{		
-			VelCrl(CAN2, 1, 1000);      //逆时针
+			USART_OUT(UART5,(uint8_t*)"ffff");
+			VelCrl(CAN2, 1, 0);      //逆时针
 			VelCrl(CAN2, 2, -10000);
 		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==1)
 		{
+			USART_OUT(UART5,(uint8_t*)"gggggg");
 			VelCrl(CAN2, 1,10000);
-			VelCrl(CAN2, 2,-1000);
+			VelCrl(CAN2, 2,0);
 		}
 	}
  //判断是否满足条件
 	//时间条件
-	if(gRobot.avoid_t.pid.pidtime>400)
-	{
-		gRobot.avoid_t.pid.pidtime=0;
-		return 1;
-	}
+//	gRobot.avoid_t.pid.pidtime++;
+//	if(gRobot.avoid_t.pid.pidtime>400)
+//	{
+//		gRobot.avoid_t.pid.pidtime=0;
+//		return 1;
+//	}
 	//角度条件
 	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) <20)
 	{
@@ -385,8 +394,8 @@ void CheckOutline2(void)
 	count++;
 if(count==5){
 	count=0;
-	vx=(gRobot.walk_t.pos.x-lastx)/5*100;
-	vy=(gRobot.walk_t.pos.y-lasty)/5*100;
+	vx=(gRobot.walk_t.pos.x-lastx)/5.0f*100.0f;
+	vy=(gRobot.walk_t.pos.y-lasty)/5.0f*100.0f;
 	
 	aimv=Pulse2Vel(gRobot.walk_t.right.base+gRobot.walk_t.left.base)*0.5f;
 	gRobot.walk_t.displacement.averageV=__sqrtf(vx*vx+vy*vy);
@@ -404,8 +413,8 @@ if(count==5){
 		xStick = getxRem();                  //记住卡死的坐标
 		yStick = getyRem();
 		//改变状态码
+		gRobot.status=32;                    //进入backcar
 		gRobot.avoid_t.signal=0;             //清零
-		gRobot.status=32;
 	}
 lastx=gRobot.walk_t.pos.x;
 lasty=gRobot.walk_t.pos.y;

@@ -9,6 +9,7 @@ extern Robot_t gRobot;
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
+
 float angleErrorCount(float aimAngle,float angle)
 {
   static float angleError=0;
@@ -128,7 +129,7 @@ float spacingPidControl(float ERR)
 float AgainstWallPidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 10; //0.1
+	static float Kp = 3; //0.1
 	static float Ki = 0;
 	static float Kd = 1;
 	static float OUTPUT;

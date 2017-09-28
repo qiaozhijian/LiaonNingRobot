@@ -42,11 +42,11 @@ void In2OutChange(void)
 		gRobot.walk_t.circlechange.direction=!gRobot.walk_t.circlechange.direction;
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
 		gRobot.avoid_t.passflag=0;
-		if(gRobot.walk_t.circlechange.turntime<4)	
+		if(gRobot.walk_t.circlechange.turntime<3)	
 		{
 			 if(gRobot.walk_t.circlechange.turntime==2)
 			 {
-			   gRobot.walk_t.circlechange.turntime=4;
+			   gRobot.walk_t.circlechange.turntime=0;
 			 }else if(gRobot.walk_t.circlechange.turntime==0)
 			 {
 		      gRobot.walk_t.circlechange.turntime=2;	 
@@ -76,14 +76,14 @@ void In2OutChange(void)
 	//进入矫正
 	if(gRobot.walk_t.circlechange.turntime==6)
 	{
-		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>1900)
+		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 			{
 				gRobot.status&=~STATUS_SWEEP;
 				gRobot.walk_t.circlechange.turntime=0;
 			}
 	}
 	//turntime溢出
-	if(gRobot.walk_t.circlechange.turntime>=6)
+	if(gRobot.walk_t.circlechange.turntime>6)
 	{
 		FixTask();
 	}

@@ -249,7 +249,6 @@ void TIM3_IRQHandler(void)
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-		gRobot.avoid_t.pid.pidtime++;
 		
 		
 		t_FindBall++;

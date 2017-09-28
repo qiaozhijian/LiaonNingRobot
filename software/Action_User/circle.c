@@ -568,6 +568,7 @@ void Findball_4(void)
 	t_FindBall=0;
 	}
 /************************找球方案5************************/
+
 float Findball_5(void)
 {
  static float line=1;
@@ -578,18 +579,15 @@ float Findball_5(void)
 	}else
 	{
 		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.turnTime;
-	}	
- if(gRobot.walk_t.circlechange.direction==1)
-	{
-		if(getBestangle()>5)
-		{
-			line=line/2.0f;
-		}else if(getBestangle()<-5)
-		{
-			line=line*2.0f;
-		}
 	}
-	USART_OUTF(line);
+
+	if(getBestangle()>5)
+	{
+		line=line+0.001f;
+	}else if(getBestangle()<-5)
+	{
+		line=line-0.001f;
+	}
 	return line; 
 }
 /****************************************************************************
