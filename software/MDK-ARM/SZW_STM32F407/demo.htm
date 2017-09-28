@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Sep 28 19:00:41 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Sep 28 21:53:56 2017
 <BR><P>
-<H3>Maximum Stack Usage =        400 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        424 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; Run &rArr; WalkOne &rArr; In2Out &rArr; In2OutChange &rArr; FixTask &rArr; Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 <P>
@@ -235,7 +235,7 @@ Global Symbols
 <P><STRONG><a name="[17e]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[74]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 400 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 424 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; Run &rArr; WalkOne &rArr; In2Out &rArr; In2OutChange &rArr; FixTask &rArr; Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -621,10 +621,10 @@ Global Symbols
 <P><STRONG><a name="[89]"></a>AgainstWall</STRONG> (Thumb, 144 bytes, Stack size 24 bytes, sweep.o(i.AgainstWall))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = AgainstWall &rArr; VelCrl &rArr; CAN_TransmitStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWallPidControl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
 </UL>
@@ -650,7 +650,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;In2Out
 </UL>
 
-<P><STRONG><a name="[145]"></a>BackCar</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, avoid.o(i.BackCar))
+<P><STRONG><a name="[145]"></a>BackCar</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, avoid.o(i.BackCar))
 <BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -786,9 +786,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;onceDistancePidControl
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Findball_5
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckArea2
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1060,10 +1060,11 @@ Global Symbols
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run
 </UL>
 
-<P><STRONG><a name="[dc]"></a>In2OutChange</STRONG> (Thumb, 242 bytes, Stack size 8 bytes, condition.o(i.In2OutChange))
+<P><STRONG><a name="[dc]"></a>In2OutChange</STRONG> (Thumb, 260 bytes, Stack size 8 bytes, condition.o(i.In2OutChange))
 <BR><BR>[Stack]<UL><LI>Max Depth = 360<LI>Call Chain = In2OutChange &rArr; FixTask &rArr; Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn180
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circlechange
 </UL>
@@ -1099,11 +1100,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;onceDistancePidControl
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distancePidControl
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turnTimeLead
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vchange
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
@@ -1151,8 +1152,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getAngle
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spacingPidControl
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CircleAnglePidControl
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
@@ -1179,9 +1180,9 @@ Global Symbols
 <P><STRONG><a name="[cc]"></a>Pointparking</STRONG> (Thumb, 1368 bytes, Stack size 56 bytes, sweep.o(i.Pointparking))
 <BR><BR>[Stack]<UL><LI>Max Depth = 320<LI>Call Chain = Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
@@ -1353,8 +1354,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getAngle
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spacingPidControl
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CircleAnglePidControl
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
@@ -1484,12 +1485,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[dd]"></a>Turn180</STRONG> (Thumb, 644 bytes, Stack size 24 bytes, avoid.o(i.Turn180))
-<BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = Turn180 &rArr; USART_OUT &rArr; itoa
+<P><STRONG><a name="[dd]"></a>Turn180</STRONG> (Thumb, 550 bytes, Stack size 24 bytes, avoid.o(i.Turn180))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Turn180 &rArr; VelCrl &rArr; CAN_TransmitStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
@@ -1664,7 +1664,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosSec
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosFirst
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckArea2
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn180
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;In2OutChange
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline2
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CameraBaseWalk2
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1750,9 +1750,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = Ygoal &rArr; VelCrl &rArr; CAN_TransmitStatus
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distancePidControl
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WalkOne
 </UL>
@@ -1843,6 +1843,7 @@ Global Symbols
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Line
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Pointparking
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[f7]"></a>__hardfp_pow</STRONG> (Thumb, 3072 bytes, Stack size 192 bytes, pow.o(i.__hardfp_pow))
@@ -2054,6 +2055,7 @@ Global Symbols
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Pointparking
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CameraBaseWalk2
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[12a]"></a>atan</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, atan.o(i.atan))
@@ -2263,12 +2265,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
 
-<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 146 bytes, Stack size 8 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = main &rArr; Run &rArr; WalkOne &rArr; In2Out &rArr; In2OutChange &rArr; FixTask &rArr; Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
+<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 320 bytes, Stack size 32 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 424<LI>Call Chain = main &rArr; Run &rArr; WalkOne &rArr; In2Out &rArr; In2OutChange &rArr; FixTask &rArr; Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTimeFlag
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MotorRead
@@ -2277,6 +2280,9 @@ Global Symbols
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckOutline2
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CameraBaseWalk2
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackCar
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2iz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
@@ -2503,6 +2509,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckArea2
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_cos
 </UL>
@@ -2668,6 +2675,7 @@ Global Symbols
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Line
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Pointparking
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[15a]"></a>_f2d</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d), UNUSED)

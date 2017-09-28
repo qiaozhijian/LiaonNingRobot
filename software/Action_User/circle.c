@@ -583,10 +583,10 @@ float Findball_5(void)
 
 	if(getBestangle()>5)
 	{
-		line=line+0.001f;
+		line=line+0.1f;
 	}else if(getBestangle()<-5)
 	{
-		line=line-0.001f;
+		line=line-0.1f;
 	}
 	return line; 
 }

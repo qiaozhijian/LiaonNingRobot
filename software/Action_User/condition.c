@@ -44,15 +44,18 @@ void In2OutChange(void)
 		gRobot.walk_t.circlechange.circlenum=0;
 		//恢复到进入逃逸前的turntime
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
+		//避障状态清零
 		gRobot.avoid_t.passflag=0;
 		if(gRobot.walk_t.circlechange.turntime<3)	
 		{
-			 if(gRobot.walk_t.circlechange.turntime==2)
+			if(gRobot.walk_t.circlechange.turntime==0)
+		   {  
+			   USART_OUT(UART5,(uint8_t*)"kkkkk");
+				 gRobot.walk_t.circlechange.turntime=2;	 
+			 }else if(gRobot.walk_t.circlechange.turntime==2)
 			 {
+				 USART_OUT(UART5,(uint8_t*)"lllll");
 			   gRobot.walk_t.circlechange.turntime=0;
-			 }else if(gRobot.walk_t.circlechange.turntime==0)
-			 {
-		      gRobot.walk_t.circlechange.turntime=2;	 
 			 }
 		}
 //   //判断剩下的是优弧还是劣弧
@@ -66,7 +69,7 @@ void In2OutChange(void)
 //		}
 	}else 
 	{
-	//让switch变为default语句
+	    //让switch变为default语句
 		  gRobot.walk_t.circlechange.turntime=100;
 	}
 }

@@ -27,18 +27,23 @@ Project File Date:  09/28/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
 Build target 'ACTION'
-compiling main.c...
+compiling avoid.c...
+..\Action_User\avoid.c(7): warning:  #550-D: variable "xStick" was set but never used
+  static float xStick=0;
+..\Action_User\avoid.c(8): warning:  #550-D: variable "yStick" was set but never used
+  static float yStick=0;												//Âç?‰Ω?Êó?Â≠?ÂÇ?Áö?‰Ω?ÁΩ?Êï?Êç?
+..\Action_User\avoid.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=41604 RO-data=1316 RW-data=1012 ZI-data=18604  
+Program Size: Code=41664 RO-data=1312 RW-data=1012 ZI-data=18604  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 0 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE
   D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
