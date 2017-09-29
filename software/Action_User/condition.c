@@ -41,7 +41,7 @@ void In2OutChange(void)
 		//方向取反
 		gRobot.walk_t.circlechange.direction=!gRobot.walk_t.circlechange.direction;
 		//象限计数清零
-		gRobot.walk_t.circlechange.circlenum=0;
+		gRobot.walk_t.circlechange.linenum=0;
 		//恢复到进入逃逸前的turntime
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
 		//避障状态清零
@@ -59,10 +59,10 @@ void In2OutChange(void)
 //   //判断剩下的是优弧还是劣弧
 //		if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<6)
 //		{
-//			if(gRobot.walk_t.circlechange.circlenum>2)
+//			if(gRobot.walk_t.circlechange.linenum>2)
 //			 {
 //					gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+1;
-//					gRobot.walk_t.circlechange.circlenum=0;	
+//					gRobot.walk_t.circlechange.linenum=0;	
 //			 }
 //		}
 	}else 
@@ -105,29 +105,30 @@ int circlechange(void)
 	//Quadrant//象限
 	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant!=1)
 	{
-			gRobot.walk_t.circlechange.circlenum++;
+			gRobot.walk_t.circlechange.linenum++;
 			gRobot.walk_t.circlechange.quadrant=1;
 	}
 	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant!=2)
 	{
-			gRobot.walk_t.circlechange.circlenum++;
+			gRobot.walk_t.circlechange.linenum++;
 			gRobot.walk_t.circlechange.quadrant=2;
 	}
 	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant!=3)
 	{
-		  gRobot.walk_t.circlechange.circlenum++;
+		  gRobot.walk_t.circlechange.linenum++;
 			gRobot.walk_t.circlechange.quadrant=3;
 	}
 	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant!=4)
 	{
-			gRobot.walk_t.circlechange.circlenum++;
+			gRobot.walk_t.circlechange.linenum++;
 			gRobot.walk_t.circlechange.quadrant=4;
 	}
 	
 	
-	if(gRobot.walk_t.circlechange.circlenum==4)
+	if(gRobot.walk_t.circlechange.linenum==4)
 	{
-		gRobot.walk_t.circlechange.circlenum=0;
+		gRobot.walk_t.circlechange.linenum=0;
+		gRobot.walk_t.circlechange.circlenum++;
 		return 1;
 	}
 	else

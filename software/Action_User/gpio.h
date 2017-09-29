@@ -18,7 +18,7 @@
 #define RED_LED_OFF				GPIO_SetBits(GPIOC, GPIO_Pin_0)
 
 #define ballVacant                  (GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_8)) //没被挡住是1，被挡住是0
-#define TRAVEL_SWITCH_LEFT		    	(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_2))
+#define TRAVEL_SWITCH_LEFT		    	(GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2))
 #define TRAVEL_SWITCH_RIGHT         (GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0))
 
 #define LEVEL 3

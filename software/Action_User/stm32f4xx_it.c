@@ -96,7 +96,7 @@ if(StdId==0x280+PUSH_BALL_ID)
 	CAN_ClearFlag(CAN1, CAN_FLAG_FF1);
 	CAN_ClearFlag(CAN1, CAN_FLAG_FOV1);
 }
-
+int c=0;
 void CAN2_RX0_IRQHandler(void)
 {
 	 Msg_t Can2Msg; 
@@ -116,6 +116,7 @@ if(StdId==0x280+LEFT_MOTOR_WHEEL_ID)
 if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 {
 	//得到电机速度
+	c=c+1;
 		if(Can2Msg.receivebuff[0]==0x00005856)
 		{
 			gRobot.walk_t.right.real=Can2Msg.receivebuff[1];
@@ -330,7 +331,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			if (ch == 0x0d)
 			{
 
-				angle = -posture.ActVal[0] ;//角度
+				angle = posture.ActVal[0] ;//角度
 				posture.ActVal[1] = posture.ActVal[1];
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x

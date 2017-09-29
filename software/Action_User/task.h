@@ -39,6 +39,8 @@ typedef struct{
 	//
 	int turntimerem;
 	//车再那一边
+	int linenum;
+	//记录圈数
 	int circlenum;
 	//车所再象限
 	int quadrant;

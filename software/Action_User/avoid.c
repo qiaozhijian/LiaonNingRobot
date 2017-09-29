@@ -334,7 +334,7 @@ int CheckEnemy(void)
  int Turn180(void)
 {
 	//防止旋转过程中turntime加
-	 gRobot.walk_t.circlechange.circlenum=0;
+	 gRobot.walk_t.circlechange.linenum=0;
 	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) >100)
 	{
 		if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==0) 
@@ -426,7 +426,7 @@ if(count==5){
 	{
 		stickError=0;
 	}
-	if(stickError==5)
+	if(stickError==30)
 	{
 		stickError=0;
 		xStick = getxRem();                  //记住卡死的坐标

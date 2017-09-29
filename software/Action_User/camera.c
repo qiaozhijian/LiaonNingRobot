@@ -359,16 +359,20 @@ void CameraBaseWalk2(void)
 
 	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=0;
+		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.turnTime=0;
 	}else if(x>250+circleChangeSymbol*500&&y<3100+circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=1;
+		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.turnTime=1;
 	}else if(x>-250-circleChangeSymbol*500&&y>3100+circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=2;
+		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.turnTime=2;
 	}else if(x<-250-circleChangeSymbol*500&&y>1700-circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=3;
+		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.turnTime=3;
 	}
 	
 	circleChangeSymbol = CheckArea2(x,y,circleChangeSymbol);//通过走的区域判断是否走完
