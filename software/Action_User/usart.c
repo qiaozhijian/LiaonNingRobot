@@ -331,7 +331,7 @@ void TestUART5_Init(uint32_t BaudRate)
 			"%d"	十进制	   USART_OUT(USART1, "a=%d",10)
 * 调用方法：无 
 ****************************************************************************/
-void USART_OUT(USART_TypeDef* USARTx, const uint8_t *Data, ...)
+void USART_OUT(USART_TypeDef* USARTx, const char *Data, ...)
 { 
 	const char *s;
     int d;

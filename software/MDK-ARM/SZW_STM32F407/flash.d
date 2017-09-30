@@ -3,7 +3,7 @@
 .\szw_stm32f407\flash.o: ..\Control_Card\stm32f4xx_flash.h
 .\szw_stm32f407\flash.o: ..\Control_Card\stm32f4xx.h
 .\szw_stm32f407\flash.o: ..\Libraries\CMSIS\core_cm4.h
-.\szw_stm32f407\flash.o: D:\program files\mdk521a\ARM\ARMCC\Bin\..\include\stdint.h
+.\szw_stm32f407\flash.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\szw_stm32f407\flash.o: ..\Libraries\CMSIS\core_cmInstr.h
 .\szw_stm32f407\flash.o: ..\Libraries\CMSIS\core_cmFunc.h
 .\szw_stm32f407\flash.o: ..\Libraries\CMSIS\core_cm4_simd.h
