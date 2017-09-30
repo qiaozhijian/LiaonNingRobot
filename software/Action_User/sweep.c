@@ -425,8 +425,7 @@ void Run(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-static int tempflag2=1;
-static int tempcirclerem=0;
+ int tempcirclerem=0;
 void ClockWise(void)
 {
 	static int  tempflag1=1;
@@ -436,11 +435,12 @@ void ClockWise(void)
 	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
 	{
 	  Circle();
-	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=9)
+	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
 	{
 		if(gRobot.walk_t.circlechange.turntime==6 && tempflag1==1)
 		{
 			tempflag1=0;
+			tempcirclerem=gRobot.walk_t.circlechange.circlenum;
 			gRobot.walk_t.circlechange.turntime=5+LineCheck(gRobot.walk_t.circlechange.direction);
 		}else if(gRobot.walk_t.circlechange.turntime>9)
 		{
@@ -448,7 +448,7 @@ void ClockWise(void)
 		}
 		
 		//进入矫正
-		if(tempcirclerem-gRobot.walk_t.circlechange.circlenum>=1)
+		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
 		{
 			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 			{
@@ -467,16 +467,16 @@ void ClockWise(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-
 void AntiClockWise(void)
 {
+	static int tempflag2=1;
 	if(gRobot.walk_t.circlechange.turntime<=3)
 	{
 	  AntiSquare();
 	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
 	{
 	  AntiCircle();
-	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=9)
+	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
 	{
 		if(gRobot.walk_t.circlechange.turntime==6 && tempflag2==1)
 		{
@@ -488,7 +488,7 @@ void AntiClockWise(void)
 			gRobot.walk_t.circlechange.turntime=6;
 		}
 	//进入矫正	
-		if(tempcirclerem-gRobot.walk_t.circlechange.circlenum>=1)
+		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
 		{
 			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 			{

@@ -168,15 +168,15 @@ void fireTask(void)
 	} 
 	
 	//脱离状态 
-//	if(noBall>3)
-//	{
-//		CollectBallVelCtr(55);
-//		Delay_ms(1000);
-//		gRobot.status=6;
-//		noBall=0;
-//		YesBallCount=0;
-//		noBallCount=0;
-//	}
+	if(noBall>3)
+	{
+		CollectBallVelCtr(55);
+		Delay_ms(1000);
+		gRobot.status=6;
+		noBall=0;
+		YesBallCount=0;
+		noBallCount=0;
+	}
 	
 	if(gRobot.push_t.real.turntime>30)
 	{

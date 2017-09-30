@@ -93,10 +93,6 @@ void In2OutChange(void)
 //			}
 //	}
 	//turntime溢出
-	if(gRobot.walk_t.circlechange.turntime>6)
-	{
-		FixTask();
-	}
 }
 /****************************************************************************
 * 名    称：circlechange()	
