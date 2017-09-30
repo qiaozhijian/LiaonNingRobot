@@ -89,7 +89,7 @@ void Vchange(int lineChangeSymbol)
 	//中环速度
 	const float vOut2 = 1600;
 	//内环速度
-	const float vIn = 1500;  																//内环速度
+	const float vIn = 1300;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
 		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
@@ -425,12 +425,93 @@ void Run(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
+ int tempcirclerem=0;
 void ClockWise(void)
+{
+	static int  tempflag1=1;
+	if(gRobot.walk_t.circlechange.turntime<=3)
+	{
+	  Square();
+	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
+	{
+	  Circle();
+	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
+	{
+		if(gRobot.walk_t.circlechange.turntime==6 && tempflag1==1)
+		{
+			tempflag1=0;
+			tempcirclerem=gRobot.walk_t.circlechange.circlenum;
+			gRobot.walk_t.circlechange.turntime=5+LineCheck(gRobot.walk_t.circlechange.direction);
+		}else if(gRobot.walk_t.circlechange.turntime>9)
+		{
+			gRobot.walk_t.circlechange.turntime=6;
+		}
+		
+		//进入矫正
+		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
+		{
+			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
+			{
+				gRobot.status&=~STATUS_SWEEP;
+				gRobot.walk_t.circlechange.turntime=0;
+			}
+		}
+	  Square2();
+	}
+}
+/****************************************************************************
+* 名    称：AntiClockWise ()	
+* 功    能：逆时针行驶
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void AntiClockWise(void)
+{
+	static int tempflag2=1;
+	if(gRobot.walk_t.circlechange.turntime<=3)
+	{
+	  AntiSquare();
+	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
+	{
+	  AntiCircle();
+	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
+	{
+		if(gRobot.walk_t.circlechange.turntime==6 && tempflag2==1)
+		{
+			tempcirclerem=gRobot.walk_t.circlechange.circlenum;
+			tempflag2=0;
+			gRobot.walk_t.circlechange.turntime=5+LineCheck(gRobot.walk_t.circlechange.direction);
+		}else if(gRobot.walk_t.circlechange.turntime>9)
+		{
+			gRobot.walk_t.circlechange.turntime=6;
+		}
+	//进入矫正	
+		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
+		{
+			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
+			{
+				gRobot.status&=~STATUS_SWEEP;
+				gRobot.walk_t.circlechange.turntime=0;
+			}
+		}
+	  AntiSquare2();
+	}
+}
+/****************************************************************************
+* 名    称：void Square(void)	
+* 功    能：顺时针正方形行驶
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int Square(void)
 {
 	switch(gRobot.walk_t.circlechange.turntime)
 	{
-		//内圈
-		  case 0:
+	   case 0:
 				Line(-600,3400,0,0,1,1);
 			break;
 				
@@ -445,35 +526,24 @@ void ClockWise(void)
 			case 3:
 				Line(-600,1400,90,1,-1,1);
 			break;
-		
-			case 4:
-				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
-			break;
-				
-			case 5:
-				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
-			break;
 			
-			case 6:
-			  ShunShiZhenCircleBiHuan(1800,2100,0,2400);
-			 break;	
-		  default:
-			break;
-	}
-}
+			default:
+			 break;
+		}
+	return 1;
+}	
 /****************************************************************************
-* 名    称：AntiClockWise ()	
-* 功    能：逆时针行驶
+* 名    称：void AntiSquare(void)	
+* 功    能：逆时针正方行行驶
 * 入口参数：无
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void AntiClockWise(void)
+int AntiSquare(void)
 {
 	switch(gRobot.walk_t.circlechange.turntime)
 	{
-		//内圈
 		  case 0:
 				Line(600,3400,0,0,1,1);
 			break;
@@ -490,6 +560,48 @@ void AntiClockWise(void)
 				Line(600,1400,-90,1,-1,1);
 			break;
 		
+			default:
+			break;
+	}
+	return 1;
+}
+/****************************************************************************
+* 名    称：void Circle(void)	
+* 功    能：顺时针正方向画圆
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int Circle(void)
+{
+	switch(gRobot.walk_t.circlechange.turntime)
+	{
+			case 4:
+				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+			break;
+				
+			case 5:
+				ShunShiZhenCircleBiHuan(1800,1600,0,2400);
+			break;
+			
+		   default:
+			 break;
+	}
+	return 1;
+}
+/****************************************************************************
+* 名    称：void Circle(void)	
+* 功    能：顺时针正方向画圆
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int AntiCircle(void)
+{
+	switch(gRobot.walk_t.circlechange.turntime)
+	{		
 			case 4:
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
 			break;
@@ -498,12 +610,76 @@ void AntiClockWise(void)
 				NiShiZhenCircleBiHuan(1800,1600,0,2400);
 			break;
 			
-			case 6:
-			  NiShiZhenCircleBiHuan(1800,2100,0,2400);
-			 break;	
 		  default:
 			break;
 	}
+	return 1;
+}
+/****************************************************************************
+* 名    称：void Circle(void)	
+* 功    能：顺时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int Square2(void)
+{
+switch(gRobot.walk_t.circlechange.turntime)
+	{
+		  case 6:
+				Line(-600,3400,0,0,1,4);//x
+			break;
+				
+			case 7:
+				Line(600,3400,-90,1,1,4);//y
+			break;
+
+			case 8:
+				Line(600,1400,180,0,-1,4);//x
+			break;
+
+			case 9:
+				Line(-600,1400,90,1,-1,4);//y
+			break;
+			
+			default:
+			 break;
+	}
+	return 1;
+}
+/****************************************************************************
+* 名    称：int AntiSquare2(void)	
+* 功    能：逆时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int AntiSquare2(void)
+{
+	switch(gRobot.walk_t.circlechange.turntime)
+	{
+		  case 6:
+				Line(600,3400,0,0,1,4);
+			break;
+				
+			case 7:
+				Line(-600,3400,90,1,1,4);
+			break;
+
+			case 8:
+				Line(-600,1400,180,0,-1,4);
+			break;
+
+			case 9:
+				Line(600,1400,-90,1,-1,4);
+			break;
+		
+			default:
+			break;
+	}
+	return 1;
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 
