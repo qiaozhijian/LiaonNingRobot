@@ -573,12 +573,12 @@ float Findball_5(void)
 {
  static float line=1;
  static int CameraTurnOld=0;
-	if(CameraTurnOld!=gRobot.camera_t.camrBaseWalk_t.turnTime)
+	if(CameraTurnOld!=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime)
 	{
 		line=1;
 	}else
 	{
-		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.turnTime;
+		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime;
 	}
 
 	if(getBestangle()>5)

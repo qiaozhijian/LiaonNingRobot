@@ -39,7 +39,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	{
 		gRobot.avoid_t.signal=1;
 	}
-  switch (gRobot.camera_t.camrBaseWalk_t.turnTime)
+  switch (gRobot.camera_t.camrBaseWalk_t.circlechange.turntime)
 	{
 	case 0:
 			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
@@ -106,7 +106,7 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
 //		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
 }
 /****************************************************************************
 * 名    称：AreaCheck()
@@ -150,26 +150,26 @@ void AreaCheck(float x, float y)//全区域检查函数
 	float peakY_Area4[5] = { 1700 ,3100,4800,4800,temp2 };
 	
 	
-	turnTimeRem = gRobot.camera_t.camrBaseWalk_t.turnTime;
+	turnTimeRem = gRobot.camera_t.camrBaseWalk_t.circlechange.turntime;
 //检查在哪一个区域走相应的直线
 	if (CheckIn(x, y, 5, peakX_Area1, peakY_Area1) == 1)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime = 0;
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime = 0;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area2, peakY_Area2) == 1)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime = 1;
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime = 1;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area3, peakY_Area3) == 1)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime = 2;
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime = 2;
 	}
 	else if (CheckIn(x, y, 5, peakX_Area4, peakY_Area4) == 1)
 	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime = 3;
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime = 3;
 	}
 
-	if (gRobot.camera_t.camrBaseWalk_t.turnTime != turnTimeRem)
+	if (gRobot.camera_t.camrBaseWalk_t.circlechange.turntime != turnTimeRem)
 	{
 		turnTimeChange++;//记住拐弯的次数
 //		turnTimeChange = turnTimeChange % 6;//不让他超过5
@@ -351,34 +351,34 @@ void CameraBaseWalk2(void)
 	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
 	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
 	angle = gRobot.walk_t.pos.angle;
-//	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.turnTime;
+//	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime;
 	if(gRobot.walk_t.right.real>6107)
 	{
 		gRobot.avoid_t.signal=1;
 	}
 
-	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
-	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
-		//gRobot.camera_t.camrBaseWalk_t.turnTime=0;
-	}else if(x>250+circleChangeSymbol*500&&y<3100+circleChangeSymbol*260)
-	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
-		//gRobot.camera_t.camrBaseWalk_t.turnTime=1;
-	}else if(x>-250-circleChangeSymbol*500&&y>3100+circleChangeSymbol*260)
-	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
-		//gRobot.camera_t.camrBaseWalk_t.turnTime=2;
-	}else if(x<-250-circleChangeSymbol*500&&y>1700-circleChangeSymbol*260)
-	{
-		gRobot.camera_t.camrBaseWalk_t.turnTime=gRobot.camera_t.camrBaseWalk_t.turnTime+circlechange();
-		//gRobot.camera_t.camrBaseWalk_t.turnTime=3;
-	}
-	
 	circleChangeSymbol = CheckArea2(x,y,circleChangeSymbol);//通过走的区域判断是否走完
 	
+	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=0;
+	}else if(x>250+circleChangeSymbol*500&&y<3100+circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=1;
+	}else if(x>-250-circleChangeSymbol*500&&y>3100+circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=2;
+	}else if(x<-250-circleChangeSymbol*500&&y>1700-circleChangeSymbol*260)
+	{
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=3;
+	}
+	
 
-	switch (gRobot.camera_t.camrBaseWalk_t.turnTime)
+	switch (gRobot.camera_t.camrBaseWalk_t.circlechange.turntime)
 	{
 	case 0:
 			//初始值50//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
@@ -442,6 +442,12 @@ void CameraBaseWalk2(void)
 	default:
 	break;
 	}
+	
+	if(gRobot.camera_t.camrBaseWalk_t.circlechange.circlenum>2)
+	{
+		//进入矫正投球
+		gRobot.status=22;
+	}
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
@@ -451,7 +457,7 @@ void CameraBaseWalk2(void)
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.camera_t.camerapid.disError);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
 		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.turnTime);
+		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
 }									//摄像头基础走形
 int CircleSymbolKeep(float x,float y)
 {

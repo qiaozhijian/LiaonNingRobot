@@ -54,6 +54,12 @@ void In2OutChange(void)
 			 }else if(gRobot.walk_t.circlechange.turntime==2)
 			 {
 			   gRobot.walk_t.circlechange.turntime=0;
+			 }else if(gRobot.walk_t.circlechange.turntime==7)
+			 {
+				 gRobot.walk_t.circlechange.turntime=9;
+			 }else if(gRobot.walk_t.circlechange.turntime==9)
+			 {
+				 gRobot.walk_t.circlechange.turntime=7;
 			 }
 		}
 //   //判断剩下的是优弧还是劣弧
@@ -73,19 +79,19 @@ void In2OutChange(void)
 }
 	
   //绕圆缩圈函数
-	if(gRobot.walk_t.circlechange.turntime>3 && gRobot.walk_t.circlechange.turntime<6)
+	if(gRobot.walk_t.circlechange.turntime>3 && gRobot.walk_t.circlechange.turntime<9)
 	{
 		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+circlechange();
 	}
-	//进入矫正
-	if(gRobot.walk_t.circlechange.turntime==6)
-	{
-		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
-			{
-				gRobot.status&=~STATUS_SWEEP;
-				gRobot.walk_t.circlechange.turntime=0;
-			}
-	}
+//	//进入矫正
+//	if(gRobot.walk_t.circlechange.turntime==9)
+//	{
+//		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
+//			{
+//				gRobot.status&=~STATUS_SWEEP;
+//				gRobot.walk_t.circlechange.turntime=0;
+//			}
+//	}
 	//turntime溢出
 	if(gRobot.walk_t.circlechange.turntime>6)
 	{
@@ -128,7 +134,15 @@ int circlechange(void)
 	if(gRobot.walk_t.circlechange.linenum==4)
 	{
 		gRobot.walk_t.circlechange.linenum=0;
-		gRobot.walk_t.circlechange.circlenum++;
+		if(gRobot.status==25)
+		{
+			//记录扫场的圈数
+		  gRobot.walk_t.circlechange.circlenum++;
+		}else if(gRobot.status==6)
+		{
+			//记录摄像头扫场
+			gRobot.camera_t.camrBaseWalk_t.circlechange.circlenum++;
+		}
 		return 1;
 	}
 	else
@@ -164,11 +178,10 @@ int LimitTurn(float x,float y)
 }
 /****************************************************************************
 * 名    称：void LineCheck() 
-* 功   
-能：判断车的侧边是那一边
+* 功    能：判断车的侧边是那一边
 * 入口参数：当前的坐标
 * 出口参数：无
-* 说    明：无
+* 说    明：0:顺时针 1:逆时针
 * 调用方法：无 
 ****************************************************************************/
 int LineCheck(int position) 
@@ -176,36 +189,39 @@ int LineCheck(int position)
 	switch(position)
 	{
 		case 0:
-			if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
+			if(160<gRobot.walk_t.pos.angle || gRobot.walk_t.pos.angle<-160)
 			{
 				return 3;
-			}else if(70<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<110)
-			{
-				return 4;
 			}else if(-110<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<-70)
 			{
 				return 2;
-			}else if(160<gRobot.walk_t.pos.angle || gRobot.walk_t.pos.angle<-160)
-			{
-			  return 1;
-			}
-			
-			break;
-		case 1:
-				if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
+			}else if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
 			{
 				return 1;
 			}else if(70<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<110)
 			{
-				return 2;
-			}else if(-110<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<-70)
+			  return 4;
+			}
+			
+			break;
+			
+		case 1:
+			if(-110<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<-70)
 			{
 				return 4;
+			}else if(-20<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<20)
+			{
+				return 1;
+			
+			}else if(70<gRobot.walk_t.pos.angle && gRobot.walk_t.pos.angle<110)
+			{
+				return 2;
 			}else if(160<gRobot.walk_t.pos.angle || gRobot.walk_t.pos.angle<-160)
 			{
 			  return 3;
 			}
 			break;
+			
 		default:
 			break;	
   }

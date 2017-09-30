@@ -155,6 +155,7 @@ sign:符号位
 		angle=gRobot.walk_t.pos.angle;
 	
 		gRobot.avoid_t.posRem.angle=aimAngle;				//记录当前的目标角度
+		gRobot.walk_t.pid.aimAngle=aimAngle;
 	
 		lineChangeSymbol=lineChangeSymbol-1;
 	

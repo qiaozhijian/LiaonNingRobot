@@ -19,4 +19,11 @@ void AntiClockWise(void);                         //逆时针行驶
 void Xgoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol);//走x=?
 void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol);//走y=?
 
+int Square(void);
+int AntiSquare(void);
+int Circle(void); 
+int AntiCircle(void);
+int Square2(void);
+int AntiSquare2(void);
+
 #endif

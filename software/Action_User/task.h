@@ -34,9 +34,9 @@ typedef struct{
 /******************走行进程结构体***********************/
 //机器人缩圈标志
 typedef struct{
-	//
+	//记录当前姿态
 	int turntime;
-	//
+	//记录上一次的姿态
 	int turntimerem;
 	//车再那一边
 	int linenum;
@@ -110,8 +110,8 @@ typedef struct {
 }CamrCatch_t;
 
 typedef struct {
-	int turnTime;
 	int findturn;
+	CircleChange_t circlechange;
 }CamrBaseWalk_t;
 
 typedef struct{
