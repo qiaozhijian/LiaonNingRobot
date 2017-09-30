@@ -11,65 +11,67 @@
   ******************************************************************************/
 #include "config.h"
 extern int tempcirclerem;
+int a=0;
 Robot_t gRobot={0};
 int main(void)
 {
 	robotInit();
-	while(LaserStart());
+	//while(LaserStart());
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
 		{	
-			USART_OUT(UART5,(uint8_t*)"%d\t", (int)gRobot.status);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.turntime);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
-		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.y);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)LineCheck(gRobot.walk_t.circlechange.direction));
-   		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
-		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
-		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.direction);
-		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.linenum);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.aimAngle);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.angleError);
-		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.disError);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)tempcirclerem);
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.shoot_t.real.speed);
-			USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.circlenum);
-			      MotorRead();       
-						if (gRobot.status & STATUS_SWEEP)
-						{
-							 Run();
-						}
-						else if (gRobot.status & STATUS_FIX)
-						{
-							FixTask();
-						}
-						else if (gRobot.status & STATUS_SHOOTER)
-						{
-							fireTask();
-						}	
-						else if(gRobot.status&STATUS_AVOID)
-						{
-							Escape();
-						}	
-						else if(gRobot.status & STATUS_CAMERA_WALK)
-						{
-							//CameraBaseWalk3();
-							CameraBaseWalk2();
-						}
-//						else if (gRobot.status & STATUS_CAMERA)
+			a=getBallColor();
+//			USART_OUT(UART5,(uint8_t*)"%d\t", (int)gRobot.status);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.turntime);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.y);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)LineCheck(gRobot.walk_t.circlechange.direction));
+//   		USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.direction);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.circlechange.linenum);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.aimAngle);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.angleError);
+//		  USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.disError);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)tempcirclerem);
+//			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.shoot_t.real.speed);
+//			USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.circlenum);
+//			           MotorRead();       
+//						if (gRobot.status & STATUS_SWEEP)
 //						{
-//							Findball_5();
+//							 Run();
 //						}
-					  if(gRobot.avoid_t.signal)
-						{
-							//CheckOutline3();
-							//CheckOutline();
-							CheckOutline2();	
-						}
+//						else if (gRobot.status & STATUS_FIX)
+//						{
+//							FixTask();
+//						}
+//						else if (gRobot.status & STATUS_SHOOTER)
+//						{
+//							fireTask();
+//						}	
+//						else if(gRobot.status&STATUS_AVOID)
+//						{
+//							Escape();
+//						}	
+//						else if(gRobot.status & STATUS_CAMERA_WALK)
+//						{
+//							//CameraBaseWalk3();
+//							CameraBaseWalk2();
+//						}
+////						else if (gRobot.status & STATUS_CAMERA)
+////						{
+////							Findball_5();
+////						}
+//					  if(gRobot.avoid_t.signal)
+//						{
+//							//CheckOutline3();
+//							//CheckOutline();
+//							CheckOutline2();	
+//						}
 /*****************************************临时测试*****************************************/
 //USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.camera_t.camerapid.aimAngle);
 //USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.angle);

@@ -89,7 +89,7 @@ void Vchange(int lineChangeSymbol)
 	//中环速度
 	const float vOut2 = 1600;
 	//内环速度
-	const float vIn = 1500;  																//内环速度
+	const float vIn = 1300;  																//内环速度
 	if (lineChangeSymbol < 1)
 	{
 		gRobot.walk_t.left.base=gRobot.walk_t.right.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;

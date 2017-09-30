@@ -143,12 +143,13 @@ void VelCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, int vel)
 		TxMessage.Data[5] = (*(unsigned long *)&data[i][1] >> 8) & 0xff;
 		TxMessage.Data[6] = (*(unsigned long *)&data[i][1] >> 16) & 0xff;
 		TxMessage.Data[7] = (*(unsigned long *)&data[i][1] >> 24) & 0xff;
-
+		
 		mbox = CAN_Transmit(CANx, &TxMessage);
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 		}
 	}
+	USART_OUT(UART5,(uint8_t*)"xx%d\t",(int)vel);
 }
 
 /***************位置环配置*************************/

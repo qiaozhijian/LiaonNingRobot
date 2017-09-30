@@ -210,6 +210,8 @@ case 1:
 			default:
 			break;
 		}
+	 USART_OUT(UART5,(uint8_t*)"ww%d\t",(int)gRobot.walk_t.right.aim);
+     USART_OUT(UART5,(uint8_t*)"%d\\r\n",(int)gRobot.walk_t.left.aim);
 		//调试程序
 		//d_Coor();
 		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));

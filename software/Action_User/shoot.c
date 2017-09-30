@@ -126,15 +126,15 @@ void fireTask(void)
 		YawAngleCtr(launcher.courceAngle+2);
 	}
 	//投球被打断
-//	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
-//	{
-//		FixTask();
-//		YesBallCount=201;
-//	}
-//	else
-//	{
-//	  ShootCtr(launcher.rev);
-//	}
+	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
+	{
+		FixTask();
+		YesBallCount=201;
+	}
+	else
+	{
+	  ShootCtr(launcher.rev);
+	}
 
 /**********************************测试版***************************/
     if(fabs(gRobot.push_t.real.pos-gRobot.push_t.real.posrem)<10)
@@ -168,9 +168,9 @@ void fireTask(void)
 	} 
 	
 	//脱离状态 
-	if(noBall>3)
+	if(noBall>5)
 	{
-		CollectBallVelCtr(55);
+		CollectBallVelCtr(60);
 		Delay_ms(1000);
 		gRobot.status=6;
 		noBall=0;
