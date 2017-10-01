@@ -12,15 +12,21 @@
 #include "config.h"
 extern int tempcirclerem;
 int a=0;
+float left=0;
+float right=0;
 Robot_t gRobot={0};
 int main(void)
 {
 	robotInit();
-	//while(LaserStart());
+	while(LaserStart());
 	while (1)
 	{
 		while (getTimeFlag())                              //10ms执行进入一次
 		{	
+			left=Get_Adc_Average(ADC_Channel_15, 200);
+			right=Get_Adc_Average(ADC_Channel_14, 200);
+			USART_OUT(UART5,"%d\t", (int)left);
+			USART_OUT(UART5,"%d\r\n", (int)right);
 //			a=getBallColor();
 //			USART_OUT(UART5,"%d\t", (int)gRobot.status);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
@@ -29,18 +35,18 @@ int main(void)
 //		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
 //			USART_OUT(UART5,"%d\t",(int)LineCheck(gRobot.walk_t.circleChange.direction));
 //   		USART_OUT(UART5,"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
-//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
-//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.aimAngle);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circlechange.direction);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circlechange.linenum);
+//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.aimAngle );
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.angleError);
 //		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.disError);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
 //			USART_OUT(UART5,"%d\t",(int)tempcirclerem);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
-//			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.circlenum);
-//			           MotorRead();       
+//			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circlechange.circlenum);
+//			         MotorRead();       
 //						if (gRobot.status & STATUS_SWEEP)
 //						{
 //							 Run();
@@ -51,7 +57,7 @@ int main(void)
 //						}
 //						else if (gRobot.status & STATUS_SHOOTER)
 //						{
-							fireTask();
+//							fireTask();
 //						}	
 //						else if(gRobot.status&STATUS_AVOID)
 //						{

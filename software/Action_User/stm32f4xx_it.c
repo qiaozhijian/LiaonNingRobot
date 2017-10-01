@@ -172,6 +172,7 @@ void UART5_IRQHandler(void)
 				step=0;
 				if(data=='\n'){
 					gRobot.shoot_t.sAim.speed=(float)atof(s);
+					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.speed*1000));
 				}
 				for(uint32_t i=0;i<8;i++)
 					s[i]=0;

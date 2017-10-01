@@ -164,7 +164,7 @@ void VelCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, int vel)
 				USART_OUT(UART5,"stuck %d",4);
 		}
 	}
-	USART_OUT(UART5,(uint8_t*)"xx%d\t",(int)vel);
+	USART_OUT(UART5,"xx%d\t",(int)vel);
 }
 
 /***************位置环配置*************************/
