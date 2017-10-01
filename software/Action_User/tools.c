@@ -71,8 +71,7 @@ float GetPosy()
 }
 int getF_ball(void)
 {
-	if(f_ball>0)return 1;
-	else return 0;
+	return f_ball;
 }
 float getBestangle(void)
 {

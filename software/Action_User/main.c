@@ -15,7 +15,7 @@ Robot_t gRobot;
 int main(void)
 {
   robotInit();
-  while(LaserStart());
+////  while(LaserStart());
   while (1)
   {
     while (getTimeFlag())                              //10ms执行进入一次

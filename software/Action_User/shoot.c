@@ -124,7 +124,7 @@ static int ballColor=1;
 //		{
 //			launcher.angle+=launcher.angle-gRobot.shoot_t.sReal.Yawangle;
 //		}
-		YawAngleCtr(launcher.angle);
+		YawAngleCtr(gRobot.shoot_t.sAim.angle);
 	}
 	//投球被打断
 	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
@@ -134,7 +134,7 @@ static int ballColor=1;
 	}
 	else
 	{
-	  ShootCtr(launcher.speed);
+	  ShootCtr(gRobot.shoot_t.sAim.speed);
 	}
 
 /**********************************测试版***************************/

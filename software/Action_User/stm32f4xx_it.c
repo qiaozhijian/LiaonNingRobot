@@ -161,7 +161,7 @@ void UART5_IRQHandler(void)
 				{
 					step=7;
 				}					
-					if(data=='t')
+				else if(data=='t')
 				{
 					step=3;
 				}
@@ -184,8 +184,7 @@ void UART5_IRQHandler(void)
 			case 2:
 				step=0;
 				if(data=='\n'){
-					gRobot.shoot_t.sAim.speed=(float)atof(s);
-					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.speed*1000));
+					gRobot.shoot_t.sAim.speed=(float)atof(s);					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.speed*1000));
 				}
 				for(uint32_t i=0;i<8;i++)
 					s[i]=0;
@@ -216,13 +215,16 @@ void UART5_IRQHandler(void)
 				
 			case 6:
 				step=0;
-				if(data=='1')
+				if(data=='1')//摄像头
 				{	
 					testMode=1;
 				}
-					else if(data=='2')
+					else if(data=='2')//轮子，激光，行程开关自检
 				{
 					testMode=2;
+				}else if(data=='3')//发射整套自检
+				{
+					testMode=3;
 				}
 					else 
 				{
@@ -453,6 +455,7 @@ else if(LEVEL==4)
 			//当Ball_tmpcounter为0时表明已经没球了
 			Ball_tmpcounter=Ball_counter;
 			setF_ball(Ball_tmpcounter);
+				Ball_counter=0;
 		}
 		switch (i)
 		{
