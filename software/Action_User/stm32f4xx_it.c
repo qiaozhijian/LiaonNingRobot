@@ -161,7 +161,7 @@ void UART5_IRQHandler(void)
 				{
 					step=7;
 				}					
-					if(data=='t')
+				else if(data=='t')
 				{
 					step=3;
 				}
@@ -184,8 +184,7 @@ void UART5_IRQHandler(void)
 			case 2:
 				step=0;
 				if(data=='\n'){
-					gRobot.shoot_t.sAim.speed=(float)atof(s);
-					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.speed*1000));
+					gRobot.shoot_t.sAim.speed=(float)atof(s);					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.speed*1000));
 				}
 				for(uint32_t i=0;i<8;i++)
 					s[i]=0;
@@ -453,6 +452,7 @@ else if(LEVEL==4)
 			//当Ball_tmpcounter为0时表明已经没球了
 			Ball_tmpcounter=Ball_counter;
 			setF_ball(Ball_tmpcounter);
+				Ball_counter=0;
 		}
 		switch (i)
 		{

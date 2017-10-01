@@ -7,12 +7,32 @@ int a=0;
 extern int testMode;
 void TestMode(void)
 {
+	int ballNum=0;
 	float laserRight=getRightAdc();
 	float laserLeft=getLeftAdc();
   switch(testMode)
 	{
 		case 1://检查摄像头数的球
-			
+			ballNum=getF_ball();
+			if(ballNum<=2)
+			{
+				GPIO_ResetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(300);
+				GPIO_SetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(300);
+			}else if(ballNum<5&&ballNum>=3)
+			{
+				GPIO_ResetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(500);
+				GPIO_SetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(500);
+			}else if(ballNum>=5)
+			{
+				GPIO_ResetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(800);
+				GPIO_SetBits(GPIOE,GPIO_Pin_7);;
+				Delay_ms(800);
+			}
 		break;
 		
 		case 2:
@@ -72,22 +92,22 @@ void TestMode(void)
 }
 void WheelTest(float laserRight,float laserLeft)
 {
-	if(laserRight>400||laserLeft>400)
+	if(laserRight>600&&laserLeft>600)
 	{
 		VelCrl(CAN2,1,0);
 		VelCrl(CAN2,2,0);
 		CollectBallVelCtr(0);
 	}
-	if(laserRight<=400)
+	if(laserRight<=600)
 	{
-		VelCrl(CAN2,1,laserRight*13);
+		VelCrl(CAN2,1,laserRight*10);
 		VelCrl(CAN2,2,0);
 		CollectBallVelCtr(laserRight/8);
 	}
-	if(laserLeft<=400)
+	if(laserLeft<=600)
 	{
 		VelCrl(CAN2,1,0);
-		VelCrl(CAN2,2,-laserLeft*13);
+		VelCrl(CAN2,2,-laserLeft*10);
 		CollectBallVelCtr(laserLeft/8);
 	}
 }	
@@ -95,25 +115,25 @@ void TravelSwitchTest(void)
 {
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
 	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(800);
-		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(800);
 	}else if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==0)
 	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(300);
-		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(300);
 	}else if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==1)
 	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(500);
-		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 		Delay_ms(500);
 	}else if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==0)
 	{
-		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	}
 
 }

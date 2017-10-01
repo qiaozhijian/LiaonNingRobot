@@ -21,7 +21,7 @@
 #define TRAVEL_SWITCH_LEFT		    	(GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2))
 #define TRAVEL_SWITCH_RIGHT         (GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0))
 
-#define LEVEL 3
+#define LEVEL 4
 void GPIO_Init_Pins(GPIO_TypeDef * GPIOx,
 					uint16_t GPIO_Pin,
 					GPIOMode_TypeDef GPIO_Mode);

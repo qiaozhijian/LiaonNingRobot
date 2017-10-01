@@ -3,11 +3,7 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sun Oct 01 17:15:16 2017
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Sun Oct 01 16:45:04 2017
->>>>>>> c2a533bd39bb1d4ce05a162e4deb3e55faf80bab
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sun Oct 01 21:30:02 2017
 <BR><P>
 <H3>Maximum Stack Usage =        464 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -547,9 +543,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atof
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_ldexp
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_narrow
 </UL>
@@ -803,7 +799,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[a9]"></a>BeepInit</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, gpio.o(i.BeepInit))
+<P><STRONG><a name="[a9]"></a>BeepInit</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, gpio.o(i.BeepInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = BeepInit &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
@@ -1005,7 +1001,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_us
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
 </UL>
 
 <P><STRONG><a name="[c8]"></a>Delay_us</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, timer.o(i.Delay_us))
@@ -1039,17 +1036,18 @@ Global Symbols
 
 <P><STRONG><a name="[e9]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
 <BR><BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
 </UL>
 
 <P><STRONG><a name="[aa]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ResetBits))
-<BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PullLevel
-<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeepInit
+<BR><BR>[Called By]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BeepInit
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
 </UL>
 
-<P><STRONG><a name="[da]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
+<P><STRONG><a name="[d7]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PullLevel
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
 </UL>
 
@@ -1069,8 +1067,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
+<BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 </UL>
 
 <P><STRONG><a name="[e]"></a>HardFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.HardFault_Handler))
@@ -1092,15 +1090,6 @@ Global Symbols
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Adc_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
-</UL>
-
-<P><STRONG><a name="[d7]"></a>LaserStart</STRONG> (Thumb, 404 bytes, Stack size 16 bytes, sweep.o(i.LaserStart))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = LaserStart &rArr; getRightAdc &rArr; Get_Adc_Average &rArr; Get_Adc &rArr; ADC_RegularChannelConfig
-</UL>
-<BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
-</UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[f]"></a>MemManage_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.MemManage_Handler))
@@ -1151,11 +1140,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[d3]"></a>PullLevel</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, gpio.o(i.PullLevel))
+<P><STRONG><a name="[d3]"></a>PullLevel</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, gpio.o(i.PullLevel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = PullLevel &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
@@ -1163,7 +1151,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[124]"></a>Pulse2Vel</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, tools.o(i.Pulse2Vel))
-<BR><BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
+<BR><BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
 </UL>
 
 <P><STRONG><a name="[a2]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
@@ -1232,62 +1220,62 @@ Global Symbols
 <P><STRONG><a name="[68]"></a>SystemInit</STRONG> (Thumb, 88 bytes, Stack size 8 bytes, system_stm32f4xx.o(i.SystemInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SystemInit &rArr; SetSysClock
 </UL>
-<BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
+<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(.text)
 </UL>
 <P><STRONG><a name="[2f]"></a>TIM1_UP_TIM10_IRQHandler</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, timer.o(i.TIM1_UP_TIM10_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM1_UP_TIM10_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[32]"></a>TIM2_IRQHandler</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, timer.o(i.TIM2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM2_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[33]"></a>TIM3_IRQHandler</STRONG> (Thumb, 138 bytes, Stack size 8 bytes, timer.o(i.TIM3_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM3_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setyRem
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setxRem
+<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setyRem
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setxRem
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[34]"></a>TIM4_IRQHandler</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, timer.o(i.TIM4_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM4_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
+<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[48]"></a>TIM5_IRQHandler</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, timer.o(i.TIM5_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM5_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[42]"></a>TIM8_UP_TIM13_IRQHandler</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, timer.o(i.TIM8_UP_TIM13_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = TIM8_UP_TIM13_IRQHandler &rArr; TIM_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
-<P><STRONG><a name="[dd]"></a>TIM_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ClearITPendingBit))
+<P><STRONG><a name="[da]"></a>TIM_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ClearITPendingBit))
 <BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Init
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM8_UP_TIM13_IRQHandler
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM5_IRQHandler
@@ -1297,11 +1285,11 @@ Global Symbols
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM1_UP_TIM10_IRQHandler
 </UL>
 
-<P><STRONG><a name="[e3]"></a>TIM_Cmd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_Cmd))
+<P><STRONG><a name="[e0]"></a>TIM_Cmd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_Cmd))
 <BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Init
 </UL>
 
-<P><STRONG><a name="[dc]"></a>TIM_GetITStatus</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, stm32f4xx_tim.o(i.TIM_GetITStatus))
+<P><STRONG><a name="[d9]"></a>TIM_GetITStatus</STRONG> (Thumb, 34 bytes, Stack size 12 bytes, stm32f4xx_tim.o(i.TIM_GetITStatus))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_GetITStatus
 </UL>
 <BR>[Called By]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM8_UP_TIM13_IRQHandler
@@ -1312,50 +1300,54 @@ Global Symbols
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM1_UP_TIM10_IRQHandler
 </UL>
 
-<P><STRONG><a name="[e2]"></a>TIM_ITConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ITConfig))
+<P><STRONG><a name="[df]"></a>TIM_ITConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ITConfig))
 <BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Init
 </UL>
 
 <P><STRONG><a name="[d0]"></a>TIM_Init</STRONG> (Thumb, 440 bytes, Stack size 40 bytes, timer.o(i.TIM_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = TIM_Init &rArr; NVIC_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITConfig
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
-<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
+<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITConfig
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[e1]"></a>TIM_TimeBaseInit</STRONG> (Thumb, 104 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_TimeBaseInit))
+<P><STRONG><a name="[de]"></a>TIM_TimeBaseInit</STRONG> (Thumb, 104 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_TimeBaseInit))
 <BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Init
 </UL>
 
-<P><STRONG><a name="[e4]"></a>TestMode</STRONG> (Thumb, 360 bytes, Stack size 16 bytes, test.o(i.TestMode))
-<BR><BR>[Stack]<UL><LI>Max Depth = 196<LI>Call Chain = TestMode &rArr; WheelTest &rArr; CollectBallVelCtr &rArr; VelCrl &rArr; USART_OUT &rArr; itoa
+<P><STRONG><a name="[e1]"></a>TestMode</STRONG> (Thumb, 484 bytes, Stack size 24 bytes, test.o(i.TestMode))
+<BR><BR>[Stack]<UL><LI>Max Depth = 204<LI>Call Chain = TestMode &rArr; WheelTest &rArr; CollectBallVelCtr &rArr; VelCrl &rArr; USART_OUT &rArr; itoa
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getF_ball
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
+<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WheelTest
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TravelSwitchTest
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e6]"></a>TravelSwitchTest</STRONG> (Thumb, 212 bytes, Stack size 8 bytes, test.o(i.TravelSwitchTest))
+<P><STRONG><a name="[e6]"></a>TravelSwitchTest</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, test.o(i.TravelSwitchTest))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TravelSwitchTest &rArr; Delay_ms
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_ms
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 
 <P><STRONG><a name="[d2]"></a>TravelSwitch_Init</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, gpio.o(i.TravelSwitch_Init))
@@ -1382,7 +1374,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[4b]"></a>UART5_IRQHandler</STRONG> (Thumb, 534 bytes, Stack size 16 bytes, stm32f4xx_it.o(i.UART5_IRQHandler))
+<P><STRONG><a name="[4b]"></a>UART5_IRQHandler</STRONG> (Thumb, 536 bytes, Stack size 16 bytes, stm32f4xx_it.o(i.UART5_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 464<LI>Call Chain = UART5_IRQHandler &rArr; __hardfp_atof &rArr; __strtod_int &rArr; _local_sscanf &rArr; _scanf_real &rArr; _scanf_really_real &rArr; _fp_value &rArr; _btod_etento &rArr; _btod_emul &rArr; _e2e
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
@@ -1390,8 +1382,8 @@ Global Symbols
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetITStatus
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ClearITPendingBit
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atof
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atof
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
@@ -1422,10 +1414,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
-<P><STRONG><a name="[3c]"></a>USART2_IRQHandler</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, stm32f4xx_it.o(i.USART2_IRQHandler))
+<P><STRONG><a name="[3c]"></a>USART2_IRQHandler</STRONG> (Thumb, 212 bytes, Stack size 8 bytes, stm32f4xx_it.o(i.USART2_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = USART2_IRQHandler &rArr; USART_GetITStatus
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setBestangle
+<BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setF_ball
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ReceiveData
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetITStatus
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
@@ -1434,7 +1426,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f4xx.o(RESET)
 </UL>
 <P><STRONG><a name="[3d]"></a>USART3_IRQHandler</STRONG> (Thumb, 360 bytes, Stack size 8 bytes, stm32f4xx_it.o(i.USART3_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = USART3_IRQHandler &rArr; getYpos &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
+<BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = USART3_IRQHandler &rArr; getYpos &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getYpos
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getXpos
@@ -1531,7 +1523,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmo_Enable
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART5_IRQHandler
 </UL>
 
@@ -1582,7 +1574,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 
 <P><STRONG><a name="[11a]"></a>__ARM_fpclassify</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fpclassify.o(i.__ARM_fpclassify))
@@ -1656,8 +1648,8 @@ Global Symbols
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[109]"></a>__kernel_cos</STRONG> (Thumb, 322 bytes, Stack size 64 bytes, cos_i.o(i.__kernel_cos))
@@ -1669,8 +1661,8 @@ Global Symbols
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[119]"></a>__kernel_poly</STRONG> (Thumb, 248 bytes, Stack size 24 bytes, poly.o(i.__kernel_poly))
@@ -1694,8 +1686,8 @@ Global Symbols
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[106]"></a>__mathlib_dbl_infnan</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_infnan))
@@ -1703,8 +1695,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[105]"></a>__mathlib_dbl_invalid</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_invalid))
@@ -1712,8 +1704,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 </UL>
-<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[10f]"></a>__mathlib_dbl_overflow</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_overflow))
@@ -1759,7 +1751,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e8]"></a>angleErrorCount</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, pid.o(i.angleErrorCount))
-<BR><BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+<BR><BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 
 <P><STRONG><a name="[11e]"></a>elmoInit</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, task.o(i.elmoInit))
@@ -1808,22 +1800,24 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[d8]"></a>getLeftAdc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, fix.o(i.getLeftAdc))
+<P><STRONG><a name="[e4]"></a>getF_ball</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tools.o(i.getF_ball))
+<BR><BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
+</UL>
+
+<P><STRONG><a name="[e3]"></a>getLeftAdc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, fix.o(i.getLeftAdc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = getLeftAdc &rArr; Get_Adc_Average &rArr; Get_Adc &rArr; ADC_RegularChannelConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 
-<P><STRONG><a name="[d9]"></a>getRightAdc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, fix.o(i.getRightAdc))
+<P><STRONG><a name="[e2]"></a>getRightAdc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, fix.o(i.getRightAdc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = getRightAdc &rArr; Get_Adc_Average &rArr; Get_Adc &rArr; ADC_RegularChannelConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Adc_Average
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
+<BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 
 <P><STRONG><a name="[123]"></a>getTimeFlag</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, timer.o(i.getTimeFlag))
@@ -1831,28 +1825,28 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[fc]"></a>getXpos</STRONG> (Thumb, 224 bytes, Stack size 72 bytes, fix.o(i.getXpos))
-<BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = getXpos &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
+<BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = getXpos &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
 
 <P><STRONG><a name="[fd]"></a>getYpos</STRONG> (Thumb, 224 bytes, Stack size 72 bytes, fix.o(i.getYpos))
-<BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = getYpos &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
+<BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = getYpos &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
@@ -1863,18 +1857,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
 
-<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 212<LI>Call Chain = main &rArr; robotInit &rArr; elmoInit &rArr; Vel_cfg &rArr; USART_OUT &rArr; itoa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTimeFlag
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TestMode
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[e0]"></a>maoCountBall</STRONG> (Thumb, 206 bytes, Stack size 8 bytes, collect.o(i.maoCountBall))
+<P><STRONG><a name="[dd]"></a>maoCountBall</STRONG> (Thumb, 206 bytes, Stack size 8 bytes, collect.o(i.maoCountBall))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = maoCountBall
 </UL>
 <BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Pulse2Vel
@@ -1902,7 +1895,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_RX0_IRQHandler
 </UL>
 
-<P><STRONG><a name="[f8]"></a>setBestangle</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tools.o(i.setBestangle))
+<P><STRONG><a name="[f8]"></a>setF_ball</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tools.o(i.setF_ball))
 <BR><BR>[Called By]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
@@ -1914,15 +1907,15 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[de]"></a>setxRem</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tools.o(i.setxRem))
+<P><STRONG><a name="[db]"></a>setxRem</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tools.o(i.setxRem))
 <BR><BR>[Called By]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[df]"></a>setyRem</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tools.o(i.setyRem))
+<P><STRONG><a name="[dc]"></a>setyRem</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tools.o(i.setyRem))
 <BR><BR>[Called By]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[125]"></a>variableInit</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, task.o(i.variableInit))
+<P><STRONG><a name="[125]"></a>variableInit</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, task.o(i.variableInit))
 <BR><BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 </UL>
 
@@ -1944,9 +1937,9 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> rt_ctype_table.o(.text)
 </UL>
 <P><STRONG><a name="[10a]"></a>__aeabi_dneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic))
-<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
+<BR><BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
 <LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 </UL>
 
 <P><STRONG><a name="[16e]"></a>_dneg</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
@@ -2203,7 +2196,7 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[db]"></a>SetSysClock</STRONG> (Thumb, 220 bytes, Stack size 12 bytes, system_stm32f4xx.o(i.SetSysClock))
+<P><STRONG><a name="[d8]"></a>SetSysClock</STRONG> (Thumb, 220 bytes, Stack size 12 bytes, system_stm32f4xx.o(i.SetSysClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = SetSysClock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
