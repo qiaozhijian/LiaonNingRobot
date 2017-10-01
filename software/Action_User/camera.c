@@ -444,7 +444,7 @@ void CameraBaseWalk2(void)
 	break;
 	}
 	
-	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circlenum>3)
+	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum>3)
 	{
 		//进入矫正投球
 		gRobot.status=22;

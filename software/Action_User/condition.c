@@ -31,11 +31,6 @@ void In2OutChange(void)
 	//启动避障逆向
 	if(gRobot.avoid_t.passflag==1)
 {
-//		if(gRobot.walk_t.circleChange.turnTime==6)
-//		{
-//			gRobot.avoid_t.passflag=0;
-//			gRobot.status&=~STATUS_SWEEP;
-//		}
 	if(Turn180())
 	{
 		//方向取反
@@ -62,15 +57,6 @@ void In2OutChange(void)
 				 gRobot.walk_t.circleChange.turnTime=7;
 			 }
 		}
-//   //判断剩下的是优弧还是劣弧
-//		if(3<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<6)
-//		{
-//			if(gRobot.walk_t.circleChange.linenum>2)
-//			 {
-//					gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTime+1;
-//					gRobot.walk_t.circleChange.linenum=0;	
-//			 }
-//		}
 	}else 
 	{
 	    //让switch变为default语句
@@ -83,16 +69,6 @@ void In2OutChange(void)
 	{
 		gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTime+circleChange();
 	}
-//	//进入矫正
-//	if(gRobot.walk_t.circleChange.turnTime==9)
-//	{
-//		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
-//			{
-//				gRobot.status&=~STATUS_SWEEP;
-//				gRobot.walk_t.circleChange.turnTime=0;
-//			}
-//	}
-	//turnTime溢出
 }
 /****************************************************************************
 * 名    称：circleChange()	
@@ -133,11 +109,11 @@ int circleChange(void)
 		if(gRobot.status==25)
 		{
 			//记录扫场的圈数
-		  gRobot.walk_t.circleChange.circlenum++;
+		  gRobot.walk_t.circleChange.circleNum++;
 		}else if(gRobot.status==6)
 		{
 			//记录摄像头扫场
-			gRobot.camera_t.camrBaseWalk_t.circleChange.circlenum++;
+			gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum++;
 		}
 		return 1;
 	}

@@ -85,6 +85,8 @@ void variableInit(void)
 	gRobot.status=25; 
 	//车的初始方向默认为逆时针
 	gRobot.walk_t.circleChange.direction=1;
+	//??赋值
+	gRobot.walk_t.board[0][0]=0.f;
 }
  /****************************************************************************
 * 名    称：robotInit()

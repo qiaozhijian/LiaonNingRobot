@@ -43,7 +43,7 @@ int main(void)
       else if(gRobot.status&STATUS_AVOID)
       {
         Escape();
-      }	
+      }
 			
       if(gRobot.avoid_t.signal)
       {

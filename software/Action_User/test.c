@@ -64,7 +64,7 @@ void Debug(void){
 		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.disError);
 			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
 			USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
-			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.circlenum);
+			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.circleNum);
 
 
 }
