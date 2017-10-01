@@ -71,7 +71,7 @@ typedef struct{
 	//正方形区域  x1 y1 x2 y2的顺序
 	float board[3][4];
 	//位移计算量 
-	float averageV;
+	float averageV
 }Walk_t;
 
 
@@ -179,7 +179,9 @@ typedef struct {
 	/******************收球进程***********************/
 	Collect_t collect_t;
 	/*场地区域数组*/
-  uint32_t area[];
+  uint32_t area[];;
+	
+	uint32_t abnormal;
 }Robot_t;
 
 

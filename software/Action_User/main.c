@@ -11,7 +11,7 @@
 ******************************************************************************/
 #include "config.h"
 Robot_t gRobot;
-#define TEST 
+//#define TEST 
 int main(void)
 {
   robotInit();
@@ -23,8 +23,17 @@ int main(void)
 			#ifdef TEST 
 				TestMode();
 			#else
-      MotorRead();       
-      if (gRobot.status & STATUS_SWEEP)
+      MotorRead();  
+			//1在处理异常  为0就判断
+//			if(!(gRobot.status&STATUS_AVOID))
+//      {
+//				if()
+//        //judge()   jin cheng  进程的异常情况  得出结论
+//			}
+//			
+			if(gRobot.status&STATUS_AVOID){
+				Escape();//进程  异常情况  处理
+			}	else	if (gRobot.status & STATUS_SWEEP)
       {
         Run();
       }
@@ -40,17 +49,16 @@ int main(void)
       {
         CameraBaseWalk2();
       }
-      else if(gRobot.status&STATUS_AVOID)
-      {
-        Escape();
-      }
+      
+
 			
-      if(gRobot.avoid_t.signal)
-      {
-        CheckOutline();	
-      }
+//      if(gRobot.avoid_t.signal)
+//      {
+//        CheckOutline();	
+//      }
       Debug();
 			#endif
     }
   }
 }
+

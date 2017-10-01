@@ -72,16 +72,18 @@
 //内圈铁框下侧
 #define DOWN_FRAME 1700.0f
 
-
+#define  kasi 								 	1
+#define  jiaozhengbeizhuang  		1
 
 
 //车的状态码  ??备注二进制数，宏定义用十六进制
-#define STATUS_SWEEP   							1 //状态 基础扫场
-#define STATUS_CAMERA_WALK   				2 //状态 摄像头走形
-#define STATUS_CAMERA  							4 //状态 摄像头
-#define STATUS_SHOOTER 							8 //状态 射球
-#define STATUS_FIX     							16 //状态 矫正
-#define STATUS_AVOID   							32 //状态 避障
+#define STATUS_SWEEP   							1  //	0000 0001	状态 基础扫场
+#define STATUS_CAMERA_WALK   				2  //	0000 0010	状态 摄像头走形
+#define STATUS_CAMERA  							4  //	0000 0100	状态 摄像头
+#define STATUS_CAMERA_AND_WALK			6  // 0000 0110 状态 摄像头和摄像头走形
+#define STATUS_SHOOTER 							8  //	0000 1000	状态 射球
+#define STATUS_FIX     							16 //	0001 0000	状态 矫正
+#define STATUS_AVOID   							32 //	0010 0000	状态 避障
 
 
 
