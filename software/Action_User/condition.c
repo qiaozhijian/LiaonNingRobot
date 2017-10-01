@@ -28,46 +28,10 @@ void In2OutChange(void)
 	{
 		gRobot.avoid_t.signal=1;
 	}
-	//启动避障逆向
+	//启动避障
 	if(gRobot.avoid_t.passflag==1)
-{
-	if(Turn180())
 	{
-		//方向取反
-		gRobot.walk_t.circleChange.direction=!gRobot.walk_t.circleChange.direction;
-		//象限计数清零
-		gRobot.walk_t.circleChange.linenum=0;
-		//恢复到进入逃逸前的turnTime
-		gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTimerem;
-		//避障状态清零
-		gRobot.avoid_t.passflag=0;
-		if(gRobot.walk_t.circleChange.turnTime<3)	
-		{
-			if(gRobot.walk_t.circleChange.turnTime==0)
-		   {  
-				 gRobot.walk_t.circleChange.turnTime=2;	 
-			 }else if(gRobot.walk_t.circleChange.turnTime==2)
-			 {
-			   gRobot.walk_t.circleChange.turnTime=0;
-			 }else if(gRobot.walk_t.circleChange.turnTime==7)
-			 {
-				 gRobot.walk_t.circleChange.turnTime=9;
-			 }else if(gRobot.walk_t.circleChange.turnTime==9)
-			 {
-				 gRobot.walk_t.circleChange.turnTime=7;
-			 }
-		}
-	}else 
-	{
-	    //让switch变为default语句
-		  gRobot.walk_t.circleChange.turnTime=100;
-	}
-}
-	
-  //绕圆缩圈函数
-	if(gRobot.walk_t.circleChange.turnTime>3 && gRobot.walk_t.circleChange.turnTime<9)
-	{
-		gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTime+circleChange();
+		
 	}
 }
 /****************************************************************************

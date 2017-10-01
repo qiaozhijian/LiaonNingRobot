@@ -26,4 +26,6 @@ int AntiCircle(void);
 int Square2(void);
 int AntiSquare2(void);
 
+void AngleRoute(float aimangle);
+
 #endif

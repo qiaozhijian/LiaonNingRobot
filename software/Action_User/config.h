@@ -63,6 +63,14 @@
 #define LEFT_MOTOR_WHEEL_ID (2)
 //宏定义右轮电机ID
 #define RIGHT_MOTOR_WHEEL_ID (1)
+//内圈铁框右侧
+#define RIGHT_FRAME 262.0f
+//内圈铁框上侧
+#define UPPER_FRAME 3000.0f
+//内圈铁框左侧
+#define LEFT_FRAME -262.0f
+//内圈铁框下侧
+#define DOWN_FRAME 1700.0f
 
 
 

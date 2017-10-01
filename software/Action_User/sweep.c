@@ -471,25 +471,19 @@ void Run(void)
 int tempcirclerem=0;
 void ClockWise(void)
 {
-  static int  tempflag1=1;
-  if(gRobot.walk_t.circleChange.turnTime<=3)
+	circleChange();
+	if(gRobot.walk_t.circleChange.circleNum==0)
+	{
+		Square();
+	}else if(gRobot.walk_t.circleChange.circleNum>=1 && gRobot.walk_t.circleChange.circleNum<3)
   {
-    Square();
-  }else if(3<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=5)
-  {
+		tempcirclerem=gRobot.walk_t.circleChange.circleNum;
     Circle();
-  }else if(5<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=10)
-  {
-    if(gRobot.walk_t.circleChange.turnTime==6 && tempflag1==1)
-    {
-      tempflag1=0;
-      tempcirclerem=gRobot.walk_t.circleChange.circleNum;
-      gRobot.walk_t.circleChange.turnTime=5+LineCheck(gRobot.walk_t.circleChange.direction);
-    }else if(gRobot.walk_t.circleChange.turnTime>9)
-    {
-      gRobot.walk_t.circleChange.turnTime=6;
-    }
-    
+  }else if(gRobot.walk_t.circleChange.circleNum>=3)
+	{
+		Square2();
+	}
+
     //进入矫正
     if(gRobot.walk_t.circleChange.circleNum-tempcirclerem>=1)
     {
@@ -499,9 +493,7 @@ void ClockWise(void)
         gRobot.walk_t.circleChange.turnTime=0;
       }
     }
-    Square2();
   }
-}
 /****************************************************************************
 * 名    称：AntiClockWise ()	
 * 功    能：逆时针行驶
@@ -543,6 +535,17 @@ void AntiClockWise(void)
   }
 }
 void ChangeBoard(void){
+	if(gRobot.walk_t.circleChange.circleNum==0){
+		gRobot.walk_t.board[0][0]=100;
+		gRobot.walk_t.board[0][1]=2900;
+		gRobot.walk_t.board[0][2]=-100;
+		gRobot.walk_t.board[0][3]=1200;
+	}else if(gRobot.walk_t.circleChange.circleNum==3){
+		gRobot.walk_t.board[0][0]=100;
+		gRobot.walk_t.board[0][1]=2900;
+		gRobot.walk_t.board[0][2]=-100;
+		gRobot.walk_t.board[0][3]=1200;
+	}
 
 }
 /****************************************************************************
@@ -559,23 +562,23 @@ int Square(void)
 	ChangeBoard();
 	
 	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][1]){
-		
+		gRobot.walk_t.circleChange.turnTime=0;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
-		
+		gRobot.walk_t.circleChange.turnTime=1;
 	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
-		
+		gRobot.walk_t.circleChange.turnTime=2;
 	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
-		
+		gRobot.walk_t.circleChange.turnTime=3;
 	}else{
 		//角度闭环
-		if(gRobot.walk_t.pos.y>3100.f){
-		
-		}else if(gRobot.walk_t.pos.y<1700.f){
-		
-		}else if(gRobot.walk_t.pos.x>250.f){
-		
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(180);
 		}else{
-		
+		 AngleRoute(0);
 		}
 	}
 	
@@ -695,6 +698,28 @@ int AntiCircle(void)
 ****************************************************************************/
 int Square2(void)
 {
+	ChangeBoard();
+	
+	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][1]){
+		gRobot.walk_t.circleChange.turnTime=0;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
+		gRobot.walk_t.circleChange.turnTime=1;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
+		gRobot.walk_t.circleChange.turnTime=2;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
+		gRobot.walk_t.circleChange.turnTime=3;
+	}else{
+		//角度闭环
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(180);
+		}else{
+		 AngleRoute(0);
+		}
+	}
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
@@ -750,6 +775,21 @@ int AntiSquare2(void)
     break;
   }
   return 1;
+}
+/****************************************************************************
+* 名    称：AngleRoute()	
+* 功    能：走x定直线
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void AngleRoute(float aimangle)
+{
+  static float AngleErr=0;
+	AngleErr=angleErrorCount(aimangle,gRobot.walk_t.pos.angle);
+	VelCrl(CAN2, 1,7000+AnglePidControl(AngleErr)); //pid中填入的是差值
+	VelCrl(CAN2, 2,-7000+AnglePidControl(AngleErr));
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 
