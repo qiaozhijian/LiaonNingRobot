@@ -140,7 +140,7 @@ void fireTask(void)
     if(fabs(gRobot.shoot_t.pReal.pos-gRobot.shoot_t.pReal.posrem)<10)
 		{
 			//计算推球失败次数
-			gRobot.shoot_t.pReal.turntime++;
+			gRobot.shoot_t.pReal.turnTime++;
 		}
 		gRobot.shoot_t.pReal.posrem=gRobot.shoot_t.pReal.pos;
 		if(YesBallCount<=3&&YesBallCount>0)
@@ -178,9 +178,9 @@ void fireTask(void)
 //		noBallCount=0;
 //	}
 	
-	if(gRobot.shoot_t.pReal.turntime>30)
+	if(gRobot.shoot_t.pReal.turnTime>30)
 	{
-		gRobot.shoot_t.pReal.turntime=0;
+		gRobot.shoot_t.pReal.turnTime=0;
 	}
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);

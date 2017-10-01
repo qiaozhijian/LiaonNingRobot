@@ -23,23 +23,23 @@ int main(void)
 		{	
 //			a=getBallColor();
 //			USART_OUT(UART5,"%d\t", (int)gRobot.status);
-//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circlechange.turntime);
+//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
 //		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
 //		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
-//			USART_OUT(UART5,"%d\t",(int)LineCheck(gRobot.walk_t.circlechange.direction));
+//			USART_OUT(UART5,"%d\t",(int)LineCheck(gRobot.walk_t.circleChange.direction));
 //   		USART_OUT(UART5,"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circlechange.direction);
-//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
-//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circlechange.linenum);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
+//		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
+//			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.aimAngle);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.angleError);
 //		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.disError);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
 //			USART_OUT(UART5,"%d\t",(int)tempcirclerem);
 //			USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
-//			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circlechange.circlenum);
+//			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.circlenum);
 //			           MotorRead();       
 //						if (gRobot.status & STATUS_SWEEP)
 //						{
@@ -89,8 +89,8 @@ int main(void)
 //						
 //USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.pid.aimAngle);	
 ////USART_OUT(UART5,"%d\t%d\t%d\t%d\t",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
-//USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
-//USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circlechange.turntimerem);
+//USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
+//USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTimerem);
 //USART_OUT(UART5,"%d\r\n",(int)gRobot.status);
 //if(LimitTurn(gRobot.walk_t.pos.x,gRobot.walk_t.pos.y))
 //	{

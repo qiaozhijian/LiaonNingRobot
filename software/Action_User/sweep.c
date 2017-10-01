@@ -288,12 +288,12 @@ void In2Out(int lineChangeSymbol,int direction)
 ****************************************************************************/
 void WalkOne()
 {
-	static int turntime=0;
-	switch(turntime)
+	static int turnTime=0;
+	switch(turnTime)
 	{
 		case 0:
 			if(200<gRobot.walk_t.pos.x&&gRobot.walk_t.pos.x<300)
-			  turntime=1;
+			  turnTime=1;
 		  ShunShiZhenCircleBiHuan(800,500,-100,600);
 		break;
 		case 1:
@@ -316,33 +316,33 @@ void WalkOne()
 ****************************************************************************/
 int LaserStart(void)
 {
-	static int lasercount=0;       //让激光执行一段时间再生效
-	if(lasercount<300)    
-	 lasercount++;
-	if(getLeftAdc()<600 && lasercount==300)
+	static int laserCount=0;       //让激光执行一段时间再生效
+	if(laserCount<300)    
+	 laserCount++;
+	if(getLeftAdc()<600 && laserCount==300)
 	{
-		lasercount=302;
-		gRobot.walk_t.laser.statue=1;
-		gRobot.walk_t.circlechange.direction=0;
+		laserCount=302;
+		gRobot.walk_t.laser.status=1;
+		gRobot.walk_t.circleChange.direction=0;
 		return 0;
 	}
-	if(getRightAdc()<600 && lasercount==300)
+	if(getRightAdc()<600 && laserCount==300)
 	{
-		lasercount=302;
-		gRobot.walk_t.laser.statue=1;
-		gRobot.walk_t.circlechange.direction=1;
+		laserCount=302;
+		gRobot.walk_t.laser.status=1;
+		gRobot.walk_t.circleChange.direction=1;
 		return 0;
 	}
-	if(getRightAdc()<600 && getLeftAdc()<600&&lasercount==300)
+	if(getRightAdc()<600 && getLeftAdc()<600&&laserCount==300)
 	{
-		lasercount=302;
-	  gRobot.walk_t.laser.statue=2;
+		laserCount=302;
+	  gRobot.walk_t.laser.status=2;
 		return 0;
 	}
 	//防止跳变
-	if(lasercount>300)
+	if(laserCount>300)
 	{
-		lasercount=0;
+		laserCount=0;
 	}
 	return 1;
 } 
@@ -401,12 +401,12 @@ void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol)
 ****************************************************************************/
 void Run(void)
 {
-	switch(gRobot.walk_t.laser.statue)
+	switch(gRobot.walk_t.laser.status)
 	{
 		case 1:
 			//逆时针
 			//顺时针
-			In2Out(1,gRobot.walk_t.circlechange.direction);
+			In2Out(1,gRobot.walk_t.circleChange.direction);
 			break;
 		case 2:
 			WalkOne();
@@ -429,31 +429,31 @@ void Run(void)
 void ClockWise(void)
 {
 	static int  tempflag1=1;
-	if(gRobot.walk_t.circlechange.turntime<=3)
+	if(gRobot.walk_t.circleChange.turnTime<=3)
 	{
 	  Square();
-	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
+	}else if(3<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=5)
 	{
 	  Circle();
-	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
+	}else if(5<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=10)
 	{
-		if(gRobot.walk_t.circlechange.turntime==6 && tempflag1==1)
+		if(gRobot.walk_t.circleChange.turnTime==6 && tempflag1==1)
 		{
 			tempflag1=0;
-			tempcirclerem=gRobot.walk_t.circlechange.circlenum;
-			gRobot.walk_t.circlechange.turntime=5+LineCheck(gRobot.walk_t.circlechange.direction);
-		}else if(gRobot.walk_t.circlechange.turntime>9)
+			tempcirclerem=gRobot.walk_t.circleChange.circlenum;
+			gRobot.walk_t.circleChange.turnTime=5+LineCheck(gRobot.walk_t.circleChange.direction);
+		}else if(gRobot.walk_t.circleChange.turnTime>9)
 		{
-			gRobot.walk_t.circlechange.turntime=6;
+			gRobot.walk_t.circleChange.turnTime=6;
 		}
 		
 		//进入矫正
-		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
+		if(gRobot.walk_t.circleChange.circlenum-tempcirclerem>=1)
 		{
 			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 			{
 				gRobot.status&=~STATUS_SWEEP;
-				gRobot.walk_t.circlechange.turntime=0;
+				gRobot.walk_t.circleChange.turnTime=0;
 			}
 		}
 	  Square2();
@@ -470,30 +470,30 @@ void ClockWise(void)
 void AntiClockWise(void)
 {
 	static int tempflag2=1;
-	if(gRobot.walk_t.circlechange.turntime<=3)
+	if(gRobot.walk_t.circleChange.turnTime<=3)
 	{
 	  AntiSquare();
-	}else if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=5)
+	}else if(3<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=5)
 	{
 	  AntiCircle();
-	}else if(5<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<=10)
+	}else if(5<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<=10)
 	{
-		if(gRobot.walk_t.circlechange.turntime==6 && tempflag2==1)
+		if(gRobot.walk_t.circleChange.turnTime==6 && tempflag2==1)
 		{
-			tempcirclerem=gRobot.walk_t.circlechange.circlenum;
+			tempcirclerem=gRobot.walk_t.circleChange.circlenum;
 			tempflag2=0;
-			gRobot.walk_t.circlechange.turntime=5+LineCheck(gRobot.walk_t.circlechange.direction);
-		}else if(gRobot.walk_t.circlechange.turntime>9)
+			gRobot.walk_t.circleChange.turnTime=5+LineCheck(gRobot.walk_t.circleChange.direction);
+		}else if(gRobot.walk_t.circleChange.turnTime>9)
 		{
-			gRobot.walk_t.circlechange.turntime=6;
+			gRobot.walk_t.circleChange.turnTime=6;
 		}
 	//进入矫正	
-		if(gRobot.walk_t.circlechange.circlenum-tempcirclerem>=1)
+		if(gRobot.walk_t.circleChange.circlenum-tempcirclerem>=1)
 		{
 			if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 			{
 				gRobot.status&=~STATUS_SWEEP;
-				gRobot.walk_t.circlechange.turntime=0;
+				gRobot.walk_t.circleChange.turnTime=0;
 			}
 		}
 	  AntiSquare2();
@@ -509,7 +509,7 @@ void AntiClockWise(void)
 ****************************************************************************/
 int Square(void)
 {
-	switch(gRobot.walk_t.circlechange.turntime)
+	switch(gRobot.walk_t.circleChange.turnTime)
 	{
 	   case 0:
 				Line(-600,3400,0,0,1,1);
@@ -542,7 +542,7 @@ int Square(void)
 ****************************************************************************/
 int AntiSquare(void)
 {
-	switch(gRobot.walk_t.circlechange.turntime)
+	switch(gRobot.walk_t.circleChange.turnTime)
 	{
 		  case 0:
 				Line(600,3400,0,0,1,1);
@@ -575,7 +575,7 @@ int AntiSquare(void)
 ****************************************************************************/
 int Circle(void)
 {
-	switch(gRobot.walk_t.circlechange.turntime)
+	switch(gRobot.walk_t.circleChange.turnTime)
 	{
 			case 4:
 				ShunShiZhenCircleBiHuan(1800,1100,0,2400);
@@ -600,7 +600,7 @@ int Circle(void)
 ****************************************************************************/
 int AntiCircle(void)
 {
-	switch(gRobot.walk_t.circlechange.turntime)
+	switch(gRobot.walk_t.circleChange.turnTime)
 	{		
 			case 4:
 				NiShiZhenCircleBiHuan(1800,1100,0,2400);
@@ -625,7 +625,7 @@ int AntiCircle(void)
 ****************************************************************************/
 int Square2(void)
 {
-switch(gRobot.walk_t.circlechange.turntime)
+switch(gRobot.walk_t.circleChange.turnTime)
 	{
 		  case 6:
 				Line(-600,3400,0,0,1,4);//x
@@ -658,7 +658,7 @@ switch(gRobot.walk_t.circlechange.turntime)
 ****************************************************************************/
 int AntiSquare2(void)
 {
-	switch(gRobot.walk_t.circlechange.turntime)
+	switch(gRobot.walk_t.circleChange.turnTime)
 	{
 		  case 6:
 				Line(600,3400,0,0,1,4);

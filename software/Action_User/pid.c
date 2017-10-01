@@ -186,7 +186,7 @@ case 0:
 			}else if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 					gRobot.walk_t.pid.distanceStraight = 0;
-					gRobot.walk_t.circlechange.turntime ++;
+					gRobot.walk_t.circleChange.turnTime ++;
 			}
 				break;
 case 1:
@@ -204,14 +204,14 @@ case 1:
 			if (fabs(gRobot.walk_t.pid.distanceStraight) < turnTimeLead(lineChangeSymbol))
 			{
 				gRobot.walk_t.pid.distanceStraight = 0;
-				gRobot.walk_t.circlechange.turntime ++;
+				gRobot.walk_t.circleChange.turnTime ++;
 			}
 			break;
 			default:
 			break;
 		}
-	 USART_OUT(UART5,(uint8_t*)"ww%d\t",(int)gRobot.walk_t.right.aim);
-     USART_OUT(UART5,(uint8_t*)"%d\\r\n",(int)gRobot.walk_t.left.aim);
+	 //USART_OUT(UART5,"ww%d\t",(int)gRobot.walk_t.right.aim);
+    // USART_OUT(UART5,"%d\\r\n",(int)gRobot.walk_t.left.aim);
 		//调试程序
 		//d_Coor();
 		//d_Line(gRobot.turnTime,lineChangeSymbol,disError,angleError,distanceStraight,turnTimeLead(lineChangeSymbol));

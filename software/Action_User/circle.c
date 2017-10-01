@@ -510,7 +510,7 @@ void Findball_3(void)
 			flag=1;
 		  break;
 		case 1:
-			USART_OUT(UART5,(uint8_t*)"ttt%d\t%d\t%d\r\n",(int)tmp.tmpgetAimxfirst,(int)tmp.tmpgetAimyfirst,(int)Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos()));
+			USART_OUT(UART5,"ttt%d\t%d\t%d\r\n",(int)tmp.tmpgetAimxfirst,(int)tmp.tmpgetAimyfirst,(int)Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos()));
 				Pointparking(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst);
  			if(Dis(tmp.tmpgetAimxfirst,tmp.tmpgetAimyfirst,getXpos(),getYpos())<150)
 				{
@@ -573,12 +573,12 @@ float Findball_5(void)
 {
  static float line=1;
  static int CameraTurnOld=0;
-	if(CameraTurnOld!=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime)
+	if(CameraTurnOld!=gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime)
 	{
 		line=1;
 	}else
 	{
-		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime;
+		CameraTurnOld=gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime;
 	}
 
 	if(getBestangle()>5)

@@ -31,7 +31,7 @@ void In2OutChange(void)
 	//启动避障逆向
 	if(gRobot.avoid_t.passflag==1)
 {
-//		if(gRobot.walk_t.circlechange.turntime==6)
+//		if(gRobot.walk_t.circleChange.turnTime==6)
 //		{
 //			gRobot.avoid_t.passflag=0;
 //			gRobot.status&=~STATUS_SWEEP;
@@ -39,105 +39,105 @@ void In2OutChange(void)
 	if(Turn180())
 	{
 		//方向取反
-		gRobot.walk_t.circlechange.direction=!gRobot.walk_t.circlechange.direction;
+		gRobot.walk_t.circleChange.direction=!gRobot.walk_t.circleChange.direction;
 		//象限计数清零
-		gRobot.walk_t.circlechange.linenum=0;
-		//恢复到进入逃逸前的turntime
-		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntimerem;
+		gRobot.walk_t.circleChange.linenum=0;
+		//恢复到进入逃逸前的turnTime
+		gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTimerem;
 		//避障状态清零
 		gRobot.avoid_t.passflag=0;
-		if(gRobot.walk_t.circlechange.turntime<3)	
+		if(gRobot.walk_t.circleChange.turnTime<3)	
 		{
-			if(gRobot.walk_t.circlechange.turntime==0)
+			if(gRobot.walk_t.circleChange.turnTime==0)
 		   {  
-				 gRobot.walk_t.circlechange.turntime=2;	 
-			 }else if(gRobot.walk_t.circlechange.turntime==2)
+				 gRobot.walk_t.circleChange.turnTime=2;	 
+			 }else if(gRobot.walk_t.circleChange.turnTime==2)
 			 {
-			   gRobot.walk_t.circlechange.turntime=0;
-			 }else if(gRobot.walk_t.circlechange.turntime==7)
+			   gRobot.walk_t.circleChange.turnTime=0;
+			 }else if(gRobot.walk_t.circleChange.turnTime==7)
 			 {
-				 gRobot.walk_t.circlechange.turntime=9;
-			 }else if(gRobot.walk_t.circlechange.turntime==9)
+				 gRobot.walk_t.circleChange.turnTime=9;
+			 }else if(gRobot.walk_t.circleChange.turnTime==9)
 			 {
-				 gRobot.walk_t.circlechange.turntime=7;
+				 gRobot.walk_t.circleChange.turnTime=7;
 			 }
 		}
 //   //判断剩下的是优弧还是劣弧
-//		if(3<gRobot.walk_t.circlechange.turntime && gRobot.walk_t.circlechange.turntime<6)
+//		if(3<gRobot.walk_t.circleChange.turnTime && gRobot.walk_t.circleChange.turnTime<6)
 //		{
-//			if(gRobot.walk_t.circlechange.linenum>2)
+//			if(gRobot.walk_t.circleChange.linenum>2)
 //			 {
-//					gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+1;
-//					gRobot.walk_t.circlechange.linenum=0;	
+//					gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTime+1;
+//					gRobot.walk_t.circleChange.linenum=0;	
 //			 }
 //		}
 	}else 
 	{
 	    //让switch变为default语句
-		  gRobot.walk_t.circlechange.turntime=100;
+		  gRobot.walk_t.circleChange.turnTime=100;
 	}
 }
 	
   //绕圆缩圈函数
-	if(gRobot.walk_t.circlechange.turntime>3 && gRobot.walk_t.circlechange.turntime<9)
+	if(gRobot.walk_t.circleChange.turnTime>3 && gRobot.walk_t.circleChange.turnTime<9)
 	{
-		gRobot.walk_t.circlechange.turntime=gRobot.walk_t.circlechange.turntime+circlechange();
+		gRobot.walk_t.circleChange.turnTime=gRobot.walk_t.circleChange.turnTime+circleChange();
 	}
 //	//进入矫正
-//	if(gRobot.walk_t.circlechange.turntime==9)
+//	if(gRobot.walk_t.circleChange.turnTime==9)
 //	{
 //		if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100 && gRobot.walk_t.pos.x>0)
 //			{
 //				gRobot.status&=~STATUS_SWEEP;
-//				gRobot.walk_t.circlechange.turntime=0;
+//				gRobot.walk_t.circleChange.turnTime=0;
 //			}
 //	}
-	//turntime溢出
+	//turnTime溢出
 }
 /****************************************************************************
-* 名    称：circlechange()	
+* 名    称：circleChange()	
 * 功    能：记录当前的圈数以及是优弧还是劣弧
 * 入口参数：当前的坐标
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int circlechange(void)
+int circleChange(void)
 {
 	//Quadrant//象限
-	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant!=1)
+	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=1)
 	{
-			gRobot.walk_t.circlechange.linenum++;
-			gRobot.walk_t.circlechange.quadrant=1;
+			gRobot.walk_t.circleChange.linenum++;
+			gRobot.walk_t.circleChange.quadrant=1;
 	}
-	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant!=2)
+	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=2)
 	{
-			gRobot.walk_t.circlechange.linenum++;
-			gRobot.walk_t.circlechange.quadrant=2;
+			gRobot.walk_t.circleChange.linenum++;
+			gRobot.walk_t.circleChange.quadrant=2;
 	}
-	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circlechange.quadrant!=3)
+	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=3)
 	{
-		  gRobot.walk_t.circlechange.linenum++;
-			gRobot.walk_t.circlechange.quadrant=3;
+		  gRobot.walk_t.circleChange.linenum++;
+			gRobot.walk_t.circleChange.quadrant=3;
 	}
-	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circlechange.quadrant!=4)
+	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=4)
 	{
-			gRobot.walk_t.circlechange.linenum++;
-			gRobot.walk_t.circlechange.quadrant=4;
+			gRobot.walk_t.circleChange.linenum++;
+			gRobot.walk_t.circleChange.quadrant=4;
 	}
 	
 	
-	if(gRobot.walk_t.circlechange.linenum==4)
+	if(gRobot.walk_t.circleChange.linenum==4)
 	{
-		gRobot.walk_t.circlechange.linenum=0;
+		gRobot.walk_t.circleChange.linenum=0;
 		if(gRobot.status==25)
 		{
 			//记录扫场的圈数
-		  gRobot.walk_t.circlechange.circlenum++;
+		  gRobot.walk_t.circleChange.circlenum++;
 		}else if(gRobot.status==6)
 		{
 			//记录摄像头扫场
-			gRobot.camera_t.camrBaseWalk_t.circlechange.circlenum++;
+			gRobot.camera_t.camrBaseWalk_t.circleChange.circlenum++;
 		}
 		return 1;
 	}

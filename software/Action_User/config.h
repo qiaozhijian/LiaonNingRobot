@@ -104,7 +104,10 @@
 #define X_MIN -2400
 #define Y_MAX 4800
 
-
+#define X_LEFT 				-250.f
+#define X_RIGHT 			250.f
+#define Y_UP 					3100.f
+#define Y_DOWN 				1700.f
 
 
 #endif

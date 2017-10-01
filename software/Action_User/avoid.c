@@ -3,7 +3,7 @@
 extern Robot_t gRobot;
 
 //static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
-static int statueRemember;                          //记住卡死时的状态码
+static int statusRemember;                          //记住卡死时的状态码
 static float xStick=0;
 static float yStick=0;												//卡住时存储的位置数据
 
@@ -88,8 +88,8 @@ void BackCarOut(float angle) 											//外环倒车程序
 			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
 			gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
 			
-			gRobot.status=statueRemember;              //切换到进入避障前的大状态
-			gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
+			gRobot.status=statusRemember;              //切换到进入避障前的大状态
+			gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
 		}
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
@@ -106,7 +106,7 @@ void CheckOutline(void)																	//检测是否卡死
 {
 	static int stickError = 0;													  //卡死错误积累值
 	static float xError = 0, yError = 0;
-	statueRemember=gRobot.status;
+	statusRemember=gRobot.status;
 	xError = gRobot.walk_t.pos.x - getxRem();
 	yError = gRobot.walk_t.pos.y - getyRem();
 																												//判断进程到哪一步（替换M）  --summer
@@ -180,7 +180,7 @@ void BackCar(float angle) 											//外环倒车程序
 			//gRobot.turnTime = turnTimeRemember;
 			i = 0;
 			j = 0;																		 //清空标志位
-		gRobot.status=statueRemember; 
+		gRobot.status=statusRemember; 
 		}
 	}
 }
@@ -196,7 +196,7 @@ void CheckOutline3(void)//检测是否卡死
 {
 	static int stickError = 0;							//卡死错误积累值
 	//每100ms做为速度平均的一个周期
-	statueRemember=gRobot.status;
+	statusRemember=gRobot.status;
 	if(gRobot.walk_t.right.real<=gRobot.walk_t.right.aim*0.3f)
 	{
 	  stickError++;
@@ -235,10 +235,10 @@ int CheckEnemy(void)
 	#define YES 1
 	#endif
 	
-	switch(LineCheck(gRobot.walk_t.circlechange.direction))
+	switch(LineCheck(gRobot.walk_t.circleChange.direction))
 	{
 		case 1://X=2400
-			 if(gRobot.walk_t.circlechange.direction==0)
+			 if(gRobot.walk_t.circleChange.direction==0)
 			   {
 					 if(fabs(2400-gRobot.walk_t.pos.x-getLeftAdc())>500)
 					 {
@@ -246,7 +246,7 @@ int CheckEnemy(void)
 					 }else{
 						return YES;
 				   }
-			   }else if(gRobot.walk_t.circlechange.direction==1)
+			   }else if(gRobot.walk_t.circleChange.direction==1)
 				 {
 				   if(fabs(2400-gRobot.walk_t.pos.x-getRightAdc())>500)
 					 {
@@ -258,7 +258,7 @@ int CheckEnemy(void)
 				 }
 			break;
 		case 2://Y=4800
-			   	if(gRobot.walk_t.circlechange.direction==0)
+			   	if(gRobot.walk_t.circleChange.direction==0)
 			   {
 					 if(fabs(4800-gRobot.walk_t.pos.y-getLeftAdc())>500)
 					 {
@@ -266,7 +266,7 @@ int CheckEnemy(void)
 					 }else{
 						return YES;
 				   }
-			   }else if(gRobot.walk_t.circlechange.direction==1)
+			   }else if(gRobot.walk_t.circleChange.direction==1)
 				 {
 				   if(fabs(4800-gRobot.walk_t.pos.y-getRightAdc())>500)
 					 {
@@ -278,7 +278,7 @@ int CheckEnemy(void)
 				 }
 			break;
 		case 3://X=-2400
-					if(gRobot.walk_t.circlechange.direction==0)
+					if(gRobot.walk_t.circleChange.direction==0)
 			   {
 					 if(fabs(2400+gRobot.walk_t.pos.x-getLeftAdc())>500)
 					 {
@@ -286,7 +286,7 @@ int CheckEnemy(void)
 					 }else{
 						return YES;
 				   }
-			   }else if(gRobot.walk_t.circlechange.direction==1)
+			   }else if(gRobot.walk_t.circleChange.direction==1)
 				 {
 				   if(fabs(2400+gRobot.walk_t.pos.x-getRightAdc())>500)
 					 {
@@ -298,7 +298,7 @@ int CheckEnemy(void)
 				 }
 			break;
 		case 4://Y=0
-						if(gRobot.walk_t.circlechange.direction==0)
+						if(gRobot.walk_t.circleChange.direction==0)
 			   {
 					 if(fabs(gRobot.walk_t.pos.y-getLeftAdc())>500)
 					 {
@@ -306,7 +306,7 @@ int CheckEnemy(void)
 					 }else{
 						return YES;
 				   }
-			   }else if(gRobot.walk_t.circlechange.direction==1)
+			   }else if(gRobot.walk_t.circleChange.direction==1)
 				 {
 				   if(fabs(gRobot.walk_t.pos.y-getRightAdc())>500)
 					 {
@@ -333,42 +333,42 @@ int CheckEnemy(void)
 ****************************************************************************/
  int Turn180(void)
 {
-	//防止旋转过程中turntime加
-	 gRobot.walk_t.circlechange.linenum=0;
+	//防止旋转过程中turnTime加
+	 gRobot.walk_t.circleChange.linenum=0;
 	if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) >100)
 	{
-		if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==0) 
+		if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==0) 
 		{	
 			VelCrl(CAN2, 1, -1000);     //顺时针
 			VelCrl(CAN2, 2, 10000);
-		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==0)
+		}else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==0)
 		{
 			VelCrl(CAN2, 1,-10000);
 			VelCrl(CAN2, 2,1000);
-		}else if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==1)
+		}else if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==1)
 		{	
 			VelCrl(CAN2, 1, -10000);    //逆时针
 			VelCrl(CAN2, 2, 1000);
-		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==1)
+		}else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==1)
 		{
 			VelCrl(CAN2, 1,-1000);
 			VelCrl(CAN2, 2,10000);
 		}
   }else if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle))<100)
 	{
-		if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==0) 
+		if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==0) 
 		{	
 			VelCrl(CAN2, 1, 10000);     //顺时针
 			VelCrl(CAN2, 2, 0);
-		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==0)
+		}else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==0)
 		{
 			VelCrl(CAN2, 1,0);
 			VelCrl(CAN2, 2,-10000);
-		}else if(gRobot.walk_t.circlechange.turntime<=4 && gRobot.walk_t.circlechange.direction==1)
+		}else if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==1)
 		{		
 			VelCrl(CAN2, 1, 0);      //逆时针
 			VelCrl(CAN2, 2, -10000);
-		}else if(gRobot.walk_t.circlechange.turntime>4 && gRobot.walk_t.circlechange.direction==1)
+		}else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==1)
 		{
 			VelCrl(CAN2, 1,10000);
 			VelCrl(CAN2, 2,0);
@@ -409,7 +409,7 @@ void CheckOutline2(void)
 	static float lastx=0;
 	static float lasty=0;
 	static int stickError=0;
-	statueRemember=gRobot.status;
+	statusRemember=gRobot.status;
 	count++;
 if(count==5){
 	count=0;
@@ -438,15 +438,15 @@ if(count==5){
 	}
 lastx=gRobot.walk_t.pos.x;
 lasty=gRobot.walk_t.pos.y;
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)vx);
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)vy);
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)aimv);
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)__sqrtf(vx*vx+vy*vy));
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.y);	
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)stickError);	
-USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.status);	
-USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)gRobot.walk_t.circlechange.turntime);
+USART_OUT(UART5,"%d\t",(int)vx);
+USART_OUT(UART5,"%d\t",(int)vy);
+USART_OUT(UART5,"%d\t",(int)aimv);
+USART_OUT(UART5,"%d\t",(int)__sqrtf(vx*vx+vy*vy));
+USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);	
+USART_OUT(UART5,"%d\t",(int)stickError);	
+USART_OUT(UART5,"%d\t",(int)gRobot.status);	
+USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
 	
 }
 }
@@ -462,43 +462,43 @@ static int stickStatus=0;//判断现在卡死的状态
 void Escape(void)
 {
 	float angle=getAngle();
-	USART_OUT(UART5,(uint8_t*)"stick:%d\r\n",(int)stickStatus);
+	USART_OUT(UART5,"stick:%d\r\n",(int)stickStatus);
 	switch(stickStatus)
 	{
 		case 1://内圈撞墙
-			USART_OUT(UART5,(uint8_t*)"case1");
+			USART_OUT(UART5,"case1");
 			BackCar(angle);
 		break;
 		
 		case 2://外圈撞墙
-			USART_OUT(UART5,(uint8_t*)"case2");
+			USART_OUT(UART5,"case2");
 			BackCar(angle);
 		break;
 		
 		case 3://和车撞
 			//SoundOut();
-		USART_OUT(UART5,(uint8_t*)"case3");
-		if(statueRemember==25)
+		USART_OUT(UART5,"case3");
+		if(statusRemember==25)
 		{
 			gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
 			gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
 			gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
 			
-			gRobot.status=statueRemember;              //切换到进入避障前的大状态
-			gRobot.walk_t.circlechange.turntimerem=gRobot.walk_t.circlechange.turntime;
-		}else if(statueRemember==6)
+			gRobot.status=statusRemember;              //切换到进入避障前的大状态
+			gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
+		}else if(statusRemember==6)
 		{
 		  BackCar(angle);
 		}
 		break;
 		
 		case 4://和内圈角撞
-			USART_OUT(UART5,(uint8_t*)"case4");
+			USART_OUT(UART5,"case4");
 			BackCar(angle);
 		break;
 		
 		case 5://和外圈角撞
-			USART_OUT(UART5,(uint8_t*)"case5");
+			USART_OUT(UART5,"case5");
 			BackCar(angle);
 		break;
 		
@@ -520,9 +520,9 @@ void JudgeStick(void)
 	static Point_t cP[4];//车的四个顶点
 	CarPointTrans(x, y, angle, cP);
 	stickStatus = CheckIntersect(x, y, angle, cP);
-	USART_OUT(UART5,(uint8_t*)"x=%d\t",(int)x);
-	USART_OUT(UART5,(uint8_t*)"y=%d\t",(int)y);
-	USART_OUT(UART5,(uint8_t*)"angle=%d\t\r\n",(int)angle);
+	USART_OUT(UART5,"x=%d\t",(int)x);
+	USART_OUT(UART5,"y=%d\t",(int)y);
+	USART_OUT(UART5,"angle=%d\t\r\n",(int)angle);
 }
 //	cP[0] leftUp;
 //	cP[1] letDown;
@@ -662,10 +662,10 @@ int CheckIntersect(float x, float y, float angle, Point_t cP[4])//检查是否�
 	{
 		stickStatus=5;//卡在外圈角落
 	}
-	USART_OUT(UART5,(uint8_t*)"stickCornor=%d\t",(int)stickCornor);
-	USART_OUT(UART5,(uint8_t*)"intersect=%d\t",(int)intersect);
-	USART_OUT(UART5,(uint8_t*)"stickStatus=%d\t",(int)stickStatus);
-	//USART_OUT(UART5,(uint8_t*)"%d %d %d %d %d %d %d %d\t\r\n",(int)StickIn[0], StickIn[1], StickIn[2], StickIn[3], StickOut[0], StickOut[1], StickOut[2], StickOut[3]);	
+	USART_OUT(UART5,"stickCornor=%d\t",(int)stickCornor);
+	USART_OUT(UART5,"intersect=%d\t",(int)intersect);
+	USART_OUT(UART5,"stickStatus=%d\t",(int)stickStatus);
+	//USART_OUT(UART5,"%d %d %d %d %d %d %d %d\t\r\n",(int)StickIn[0], StickIn[1], StickIn[2], StickIn[3], StickOut[0], StickOut[1], StickOut[2], StickOut[3]);	
 	
 	return stickStatus;
 }
@@ -740,7 +740,7 @@ void CarPointTrans(float x, float y, float angle, Point_t cP[4])//将定位系�
 
 	cP[3].x = x + xieBian*cosf(angle2);
 	cP[3].y = y + xieBian*sinf(angle2);
-	//USART_OUT(UART5,(uint8_t*)"angle2=%d\t angle3=%d\r\n",(int)angle2 / PI * 180,angle3 / PI * 180);
+	//USART_OUT(UART5,"angle2=%d\t angle3=%d\r\n",(int)angle2 / PI * 180,angle3 / PI * 180);
 	// ("luX=%f luY=%f ldX=%f ldY=%f rdX=%f rdY=%f ruX=%f ruY=%f\n", cP[0].x, cP[0].y, cP[1].x, cP[1].y, cP[2].x, cP[2].y, cP[3].x, cP[3].y);
 }
 /****************************************************************************

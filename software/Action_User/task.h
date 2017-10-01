@@ -3,10 +3,10 @@
 #include "config.h"
 /******************位矢结构体***********************/
 typedef struct{
-	float detax;
-	float detay;
-	float detas;
-	float detaangle;
+	float deltax;
+	float deltay;
+	float deltas;
+	float deltaAngle;
 	float averageV;
 }displacement_t; 
 /******************矫正结构体***********************/
@@ -15,7 +15,7 @@ typedef struct {
 	int left;
 	int right;
 	//激光启动
-	int statue;
+	int status;
 }Laser_t;
 
 typedef struct{
@@ -35,9 +35,9 @@ typedef struct{
 //机器人缩圈标志
 typedef struct{
 	//记录当前姿态
-	int turntime;
+	int turnTime;
 	//记录上一次的姿态
-	int turntimerem;
+	int turnTimerem;
 	//车再那一边
 	int linenum;
 	//记录圈数
@@ -72,7 +72,7 @@ typedef struct{
 	//Pid调解
 	Pid_t pid;
 	//走形的切换
-	CircleChange_t circlechange;
+	CircleChange_t circleChange;
 	//激光启动
 	Laser_t laser;
 	//位移计算量 
@@ -86,7 +86,7 @@ typedef struct{
 typedef struct{
 	float pos;
 	float posrem;
-	float turntime;
+	float turnTime;
 }PushPara_t;
 
 //发射电机参数
@@ -126,7 +126,7 @@ typedef struct {
 
 typedef struct {
 	int findturn;
-	CircleChange_t circlechange;
+	CircleChange_t circleChange;
 }CamrBaseWalk_t;
 
 typedef struct{
@@ -158,7 +158,7 @@ typedef struct{
 typedef struct {
 	float angle;
 	float speed;     //辊子的速度
-	int VelAchieve;  //电机速度达到所给速度标志位
+	int velAchieve;  //电机速度达到所给速度标志位
 }CollectPara_t;
 
 typedef struct{
@@ -183,6 +183,8 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
+	/*场地区域数组*/
+  uint32_t area[];
 }Robot_t;
 
 
