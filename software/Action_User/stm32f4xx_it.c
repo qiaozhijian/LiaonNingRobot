@@ -36,6 +36,8 @@
 #include "task.h"
 #include "sweep.h"
 #include "tools.h"
+#include <stdlib.h>
+#include <stdio.h>
 /******************************************************************************/
 /*            Cortex-M4 Processor Exceptions Handlers                         */
 /******************************************************************************/
@@ -66,7 +68,7 @@ if(StdId==0x280+GUN_YAW_ID)
 	{
 		if(Can1Msg.receivebuff[0]==0x00005850)
 		{
-		 gRobot.shoot_t.real.angle=Can1Msg.receivebuff[1];
+		 gRobot.shoot_t.sReal.angle=Can1Msg.receivebuff[1];
 		}
 	}
 /**************收球电机*****************/
@@ -82,7 +84,7 @@ if(StdId==0x280+PUSH_BALL_ID)
 	{
 		if(Can1Msg.receivebuff[0]==0x00005850)
 		{
-		  gRobot.push_t.real.pos=Can1Msg.receivebuff[1];
+		  gRobot.shoot_t.pReal.pos=Can1Msg.receivebuff[1];
 		}
 	}
 	CAN_ClearFlag(CAN1, CAN_FLAG_EWG);
@@ -134,70 +136,57 @@ if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 	CAN_ClearFlag(CAN2, CAN_FLAG_FOV1);
 }
 
-int zhuan=0,mubiao=0; 
-int d_flag=0;
 void UART5_IRQHandler(void)
 {
-	static int count=0;
-	static uint8_t tmp;
+	static int step=0;
+  uint8_t data;
+	static char s[8];
+	static uint32_t i=0;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
 	{
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
-		tmp=USART_ReceiveData(UART5);
+		data=USART_ReceiveData(UART5);
 	}
 	else if(USART_GetITStatus(UART5, USART_IT_RXNE)==SET)   
 	{
 		USART_ClearITPendingBit( UART5,USART_IT_RXNE);
-		tmp=USART_ReceiveData(UART5);
-		switch(count)
+		data=USART_ReceiveData(UART5);
+		switch(step)
 		{
 			case 0:
-			if(tmp=='w')
-				count=7;
-			else if(tmp=='b')
-			{
-				count=6;
-			}
-			else if(tmp=='c')
-				count=5;
-			else if(tmp=='m')
-				count=1;
-			else if(tmp=='v')
-				count=3;
-			else if(tmp=='n')
-				count=2;
-			else if(tmp=='a')
-				count=4;
-			else count=0;
-			break;
+				if(data=='s')
+					step++;
+				else
+					step=0;
+				break;
 			case 1:
-				zhuan++;
-				count=0;
-			break;
+				if((data<='9'&&data>='0')||data=='.'){
+					s[i]=data;
+					i++;
+				}else if(data=='\r')
+					step++;
+				else 
+					step=0;
+				break;
 			case 2:
-				mubiao=mubiao+1;
-				count=0;
-			break;
+				step=0;
+				if(data=='\n'){
+					gRobot.shoot_t.sAim.speed=(float)atof(s);
+				}
+				for(uint32_t i=0;i<8;i++)
+					s[i]=0;
+				i=0;
+				break;
 			case 3:
-				zhuan--;
-				count=0;
-			break;
+				break;
 			case 4:
-				mubiao=mubiao-1;
-			count=0;
-			break;
+				break;
 			case 5:
-				d_flag=1;
-				count=0;
 				break;
 			case 6:
-				setBallColor(1);
-				count=0;
-			break;
+				break;
 			case 7:
-				setBallColor(100);
-				count=0;
-			break;
+				break;
 			default:
 				break;
 		}
@@ -254,12 +243,12 @@ void USART1_IRQHandler(void)
 				if (data == 'R')
 				{
 					//标志
-					gRobot.shoot_t.aim.VelAchieve = 1;
+					gRobot.shoot_t.sAim.velAchieve = 1;
 				}
 				else if (data == 'V')
 				{ 
 					//发射台蓝牙返回的射球机当前转速（脉冲每秒）
-					gRobot.shoot_t.real.speed =backShootTest.velInt32 / 4096;
+					gRobot.shoot_t.sReal.speed =backShootTest.velInt32 / 4096;
 				}
 				i = 0;
 			break;

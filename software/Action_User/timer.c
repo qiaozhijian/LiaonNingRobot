@@ -189,8 +189,8 @@ void TIM2_IRQHandler(void)
 		timeCount++;
 		if(timeCount>=PERIOD*1000*10)
 		{
-			USART_OUT(UART5,(uint8_t*)"%d\t",(int)gRobot.walk_t.pos.x);
-		  USART_OUT(UART5,(uint8_t*)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+			//USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+		  //USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 			timeCount=0;
 			timeFlag=1;
 		}

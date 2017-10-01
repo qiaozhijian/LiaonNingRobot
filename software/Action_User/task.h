@@ -80,20 +80,35 @@ typedef struct{
 }Walk_t;
 
 
-/******************射球结构体***********************/
+/******************射球进程***********************/
+
+/******************推球电机结构体***********************/
+typedef struct{
+	float pos;
+	float posrem;
+	float turntime;
+}PushPara_t;
 
 //发射电机参数
 typedef struct {
+	//航向角
 	float angle;
+	//航向角度达到所给速度标志位
+	int angleAchieve;
+	//发射速度
 	float speed;
-//电机速度达到所给速度标志位
-	int VelAchieve;
+	//电机速度达到所给速度标志位
+	int velAchieve;
 }ShootPara_t;
 
 typedef struct{
-	ShootPara_t aim;
+	ShootPara_t sAim;
 	//实际射球参数
-	ShootPara_t real;
+	ShootPara_t sReal;
+	
+	PushPara_t pReal;
+	
+	PushPara_t pAim;
 }Shoot_t;
 
 /******************摄像头结构体***********************/
@@ -151,15 +166,6 @@ typedef struct{
 	CollectPara_t real; //辊子当前姿态
 	PhotoElectric_t PhotoElectric;
 }Collect_t;
-/******************辊子收球结构体***********************/
-typedef struct{
-	float pos;
-	float posrem;
-	float turntime;
-}PushPara_t;
-typedef struct{
-	PushPara_t real;
-}Push_t;
 
 /******************机器人结构体*********************/
 typedef struct {
@@ -177,9 +183,6 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
-	/******************收球进程***********************/
-	Push_t push_t;
-
 }Robot_t;
 
 

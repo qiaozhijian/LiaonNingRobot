@@ -35,16 +35,16 @@ float LauncherPidControl(float ERR)
 * 调用方法：无 
 ****************************************************************************/
 
-Launcher_t Launcher(float x,float y,float angle,int ballNum)
+ShootPara_t Launcher(float x,float y,float angle,int ballNum)
 {
-	static Launcher_t launcher;
+	static ShootPara_t launcher;
 	static float s = 0;                    //车到圆环中心的距离
 	static float h = 424.6;                //发射口到框的高度，垂直高度
 	static float v = 0;                    //要求的速度
 	//static float rev = 0;//转动速度
 	static float x0=-150, y0=2400;         //框的中心
 	//static float g = 9.9;//重力加速度
-	//static float courceAngle = 0;//定义航向角度
+	//static float angle = 0;//定义航向角度
 	static float dx=0, dy=0;               //定义坐标差值
 	static float alpha = 0;
 	//算出发射装置的坐标
@@ -70,7 +70,7 @@ else if (ballNum==1)                     //假如球是黑球
 		//v = 157.f / s / __sqrtf(1.234f*s - h);
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
-	  launcher.rev=0.01402f*v-5.457f+2.0f;
+	  launcher.speed=0.01402f*v-5.457f+2.0f;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
@@ -81,9 +81,9 @@ else if (ballNum==1)                     //假如球是黑球
 		alpha = alpha - 90;
 		if (alpha>180)alpha -= 360;
 		else if (alpha<-180)alpha += 360;
-		launcher.courceAngle = angle - alpha;
-		if (launcher.courceAngle>180)launcher.courceAngle -= 360;
-		else if (launcher.courceAngle<-180)launcher.courceAngle += 360;
+		launcher.angle = angle - alpha;
+		if (launcher.angle>180)launcher.angle -= 360;
+		else if (launcher.angle<-180)launcher.angle += 360;
 		return launcher;
 }
  /****************************************************************************
@@ -94,12 +94,12 @@ else if (ballNum==1)                     //假如球是黑球
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-static int ballNum=1;
+static int ballColor=1;
 void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
-	static Launcher_t launcher;
+	static ShootPara_t launcher;
 	static int yawCount=0;
 	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
@@ -111,38 +111,38 @@ void fireTask(void)
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	
-	ballNum=getBallColor();
+	ballColor=getBallColor();
 	
 	yawCount++;
 	yawCount%=4;
 	
-	launcher=Launcher(x,y,angle,ballNum);
+	launcher=Launcher(x,y,angle,ballColor);
 	if(yawCount==3)
 	{	
-//		if(gRobot.shoot_t.real.Yawangle!=launcher.courceAngle)
+//		if(gRobot.shoot_t.sReal.Yawangle!=launcher.angle)
 //		{
-//			launcher.courceAngle+=launcher.courceAngle-gRobot.shoot_t.real.Yawangle;
+//			launcher.angle+=launcher.angle-gRobot.shoot_t.sReal.Yawangle;
 //		}
-		YawAngleCtr(launcher.courceAngle+2);
+		YawAngleCtr(0);
 	}
 	//投球被打断
-	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
-	{
-		FixTask();
-		YesBallCount=201;
-	}
-	else
-	{
-	  ShootCtr(launcher.rev);
-	}
+//	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
+//	{
+//		FixTask();
+//		YesBallCount=201;
+//	}
+//	else
+//	{
+	  ShootCtr(gRobot.shoot_t.sAim.speed);
+//	}
 
 /**********************************测试版***************************/
-    if(fabs(gRobot.push_t.real.pos-gRobot.push_t.real.posrem)<10)
+    if(fabs(gRobot.shoot_t.pReal.pos-gRobot.shoot_t.pReal.posrem)<10)
 		{
 			//计算推球失败次数
-			gRobot.push_t.real.turntime++;
+			gRobot.shoot_t.pReal.turntime++;
 		}
-		gRobot.push_t.real.posrem=gRobot.push_t.real.pos;
+		gRobot.shoot_t.pReal.posrem=gRobot.shoot_t.pReal.pos;
 		if(YesBallCount<=3&&YesBallCount>0)
 		{
 			PushBall();
@@ -153,7 +153,7 @@ void fireTask(void)
 		YesBallCount++;
 		YesBallCount%=400;
 	
-	if(ballNum==0)
+	if(ballColor==0)
 	{
 		noBallCount++;
 		if(noBallCount>=200)
@@ -161,26 +161,26 @@ void fireTask(void)
 			noBall++;
 		}
 		noBallCount%=200;
-	}else if(ballNum!=0)
+	}else if(ballColor!=0)
 	{
 		noBall=0;
 		noBallCount=0;
 	} 
 	
 	//脱离状态 
-	if(noBall>5)
-	{
-		CollectBallVelCtr(60);
-		Delay_ms(1000);
-		gRobot.status=6;
-		noBall=0;
-		YesBallCount=0;
-		noBallCount=0;
-	}
+//	if(noBall>5)
+//	{
+//		CollectBallVelCtr(60);
+//		Delay_ms(1000);
+//		gRobot.status=6;
+//		noBall=0;
+//		YesBallCount=0;
+//		noBallCount=0;
+//	}
 	
-	if(gRobot.push_t.real.turntime>30)
+	if(gRobot.shoot_t.pReal.turntime>30)
 	{
-		gRobot.push_t.real.turntime=0;
+		gRobot.shoot_t.pReal.turntime=0;
 	}
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);

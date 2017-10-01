@@ -95,18 +95,18 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 		break;
 	}
 
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)piddisShuchu);
-//		USART_OUT(UART5, (uint8_t *)"%d\t", (int)pidZongShuchu);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.x);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.y);
+		USART_OUT(UART5, "%d\t", (int)turnTimeChange);
+		USART_OUT(UART5, "%d\t", (int)circleChangeSymbol);
+		USART_OUT(UART5, "%d\t", (int)angle);//gRobot.walk_t.pos.angle
+		USART_OUT(UART5, "%d\t", (int)angleError);
+		USART_OUT(UART5, "%d\t", (int)disError);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.right.real);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.right.aim);
+//		USART_OUT(UART5, "%d\t", (int)piddisShuchu);
+//		USART_OUT(UART5, "%d\t", (int)pidZongShuchu);
+		USART_OUT(UART5, "%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
 }
 /****************************************************************************
 * 名    称：AreaCheck()
@@ -448,16 +448,16 @@ void CameraBaseWalk2(void)
 		//进入矫正投球
 		gRobot.status=22;
 	}
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)angle);//gRobot.walk_t.pos.angle
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.x);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.pos.y);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.camera_t.camerapid.angleError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.camera_t.camerapid.disError);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.real);
-		USART_OUT(UART5, (uint8_t *)"%d\t", (int)gRobot.walk_t.right.aim);
-		USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
+		USART_OUT(UART5, "%d\t", (int)angle);//gRobot.walk_t.pos.angle
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.x);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.y);
+		USART_OUT(UART5, "%d\t", (int)turnTimeChange);
+		USART_OUT(UART5, "%d\t", (int)circleChangeSymbol);
+		USART_OUT(UART5, "%d\t", (int)gRobot.camera_t.camerapid.angleError);
+		USART_OUT(UART5, "%d\t", (int)gRobot.camera_t.camerapid.disError);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.right.real);
+		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.right.aim);
+		USART_OUT(UART5, "%d\t\r\n", (int)gRobot.camera_t.camrBaseWalk_t.circlechange.turntime);
 }									//摄像头基础走形
 int CircleSymbolKeep(float x,float y)
 {
@@ -585,16 +585,16 @@ int CheckArea2(float x, float y, int circleSymbol)
 		areaCheckSymbol = 0;
 	}
 	runArea[area][b][a] = 1;//写入该区域已经走过
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)x);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)y);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)turnTimeChange);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)circleChangeSymbol);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	min);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	checkMode);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	area);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	a);
-	USART_OUT(UART5, (uint8_t *)"%d\t", (int)	b);
-	USART_OUT(UART5, (uint8_t *)"%d\t\r\n", (int)areaCheckSymbol);
+	USART_OUT(UART5, "%d\t", (int)x);
+	USART_OUT(UART5, "%d\t", (int)y);
+	USART_OUT(UART5, "%d\t", (int)turnTimeChange);
+	USART_OUT(UART5, "%d\t", (int)circleChangeSymbol);
+	USART_OUT(UART5, "%d\t", (int)	min);
+	USART_OUT(UART5, "%d\t", (int)	checkMode);
+	USART_OUT(UART5, "%d\t", (int)	area);
+	USART_OUT(UART5, "%d\t", (int)	a);
+	USART_OUT(UART5, "%d\t", (int)	b);
+	USART_OUT(UART5, "%d\t\r\n", (int)areaCheckSymbol);
 	return min;
 }
 

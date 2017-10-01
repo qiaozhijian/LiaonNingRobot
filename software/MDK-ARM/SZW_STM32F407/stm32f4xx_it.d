@@ -44,3 +44,5 @@
 .\szw_stm32f407\stm32f4xx_it.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\szw_stm32f407\stm32f4xx_it.o: ..\Action_User\condition.h
 .\szw_stm32f407\stm32f4xx_it.o: ..\Action_User\collect.h
+.\szw_stm32f407\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\szw_stm32f407\stm32f4xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
