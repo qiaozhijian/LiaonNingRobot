@@ -1,6 +1,6 @@
 .\szw_stm32f407\adc.o: ..\Action_User\adc.c
 .\szw_stm32f407\adc.o: ..\Action_User\adc.h
-.\szw_stm32f407\adc.o: E:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\szw_stm32f407\adc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\szw_stm32f407\adc.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h
 .\szw_stm32f407\adc.o: ..\Libraries\CMSIS\stm32f4xx.h
 .\szw_stm32f407\adc.o: ..\Libraries\CMSIS\core_cm4.h

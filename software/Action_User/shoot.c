@@ -106,7 +106,7 @@ static int ballColor=1;
 	static int noBall=0;
 	static int YesBallCount=0;									//有球时推的时间
 
-	CollectBallVelCtr(0);
+	//CollectBallVelCtr(0);
 	
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
@@ -171,9 +171,9 @@ static int ballColor=1;
 	//脱离状态 
 	if(noBall>5)
 	{
-		CollectBallVelCtr(60);
-		Delay_ms(1000);
-		gRobot.status=6;
+	//	CollectBallVelCtr(60);
+	//	Delay_ms(1000);
+		gRobot.status=STATUS_CAMERA_AND_WALK;
 		noBall=0;
 		YesBallCount=0;
 		noBallCount=0;

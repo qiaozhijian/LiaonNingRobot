@@ -147,7 +147,7 @@ sign:符号位
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-	void Line(float aimX,float aimY,float aimAngle,int line1,int sign,int lineChangeSymbol)
+void Line(float aimX,float aimY,float aimAngle,int line1,int sign,int lineChangeSymbol)
 {
 		static float x = 0, y = 0, angle = 0;				
 		x=gRobot.walk_t.pos.x;											//赋值当前姿态
