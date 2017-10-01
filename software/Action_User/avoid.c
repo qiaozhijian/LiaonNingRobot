@@ -105,16 +105,16 @@ void BackCarOut(float angle) 											//外环倒车程序
 ****************************************************************************/
 void BackCar(float angle) 											//外环倒车程序
 {
-  static float aimAngle = 0;  									  //目标角度
-  static float angleError = 0; 										//目标角度与当前角度的偏差
+  static float aimAngle = 0.f;  									  //目标角度
+  static float angleError = 0.f; 										//目标角度与当前角度的偏差
   static int i = 0;																//目标角度变换标志位
   static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
   int sign=0;///通过判断在外在内查看它应该外拐内拐
-  if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))			//内环
+  if((xStick>-1400.f&&xStick<1400.f)&&(yStick>900.f&&yStick<3900.f))			//内环
   {
     sign=-1;
   }
-  else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))	//外环
+  else if((xStick<-1400.f||xStick>1400.f)||(yStick<900.f||yStick>3900.f))	//外环
   {
     sign=1;
   }

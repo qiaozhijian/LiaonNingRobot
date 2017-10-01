@@ -34,7 +34,7 @@ typedef struct{
 	//车再那一边
 	int linenum;
 	//记录圈数
-	int circlenum;
+	int circleNum;
 	//车所再象限
 	int quadrant;
 	//车的顺逆方向
@@ -68,6 +68,8 @@ typedef struct{
 	CircleChange_t circleChange;
 	//激光启动
 	Laser_t laser;
+	//正方形区域  x1 y1 x2 y2的顺序
+	float board[3][4];
 	//位移计算量 
 	float averageV;
 }Walk_t;
