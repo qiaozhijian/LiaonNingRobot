@@ -188,6 +188,48 @@ static int ballColor=1;
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }
+void CheckComingCar(float xRem,float yRem,float leftLaser,float rightLaser)//投球检查对方车辆是否靠近
+{
+	static int crazyCarLeft=0;
+	static int crazyCarRight=0;
+	static int leftCrazyRem=0;
+	static int rightCrazyRem=0;
+	if(leftLaser+rightLaser<4800)//预判提前调节
+	{
+	    if(leftLaser<1000&&leftCrazyRem!=leftLaser)//左边有车
+		{
+			crazyCarLeft++;
+		}else if(rightLaser<1000&&rightCrazyRem!=rightLaser)//右边有车
+		{
+			crazyCarRight++;
+		}
+	}else if(fabs(xRem-gRobot.walk_t.pos.x)>10||fabs(yRem-gRobot.walk_t.pos.y)>10)//撞上
+	{
+		
+	}
+	
+	if(crazyCarLeft>50)//500ms左边证明有车
+	{
+	  crazyCarLeft=0;
+	}else if(crazyCarRight>50)//500ms右边证明有车
+	{
+	  crazyCarRight=0;
+	}
+	leftCrazyRem=leftLaser;
+	rightCrazyRem=rightLaser;
+}
+void LiuLeLiuLe(void)
+{
 
 
 
+
+
+
+
+
+
+
+
+
+}

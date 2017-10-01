@@ -11,7 +11,7 @@
 ******************************************************************************/
 #include "config.h"
 Robot_t gRobot;
-#define TEST
+#define TEST 
 int main(void)
 {
   robotInit();
@@ -20,7 +20,7 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {	
-			#ifdef TEST
+			#ifdef TEST 
 				TestMode();
 			#else
       MotorRead();       
@@ -54,4 +54,3 @@ int main(void)
     }
   }
 }
-

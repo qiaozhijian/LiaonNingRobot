@@ -135,12 +135,13 @@ if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 	CAN_ClearFlag(CAN2, CAN_FLAG_FF1);
 	CAN_ClearFlag(CAN2, CAN_FLAG_FOV1);
 }
-
+int testMode=0;
 void UART5_IRQHandler(void)
 {
 	static int step=0;
   uint8_t data;
 	static char s[8];
+	static char a[8]; 
 	static uint32_t i=0;
 	if(USART_GetFlagStatus(USART1,USART_FLAG_ORE)!=RESET)
 	{
@@ -156,10 +157,21 @@ void UART5_IRQHandler(void)
 			case 0:
 				if(data=='s')
 					step++;
+				else if(data=='a')
+				{
+					step=7;
+				}					
+					if(data=='t')
+				{
+					step=3;
+				}
 				else
+				{
 					step=0;
-				break;
-			case 1:
+				}
+			break;
+			
+			case 1://调整速度
 				if((data<='9'&&data>='0')||data=='.'){
 					s[i]=data;
 					i++;
@@ -168,6 +180,7 @@ void UART5_IRQHandler(void)
 				else 
 					step=0;
 				break;
+			
 			case 2:
 				step=0;
 				if(data=='\n'){
@@ -177,17 +190,68 @@ void UART5_IRQHandler(void)
 				for(uint32_t i=0;i<8;i++)
 					s[i]=0;
 				i=0;
+			
 				break;
+			
 			case 3:
+				if(data=='e')
+					step=4;
+				else 
+					step=0;
 				break;
+				
 			case 4:
-				break;
+				if(data=='s')
+					step=5;
+				else 
+					step=0;
+			break;
+		
 			case 5:
-				break;
+				if(data=='t')
+					step=6;
+				else 
+					step=0;
+			break;
+				
 			case 6:
+				step=0;
+				if(data=='1')
+				{	
+					testMode=1;
+				}
+					else if(data=='2')
+				{
+					testMode=2;
+				}
+					else 
+				{
+					testMode=0;
+				}
 				break;
+				
 			case 7:
-				break;
+				if((data<='9'&&data>='0')||data=='.'){
+					a[i]=data;
+					i++;
+				}else if(data=='\r')
+					step=8;
+				else 
+					step=0;
+			break;
+			
+			case 8:
+				step=0;
+				if(data=='\n')
+				{
+					gRobot.shoot_t.sAim.angle=(float)atof(a);
+					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.angle*1000));
+				}
+				for(uint32_t i=0;i<8;i++)
+					a[i]=0;
+				i=0;
+			break;
+				
 			default:
 				break;
 		}
