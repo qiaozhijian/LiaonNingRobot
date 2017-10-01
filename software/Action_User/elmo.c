@@ -37,8 +37,10 @@ void elmo_Enable(CAN_TypeDef *CANx, uint8_t ElmoNum)
 	while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 	{
 		stuck++;
-		if(stuck==100000)
+		if(stuck==10000){
 			USART_OUT(UART5,"stuck %d",1);
+			break;
+			}
 	}
 }
 /**************失能电机***************************/
@@ -72,8 +74,10 @@ void elmo_Disable(CAN_TypeDef *CANx, uint8_t ElmoNum)
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 			stuck++;
-			if(stuck==100000)
-				USART_OUT(UART5,"stuck %d",2);
+		if(stuck==10000){
+			USART_OUT(UART5,"stuck %d",2);
+			break;
+			}
 		}
 	}
 }
@@ -120,8 +124,10 @@ void Vel_cfg(CAN_TypeDef *CANx, uint8_t ElmoNum, uint32_t acc, uint32_t dec)
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 			stuck++;
-			if(stuck==100000)
-				USART_OUT(UART5,"stuck %d",3);
+		if(stuck==10000){
+			USART_OUT(UART5,"stuck %d",3);
+			break;
+		}
 		}
 	}
 }
@@ -160,8 +166,10 @@ void VelCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, int vel)
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 			stuck++;
-			if(stuck==100000)
-				USART_OUT(UART5,"stuck %d",4);
+		if(stuck==10000){
+			USART_OUT(UART5,"stuck %d",4);
+			break;
+		}
 		}
 	}
 	USART_OUT(UART5,"xx%d\t",(int)vel);
@@ -228,8 +236,10 @@ void Pos_cfg(CAN_TypeDef *CANx, uint8_t ElmoNum, uint32_t acc, uint32_t dec, uin
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 			stuck++;
-			if(stuck==100000)
-				USART_OUT(UART5,"stuck %d",5);
+		if(stuck==10000){
+			USART_OUT(UART5,"stuck %d",5);
+			break;
+		}
 		}
 	}
 }
@@ -279,8 +289,10 @@ void PosCrl(CAN_TypeDef *CANx, uint8_t ElmoNum, uint8_t rel_abs, int pos)
 		while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 		{
 			stuck++;
-			if(stuck==100000)
-				USART_OUT(UART5,"stuck %d",6);
+		if(stuck==10000){
+			USART_OUT(UART5,"stuck %d",6);
+			break;
+		}
 		}
 	}
 }
@@ -312,8 +324,10 @@ void ReadActualVoltage(CAN_TypeDef *CANx, uint8_t ElmoNum)
 	while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 	{
 		stuck++;
-		if(stuck==100000)
+		if(stuck==10000){
 			USART_OUT(UART5,"stuck %d",7);
+			break;
+		}
 	}
 }
 
@@ -345,8 +359,10 @@ void ReadActualCurrent(CAN_TypeDef *CANx, uint8_t ElmoNum)
 	while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 	{
 		stuck++;
-		if(stuck==100000)
+		if(stuck==10000){
 			USART_OUT(UART5,"stuck %d",8);
+			break;
+		}
 	}
 }
 
@@ -378,8 +394,10 @@ void ReadActualPos(CAN_TypeDef *CANx, uint8_t ElmoNum)
 	while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 	{
 		stuck++;
-		if(stuck==100000)
+		if(stuck==10000){
 			USART_OUT(UART5,"stuck %d",9);
+			break;
+		}
 	}
 }
 
@@ -411,7 +429,9 @@ void ReadActualVel(CAN_TypeDef *CANx, uint8_t ElmoNum)
 	while ((CAN_TransmitStatus(CANx, mbox) != CAN_TxStatus_Ok))
 	{
 		stuck++;
-		if(stuck==100000)
+		if(stuck==10000){
 			USART_OUT(UART5,"stuck %d",10);
+			break;
+		}
 	}
 }

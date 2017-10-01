@@ -44,3 +44,4 @@
 .\szw_stm32f407\motor.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\szw_stm32f407\motor.o: ..\Action_User\condition.h
 .\szw_stm32f407\motor.o: ..\Action_User\collect.h
+.\szw_stm32f407\motor.o: ..\Action_User\test.h

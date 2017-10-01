@@ -28,7 +28,7 @@
 #include "condition.h"
 #include "collect.h"
 #include "MotionCard.h"
-
+#include "test.h"
 /* Private include ------------------------------------------------------------------------------------*/
 #define PERIOD					      0.01f
 
@@ -38,9 +38,9 @@
 //轮子直径（单位：mm）
 #define WHEEL_DIAMETER (120.0f)
 //调试小车车长（单位：mm）
-#define MOVEBASE_LENGTH (492.0f)
+#define ROBOT_LENGTH (492.0f)
 //调试小车车宽(单位：mm)
-#define MOVEBASE_WIDTH (490.0f)
+#define ROBOT_WIDTH (490.0f)
 //轮子宽度（单位：mm）
 #define WHEEL_WIDTH (40.0f)
 //两个轮子中心距离（单位：mm）
@@ -67,13 +67,13 @@
 
 
 
-//车的状态码
-#define STATUS_SWEEP   1 //状态 基础扫场
-#define STATUS_CAMERA_WALK   2 //状态 摄像头走形
-#define STATUS_CAMERA  4 //状态 摄像头
-#define STATUS_SHOOTER 8 //状态 射球
-#define STATUS_FIX     16 //状态 矫正
-#define STATUS_AVOID   32 //状态 避障
+//车的状态码  ??备注二进制数，宏定义用十六进制
+#define STATUS_SWEEP   							1 //状态 基础扫场
+#define STATUS_CAMERA_WALK   				2 //状态 摄像头走形
+#define STATUS_CAMERA  							4 //状态 摄像头
+#define STATUS_SHOOTER 							8 //状态 射球
+#define STATUS_FIX     							16 //状态 矫正
+#define STATUS_AVOID   							32 //状态 避障
 
 
 

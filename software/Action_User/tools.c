@@ -140,17 +140,15 @@ void MotorRead(void)
 		 count++;
 			if(count>5)
 			{
-				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);     //读取CAN2电机速度
-				//ReadActualPos(CAN2,);                       //读取CAN2电机位置
-				//ReadActualVel(CAN1,PUSH_BALL_ID);   //读取CAN1电机速度
-				//ReadActualPos(CAN1,PUSH_BALL_ID);               //读取CAN1电机位置
+				ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);   //读取CAN2电机速度
+				ReadActualPos(CAN1,PUSH_BALL_ID);           //读取CAN1电机位置
 				count=0;
 			}
 }
 /************************脉冲转速度***********************/
 float Pulse2Vel(float Pulse)
 {
-	static float vel=0;                 //定位器的速度
+  float vel=0;                 //定位器的速度
 	vel=Pulse*(PI*WHEEL_DIAMETER)/4096.f;
 	return vel;
 }

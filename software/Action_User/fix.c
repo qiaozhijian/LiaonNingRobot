@@ -82,13 +82,13 @@ float getYpos(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int getLeftAdc()
+float getLeftAdc()
 {
-	return 0.9389*Get_Adc_Average(ADC_Channel_15, 200)+428.6575;
+	return 0.9389f*Get_Adc_Average(ADC_Channel_15, 200)+428.6575f;
 }
-int getRightAdc()
+float getRightAdc()
 {
-	return 0.9403*Get_Adc_Average(ADC_Channel_14, 200)+435.445;
+	return 0.9403f*Get_Adc_Average(ADC_Channel_14, 200)+435.445f;
 }
 
 /****************************************************************************
@@ -202,7 +202,7 @@ static int fix_status=11;//需要矫正时赋值为11//矫正开始时赋值为1
 int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进行修正激光被挡或者不在激光处理范围内
 {
 	static int commitFix=0;//靠下一面墙的标志位
-	if(laserLeftDistance>4096+MOVEBASE_WIDTH/2||laserLeftDistance<40+MOVEBASE_WIDTH/2)
+	if(laserLeftDistance>4096+ROBOT_WIDTH/2||laserLeftDistance<40+ROBOT_WIDTH/2)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}
@@ -211,7 +211,7 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 		commitFix=1;	//说明能够进行矫正
 	}
 	
-	if(laserRightDistance>4096+MOVEBASE_WIDTH/2||laserRightDistance<40+MOVEBASE_WIDTH/2)
+	if(laserRightDistance>4096+ROBOT_WIDTH/2||laserRightDistance<40+ROBOT_WIDTH/2)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}

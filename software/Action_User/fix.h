@@ -14,8 +14,8 @@ float getAngle(void);
 float getXpos(void);
 float getYpos(void);
 void setErr(float reaAngle,float realX,float realy);
-int getLeftAdc(void);
-int getRightAdc(void);
+float getLeftAdc(void);
+float getRightAdc(void);
 
 
 typedef struct{

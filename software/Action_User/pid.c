@@ -172,14 +172,14 @@ case 0:
 			{
 					if(lineChangeSymbol<1)
 					{
-						gRobot.walk_t.right.aim=gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError));
-						gRobot.walk_t.left.aim=-gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError));
+						gRobot.walk_t.right.aim=gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError));
+						gRobot.walk_t.left.aim=-gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* onceDistancePidControl(gRobot.walk_t.pid.disError));
 						VelCrl(CAN2, 1,	gRobot.walk_t.right.aim); //pid中填入的是差值
 						VelCrl(CAN2, 2, gRobot.walk_t.left.aim);
 					}else if(lineChangeSymbol>=1)
 					{
-						gRobot.walk_t.right.aim = gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
-						gRobot.walk_t.left.aim = -gRobot.walk_t.right.base+ AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
+						gRobot.walk_t.right.aim = gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
+						gRobot.walk_t.left.aim = -gRobot.walk_t.base+ AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
 						VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //pid中填入的是差值
 						VelCrl(CAN2, 2,gRobot.walk_t.left.aim);
 					}
@@ -196,8 +196,8 @@ case 1:
 
 			if (fabs(gRobot.walk_t.pid.distanceStraight) > turnTimeLead(lineChangeSymbol))
 			{
-				gRobot.walk_t.right.aim=gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
-				gRobot.walk_t.left.aim=-gRobot.walk_t.right.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
+				gRobot.walk_t.right.aim=gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
+				gRobot.walk_t.left.aim=-gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
 				VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //pid中填入的是差值
 				VelCrl(CAN2, 2,gRobot.walk_t.left.aim);
 			}

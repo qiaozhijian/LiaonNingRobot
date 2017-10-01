@@ -91,14 +91,14 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 		angleError=angleErrorCount(aimAngle,angle);
 		V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
-		gRobot.walk_t.right.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
-		gRobot.walk_t.left.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
+		gRobot.walk_t.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+		gRobot.walk_t.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 		
 		gRobot.walk_t.right.adjust=CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		gRobot.walk_t.left.adjust=CircleAnglePidControl(angleError+spacingPidControl(spacingError));
 		
-		gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
-		gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+		gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+		gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 		
 		VelCrl(CAN2, 1, gRobot.walk_t.right.aim);      
 		VelCrl(CAN2, 2, gRobot.walk_t.left.aim);
@@ -173,14 +173,14 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 			angleError=angleErrorCount(aimAngle,angle);
 			V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 			V2=((R-(WHEEL_TREAD/2))/R)*V;
-			gRobot.walk_t.right.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
-			gRobot.walk_t.left.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
+			gRobot.walk_t.base=V1/(3.14f*WHEEL_DIAMETER)*4096.f;
+			gRobot.walk_t.base=V2/(3.14f*WHEEL_DIAMETER)*4096.f;
 			
 			gRobot.walk_t.right.adjust=CircleAnglePidControl(angleError-spacingPidControl(spacingError));
 		  gRobot.walk_t.left.adjust=CircleAnglePidControl(angleError-spacingPidControl(spacingError));
 		
-			gRobot.walk_t.right.aim=gRobot.walk_t.left.base+gRobot.walk_t.right.adjust;
-			gRobot.walk_t.left.aim=-gRobot.walk_t.right.base+gRobot.walk_t.left.adjust;
+			gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 		
 			VelCrl(CAN2, 1,gRobot.walk_t.right.aim);      
 			VelCrl(CAN2, 2,gRobot.walk_t.left.aim);

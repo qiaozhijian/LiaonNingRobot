@@ -44,3 +44,4 @@
 .\szw_stm32f407\timer.o: ..\Action_User\dma.h
 .\szw_stm32f407\timer.o: ..\Action_User\condition.h
 .\szw_stm32f407\timer.o: ..\Action_User\collect.h
+.\szw_stm32f407\timer.o: ..\Action_User\test.h

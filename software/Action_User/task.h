@@ -1,14 +1,7 @@
 #ifndef  __TASK_H
 #define  __TASK_H
 #include "config.h"
-/******************位矢结构体***********************/
-typedef struct{
-	float deltax;
-	float deltay;
-	float deltas;
-	float deltaAngle;
-	float averageV;
-}displacement_t; 
+
 /******************矫正结构体***********************/
 //激光距离
 typedef struct {
@@ -50,7 +43,6 @@ typedef struct{
 //轮子状态 速度和调节量  
 typedef struct{
 	float aim;
-	float base;
 	float real;
 	float adjust;
 }MovePara_t;
@@ -67,6 +59,7 @@ typedef struct{
 	MovePara_t left;
 	//右轮状态
 	MovePara_t right;
+	float base;
 	//车的位置
 	Position_t pos;
 	//Pid调解
@@ -76,7 +69,7 @@ typedef struct{
 	//激光启动
 	Laser_t laser;
 	//位移计算量 
-	displacement_t displacement;
+	float averageV;
 }Walk_t;
 
 

@@ -344,8 +344,8 @@ void CameraBaseWalk2(void)
 	//static int M=12214;
 	static float x = 0, y = 0, angle = 0; 							
 	static int circleChangeSymbol=2;
-	gRobot.walk_t.right.base=12214;
-	gRobot.walk_t.left.base=12214;
+	gRobot.walk_t.base=12214;
+	gRobot.walk_t.base=12214;
 //	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 //	static int circleNum=0;
 	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
@@ -389,8 +389,8 @@ void CameraBaseWalk2(void)
 
 			gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
-			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
-			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+			gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 	
 			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
 			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
@@ -403,8 +403,8 @@ void CameraBaseWalk2(void)
 		
 			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
-			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
-			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+			gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 		
 			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
 			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
@@ -418,8 +418,8 @@ void CameraBaseWalk2(void)
 		
 			gRobot.walk_t.right.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 			gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError + onceDistancePidControl(gRobot.camera_t.camerapid.disError));
-			gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
-			gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+			gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+			gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 		
 			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
 			VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
@@ -433,8 +433,8 @@ void CameraBaseWalk2(void)
 	
 		gRobot.walk_t.right.adjust=AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
 		gRobot.walk_t.left.adjust= AnglePidControl(gRobot.camera_t.camerapid.angleError - onceDistancePidControl(gRobot.camera_t.camerapid.disError));
-		gRobot.walk_t.right.aim=gRobot.walk_t.right.base+gRobot.walk_t.right.adjust;
-		gRobot.walk_t.left.aim=-gRobot.walk_t.left.base+gRobot.walk_t.left.adjust;
+		gRobot.walk_t.right.aim=gRobot.walk_t.base+gRobot.walk_t.right.adjust;
+		gRobot.walk_t.left.aim=-gRobot.walk_t.base+gRobot.walk_t.left.adjust;
 	  
 	  VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //角度误差pid和距离误差相结合
 		VelCrl(CAN2, 2,gRobot.walk_t.left.aim );
