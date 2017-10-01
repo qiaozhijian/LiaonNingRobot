@@ -215,13 +215,16 @@ void UART5_IRQHandler(void)
 				
 			case 6:
 				step=0;
-				if(data=='1')
+				if(data=='1')//摄像头
 				{	
 					testMode=1;
 				}
-					else if(data=='2')
+					else if(data=='2')//轮子，激光，行程开关自检
 				{
 					testMode=2;
+				}else if(data=='3')//发射整套自检
+				{
+					testMode=3;
 				}
 					else 
 				{

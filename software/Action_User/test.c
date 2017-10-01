@@ -40,8 +40,11 @@ void TestMode(void)
 			TravelSwitchTest();
 		break;
 	
+		case 3://鍙戝皠鑷
+			ShootTest();
+		break;
+		
 		default:
-			
 		break;
 	
 }
@@ -52,7 +55,7 @@ void TestMode(void)
 	
 	
 //			a=getBallColor();
-/*****************************************临时测试*****************************************/
+/*****************************************聶时英藬*****************************************/
 	USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camerapid.aimAngle);
 	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
 	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
@@ -75,7 +78,7 @@ void TestMode(void)
 
 				//			WalkTask1();
 				//			WalkTask2();
-				//			逆时针旋转
+				//			纽时肢呀转
 				//       CirlceSweep();
 				//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
 				//			USART_OUTF(Key1);
@@ -87,7 +90,7 @@ void TestMode(void)
 				//			Findball_5();
 				//			Debug();
 				//USART_OUT(UART5,"%d\r\n",(int)gRobot.shoot_t.sReal.speed);
-/*****************************************临时测试*****************************************/			
+/*****************************************聶时英藬*****************************************/			
 
 }
 void WheelTest(float laserRight,float laserLeft)
@@ -135,28 +138,18 @@ void TravelSwitchTest(void)
 	{
 		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	}
-
 }
-void Debug(void){
-
-			USART_OUT(UART5,"%d\t", (int)gRobot.status);
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
-			USART_OUT(UART5,"%d\t",(int)LineCheck(gRobot.walk_t.circleChange.direction));
-   		USART_OUT(UART5,"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime);
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.aimAngle );
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.angleError);
-		  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.disError);
-			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pid.distanceStraight);
-			USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
-			USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.circleNum);
-
-
+void ShootTest(void)
+{
+	static int pullTime=0;
+	YawAngleCtr(gRobot.shoot_t.sAim.angle);
+	ShootCtr(gRobot.shoot_t.sAim.speed);
+	if(pullTime<3)
+	{
+		PushBall();
+	}else if(pullTime>200&&pullTime<203)
+	{
+		PushBallReset();
+	}
+	pullTime%=400;
 }
-
