@@ -70,7 +70,8 @@ else if (ballNum==1)                     //假如球是黑球
 		//v = 157.f / s / __sqrtf(1.234f*s - h);
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
-	  launcher.speed=0.01402f*v-5.457f+2.0f;
+	  //launcher.speed=0.01402f*v-5.457f+2.0f;
+		launcher.speed=0.01516f*v-14.08f;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
@@ -95,7 +96,7 @@ else if (ballNum==1)                     //假如球是黑球
 * 调用方法：无 
 ****************************************************************************/
 static int ballColor=1;
-void fireTask(void)
+ void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
@@ -123,18 +124,18 @@ void fireTask(void)
 //		{
 //			launcher.angle+=launcher.angle-gRobot.shoot_t.sReal.Yawangle;
 //		}
-		YawAngleCtr(0);
+		YawAngleCtr(launcher.angle);
 	}
 	//投球被打断
-//	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
-//	{
-//		FixTask();
-//		YesBallCount=201;
-//	}
-//	else
-//	{
-	  ShootCtr(gRobot.shoot_t.sAim.speed);
-//	}
+	if(TRAVEL_SWITCH_LEFT!=1 && TRAVEL_SWITCH_RIGHT!=1)
+	{
+		FixTask();
+		YesBallCount=201;
+	}
+	else
+	{
+	  ShootCtr(launcher.speed);
+	}
 
 /**********************************测试版***************************/
     if(fabs(gRobot.shoot_t.pReal.pos-gRobot.shoot_t.pReal.posrem)<10)
@@ -168,15 +169,15 @@ void fireTask(void)
 	} 
 	
 	//脱离状态 
-//	if(noBall>5)
-//	{
-//		CollectBallVelCtr(60);
-//		Delay_ms(1000);
-//		gRobot.status=6;
-//		noBall=0;
-//		YesBallCount=0;
-//		noBallCount=0;
-//	}
+	if(noBall>5)
+	{
+		CollectBallVelCtr(60);
+		Delay_ms(1000);
+		gRobot.status=6;
+		noBall=0;
+		YesBallCount=0;
+		noBallCount=0;
+	}
 	
 	if(gRobot.shoot_t.pReal.turntime>30)
 	{

@@ -351,6 +351,8 @@ void CameraBaseWalk2(void)
 	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
 	y = gRobot.walk_t.pos.y;														//矫正过的y坐标
 	angle = gRobot.walk_t.pos.angle;
+	
+	circlechange();
 //	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime;
 	if(gRobot.walk_t.right.real>6107)
 	{
@@ -361,19 +363,19 @@ void CameraBaseWalk2(void)
 	
 	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=0;
 		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=0;
 	}else if(x>250+circleChangeSymbol*500&&y<3100+circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=1;
 		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=1;
 	}else if(x>-250-circleChangeSymbol*500&&y>3100+circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=2;
 		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=2;
 	}else if(x<-250-circleChangeSymbol*500&&y>1700-circleChangeSymbol*260)
 	{
-		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=gRobot.camera_t.camrBaseWalk_t.circlechange.turntime+circlechange();
+		gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=3;
 		//gRobot.camera_t.camrBaseWalk_t.circlechange.turntime=3;
 	}
 	
@@ -443,7 +445,7 @@ void CameraBaseWalk2(void)
 	break;
 	}
 	
-	if(gRobot.camera_t.camrBaseWalk_t.circlechange.circlenum>2)
+	if(gRobot.camera_t.camrBaseWalk_t.circlechange.circlenum>3)
 	{
 		//进入矫正投球
 		gRobot.status=22;
