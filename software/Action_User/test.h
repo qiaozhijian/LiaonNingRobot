@@ -3,5 +3,7 @@
 
 void TestMode(void);
 void Debug(void);
+void WheelTest(float laserRight,float laserLeft);
+void TravelSwitchTest(void);
 #endif
 

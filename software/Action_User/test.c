@@ -4,8 +4,33 @@
 extern Robot_t gRobot;
 
 int a=0;
-void TestMode(void){
+extern int testMode;
+void TestMode(void)
+{
+	float laserRight=getRightAdc();
+	float laserLeft=getLeftAdc();
+  switch(testMode)
+	{
+		case 1://æ£€æŸ¥æ‘„åƒå¤´æ•°çš„çƒ
+			
+		break;
+		
+		case 2:
+			WheelTest(laserRight,laserLeft);
+			TravelSwitchTest();
+		break;
+	
+		default:
+			
+		break;
+	
+}
 
+	
+	
+	
+	
+	
 //			a=getBallColor();
 /*****************************************ÁÙÊ±²âÊÔ*****************************************/
 	USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camerapid.aimAngle);
@@ -45,7 +70,53 @@ void TestMode(void){
 /*****************************************ÁÙÊ±²âÊÔ*****************************************/			
 
 }
+void WheelTest(float laserRight,float laserLeft)
+{
+	if(laserRight>400||laserLeft>400)
+	{
+		VelCrl(CAN2,1,0);
+		VelCrl(CAN2,2,0);
+		CollectBallVelCtr(0);
+	}
+	if(laserRight<=400)
+	{
+		VelCrl(CAN2,1,laserRight*13);
+		VelCrl(CAN2,2,0);
+		CollectBallVelCtr(laserRight/8);
+	}
+	if(laserLeft<=400)
+	{
+		VelCrl(CAN2,1,0);
+		VelCrl(CAN2,2,-laserLeft*13);
+		CollectBallVelCtr(laserLeft/8);
+	}
+}	
+void TravelSwitchTest(void)
+{
+	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(800);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(800);
+	}else if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==0)
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(300);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(300);
+	}else if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==1)
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(500);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		Delay_ms(500);
+	}else if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==0)
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+	}
 
+}
 void Debug(void){
 
 			USART_OUT(UART5,"%d\t", (int)gRobot.status);
