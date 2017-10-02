@@ -313,11 +313,11 @@ int LaserStart(void)
   if(leftLaser>=600.f && RightLaser>=600.f)
     return 1;
   //如果左激光被触发
-  if(leftLaser<600.f){
-    if(leftLaser<200.f){
+  if(leftLaser<900.f){
+    if(leftLaser<300.f){
       successCount[0]++;
     }
-    else if(leftLaser>=200.f&&leftLaser<=400.f){
+    else if(leftLaser>=300.f&&leftLaser<=600.f){
       successCount[1]++;
     }
     else{
@@ -325,11 +325,11 @@ int LaserStart(void)
     }
   }
   //如果右激光被触发
-  if(RightLaser<600.f){
-    if(RightLaser<200.f){
+  if(RightLaser<900.f){
+    if(RightLaser<300.f){
       successCount[3]++;
     }
-    else if(RightLaser>=200.f&&RightLaser<=400.f){
+    else if(RightLaser>=300.f&&RightLaser<=600.f){
       successCount[4]++;
     }
     else{
@@ -513,6 +513,11 @@ void AntiClockWise(void)
 	{
 		AntiSquare2();
 	}
+	
+	if(gRobot.walk_t.circleChange.turnTime<gRobot.walk_t.circleChange.turnTimerem)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-1;
+	}
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
@@ -548,10 +553,10 @@ void ChangeBoard(void){
   }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
 		if(gRobot.walk_t.circleChange.circleNum==0){
-		gRobot.walk_t.board[1][0]=-100;
-		gRobot.walk_t.board[1][1]=2900;
-		gRobot.walk_t.board[1][2]=100;
-		gRobot.walk_t.board[1][3]=1200;
+		gRobot.walk_t.board[0][0]=-100;
+		gRobot.walk_t.board[0][1]=2900;
+		gRobot.walk_t.board[0][2]=100;
+		gRobot.walk_t.board[0][3]=1200;
 	}else if(gRobot.walk_t.circleChange.circleNum==3){
 		gRobot.walk_t.board[1][0]=-1110;
 		gRobot.walk_t.board[1][1]=3550;

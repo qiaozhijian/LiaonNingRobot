@@ -71,7 +71,7 @@ else if (ballNum==1)                     //假如球是黑球
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
 	  //launcher.speed=0.01402f*v-5.457f+2.0f;
-		launcher.speed=0.01587f*v-16.01f;
+		launcher.speed=0.01587f*v-16.01f+4;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
@@ -227,7 +227,8 @@ void CheckComingCar(float leftLaser,float rightLaser)//投球检查对方车辆�
 		crazyCarRight=0;
 		leftRem=0;
 		rightRem=0;
-		gRobot.status|=STATUS_AVOID;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+		gRobot.status|=STATUS_AVOID_HANDLE;
 	}else if(crazyCarRight>3)//30ms右边证明有车
 	{
 		gRobot.abnormal=9;
@@ -235,7 +236,8 @@ void CheckComingCar(float leftLaser,float rightLaser)//投球检查对方车辆�
 		crazyCarLeft=0;
 		leftRem=0;
 		rightRem=0;
-		gRobot.status|=STATUS_AVOID;//打开下一面墙
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+		gRobot.status|=STATUS_AVOID_HANDLE;
 	}
 	
 	//每次进来重新记住点
@@ -276,7 +278,8 @@ void LiuLeLiuLe(void)//此时应该躲避重新投球//放入异常判断处理
 		aimPos=Go2NextWall(aimWall);
 		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
 		{
-			gRobot.status=~STATUS_AVOID;//将异常处理关闭
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		gRobot.status&=~STATUS_AVOID_HANDLE;
 		}
 	 
 	 

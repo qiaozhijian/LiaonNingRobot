@@ -183,7 +183,6 @@ typedef struct {
 
 //	/*场地区域数组*/
 //  uint32_t area[];
-	
 	uint32_t abnormal;
 }Robot_t;
 
