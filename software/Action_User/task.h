@@ -178,13 +178,9 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
-<<<<<<< HEAD
-	/*场地区域数组*/
-  //uint32_t area[];;
-=======
+
 //	/*场地区域数组*/
 //  uint32_t area[];
->>>>>>> origin/123
 	
 	uint32_t abnormal;
 }Robot_t;
