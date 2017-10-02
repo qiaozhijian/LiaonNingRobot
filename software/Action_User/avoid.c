@@ -434,14 +434,18 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 	//用来记住投球时两边激光的距离
 	static int leftRem=0;
 	static int rightRem=0;
-	if(gRobot.shoot_t.startSignal)
+	if(gRobot.shoot_t.startSignal==0)
 	{
+		//记住点
 		xShoot=gRobot.walk_t.pos.x;
 		yShoot=gRobot.walk_t.pos.y;
+		//记住激光
+		leftRem=leftLaser;
+		rightRem=rightLaser;
 	}
 	if(leftLaser+rightLaser<4750)//预判提前调节
 	{
-	  if(leftLaser<1000&&fabs(leftRem-leftLaser)>2)//左边有车//给定预判距离1000mm
+	  if(fabs(leftRem-leftLaser)>5)//左边有车//给定预判距离1000mm
 		{
 			crazyCarLeft++;
 		}
@@ -450,7 +454,7 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 			crazyCarLeft=0;
 		}
 		
-		if(rightLaser<1000&&fabs(rightRem-rightLaser)>2)//右边有车
+		if(fabs(rightRem-rightLaser)>5)//右边有车
 		{
 			crazyCarRight++;
 		}else 
@@ -470,6 +474,7 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 		leftRem=0;
 		rightRem=0;
 		gRobot.status|=STATUS_AVOID_HANDLE;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
 	}else if(crazyCarRight>5)//30ms右边证明有车
 	{
 		gRobot.abnormal=9;
@@ -478,15 +483,8 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 		leftRem=0;
 		rightRem=0;
 		gRobot.status|=STATUS_AVOID_HANDLE;
-	}
-	
-	//每次进来重新记住点
-	xShoot=gRobot.walk_t.pos.x;
-	yShoot=gRobot.walk_t.pos.y;
-	//记住激光
-	leftRem=leftLaser;
-	rightRem=rightLaser;
-	
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+	}	
 }
 
 void FixJudge(void)
@@ -1053,8 +1051,7 @@ void AbnormityHandle(void)
   }
   else if (gRobot.status & STATUS_SHOOTER)
   {
-
-		//ShootHandle();
+		ShootHandle();
   }	
   else if(gRobot.status & STATUS_CAMERA_WALK)
   {
@@ -1143,5 +1140,48 @@ void Square2Transition(void)
 	{
 		AntiTransition();
 	}
+}
+void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
+{
+	 static int getAimWall=1;
+	 static AimPos_t aimPos={0};																					//躲避的停车位
+	 static int aimWall=0;
+	 if(getAimWall)
+	 {
+		 switch(gRobot.abnormal)
+		 {
+			 case 8://证明车从左边来反向去下一面墙
+				aimWall=gRobot.fix_t.inBorder-1;
+			 if(aimWall<0)
+			 {
+				 aimWall=3;
+			 }
+			 break;
+			 
+			 
+			 case 9://证明车从右边来
+				 aimWall=gRobot.fix_t.inBorder+1;
+				 if(aimWall>3)
+				 {
+						aimWall=0;//目标墙
+				 }
+			 break;
+				 
+			 case 10:
+					aimWall=gRobot.fix_t.inBorder;
+			 break;
+			}
+			aimPos=Go2NextWall(aimWall);
+			getAimWall=0;
+		}
+		USART_OUT(UART5,"aimWall=%d\t\r\n",aimWall);
+		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
+		{															//将异常处理关闭
+			gRobot.status|=STATUS_FIX;
+			getAimWall=1;
+			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+		}
+
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

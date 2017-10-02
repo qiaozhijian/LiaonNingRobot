@@ -365,8 +365,6 @@ AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的�
 			aimPos.x=0;
 			aimPos.y=4200;
 		break;
-
-
 	}
 	return aimPos;
 }
@@ -399,13 +397,13 @@ void FixTask(void)
 	{
 		aimBorder = getAimBorder();
 		fix_status &= ~WAIT_AIM_DIRECTION;											//1011 & 1110 将此位滞空=1010
-//		fixPara=getFixPara(aimBorder);												//矫正角度也是当前靠墙的角度
+		fixPara=getFixPara(aimBorder);												//得到矫正的参数
 	} 
 	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
 		if ((fix_status & AGAINST_Wall))												//靠墙 1010 & 1000
 		{
-			fixPara=getFixPara(aimBorder);											//矫正角度也是当前靠墙的角度
+			fixPara=getFixPara(aimBorder);											//得到矫正的参数
 			AgainstWall(fixPara.angle,gRobot.walk_t.pos.angle,fixPara.spacingError);
 			if (CheckAgainstWall()==1)																//检查靠墙
 			{

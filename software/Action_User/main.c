@@ -41,7 +41,7 @@ int main(void)
 			if(gRobot.walk_t.right.real>6000||Startflag==1)
 			{
 				 Startflag=0;
-				 gRobot.status&=~STATUS_AVOID_JUDGE;
+				 gRobot.status|=STATUS_AVOID_JUDGE;
 			}
 			//1在处理异常  为0就判断
 			if(gRobot.status&STATUS_AVOID_JUDGE)
