@@ -111,10 +111,14 @@ int getAimBorder(void)
 	float x = gRobot.walk_t.pos.x;
 	float y = gRobot.walk_t.pos.y;
 	// 计算到四个边界的距离
+//	temp[0] = 2400 + x; //Left
+//	temp[1] = 2400 - x; //Right
+//	temp[2] = 4800 - y; //Up
+//	temp[3] = y;		    //Down
 	temp[0] = 2400 + x; //Left
-	temp[1] = 2400 - x; //Right
-	temp[2] = 4800 - y; //Up
-	temp[3] = y;		    //Down
+	temp[1] = y;		    //Down
+	temp[2] = 2400 - x; //Right
+	temp[3] = 4800 - y; //Up
 	min_dis = temp[0];
 	for (i = 1; i < 4; i++)
 	{
@@ -434,9 +438,9 @@ void FixTask(void)
 				}
 			}else if(CheckAgainstWall()==2)//靠墙失败
 			{
-					fix_status = 0;
-					fix_status |= WAIT_AIM_DIRECTION;
-					fix_status |= TRY_SEC_FIX;
+				fix_status = 0;
+				fix_status |= WAIT_AIM_DIRECTION;
+				fix_status |= TRY_SEC_FIX;
 			}
 		}
 	}

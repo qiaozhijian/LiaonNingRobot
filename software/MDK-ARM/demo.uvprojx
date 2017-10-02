@@ -380,14 +380,14 @@
           <GroupName>User</GroupName>
           <Files>
             <File>
-              <FileName>task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Action_User\task.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Action_User\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Action_User\task.c</FilePath>
             </File>
             <File>
               <FileName>sweep.c</FileName>

@@ -106,6 +106,8 @@ typedef struct{
 	PushPara_t pReal;
 	
 	PushPara_t pAim;
+	
+	int startSignal;
 }Shoot_t;
 
 /******************摄像头结构体***********************/

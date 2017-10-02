@@ -42,7 +42,7 @@ int CheckAgainstWall(void)
   if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1))
   {
     againstTime++;
-		againstError=0;
+	againstError=0;
   }
   else
   {
@@ -52,10 +52,10 @@ int CheckAgainstWall(void)
   {
     againstTime=0;
     return 1; 	//另外一种标志方案
-  }else if(againstError>150)
+  }else if(againstError>100)
   {
-		againstError=0;
-		return 2;
+	againstError=0;
+	return 2;
   }
   return 0;
 
@@ -313,11 +313,11 @@ int LaserStart(void)
   if(leftLaser>=600.f && RightLaser>=600.f)
     return 1;
   //如果左激光被触发
-  if(leftLaser<600.f){
-    if(leftLaser<200.f){
+  if(leftLaser<900.f){
+    if(leftLaser<300.f){
       successCount[0]++;
     }
-    else if(leftLaser>=200.f&&leftLaser<=400.f){
+    else if(leftLaser>=300.f&&leftLaser<=600.f){
       successCount[1]++;
     }
     else{
@@ -325,11 +325,11 @@ int LaserStart(void)
     }
   }
   //如果右激光被触发
-  if(RightLaser<600.f){
-    if(RightLaser<200.f){
+  if(RightLaser<900.f){
+    if(RightLaser<300.f){
       successCount[3]++;
     }
-    else if(RightLaser>=200.f&&RightLaser<=400.f){
+    else if(RightLaser>=300.f&&RightLaser<=600.f){
       successCount[4]++;
     }
     else{
@@ -513,6 +513,11 @@ void AntiClockWise(void)
 	{
 		AntiSquare2();
 	}
+	if(gRobot.walk_t.circleChange.turnTime<gRobot.walk_t.circleChange.turnTimerem)
+	{
+		gRobot.walk_t.circleChange.linenum--;
+	}
+	gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {

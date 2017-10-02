@@ -1,6 +1,6 @@
 --cpu Cortex-M4.fp
-".\szw_stm32f407\task.o"
 ".\szw_stm32f407\main.o"
+".\szw_stm32f407\task.o"
 ".\szw_stm32f407\sweep.o"
 ".\szw_stm32f407\avoid.o"
 ".\szw_stm32f407\camera.o"
