@@ -71,9 +71,10 @@
 #define LEFT_FRAME -262.0f
 //内圈铁框下侧
 #define DOWN_FRAME 1700.0f
-
-#define  kasi 								 	1
-#define  jiaozhengbeizhuang  		1
+//走形异常
+#define ABNOMAL_BLOCK_IN    					1
+#define ABNOMAL_BLOCK_OUT    					2
+#define ABNOMAL_BLOCK_MIDDLE    			3
 
 
 //车的状态码  ??备注二进制数，宏定义用十六进制

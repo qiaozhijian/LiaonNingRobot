@@ -169,15 +169,15 @@ static int ballColor=1;
 	} 
 	
 	//脱离状态 
-	if(noBall>5)
-	{
-	//	CollectBallVelCtr(60);
-	//	Delay_ms(1000);
-		gRobot.status=STATUS_CAMERA_AND_WALK;
-		noBall=0;
-		YesBallCount=0;
-		noBallCount=0;
-	}
+//	if(noBall>5)
+//	{
+//	//	CollectBallVelCtr(60);
+//	//	Delay_ms(1000);
+//		gRobot.status=STATUS_CAMERA_AND_WALK;
+//		noBall=0;
+//		YesBallCount=0;
+//		noBallCount=0;
+//	}
 	
 	if(gRobot.shoot_t.pReal.turnTime>30)
 	{

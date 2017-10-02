@@ -8,45 +8,54 @@ static float xStick=0;
 static float yStick=0;												//卡住时存储的位置数据
 
 /****************************************************************************
-* 名    称：void BackCarIn(float angle)
+* 名    称：void TransitionIn()
 * 功    能：内环逃逸程序后退1.5s，外转45度
 * 入口参数：angle//当前角度
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCarIn(float angle) 												//内环倒车程序
+void TransitionIn() 												//内环倒车程序
 {
-  static float aimAngle = 0;   											//目标角度
-  static float angleError = 0; 											//目标角度与当前角度的偏差
-  static int i = 0;																  //目标角度变换标志位
-  static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-  if (i == 0)																		    //使目标角度偏向右边45
-  {
-    aimAngle = angle - 45;												//让车头目标角度右偏45度
-    i = 1;
-  }
-  angleError = angleErrorCount(aimAngle,angle);
-  j++;
-  if (j < 150)
-  {
-    VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
-    VelCrl(CAN2, 2,  6107);
-  }else if(j >=150)
-  {
-    VelCrl(CAN2, 1, AnglePidControl(angleError)); 	//pid中填入的是差值
-    VelCrl(CAN2, 2, AnglePidControl(angleError));
-    if (fabs(angleError) < 5)
-    {
-      
-      //gRobot.turnTime = turnTimeRemember;
-      i = 0;	
-      j = 0;																				//清空标志位
-      //turnTimeRemember=0;
-      
-    } 
-  }
-  //	pidZongShuchu = AnglePidControl(angleError);
+	static float LastX=0;
+	static float LastY=0;
+	static int flag=0;
+	if(gRobot.walk_t.base==0)
+	{
+		LastX=gRobot.walk_t.pos.x;
+		LastY=gRobot.walk_t.pos.y;
+	}
+	if(gRobot.avoid_t.passflag==1)
+	{
+		switch(gRobot.walk_t.circleChange.turnTime)
+		{
+			case 0:
+				Line(1300.f,3400.f,0,0,1,1);
+				break;
+				
+			case 1:
+				Line(-600.f,4100.f,90,1,1,1);
+				break;
+				
+			case 2:
+				Line(-1300.f,1400,180,0,-1,1);
+				break;
+				
+			case 3:
+				Line(600.f,700,-90,1,-1,1);
+				break;
+		}
+	}
+	gRobot.avoid_t.passflag=1;
+	if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300 && flag==0)
+	{
+		flag=1;
+	}
+	if(flag==1)
+	{
+		gRobot.avoid_t.passflag=0;
+		AngleRoute(gRobot.walk_t.pid.aimAngle);
+	}
 }
 /****************************************************************************
 * 名    称：void BackCarOut(float angle) 
@@ -56,43 +65,48 @@ void BackCarIn(float angle) 												//内环倒车程序
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCarOut(float angle) 											//外环倒车程序
+void TransitionOut(float angle) 											//外环倒车程序
 {
-  static float aimAngle = 0;  									  //目标角度
-  static float angleError = 0; 										//目标角度与当前角度的偏差
-  static int i = 0;																//目标角度变换标志位
-  static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
-  if (i == 0)																		  //使目标角度偏向右边45
-  {
-    aimAngle = angle + 60; 												//让车头目标角度右偏45度
-    i = 1;
-  }
-  angleError = angleErrorCount(aimAngle,angle);
-  j++;
-  if (j < 100)
-  {
-    VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
-    VelCrl(CAN2, 2,  6107);
-  }else if (j >=100)
-  {
-    VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
-    VelCrl(CAN2, 2, AnglePidControl(angleError));
-    if (fabs(angleError) < 5)
-    {
-      //gRobot.turnTime = turnTimeRemember;
-      i = 0;
-      j = 0;																		 //清空标志位
-      //turnTimeRemember=0;
-      
-      gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
-      gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
-      gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
-      
-      gRobot.status=statusRemember;              //切换到进入避障前的大状态
-      gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
-    }
-  }
-  //	pidZongShuchu = AnglePidControl(angleError);
+  static float LastX=0;
+	static float LastY=0;
+	static int flag=0;
+	if(gRobot.walk_t.base==0)
+	{
+		LastX=gRobot.walk_t.pos.x;
+		LastY=gRobot.walk_t.pos.y;
+	}
+	if(gRobot.avoid_t.passflag==1)
+	{
+		switch(gRobot.walk_t.circleChange.turnTime)
+		{
+		case 6:
+    Line(1400.f,3400.f,0,0,1,4);
+    break;
+    
+    case 7:
+    Line(-600.f,4100.f,90,1,1,4);
+    break;
+    
+    case 8:
+    Line(-1400.f,1400,180,0,-1,4);
+    break;
+    
+    case 9:
+    Line(600.f,700,-90,1,-1,4);
+    break;
+    
+		}
+	}
+	gRobot.avoid_t.passflag=1;
+	if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300 && flag==0)
+	{
+		flag=1;
+	}
+	if(flag==1)
+	{
+		gRobot.avoid_t.passflag=0;
+		AngleRoute(gRobot.walk_t.pid.aimAngle);
+	}
 }
 
 /****************************************************************************
@@ -674,6 +688,7 @@ void CarPointTrans(float x, float y, float angle, Point_t cP[4])//将定位系�
   //USART_OUT(UART5,"angle2=%d\t angle3=%d\r\n",(int)angle2 / PI * 180,angle3 / PI * 180);
   // ("luX=%f luY=%f ldX=%f ldY=%f rdX=%f rdY=%f ruX=%f ruY=%f\n", cP[0].x, cP[0].y, cP[1].x, cP[1].y, cP[2].x, cP[2].y, cP[3].x, cP[3].y);
 }
+
 /****************************************************************************
 * 名    称：SoundOut()
 * 功    能：
@@ -699,4 +714,76 @@ void SoundOut(void)//试探对方车是否能动
     }
   }
 }
+
+//void AbnormityHandle(void)
+//{
+//	if (gRobot.status & STATUS_SWEEP)
+//  {
+//			SweepHandle();
+//  }
+//  else if (gRobot.status & STATUS_FIX)
+//  {
+//			//FixHandle();
+//  }
+//  else if (gRobot.status & STATUS_SHOOTER)
+//  {
+
+//		//ShootHandle();
+//  }	
+//  else if(gRobot.status & STATUS_CAMERA_WALK)
+//  {
+//      //WalkHandle();
+//	}    	
+//}
+//void SweepHandle()
+//{
+//	switch(gRobot.abnormal)
+//	{
+//		case ABNOMAL_BLOCK_IN:
+//			SquareTransition();
+//			break;
+//		case ABNOMAL_BLOCK_OUT :
+//			CircleTransition();
+//			break;
+//		case ABNOMAL_BLOCK_MIDDLE :
+//			Square2Transition();
+//		 break;
+//		default:
+//			USART_OUT(UART5,"SweepHandleErr");
+//			break;
+//	}
+//		
+//}
+//void SquareTransition()
+//{
+//	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
+//	{
+//		BackCarOut();
+//	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
+//	{
+//		BackCarIn();
+//	}
+//	
+//}
+
+//void CircleTransition()
+//{
+//	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
+//	{
+//		
+//	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
+//	{
+//		
+//	}
+//}
+//void Square2Transition()
+//{
+//	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
+//	{
+//		
+//	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
+//	{
+//		
+//	}
+//}
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

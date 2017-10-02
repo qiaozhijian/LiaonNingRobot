@@ -150,5 +150,6 @@ void ShootTest(void)
 	{
 		PushBallReset();
 	}
+  pullTime++;
 	pullTime%=400;
 }
