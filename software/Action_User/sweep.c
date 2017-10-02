@@ -30,19 +30,19 @@ int CheckAgainstWall(void)
   static int againstTime=0;//靠在墙上的时间
   static int againstError=0;
   //这两个要结合在一起，不能在矫正的时候卡死
-  if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
+  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
   {
   	againstError++;
-	againstTime=0;
+		againstTime=0;
   }else
   {
-	againstError=0;
+		againstError=0;
   }
   
-  if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1))
   {
     againstTime++;
-	againstError=0;
+		againstError=0;
   }
   else
   {
@@ -52,10 +52,10 @@ int CheckAgainstWall(void)
   {
     againstTime=0;
     return 1; 	//另外一种标志方案
-  }else if(againstError>200)
+  }else if(againstError>150)
   {
-	againstError=0;
-	return 2;
+		againstError=0;
+		return 2;
   }
   return 0;
 
@@ -199,13 +199,13 @@ int Pointparking(float Pointx,float Pointy)
   angleError=angleErrorCount(aimAngle,angle);
   if(fabs(spacingError)>250)
   {
-    VelCrl(CAN2, 1,600.f+AnglePidControl(angleError));			//pid中填入的是差值
-    VelCrl(CAN2, 2,-600.f+AnglePidControl(angleError));
+    VelCrl(CAN2, 1,10000.f+AnglePidControl(angleError));			//pid中填入的是差值
+    VelCrl(CAN2, 2,-10000.f+AnglePidControl(angleError));
   }
   if(fabs(spacingError)>200&&fabs(spacingError)<250)			//设立减速环带
   {
-    VelCrl(CAN2, 1,4000+AnglePidControl(angleError));		  //pid中填入的是差值
-    VelCrl(CAN2, 2,-4000+AnglePidControl(angleError));
+    VelCrl(CAN2, 1,6000+AnglePidControl(angleError));		  //pid中填入的是差值
+    VelCrl(CAN2, 2,-6000+AnglePidControl(angleError));
   }
   if(fabs(spacingError)<200&&fabs(spacingError)>80)
   {
@@ -509,7 +509,7 @@ void AntiClockWise(void)
 		gRobot.walk_t.circleChange.turnTime=5;
 		AntiCircle();
 	}
-	else if(gRobot.walk_t.circleChange.circleNum==3)
+	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
 		AntiSquare2();
 	}
@@ -532,18 +532,18 @@ void AntiClockWise(void)
 * 调用方法：无 
 ****************************************************************************/
 void ChangeBoard(void){
-	if(gRobot.walk_t.circleChange.direction==0) //顺时针
+	if(gRobot.walk_t.circleChange.direction==0) //ni时针
 	{
 	if(gRobot.walk_t.circleChange.circleNum==0){
 		gRobot.walk_t.board[0][0]=100;
 		gRobot.walk_t.board[0][1]=2900;
 		gRobot.walk_t.board[0][2]=-100;
 		gRobot.walk_t.board[0][3]=1200;
-	}else if(gRobot.walk_t.circleChange.circleNum==3){
-		gRobot.walk_t.board[0][0]=1110;
-		gRobot.walk_t.board[0][1]=3550;
-		gRobot.walk_t.board[0][2]=-1110;
-		gRobot.walk_t.board[0][3]=1250;
+	}else if(gRobot.walk_t.circleChange.circleNum!=0){
+		gRobot.walk_t.board[1][0]=1110;
+		gRobot.walk_t.board[1][1]=3550;
+		gRobot.walk_t.board[1][2]=-1110;
+		gRobot.walk_t.board[1][3]=1250;
 	}
   }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
@@ -654,11 +654,11 @@ int AntiSquare(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 0:
-    Line(600.f,3400.f,0,0,1,1);
+    Line(600.f,3300.f,0,0,1,1);
     break;
     
   case 1:
-    Line(-600.f,3400.f,90,1,1,1);
+    Line(-500.f,3300.f,90,1,1,1);
     break;
     
   case 2:
@@ -716,7 +716,7 @@ int AntiCircle(void)
     break;
     
   case 5:
-    NiShiZhenCircleBiHuan(1800,1600.f,0,2400);
+    NiShiZhenCircleBiHuan(1800,1400.f,0,2400);
     break;
     
   default:
@@ -793,44 +793,43 @@ int AntiSquare2(void)
 {
 		ChangeBoard();
 	
-	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][1]){
+	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
 		gRobot.walk_t.circleChange.turnTime=6;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
 		gRobot.walk_t.circleChange.turnTime=7;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
 		gRobot.walk_t.circleChange.turnTime=8;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
 		gRobot.walk_t.circleChange.turnTime=9;
 	}else{
 		//角度闭环
 		if(gRobot.walk_t.pos.y>UPPER_FRAME){
-		 AngleRoute(-90);
-		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
 		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(-90);
 		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
-		 AngleRoute(180);
-		}else{
 		 AngleRoute(0);
+		}else{
+		 AngleRoute(180);
 		}
 	}
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(600.f,3400.f,0,0,1,4);
+    Line(2010.f,3400.f,0,0,1,1);
     break;
     
   case 7:
-    Line(-600.f,3400.f,90,1,1,4);
+    Line(-600.f,4450.f,90,1,1,1);
     break;
     
   case 8:
-    Line(-600.f,1400,180,0,-1,4);
+    Line(-2010.f,1400,180,0,-1,1);
     break;
     
   case 9:
-    Line(600.f,1400,-90,1,-1,4);
+    Line(600.f,350,-90,1,-1,1);
     break;
-    
   default:
     break;
   }

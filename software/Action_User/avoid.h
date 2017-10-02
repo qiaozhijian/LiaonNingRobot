@@ -15,8 +15,15 @@ int CheckIntersect(void);//检查是否与边相交
 void Escape(void);
 void EscapeCar(void);
 int JudgeStick(void);
+void CheckComingCar(float leftLaser,float rightLaser);//投球检查对方车辆是否靠近
 
 
+void SweepJudge(void);
+void FixJudge(void);
+void ShootJudge(void);
+void ShootJudge(void);
+void CWalkJudge(void);
+void AbnormityJudge(void);
 
 
 #endif

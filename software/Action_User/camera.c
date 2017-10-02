@@ -447,7 +447,7 @@ void CameraBaseWalk2(void)
 	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum>3)
 	{
 		//进入矫正投球
-		gRobot.status=22;
+		gRobot.status=24;
 	}
 		USART_OUT(UART5, "%d\t", (int)angle);//gRobot.walk_t.pos.angle
 		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.x);

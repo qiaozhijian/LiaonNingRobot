@@ -5,7 +5,6 @@ Point_t boardPointIn[4]={  {X_LEFT,Y_UP},{X_LEFT,Y_DOWN },{X_RIGHT,Y_DOWN },{X_R
 Point_t boardPointOut[4]={ {X_MIN,Y_MAX} , {X_MIN,Y_MIN} ,{X_MAX,Y_MIN},{X_MAX,Y_MAX}}; //外墙点群
 
 //static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
-static int statusRemember;                          //记住卡死时的状态码
 static float xStick=0;
 static float yStick=0;	//卡住时存储的位置数据
 static int stickStatus=0;//判断现在卡死的状态
@@ -339,11 +338,7 @@ int Turn180(void)
     return 0;
   }
 }
-void SweepJudge(void);
-void FixJudge(void);
-void ShootJudge(void);
-void ShootJudge(void);
-void CWalkJudge(void);
+
 void AbnormityJudge(void)
 {
 	if (gRobot.status & STATUS_SWEEP)
@@ -362,8 +357,6 @@ void AbnormityJudge(void)
   {
       CWalkJudge();
 	}
-      
-	
 }
 int JudgeStick(void);
 void SweepJudge(void)
@@ -386,7 +379,7 @@ void ShootJudge(void)//多加躲避敌方
 	{
 		timeCounter=0;
 	}
-	
+//	CheckComingCar(getLeftAdc(),getRightAdc());
 	if(timeCounter>50)//离开墙面500ms
 	{	
 		gRobot.status|=STATUS_FIX;
@@ -427,7 +420,6 @@ int JudgeStick(void)
   static float lastY=0;
   static int stickError=0;
   //记录从哪个状态进来的
-  statusRemember=gRobot.status;
   count++;
   if(count==5)
 	{
@@ -450,7 +442,7 @@ int JudgeStick(void)
     {
       stickError=0;
       //改变状态码
-      gRobot.status|=STATUS_AVOID;          //进入backcar
+      gRobot.status|=STATUS_AVOID;          //进入异常处理
       gRobot.avoid_t.signal=0;             //清零
 			return 1;
 		}

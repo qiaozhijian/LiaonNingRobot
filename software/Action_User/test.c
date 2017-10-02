@@ -28,7 +28,7 @@ void TestMode(void)
 				Delay_ms(500);
 			}else if(ballNum>=5)
 			{
-				GPIO_ResetBits(GPIOE,GPIO_Pin_7);;
+				GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 				Delay_ms(800);
 				GPIO_SetBits(GPIOE,GPIO_Pin_7);;
 				Delay_ms(800);

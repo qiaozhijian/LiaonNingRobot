@@ -14,6 +14,8 @@ typedef struct {
 typedef struct{
 	//激光的左右距离
 	Laser_t laser;
+	//知道矫正完投球在哪个边界
+	int inBorder;
 }Fix_t;
 /*************************PID调解***********************/
 //PID调解的相关参数

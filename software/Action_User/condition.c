@@ -45,22 +45,22 @@ void In2OutChange(void)
 int circleChange(void)
 {
 	//Quadrant//象限
-	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=1)
+	if(gRobot.walk_t.pos.x>100 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=1)
 	{
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=1;
 	}
-	if(gRobot.walk_t.pos.x>0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=2)
+	if(gRobot.walk_t.pos.x>100 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=2)
 	{
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=2;
 	}
-	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=3)
+	if(gRobot.walk_t.pos.x<100 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=3)
 	{
 		  gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=3;
 	}
-	if(gRobot.walk_t.pos.x<0 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=4)
+	if(gRobot.walk_t.pos.x<100 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=4)
 	{
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=4;

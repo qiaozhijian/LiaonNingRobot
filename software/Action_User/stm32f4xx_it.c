@@ -332,6 +332,8 @@ void USART1_IRQHandler(void)
 static float angle;
 static float posX;
 static float posY;
+
+int flagggg=0;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
 	static uint8_t ch;
@@ -345,6 +347,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	{
 		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 		ch = USART_ReceiveData(USART3);
+		flagggg=1;
 		switch (count)
 		{
 		case 0:
@@ -391,6 +394,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
 				posY = posture.ActVal[4];//y
+//				USART_OUT(UART5,"a=%d\t",(int)(angle*100.0f));
+//				USART_OUT(UART5,"x=%d\t",(int)(posX));
+//   			USART_OUT(UART5,"y=%d\r\n",(int)posY);
 				posture.ActVal[5] = posture.ActVal[5];
 				setXpos(posX);
 				setYpos(posY);

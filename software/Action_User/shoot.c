@@ -71,7 +71,7 @@ else if (ballNum==1)                     //假如球是黑球
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
 	  //launcher.speed=0.01402f*v-5.457f+2.0f;
-		launcher.speed=0.01516f*v-14.08f;
+		launcher.speed=0.01587f*v-16.01f;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
@@ -169,15 +169,15 @@ static int ballColor=1;
 	} 
 	
 	//脱离状态 
-//	if(noBall>5)
-//	{
-//	//	CollectBallVelCtr(60);
-//	//	Delay_ms(1000);
-//		gRobot.status=STATUS_CAMERA_AND_WALK;
-//		noBall=0;
-//		YesBallCount=0;
-//		noBallCount=0;
-//	}
+	if(noBall>5)
+	{
+		CollectBallVelCtr(60);
+		Delay_ms(1000);
+		gRobot.status=STATUS_CAMERA_AND_WALK;
+		noBall=0;
+		YesBallCount=0;
+		noBallCount=0;
+	}
 	
 	if(gRobot.shoot_t.pReal.turnTime>30)
 	{
@@ -188,48 +188,96 @@ static int ballColor=1;
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }
-void CheckComingCar(float xRem,float yRem,float leftLaser,float rightLaser)//投球检查对方车辆是否靠近
+void CheckComingCar(float leftLaser,float rightLaser)//投球检查对方车辆是否靠近
 {
+	static float xShoot=0,yShoot=0;
+	//用来记住左边车是否有车来的计时
 	static int crazyCarLeft=0;
 	static int crazyCarRight=0;
-	static int leftCrazyRem=0;
-	static int rightCrazyRem=0;
-	if(leftLaser+rightLaser<4800)//预判提前调节
+	//用来记住投球时两边激光的距离
+	static int leftRem=0;
+	static int rightRem=0;
+	if(leftLaser+rightLaser<4750)//预判提前调节
 	{
-	    if(leftLaser<1000&&leftCrazyRem!=leftLaser)//左边有车
+	  if(leftLaser<1000&&fabs(leftRem-leftLaser)>3)//左边有车//给定预判距离1000mm
 		{
 			crazyCarLeft++;
-		}else if(rightLaser<1000&&rightCrazyRem!=rightLaser)//右边有车
+		}
+		else
+		{
+			crazyCarLeft=0;
+		}
+		
+		if(rightLaser<1000&&fabs(rightRem-rightLaser)>3)//右边有车
 		{
 			crazyCarRight++;
+		}else 
+		{
+			crazyCarRight=0;
 		}
-	}else if(fabs(xRem-gRobot.walk_t.pos.x)>10||fabs(yRem-gRobot.walk_t.pos.y)>10)//撞上
+	}else if(fabs(xShoot-gRobot.walk_t.pos.x)>5||fabs(yShoot-gRobot.walk_t.pos.y)>5)//受到冲击撞上发生位移
 	{
-		
+			gRobot.abnormal=10;
 	}
 	
-	if(crazyCarLeft>50)//500ms左边证明有车
+	if(crazyCarLeft>3)//30ms左边证明有车
 	{
-	  crazyCarLeft=0;
-	}else if(crazyCarRight>50)//500ms右边证明有车
+		gRobot.abnormal=8;
+		crazyCarLeft=0;
+		crazyCarRight=0;
+		leftRem=0;
+		rightRem=0;
+		gRobot.status|=STATUS_AVOID;
+	}else if(crazyCarRight>3)//30ms右边证明有车
 	{
+		gRobot.abnormal=9;
 	  crazyCarRight=0;
+		crazyCarLeft=0;
+		leftRem=0;
+		rightRem=0;
+		gRobot.status|=STATUS_AVOID;//打开下一面墙
 	}
-	leftCrazyRem=leftLaser;
-	rightCrazyRem=rightLaser;
+	
+	//每次进来重新记住点
+	xShoot=gRobot.walk_t.pos.x;
+	yShoot=gRobot.walk_t.pos.y;
+	//记住激光
+	leftRem=leftLaser;
+	rightRem=rightLaser;
 }
-void LiuLeLiuLe(void)
+void LiuLeLiuLe(void)//此时应该躲避重新投球//放入异常判断处理
 {
-
-
-
-
-
-
-
-
-
-
-
-
+	 AimPos_t aimPos;																					//躲避的停车位
+	 static int aimWall=0;
+	 switch(gRobot.abnormal)
+	 {
+		 case 8://证明车从左边来反向去下一面墙
+			aimWall=gRobot.fix_t.inBorder-1;
+		 if(aimWall<0)
+		 {
+			 aimWall=3;
+		 }
+		 break;
+		 
+		 
+		 case 9://证明车从右边来
+			 aimWall=gRobot.fix_t.inBorder+1;
+			 if(aimWall>3)
+			 {
+					aimWall=0;//目标墙
+			 }
+		 break;
+			 
+		 case 10:
+				aimWall=gRobot.fix_t.inBorder;
+		 break;
+			
+		}
+		aimPos=Go2NextWall(aimWall);
+		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
+		{
+			gRobot.status=~STATUS_AVOID;//将异常处理关闭
+		}
+	 
+	 
 }
