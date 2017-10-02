@@ -4,6 +4,7 @@
 
 
 void CheckOutline(void);  			 //避障检测
+void BackCar(void);
 void BackCarIn(float angle);     //内环倒车
 void BackCarOut(float angle);    //外环倒车
 int CheckEnemy(void);            //fixtask前检测是否靠墙
@@ -23,5 +24,10 @@ void ShootJudge(float leftLaser,float rightLaser);//投球检查对方车辆是�
 void CWalkJudge(void);
 void AbnormityJudge(void);
 
+void SweepHandle(void);
+void CircleTransition(void);
+void Square2Transition(void);
+void SquareTransition(void);
+void AbnormityHandle(void);
 
 #endif

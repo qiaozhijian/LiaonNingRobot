@@ -83,8 +83,9 @@
 #define STATUS_CAMERA  							4  //	0000 0100	状态 摄像头
 #define STATUS_CAMERA_AND_WALK					6  //   0000 0110 状态 摄像头和摄像头走形
 #define STATUS_SHOOTER 							8  //	0000 1000	状态 射球
-#define STATUS_FIX     							16 //	0001 0000	状态 矫正
-#define STATUS_AVOID   							32 //	0010 0000	状态 避障
+#define STATUS_FIX     										16 //	0001 0000	状态 矫正
+#define STATUS_AVOID_HANDLE   							32 //	0010 0000	状态 避障
+#define STATUS_AVOID_JUDGE   							64 //	0100 0000	状态 避障
 
 /*异常分类*/
 /*走形异常*/
