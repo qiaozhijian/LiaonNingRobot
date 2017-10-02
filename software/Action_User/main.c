@@ -20,35 +20,34 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {	
-			#ifdef TEST 
-				TestMode();
-			#else
-      MotorRead();  
-			//1在处理异常  为0就判断
-//			if(!(gRobot.status&STATUS_AVOID))
-//      {
-//				if()
-//        //judge()   jin cheng  进程的异常情况  得出结论
-//			}
-//			
-			if(gRobot.status&STATUS_AVOID){
-				Escape();//进程  异常情况  处理
-			}	else	if (gRobot.status & STATUS_SWEEP)
-      {
-        Run();
-      }
-      else if (gRobot.status & STATUS_FIX)
-      {
-        FixTask();
-      }
-      else if (gRobot.status & STATUS_SHOOTER)
-      {
-        fireTask();
-      }	
-      else if(gRobot.status & STATUS_CAMERA_WALK)
-      {
-        CameraBaseWalk2();
-      }
+	 #ifdef TEST 
+		TestMode();
+	 #else
+		MotorRead();  
+	//1在处理异常  为0就判断
+	if(!(gRobot.status&STATUS_AVOID))
+	{
+		JudgeStick();
+	}
+	if(gRobot.status&STATUS_AVOID){
+		//
+		//Escape();//进程  异常情况  处理
+	}else if (gRobot.status & STATUS_SWEEP)
+	{
+		Run();
+	}
+	else if (gRobot.status & STATUS_FIX)
+	{
+		FixTask();
+	}
+	else if (gRobot.status & STATUS_SHOOTER)
+	{
+		fireTask();
+	}	
+	else if(gRobot.status & STATUS_CAMERA_WALK)
+	{
+		CameraBaseWalk2();
+	}
       
 
 			
@@ -56,7 +55,7 @@ int main(void)
 //      {
 //        CheckOutline();	
 //      }
-      Debug();
+      //Debug();
 			#endif
     }
   }

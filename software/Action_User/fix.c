@@ -399,7 +399,7 @@ void FixTask(void)
 		{
 			fixPara=getFixPara(aimBorder);											//矫正角度也是当前靠墙的角度
 			AgainstWall(fixPara.angle,gRobot.walk_t.pos.angle,fixPara.spacingError);
-			if (CheckAgainstWall())																//检查靠墙
+			if (CheckAgainstWall()==1)																//检查靠墙
 			{
 					VelCrl(CAN2, 1, 0);
 					VelCrl(CAN2, 2, 0);
@@ -411,8 +411,7 @@ void FixTask(void)
 				{
 					fixPosFirst(aimBorder);
 					fixSuccessFlag=1;
-						fix_status=0;																		//在这里改变状态码
-				
+					fix_status=0;																		//在这里改变状态码
 				}
 				else 																								//第二次矫正
 				{
@@ -429,7 +428,12 @@ void FixTask(void)
 					fix_status |= WAIT_AIM_DIRECTION;
 					fix_status |= TRY_SEC_FIX;
 				}
-			}/*else if()*///靠墙失败
+			}else if(CheckAgainstWall()==2)//靠墙失败
+			{
+					fix_status = 0;
+					fix_status |= WAIT_AIM_DIRECTION;
+					fix_status |= TRY_SEC_FIX;
+			}
 		}
 	}
 	else if (fix_status & TRY_SEC_FIX)

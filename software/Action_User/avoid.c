@@ -1,12 +1,14 @@
 #include "config.h"
 
 extern Robot_t gRobot;
+Point_t boardPointIn[4]={  {X_LEFT,Y_UP},{X_LEFT,Y_DOWN },{X_RIGHT,Y_DOWN },{X_RIGHT,Y_UP}};//  //铁框点群
+Point_t boardPointOut[4]={ {X_MIN,Y_MAX} , {X_MIN,Y_MIN} ,{X_MAX,Y_MIN},{X_MAX,Y_MAX}}; //外墙点群
 
 //static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
 static int statusRemember;                          //记住卡死时的状态码
 static float xStick=0;
-static float yStick=0;												//卡住时存储的位置数据
-
+static float yStick=0;	//卡住时存储的位置数据
+static int stickStatus=0;//判断现在卡死的状态
 /****************************************************************************
 * 名    称：void BackCarIn(float angle)
 * 功    能：内环逃逸程序后退1.5s，外转45度
@@ -103,49 +105,48 @@ void BackCarOut(float angle) 											//外环倒车程序
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void BackCar(float angle) 											//外环倒车程序
-{
-  static float aimAngle = 0.f;  									  //目标角度
-  static float angleError = 0.f; 										//目标角度与当前角度的偏差
-  static int i = 0;																//目标角度变换标志位
-  static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
-  int sign=0;///通过判断在外在内查看它应该外拐内拐
-  if((xStick>-1400.f&&xStick<1400.f)&&(yStick>900.f&&yStick<3900.f))			//内环
-  {
-    sign=-1;
-  }
-  else if((xStick<-1400.f||xStick>1400.f)||(yStick<900.f||yStick>3900.f))	//外环
-  {
-    sign=1;
-  }
-  //	if(direction=shunshizhen)
-  //	{
-  //		sign=-sign;
-  //	}
-  if (i == 0)																		  //使目标角度偏向右边45
-  {
-    aimAngle = angle +sign*60; 												//让车头目标角度右偏45度
-    i = 1;
-  }
-  angleError = angleErrorCount(aimAngle,angle);
-  j++;
-  if (j < 100)
-  {
-    VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
-    VelCrl(CAN2, 2,  6107);
-  }else if (j >=100)
-  {
-    VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
-    VelCrl(CAN2, 2, AnglePidControl(angleError));
-    if (fabs(angleError) < 5)
-    {
-      //gRobot.turnTime = turnTimeRemember;
-      i = 0;
-      j = 0;																		 //清空标志位
-      gRobot.status=statusRemember; 
-    }
-  }
-}
+//void BackCar(int sign) 											//撞到角倒车程序///通过判断在外在内查看它应该外拐内拐
+//{
+//  static float aimAngle = 0.f;  									  //目标角度
+//  static float angleError = 0.f; 										//目标角度与当前角度的偏差
+//  static int i = 0;																//目标角度变换标志位
+//  static int j = 0; 															//在此设立标志位在信号量10ms进入一次，达到延时的效果
+//  if()			//内环
+//  {
+//    sign=-1;
+//  }
+//  else if()	//外环
+//  {
+//    sign=1;
+//  }
+//  //	if(direction=shunshizhen)
+//  //	{
+//  //		sign=-sign;
+//  //	}
+//  if (i == 0)																		  //使目标角度偏向右边45
+//  {
+//    aimAngle = angle +sign*60; 												//让车头目标角度右偏45度
+//    i = 1;
+//  }
+//  angleError = angleErrorCount(aimAngle,angle);
+//  j++;
+//  if (j < 100)
+//  {
+//    VelCrl(CAN2, 1, -6107); 											//pid中填入的是差值
+//    VelCrl(CAN2, 2,  6107);
+//  }else if (j >=100)
+//  {
+//    VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+//    VelCrl(CAN2, 2, AnglePidControl(angleError));
+//    if (fabs(angleError) < 5)
+//    {
+//      //gRobot.turnTime = turnTimeRemember;
+//      i = 0;
+//      j = 0;																		 //清空标志位
+//      gRobot.status=statusRemember; 
+//    }
+//  }
+//}
 
 /****************************************************************************
 * 名    称：void CheckEnemy(void)	
@@ -324,17 +325,87 @@ int Turn180(void)
     return 0;
   }
 }
+void SweepJudge(void);
+void FixJudge(void);
+void ShootJudge(void);
+void ShootJudge(void);
+void CWalkJudge(void);
+void AbnormityJudge(void)
+{
+	if (gRobot.status & STATUS_SWEEP)
+  {
+			SweepJudge();
+  }
+  else if (gRobot.status & STATUS_FIX)
+  {
+			FixJudge();
+  }
+  else if (gRobot.status & STATUS_SHOOTER)
+  {
+      ShootJudge();
+  }	
+  else if(gRobot.status & STATUS_CAMERA_WALK)
+  {
+      CWalkJudge();
+	}
+      
+	
+}
+int JudgeStick(void);
+void SweepJudge(void)
+{
+	//判断是否卡死
+	if(JudgeStick()==1)
+	{
+		//判断
+		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
+		gRobot.status|=STATUS_AVOID;
+	}
+}
+void ShootJudge(void)//多加躲避敌方
+{
+	static int timeCounter=0;
+	if(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_RIGHT==0)
+	{
+		timeCounter++;
+	}else
+	{
+		timeCounter=0;
+	}
+	
+	if(timeCounter>50)//离开墙面500ms
+	{	
+		gRobot.status|=STATUS_FIX;
+		timeCounter=0;
+	}
+}
+void FixJudge(void)
+{
+//	if()
+//	{
+//		
+//	}
+}
+void CWalkJudge(void)
+{
+	if(JudgeStick()==1)
+	{
+		//判断
+		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
+		gRobot.status|=STATUS_AVOID;
+	}
+}
 /****************************************************************************
-* 名    称：CheckOutline2()
+* 名    称：void JudgeStick(void)
 * 功    能：检测是否卡死
 * 入口参数：无
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void CheckOutline(void)
+int JudgeStick(void)
 {
-  static int count=0;
+	static int count=0;
   static float velX=0;
   static float velY=0;
   static float aimVel=0.0f;
@@ -344,7 +415,8 @@ void CheckOutline(void)
   //记录从哪个状态进来的
   statusRemember=gRobot.status;
   count++;
-  if(count==5){
+  if(count==5)
+	{
     count=0;
     velX=(gRobot.walk_t.pos.x-lastX)/5.0f*100.0f;
     velY=(gRobot.walk_t.pos.y-lastY)/5.0f*100.0f;
@@ -352,7 +424,6 @@ void CheckOutline(void)
     aimVel=Pulse2Vel(gRobot.walk_t.base);
 		//目前实际速度
     gRobot.walk_t.averageV=__sqrtf(velX*velX+velY*velY);
-		
     if(TwoNumCompare(gRobot.walk_t.averageV,aimVel*0.2f))
     {
       stickError++;
@@ -365,22 +436,23 @@ void CheckOutline(void)
     {
       stickError=0;
       //改变状态码
-      gRobot.status=STATUS_AVOID;          //进入backcar
+      gRobot.status|=STATUS_AVOID;          //进入backcar
       gRobot.avoid_t.signal=0;             //清零
-      JudgeStick();                        //判断卡死的区域
-    }
+			return 1;
+		}
     lastX=gRobot.walk_t.pos.x;
     lastY=gRobot.walk_t.pos.y;
-    USART_OUT(UART5,"%d\t",(int)velX);
-    USART_OUT(UART5,"%d\t",(int)velY);
-    USART_OUT(UART5,"%d\t",(int)aimVel);
-    USART_OUT(UART5,"%d\t",(int)__sqrtf(velX*velX+velY*velY));
-    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);	
-    USART_OUT(UART5,"%d\t",(int)stickError);	
-    USART_OUT(UART5,"%d\t",(int)gRobot.status);	
-    USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
+		USART_OUT(UART5,"%d\t",(int)velX);
+		USART_OUT(UART5,"%d\t",(int)velY);
+		USART_OUT(UART5,"%d\t",(int)aimVel);
+		USART_OUT(UART5,"%d\t",(int)__sqrtf(velX*velX+velY*velY));
+		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);	
+		USART_OUT(UART5,"%d\t",(int)stickError);	
+		USART_OUT(UART5,"%d\t",(int)gRobot.status);	
+		USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
   }
+	return 0;
 }
 /****************************************************************************
 * 名    称：void Escape(void)
@@ -390,53 +462,51 @@ void CheckOutline(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-static int stickStatus=0;//判断现在卡死的状态
-void Escape(void)
-{
-  USART_OUT(UART5,"stick:%d\r\n",(int)stickStatus);
-  switch(stickStatus)
-  {
-  case 1://内圈撞墙
-    USART_OUT(UART5,"case1");
-    BackCar(gRobot.walk_t.pos.angle);
-    break;
-    
-  case 2://外圈撞墙
-    USART_OUT(UART5,"case2");
-    BackCar(gRobot.walk_t.pos.angle);
-    break;
-    
-  case 3://和车撞
-    //SoundOut();
-    USART_OUT(UART5,"case3");
-    if(statusRemember==25)
-    {
-      gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
-      gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
-      gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
-      
-      gRobot.status=statusRemember;              //切换到进入避障前的大状态
-      gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
-    }else if(statusRemember==6)
-    {
-      BackCar(gRobot.walk_t.pos.angle);
-    }
-    break;
-    
-  case 4://和内圈角撞
-    USART_OUT(UART5,"case4");
-    BackCar(gRobot.walk_t.pos.angle);
-    break;
-    
-  case 5://和外圈角撞
-    USART_OUT(UART5,"case5");
-    BackCar(gRobot.walk_t.pos.angle);
-    break;
-    
-  default:
-    break;
-  }
-}
+//void Escape(void)
+//{
+//  USART_OUT(UART5,"stick:%d\r\n",(int)stickStatus);
+//  
+//	switch(stickStatus)
+//  {
+//		case 1://内圈撞墙
+//			
+//    break;
+//    
+//		case 2://外圈撞墙
+//			BackCar(gRobot.walk_t.pos.angle);
+//    break;
+//    
+//  case 3://和车撞
+//    //SoundOut();
+//    USART_OUT(UART5,"case3");
+//    if(statusRemember==25)
+//    {
+//      gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
+//      gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
+//      gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
+//      
+//      gRobot.status=statusRemember;              //切换到进入避障前的大状态
+//      gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
+//    }else if(statusRemember==6)
+//    {
+//      BackCar(gRobot.walk_t.pos.angle);
+//    }
+//    break;
+//    
+//  case 4://和内圈角撞
+//    USART_OUT(UART5,"case4");
+//    BackCar(gRobot.walk_t.pos.angle);
+//    break;
+//    
+//  case 5://和外圈角撞
+//    USART_OUT(UART5,"case5");
+//    BackCar(gRobot.walk_t.pos.angle);
+//    break;
+//    
+//  default:
+//    break;
+//  }
+//}
 /****************************************************************************
 * 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
 * 功    能：检查是否撞车
@@ -445,16 +515,7 @@ void Escape(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void JudgeStick(void)
-{
-  float x = getXpos(), y = getYpos(), angle = getAngle();
-  static Point_t cP[4];//车的四个顶点
-  CarPointTrans(x, y, angle, cP);
-  stickStatus = CheckIntersect(x, y, angle, cP);
-  USART_OUT(UART5,"x=%d\t",(int)x);
-  USART_OUT(UART5,"y=%d\t",(int)y);
-  USART_OUT(UART5,"angle=%d\t\r\n",(int)angle);
-}
+
 //	cP[0] leftUp;
 //	cP[1] letDown;
 //	cP[2] rightDown;
@@ -467,28 +528,16 @@ void JudgeStick(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int CheckIntersect(float x, float y, float angle, Point_t cP[4])//检查是否与边相交
+int CheckIntersect()//检查是否与边相交
 {
-  static Point_t boardPointOut[4];//boardPoint
-  static Point_t boardPointIn[4];
+	float x=gRobot.walk_t.pos.x,y=gRobot.walk_t.pos.y,angle=gRobot.walk_t.pos.angle;
+  Point_t cP[4]={0};//车的四个顶点
   int StickOut[4] = {0};
   int StickIn[4] = {0};
   int intersect = 0;
   int stickCornor = 0;//卡角标志位
   //外框木板点群
-  boardPointOut[0].x = -2400; 	boardPointOut[1].x = -2400;
-  boardPointOut[0].y = 4800;    boardPointOut[1].y = 0;
-  
-  boardPointOut[2].x = 2400;    boardPointOut[3].x = 2400;
-  boardPointOut[2].y = 0;				boardPointOut[3].y = 4800;
-  
-  //铁框点群
-  boardPointIn[0].x = -250; 		boardPointIn[1].x = -250;
-  boardPointIn[0].y = 3100;    	boardPointIn[1].y = 1700;
-  
-  boardPointIn[2].x = 250;      boardPointIn[3].x = 250;
-  boardPointIn[2].y = 1700;			boardPointIn[3].y = 3100;
-  
+
   CarPointTrans(x,y,angle,cP);//得到车的4个顶点
   //////循环检查每一边
   for (int m = 0, n = 3; m <= 3; n = m++)
@@ -538,17 +587,17 @@ int CheckIntersect(float x, float y, float angle, Point_t cP[4])//检查是否�
   ///////////接下来判断是否卡在角
   if (intersect == 2)//判断是否卡在墙角
   {
-    if ((StickOut[0] + StickOut[1] + StickOut[2] + StickOut[3]) == 2)
-    {
-      if (StickOut[0] + StickOut[1] == 2 || StickOut[1] + StickOut[2] == 2 || StickOut[2] + StickOut[3] == 2 || StickOut[3] + StickOut[0] == 2)//卡在墙角
-      {
-        stickCornor = 2;
-      }
-      else
-      {
-        stickCornor = 0;
-      }
-    }
+			if ((StickOut[0] + StickOut[1] + StickOut[2] + StickOut[3]) == 2)
+			{
+				if (StickOut[0] + StickOut[1] == 2 || StickOut[1] + StickOut[2] == 2 || StickOut[2] + StickOut[3] == 2 || StickOut[3] + StickOut[0] == 2)//卡在墙角
+				{
+					stickCornor = 2;
+				}
+				else
+				{
+					stickCornor = 0;
+				}
+			}
   }
   else if (intersect == 1)//判断是否卡在铁框角
   {
@@ -571,33 +620,32 @@ int CheckIntersect(float x, float y, float angle, Point_t cP[4])//检查是否�
   
   if (intersect == 2)
   {
-    stickStatus = 2;//卡在外框边
+    stickStatus = ABNOMAL_BLOCK_OUT;//卡在外框边
   }
   else if (intersect == 1)
   {
-    stickStatus = 1;//卡在内框边
+    stickStatus = ABNOMAL_BLOCK_IN;//卡在内框边
   }
   else if (intersect == 0)
   {
-    stickStatus = 3;//和车碰撞
+    stickStatus = ABNOMAL_BLOCK_MIDDLE;//和车碰撞
   }		
-  
+	
   if(stickCornor==0)
   {
     stickStatus=stickStatus;
   }
   else if(stickCornor==1)
   {
-    stickStatus=4;//卡在内圈角落
+    stickStatus=ABNOMAL_BLOCK_IN_CORNER;//卡在内圈角落
   }else if(stickCornor==2)
   {
-    stickStatus=5;//卡在外圈角落
+    stickStatus=ABNOMAL_BLOCK_OUT_CORNER;//卡在外圈角落
   }
   USART_OUT(UART5,"stickCornor=%d\t",(int)stickCornor);
   USART_OUT(UART5,"intersect=%d\t",(int)intersect);
   USART_OUT(UART5,"stickStatus=%d\t",(int)stickStatus);
   //USART_OUT(UART5,"%d %d %d %d %d %d %d %d\t\r\n",(int)StickIn[0], StickIn[1], StickIn[2], StickIn[3], StickOut[0], StickOut[1], StickOut[2], StickOut[3]);	
-  
   return stickStatus;
 }
 /****************************************************************************
