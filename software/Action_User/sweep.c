@@ -28,14 +28,21 @@ static int lineChangeSymbol=0;
 int CheckAgainstWall(void)
 {
   static int againstTime=0;//靠在墙上的时间
+  static int againstError=0;
   //这两个要结合在一起，不能在矫正的时候卡死
-  //	if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&gRobot.walk_t.base!=0)
-  //	{
-  //		againstTime++;
-  //	}
-  if (TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+  if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
+  {
+  	againstError++;
+	againstTime=0;
+  }else
+  {
+	againstError=0;
+  }
+  
+  if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
   {
     againstTime++;
+	againstError=0;
   }
   else
   {
@@ -45,14 +52,15 @@ int CheckAgainstWall(void)
   {
     againstTime=0;
     return 1; 	//另外一种标志方案
-  }
-  else
+  }else if(againstError>200)
   {
-    return 0;
+	againstError=0;
+	return 2;
   }
+  return 0;
+
 }
-/****************************************************************************
-*
+/*****************************************************************************
 名    称：void AgainstWall(float aimAngle,float angle)
 * 功    能：倒车靠墙程序
 * 入口参数：无

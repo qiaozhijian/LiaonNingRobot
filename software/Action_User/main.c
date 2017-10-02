@@ -20,6 +20,7 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {	
+<<<<<<< HEAD
 			USART_OUT(UART5,"%d",(int)gRobot.walk_t.circleChange.linenum);
 			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
 			USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
@@ -38,6 +39,38 @@ int main(void)
 //				if()
 //        //judge()   jin cheng  进程的异常情况  得出结论
 //			}
+=======
+	 #ifdef TEST 
+		TestMode();
+	 #else
+		MotorRead();  
+	//1在处理异常  为0就判断
+	if(!(gRobot.status&STATUS_AVOID))
+	{
+		JudgeStick();
+	}
+	if(gRobot.status&STATUS_AVOID){
+		//
+		//Escape();//进程  异常情况  处理
+	}else if (gRobot.status & STATUS_SWEEP)
+	{
+		Run();
+	}
+	else if (gRobot.status & STATUS_FIX)
+	{
+		FixTask();
+	}
+	else if (gRobot.status & STATUS_SHOOTER)
+	{
+		fireTask();
+	}	
+	else if(gRobot.status & STATUS_CAMERA_WALK)
+	{
+		CameraBaseWalk2();
+	}
+      
+
+>>>>>>> origin/123
 			
 			if(gRobot.status&STATUS_AVOID){
 //				Escape();//进程  异常情况  处理
@@ -46,6 +79,7 @@ int main(void)
 //      {
 //        Run();
 //      }
+<<<<<<< HEAD
 //      else if (gRobot.status & STATUS_FIX)
 //      {
 //        FixTask();
@@ -67,6 +101,10 @@ int main(void)
 ////      }
 //      Debug();
 //			#endif
+=======
+      //Debug();
+			#endif
+>>>>>>> origin/123
     }
   }
 }
