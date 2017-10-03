@@ -141,8 +141,8 @@ void BackCarIn(float angle) //内环倒车程序
 			break;
 		case 1:
 				backtime=0;
-			 VelCrl(CAN2, 1, -8888); //pid中填入的是差值
-		   VelCrl(CAN2, 2,  8888);
+			 VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  10000);
 		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
 			 {
 				 step++;
@@ -167,8 +167,8 @@ void BackCarIn(float angle) //内环倒车程序
 				USART_OUT(UART5,"get3%d\t");
 			break;
 		case 3:
-			 VelCrl(CAN2, 1, 8888); //pid中填入的是差值
-		   VelCrl(CAN2, 2,  -8888);
+			 VelCrl(CAN2, 1, 10000); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  -10000);
 		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>400)
 			 {
 					gRobot.status&=~STATUS_AVOID_HANDLE;
@@ -223,8 +223,8 @@ void BackCarOut(float angle) //外环倒车程序
 			USART_OUT(UART5,"get%d\t");
 			break;
 		case 1:
-			 VelCrl(CAN2, 1, -8888); //pid中填入的是差值
-		   VelCrl(CAN2, 2,  8888);
+			 VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  10000);
 		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
 			 {
 					step++;
@@ -249,8 +249,8 @@ void BackCarOut(float angle) //外环倒车程序
 				USART_OUT(UART5,"get3%d\t");
 			break;
 		case 3:
-			 VelCrl(CAN2, 1, 8888); //pid中填入的是差值
-		   VelCrl(CAN2, 2,  -8888);
+			 VelCrl(CAN2, 1, 10000); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  -10000);
 		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>400)
 			 {
 					gRobot.status&=~STATUS_AVOID_HANDLE;
@@ -524,7 +524,7 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 	}
 	if(leftLaser+rightLaser<4750)//预判提前调节
 	{
-	  if(fabs(leftRem-leftLaser)>5)//左边有车//给定预判距离1000mm
+	  if(fabs(leftRem-leftLaser)>30)//左边有车//给定预判距离1000mm
 		{
 			crazyCarLeft++;
 		}
@@ -533,7 +533,7 @@ void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检
 			crazyCarLeft=0;
 		}
 		
-		if(fabs(rightRem-rightLaser)>5)//右边有车
+		if(fabs(rightRem-rightLaser)>30)//右边有车
 		{
 			crazyCarRight++;
 		}else 
@@ -1129,7 +1129,7 @@ void AbnormityHandle(void)
   }
   else if (gRobot.status & STATUS_FIX)
   {
-			//FixHandle();
+			//\FixHandle();
   }
   else if (gRobot.status & STATUS_SHOOTER)
   {
@@ -1137,8 +1137,32 @@ void AbnormityHandle(void)
   }	
   else if(gRobot.status & STATUS_CAMERA_WALK)
   {
-      //WalkHandle();
+    WalkHandle();
 	}    	
+}
+void WalkHandle(void)
+{
+	switch(gRobot.abnormal)
+	{
+		case ABNOMAL_BLOCK_IN:
+			SquareTransition();
+			break;
+		case ABNOMAL_BLOCK_OUT :
+			Square2Transition();
+			break;
+		case ABNOMAL_BLOCK_MIDDLE :
+			CircleTransition();
+		 break;
+		case ABNOMAL_BLOCK_IN_CORNER:
+			CornerIn(gRobot.walk_t.pos.angle);
+			break;
+		case ABNOMAL_BLOCK_OUT_CORNER:
+			CornerOut(gRobot.walk_t.pos.angle);
+			break;
+		default:
+			USART_OUT(UART5,"SweepHandleErr");
+			break;
+	}
 }
 /****************************************************************************
 * 名    称：SweepHandle
@@ -1273,6 +1297,7 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			getAimWall=1;
 			gRobot.status|=STATUS_AVOID_JUDGE;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
+			gRobot.abnormal=0;
 		}
 
 }
@@ -1292,8 +1317,8 @@ void CornerIn(float angle) //内环倒车程序
 	j++;
 	if (j < 150)
 	{
-		VelCrl(CAN2, 1, -8888); //pid中填入的是差值
-		VelCrl(CAN2, 2,  8888);
+		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		VelCrl(CAN2, 2,  10000);
 	}else if (j >=150)
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
@@ -1339,8 +1364,8 @@ void CornerOut(float angle) //外环倒车程序
 	j++;
 	if (j < 150)
 	{
-		VelCrl(CAN2, 1, -8888); //pid中填入的是差值
-		VelCrl(CAN2, 2,  8888);
+		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		VelCrl(CAN2, 2,  10000);
 	}else if (j >=150)
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值

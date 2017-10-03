@@ -126,18 +126,25 @@ static int ballColor=1;
 //	}
 
 /**********************************测试版***************************/
-    if(fabs(gRobot.shoot_t.pReal.pos-gRobot.shoot_t.pReal.posrem)<10)
-		{
-			//计算推球失败次数
-			gRobot.shoot_t.pReal.turnTime++;
-		}
-		gRobot.shoot_t.pReal.posrem=gRobot.shoot_t.pReal.pos;
-		if(YesBallCount<=3&&YesBallCount>0)
+
+		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
-		}else if(YesBallCount<=203&&YesBallCount>200)
+		}else if(YesBallCount>63&&YesBallCount<200)
+		{
+			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>50)
+			{
+				gRobot.shoot_t.pReal.error++;
+			}
+		}else if(YesBallCount<=203&&YesBallCount>=200)
 		{	
 			PushBallReset();
+		}else if(YesBallCount<=400&&YesBallCount>263)
+		{
+			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>50)
+			{
+				gRobot.shoot_t.pReal.error++;
+			}
 		}
 		YesBallCount++;
 		YesBallCount%=400;
@@ -155,9 +162,13 @@ static int ballColor=1;
 		noBall=0;
 		noBallCount=0;
 	} 
-	
+	if(gRobot.shoot_t.pReal.error>30)
+	{
+	/*应急状态*/
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	}
 	//脱离状态 
-	if(noBall>5)
+	if(noBall>3)
 	{
 		CollectBallVelCtr(60);
 		Delay_ms(1000);
@@ -168,10 +179,6 @@ static int ballColor=1;
 		gRobot.shoot_t.startSignal=0;
 	}
 	
-	if(gRobot.shoot_t.pReal.turnTime>30)
-	{
-		gRobot.shoot_t.pReal.turnTime=0;
-	}
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);

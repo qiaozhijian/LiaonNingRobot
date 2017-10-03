@@ -95,7 +95,7 @@ float getRightAdc()
 * 名    称：getAimBorder()	
 * 功    能：返回距离最小的边界，获取最佳的停车地点
 * 入口参数：无
-* 出口参数： 0 Left 1 Right 2 Up 3 Down
+* 出口参数： 0 Left 2 Right 3 Up 0 Down
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
@@ -347,23 +347,23 @@ AimPos_t Go2NextWall(int aimBorder)//第一次矫正失败后到下一面墙的�
 	switch (aimBorder)
 	{
 		case LEFT_BORDER:
-			aimPos.x=-1800;							//第二次靠墙判断最小距离墙面之后代入定点停车
+			aimPos.x=-1650;							//第二次靠墙判断最小距离墙面之后代入定点停车
 			aimPos.y=2400;
 		break;
 
 		case DOWN_BORDER:
 			aimPos.x=0;
-			aimPos.y=600;
+			aimPos.y=750;
 		break;
 		
 		case RIGHT_BORDER:
-			aimPos.x=1800;
+			aimPos.x=1650;
 			aimPos.y=2400;
 		break;
 
 		case UP_BORDER:
 			aimPos.x=0;
-			aimPos.y=4200;
+			aimPos.y=4050;
 		break;
 	}
 	return aimPos;
@@ -385,6 +385,7 @@ void FixTask(void)
 	int laserLeftDistance=getLeftAdc();												//左边激光
 	int laserRightDistance=getRightAdc();											//右边激光
 	static int commitFix=0;
+	static int aimBorderRem=0;//记住需要靠的墙，因为第一次靠墙的时候在卡死的时候会发生没办法排除掉这面墙的情况
 	AimPos_t aimPos;																					//二次矫正的停车位
 	
 	gRobot.status&=~STATUS_AVOID_JUDGE;//关闭异常判断交给fixtask自己处理
@@ -399,7 +400,7 @@ void FixTask(void)
 	{
 		aimBorder = getAimBorder();
 		fix_status &= ~WAIT_AIM_DIRECTION;											//1011 & 1110 将此位滞空=1010
-		fixPara=getFixPara(aimBorder);												//得到矫正的参数
+		fixPara=getFixPara(aimBorder);												  //得到矫正的参数
 	} 
 	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
@@ -441,11 +442,20 @@ void FixTask(void)
 				fix_status = 0;
 				fix_status |= WAIT_AIM_DIRECTION;
 				fix_status |= TRY_SEC_FIX;
+				aimBorderRem=aimBorder;//在靠墙失败的时候记住当前的墙面，不然下次无法排除选的还是这面墙
 			}
 		}
 	}
 	else if (fix_status & TRY_SEC_FIX)
 	{
+		if(aimBorderRem==aimBorder)//下次进入时候比较前后是否一样，一样则加1
+		{
+				aimBorder++;
+				if(aimBorder>3)//防止目标边界溢出
+				{
+					aimBorder=0;
+				}
+		}
 		aimPos=Go2NextWall(aimBorder);
 		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
 		{
@@ -455,7 +465,6 @@ void FixTask(void)
 			fix_status |=AGAINST_Wall;
 		}
 	}
-	
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;
@@ -468,6 +477,7 @@ void FixTask(void)
 		map[1]=0;
 		map[2]=0;
 		map[3]=0;//之前在判断最小距离墙面的时候将原来靠上的那面墙排除比较，现在恢复让其重新比较
+		aimBorderRem=0;
 	}
 	
 	

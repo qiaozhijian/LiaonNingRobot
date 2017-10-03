@@ -83,7 +83,7 @@ typedef struct{
 typedef struct{
 	float pos;
 	float posrem;
-	float turnTime;
+	float error;
 }PushPara_t;
 
 //发射电机参数

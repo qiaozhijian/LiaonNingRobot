@@ -96,10 +96,12 @@
 #define ABNOMAL_BLOCK_IN_CORNER                 4
 #define ABNOMAL_BLOCK_OUT_CORNER 				5
 /*射球异常*/
-#define ABNOMAL_START_BLOCK_FRONT    			1
-#define ABNOMAL_START_BLOCK_BACK   				2
-#define ABNOMAL_START_CRASHING   				3
+#define ABNOMAL_LEFT_CAR_COMING   			8
+#define ABNOMAL_RIGHT_CAR_COMING   			9
+#define ABNOMAL_START_CRASHING   				10
 
+/****停车异常*****/
+#define ABNOMAL_PARKING_BLOCK           11
 /*      车的方向        */
 #define GO_STRAIGHT 0 
 #define GO_LEFT     1

@@ -150,6 +150,7 @@ int turnTimeLead(int lineChangeSymbol)
 int Pointparking(float Pointx,float Pointy)
 {
   //	static float V=700,gRobot.M;
+	static int parkingTime=0;
   static float x=0,y=0,angle=0;
   static float aimAngle=0;														//目标角度
   static float angleError=0;													//目标角度与当前角度的偏差
@@ -166,6 +167,9 @@ int Pointparking(float Pointx,float Pointy)
   dy=y-Pointy;
   k=dy/dx;
   kAngle=atan(k)*180/PI;
+	
+	parkingTime++;//记录停车时间
+	
   if((1000*dx>=-1)&&(1000*dx<=1))											//当k不存在的时候
   {
     if(dy>0)
@@ -197,28 +201,42 @@ int Pointparking(float Pointx,float Pointy)
     }
   }
   angleError=angleErrorCount(aimAngle,angle);
-  if(fabs(spacingError)>250)
+	if(fabs(spacingError)>500)
   {
-    VelCrl(CAN2, 1,10000.f+AnglePidControl(angleError));			//pid中填入的是差值
-    VelCrl(CAN2, 2,-10000.f+AnglePidControl(angleError));
-  }
-  if(fabs(spacingError)>200&&fabs(spacingError)<250)			//设立减速环带
+    VelCrl(CAN2, 1,15000.f+AnglePidControl(angleError));			//pid中填入的是差值
+    VelCrl(CAN2, 2,-15000.f+AnglePidControl(angleError));
+		parkingTime=0;
+  }else if(fabs(spacingError)>250&&fabs(spacingError)<500)
+	{
+		VelCrl(CAN2, 1,13000.f+AnglePidControl(angleError));			//pid中填入的是差值
+    VelCrl(CAN2, 2,-13000.f+AnglePidControl(angleError));
+		parkingTime=0;
+	}else if(fabs(spacingError)>200&&fabs(spacingError)<250)			//设立减速环带
   {
-    VelCrl(CAN2, 1,6000+AnglePidControl(angleError));		  //pid中填入的是差值
-    VelCrl(CAN2, 2,-6000+AnglePidControl(angleError));
+    VelCrl(CAN2, 1,10000+AnglePidControl(angleError));		  //pid中填入的是差值
+    VelCrl(CAN2, 2,-10000+AnglePidControl(angleError));
+		parkingTime=0;
   }
   if(fabs(spacingError)<200&&fabs(spacingError)>80)
   {
     VelCrl(CAN2, 1,2000+AnglePidControl(angleError));			//pid中填入的是差值
     VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
+		parkingTime=0;
   }
   if(fabs(spacingError)>0&&fabs(spacingError)<80)
   {		
     VelCrl(CAN2, 1,0);																		//pid中填入的是差值
     VelCrl(CAN2, 2,0);
+		parkingTime=0;
     return 1;
   }
-  return 0;
+	if(parkingTime>600)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
+	{
+		parkingTime=0;
+		gRobot.status|=STATUS_FIX;
+		gRobot.abnormal=ABNOMAL_PARKING_BLOCK;//停车异常
+	}
+	return 0;
 }
 
 /****************************************************************************
