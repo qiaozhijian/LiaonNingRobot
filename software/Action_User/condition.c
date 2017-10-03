@@ -70,11 +70,11 @@ int circleChange(void)
 	if(gRobot.walk_t.circleChange.linenum==4)
 	{
 		gRobot.walk_t.circleChange.linenum=0;
-		if(gRobot.status==25)
+		if(gRobot.status&STATUS_SWEEP)
 		{
 			//记录扫场的圈数
 		  gRobot.walk_t.circleChange.circleNum++;
-		}else if(gRobot.status==6)
+		}else if(gRobot.status&STATUS_CAMERA_WALK)
 		{
 			//记录摄像头扫场
 			gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum++;

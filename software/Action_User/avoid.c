@@ -5,7 +5,7 @@ Point_t boardPointIn[4]={  {X_LEFT,Y_UP},{X_LEFT,Y_DOWN },{X_RIGHT,Y_DOWN },{X_R
 Point_t boardPointOut[4]={ {X_MIN,Y_MAX} , {X_MIN,Y_MIN} ,{X_MAX,Y_MIN},{X_MAX,Y_MAX}}; //外墙点群
 
 //static int turnTimeRemember;												//记住在卡死的时候是什么直线的状态，等倒车case结束后让重新填装
-//static float xStick=0;
+static float xStick=0;
 static float yStick=0;	//卡住时存储的位置数据
 static int stickStatus=0;//判断现在卡死的状态
 /****************************************************************************
@@ -117,34 +117,79 @@ void TransitionOut(float angle) 											//外环倒车程序
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-static int flag=0;
 void BackCarIn(float angle) //内环倒车程序
 {
+
+	static float LastX=0;
+	static float LastY=0;
+	static int step=0;
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
-	static int i = 0;																  //目标角度变换标志位
-	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	if (i == 0)																		    //使目标角度偏向右边45
+	static int backtime;
+   backtime++;
+	switch(step)
 	{
-		aimAngle = angle - 45; //让车头目标角度右偏45度
-		i = 1;
+		case 0:
+			backtime=0;
+			LastX=gRobot.walk_t.pos.x;
+			LastY=gRobot.walk_t.pos.y;
+			aimAngle = angle - 45;
+		  step++;
+			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t");
+			break;
+		case 1:
+				backtime=0;
+			 VelCrl(CAN2, 1, -8888); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  8888);
+		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
+			 {
+				 step++;
+				 LastX=gRobot.walk_t.pos.x;
+				 LastY=gRobot.walk_t.pos.y;
+				 backtime=0;
+			 }
+			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t");
+			break;
+		case 2:
+			 VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		   VelCrl(CAN2, 2, AnglePidControl(angleError));
+		  if(fabs(angleError) < 5)
+				{
+					step++;
+					backtime=0;
+				}
+				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t");
+			break;
+		case 3:
+			 VelCrl(CAN2, 1, 8888); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  -8888);
+		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>400)
+			 {
+					gRobot.status&=~STATUS_AVOID_HANDLE;
+					gRobot.status|=STATUS_AVOID_JUDGE;
+					step=0;
+					backtime=0;
+			 }
+			 USART_OUT(UART5,"get4%d\t");
+			 USART_OUT(UART5,"get4%d\t");
+			 USART_OUT(UART5,"get4%d\t");
+			break;
 	}
+	//时间限制
 	angleError = angleErrorCount(aimAngle,angle);
-	j++;
-	if (j < 150)
+	USART_OUT(UART5,"ep=%d\t\r\n",step);
+	if(backtime>250)
 	{
-		VelCrl(CAN2, 1, -6107); //pid中填入的是差值
-		VelCrl(CAN2, 2,  6107);
-	}else if (j >=150)
-	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
-		VelCrl(CAN2, 2, AnglePidControl(angleError));
-		if (fabs(angleError) < 5)
-		{
-			i = 0;
-			j = 0;//清空标志位
-			flag=0;
-		} 
+	  gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		step=0;
+		backtime=0;
 	}
 }
  /****************************************************************************
@@ -157,33 +202,76 @@ void BackCarIn(float angle) //内环倒车程序
 ****************************************************************************/
 void BackCarOut(float angle) //外环倒车程序
 {
+
+	static float LastX=0;
+	static float LastY=0;
+	static int step=0;
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
-	static int i = 0;																  //目标角度变换标志位
-	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	if (i == 0)																		  //使目标角度偏向右边45
-	{
-		aimAngle = angle + 45; //让车头目标角度右偏45度
-		i = 1;
-	}
+	static int backtime;
+   backtime++;
 	angleError = angleErrorCount(aimAngle,angle);
-	j++;
-	if (j < 150)
+	switch(step)
 	{
-		VelCrl(CAN2, 1, -6107); //pid中填入的是差值
-		VelCrl(CAN2, 2,  6107);
-	}else if (j >=150)
-	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
-		VelCrl(CAN2, 2, AnglePidControl(angleError));
-		if (fabs(angleError) < 5)
-		{
-			i = 0;
-			j = 0;//清空标志位
-			flag=0;
-		}
+		case 0:
+			LastX=gRobot.walk_t.pos.x;
+			LastY=gRobot.walk_t.pos.y;
+			aimAngle = angle + 45;
+		   step++;
+			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t");
+			break;
+		case 1:
+			 VelCrl(CAN2, 1, -8888); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  8888);
+		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
+			 {
+					step++;
+				 LastX=gRobot.walk_t.pos.x;
+				 LastY=gRobot.walk_t.pos.y;
+				 backtime=0;
+			 }
+			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t");
+			break;
+		case 2:
+			 VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		   VelCrl(CAN2, 2, AnglePidControl(angleError));
+		  if(fabs(angleError) < 5)
+				{
+					step++;
+					backtime=0;
+				}
+				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t");
+			break;
+		case 3:
+			 VelCrl(CAN2, 1, 8888); //pid中填入的是差值
+		   VelCrl(CAN2, 2,  -8888);
+		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>400)
+			 {
+					gRobot.status&=~STATUS_AVOID_HANDLE;
+					gRobot.status|=STATUS_AVOID_JUDGE;
+				  step=0;
+					backtime=0;
+			 }
+			 USART_OUT(UART5,"get4%d\t");
+			 USART_OUT(UART5,"get4%d\t");
+			 USART_OUT(UART5,"get4%d\t");
+			break;
 	}
-//	pidZongShuchu = AnglePidControl(angleError);
+	//时间限制
+	USART_OUT(UART5,"ep=%d\t\r\n",step);
+	if(backtime>250)
+	{
+	  gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		step=0;
+		backtime=0;
+	}
 }
  /****************************************************************************
 * 名    称：void BackCarOut(float angle) 
@@ -195,18 +283,9 @@ void BackCarOut(float angle) //外环倒车程序
 ****************************************************************************/
 void BackCar(void)
 {
-	static int flag=0;
-	static float xStick=0;
-	static float yStick=0;
-	if(flag==0)
-	{
-		xStick=gRobot.walk_t.pos.x;
-		yStick=gRobot.walk_t.pos.y;
-		flag=1;
-	}
 	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
 	{
-		BackCarOut(gRobot.walk_t.pos.angle);
+		BackCarIn(gRobot.walk_t.pos.angle);
 	}
 	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
 	{
@@ -547,6 +626,9 @@ int JudgeStick(void)
 			gRobot.status&=~STATUS_AVOID_JUDGE;
 			gRobot.status|=STATUS_AVOID_HANDLE;
       gRobot.avoid_t.signal=0;             //清零
+			//记住卡死坐标
+			xStick=gRobot.walk_t.pos.x;
+			yStick=gRobot.walk_t.pos.y;
 			return 1;
 		}
     lastX=gRobot.walk_t.pos.x;
@@ -982,7 +1064,7 @@ void Transition(void) 											//外环倒车程序
 				Line(600.f,1400,180,0,-1,1);
 				break;
 				
-			case 3:
+			case 3: 
 				Line(-600.f,1400,90,1,-1,1);
 				break;
 		}
@@ -1074,11 +1156,17 @@ void SweepHandle(void)
 			SquareTransition();
 			break;
 		case ABNOMAL_BLOCK_OUT :
-			CircleTransition();
+			Square2Transition();
 			break;
 		case ABNOMAL_BLOCK_MIDDLE :
-			Square2Transition();
+			CircleTransition();
 		 break;
+		case ABNOMAL_BLOCK_IN_CORNER:
+			CornerIn(gRobot.walk_t.pos.angle);
+			break;
+		case ABNOMAL_BLOCK_OUT_CORNER:
+			CornerOut(gRobot.walk_t.pos.angle);
+			break;
 		default:
 			USART_OUT(UART5,"SweepHandleErr");
 			break;
@@ -1097,10 +1185,12 @@ void SquareTransition(void)
 {
 	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
 	{
-		Transition();
+		BackCar();
+		//Transition();
 	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
-		AntiTransition();
+		BackCar();
+		//AntiTransition();
 	}
 	
 }
@@ -1135,10 +1225,12 @@ void Square2Transition(void)
 {
 	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
 	{
-		Transition();
+		BackCar();
+		//Transition();
 	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
-		AntiTransition();
+		BackCar();
+		//AntiTransition();
 	}
 }
 void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
@@ -1183,5 +1275,90 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			gRobot.status&=~STATUS_AVOID_HANDLE;
 		}
 
+}
+void CornerIn(float angle) //内环倒车程序
+{
+	static float aimAngle = 0;   //目标角度
+	static float angleError = 0; //目标角度与当前角度的偏差
+	static int i = 0;																  //目标角度变换标志位
+	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static int backtime=0;
+	if (i == 0)																		    //使目标角度偏向右边45
+	{
+		aimAngle = angle - 45; //让车头目标角度右偏45度
+		i = 1;
+	}
+	angleError = angleErrorCount(aimAngle,angle);
+	j++;
+	if (j < 150)
+	{
+		VelCrl(CAN2, 1, -8888); //pid中填入的是差值
+		VelCrl(CAN2, 2,  8888);
+	}else if (j >=150)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			i = 0;
+			j = 0;//清空标志位
+			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			backtime=0;
+		} 
+	}
+	if(backtime>250)
+	{
+		gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		backtime=0;
+	}
+//	pidZongShuchu = AnglePidControl(angleError);
+}
+ /****************************************************************************
+* 名    称：void BackCarOut(float angle) 
+* 功    能：外环逃逸程序后退1.5s，内转45度
+* 入口参数：angle//当前角度
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void CornerOut(float angle) //外环倒车程序
+{
+	static float aimAngle = 0;   //目标角度
+	static float angleError = 0; //目标角度与当前角度的偏差
+	static int i = 0;																  //目标角度变换标志位
+	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static int backtime=0;
+	if (i == 0)																		  //使目标角度偏向右边45
+	{
+		aimAngle = angle + 90; //让车头目标角度右偏90度
+		i = 1;
+	}
+	angleError = angleErrorCount(aimAngle,angle);
+	j++;
+	if (j < 150)
+	{
+		VelCrl(CAN2, 1, -8888); //pid中填入的是差值
+		VelCrl(CAN2, 2,  8888);
+	}else if (j >=150)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			i = 0;
+			j = 0;//清空标志位
+			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			backtime=0;
+		}
+	}
+	if(backtime>250)
+	{
+	  gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		backtime=0;
+	}
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

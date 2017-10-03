@@ -387,6 +387,8 @@ void FixTask(void)
 	static int commitFix=0;
 	AimPos_t aimPos;																					//二次矫正的停车位
 	
+	gRobot.status&=~STATUS_AVOID_JUDGE;//关闭异常判断交给fixtask自己处理
+	gRobot.abnormal=0;
 	ShootCtr(60);
 	
 	/***/
@@ -457,6 +459,7 @@ void FixTask(void)
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;
+		gRobot.status|=STATUS_AVOID_JUDGE;
 		gRobot.fix_t.inBorder=aimBorder;
 		fix_status=11;
 		fixSuccessFlag= 0;

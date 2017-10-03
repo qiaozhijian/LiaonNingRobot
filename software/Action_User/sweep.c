@@ -253,7 +253,6 @@ int LineChange(void)			   //，
 void In2Out(int lineChangeSymbol,int direction)
 {
   //条件判断
-  In2OutChange();
   switch(direction)
   {
   case 0:
@@ -370,13 +369,6 @@ int LaserStart(void)
 			gRobot.walk_t.circleChange.direction=1;
 			return 0;
 	}
-//  if(getRightAdc()<600.f && getLeftAdc()<600.f&&laserCount==300)
-//  {
-//    laserCount=302;
-//    gRobot.walk_t.laser.status=2;
-//    return 0;
-//  }
-
   return 1;
 } 
 /****************************************************************************
@@ -472,18 +464,15 @@ void ClockWise(void)
 		gRobot.walk_t.circleChange.turnTime=5;
 		Circle();
 	}
-	else if(gRobot.walk_t.circleChange.circleNum==3)
+	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
 		Square2();
 	}
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
-      if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100)
-      {
         gRobot.status&=~STATUS_SWEEP;
         gRobot.walk_t.circleChange.turnTime=0;
-      }
     }
   }
 /****************************************************************************
@@ -520,11 +509,8 @@ void AntiClockWise(void)
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
-      if(2000<gRobot.walk_t.pos.y && gRobot.walk_t.pos.y<2100)
-      {
         gRobot.status&=~STATUS_SWEEP;
         gRobot.walk_t.circleChange.turnTime=0;
-      }
     }
   }
 /****************************************************************************
@@ -552,14 +538,14 @@ void ChangeBoard(void){
   }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
 		if(gRobot.walk_t.circleChange.circleNum==0){
-		gRobot.walk_t.board[0][0]=-100;
+		gRobot.walk_t.board[0][0]=100;
 		gRobot.walk_t.board[0][1]=2900;
-		gRobot.walk_t.board[0][2]=100;
-		gRobot.walk_t.board[0][3]=1200;
-	}else if(gRobot.walk_t.circleChange.circleNum==3){
-		gRobot.walk_t.board[1][0]=-1110;
+		gRobot.walk_t.board[0][2]=-100;
+		gRobot.walk_t.board[0][3]=1900;
+	}else if(gRobot.walk_t.circleChange.circleNum!=0){
+		gRobot.walk_t.board[1][0]=1110;
 		gRobot.walk_t.board[1][1]=3550;
-		gRobot.walk_t.board[1][2]=1110;
+		gRobot.walk_t.board[1][2]=-1110;
 		gRobot.walk_t.board[1][3]=1250;
 	}
 

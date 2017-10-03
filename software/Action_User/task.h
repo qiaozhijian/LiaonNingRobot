@@ -182,6 +182,8 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
+	
+	int gpsSignal;
 
 //	/*场地区域数组*/
 //  uint32_t area[];

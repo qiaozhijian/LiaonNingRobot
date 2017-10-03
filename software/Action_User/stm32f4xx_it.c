@@ -337,6 +337,7 @@ int flagggg=0;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
 	static uint8_t ch;
+	gRobot.gpsSignal=1;
 	static union {
 		uint8_t data[24];
 		float ActVal[6];

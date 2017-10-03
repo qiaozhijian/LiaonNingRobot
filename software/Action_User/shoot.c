@@ -26,7 +26,7 @@ extern Robot_t gRobot;
 
 ShootPara_t Launcher(float x,float y,float angle,int ballNum)
 {
-	static ShootPara_t launcher;
+	static ShootPara_t launcher; 
 	static float s = 0;                    //车到圆环中心的距离
 	static float h = 424.6;                //发射口到框的高度，垂直高度
 	static float v = 0;                    //要求的速度

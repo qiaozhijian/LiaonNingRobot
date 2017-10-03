@@ -15,8 +15,8 @@ Robot_t gRobot={0};
 //#define TEST 
 int main(void)
 {
+	while(!gRobot.gpsSignal)
   robotInit();
-			
   while(LaserStart());
   while (1)
   {
