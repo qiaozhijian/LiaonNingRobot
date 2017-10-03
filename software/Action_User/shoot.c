@@ -60,7 +60,7 @@ else if (ballNum==1)                     //假如球是黑球
 		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
 		
 	  //launcher.speed=0.01402f*v-5.457f+2.0f;
-		launcher.speed=0.01587f*v-16.01f+4;
+		launcher.speed=0.01442f*v-9.314f;
 		//launcher.rev=(0.01434f*v-6.086f);
 		//launcher.rev=launcher.rev+zhuan*zhuansu;
 			
@@ -131,7 +131,7 @@ static int ballColor=1;
 		{
 			PushBall();
 		}else if(YesBallCount>63&&YesBallCount<200)
-		{
+		   {
 			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>50)
 			{
 				gRobot.shoot_t.pReal.error++;
@@ -168,7 +168,7 @@ static int ballColor=1;
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	}
 	//脱离状态 
-	if(noBall>3)
+	if(noBall>4)
 	{
 		CollectBallVelCtr(60);
 		Delay_ms(1000);

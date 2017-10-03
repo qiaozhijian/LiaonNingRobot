@@ -215,22 +215,19 @@ int Pointparking(float Pointx,float Pointy)
   {
     VelCrl(CAN2, 1,10000+AnglePidControl(angleError));		  //pid中填入的是差值
     VelCrl(CAN2, 2,-10000+AnglePidControl(angleError));
-		parkingTime=0;
   }
   if(fabs(spacingError)<200&&fabs(spacingError)>80)
   {
     VelCrl(CAN2, 1,2000+AnglePidControl(angleError));			//pid中填入的是差值
     VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
-		parkingTime=0;
   }
   if(fabs(spacingError)>0&&fabs(spacingError)<80)
   {		
     VelCrl(CAN2, 1,0);																		//pid中填入的是差值
     VelCrl(CAN2, 2,0);
-		parkingTime=0;
     return 1;
   }
-	if(parkingTime>600)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
+	if(parkingTime>700)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
 	{
 		parkingTime=0;
 		gRobot.status|=STATUS_FIX;
@@ -557,7 +554,7 @@ void ChangeBoard(void){
 	{
 		if(gRobot.walk_t.circleChange.circleNum==0){
 		gRobot.walk_t.board[0][0]=100;
-		gRobot.walk_t.board[0][1]=2900;
+		gRobot.walk_t.board[0][1]=2700;
 		gRobot.walk_t.board[0][2]=-100;
 		gRobot.walk_t.board[0][3]=1900;
 	}else if(gRobot.walk_t.circleChange.circleNum!=0){
@@ -720,11 +717,11 @@ int AntiCircle(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {		
   case 4:
-    NiShiZhenCircleBiHuan(1800,1100,0,2400);
+    NiShiZhenCircleBiHuan(2100,900,0,2400);
     break;
     
   case 5:
-    NiShiZhenCircleBiHuan(1800,1400.f,0,2400);
+    NiShiZhenCircleBiHuan(2200,1400.f,0,2400);
     break;
     
   default:

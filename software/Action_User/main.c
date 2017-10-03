@@ -15,11 +15,9 @@ Robot_t gRobot={0};
 //#define TEST 
 int main(void)
 {
+	robotInit();
+	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	while(!gRobot.gpsSignal)
-	{
-		GPIO_SetBits(GPIOE,GPIO_Pin_7);
-	}
-  robotInit();
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
   while(LaserStart());
   while (1)
