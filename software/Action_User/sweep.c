@@ -201,36 +201,32 @@ int Pointparking(float Pointx,float Pointy)
     }
   }
   angleError=angleErrorCount(aimAngle,angle);
-	if(fabs(spacingError)>500)
+	if(fabs(spacingError)>1000)           //设立减速环带
   {
-    VelCrl(CAN2, 1,15000.f+AnglePidControl(angleError));			//pid中填入的是差值
-    VelCrl(CAN2, 2,-15000.f+AnglePidControl(angleError));
-		parkingTime=0;
-  }else if(fabs(spacingError)>250&&fabs(spacingError)<500)
-	{
-		VelCrl(CAN2, 1,13000.f+AnglePidControl(angleError));			//pid中填入的是差值
+    VelCrl(CAN2, 1,13000.f+AnglePidControl(angleError));		
     VelCrl(CAN2, 2,-13000.f+AnglePidControl(angleError));
 		parkingTime=0;
-	}else if(fabs(spacingError)>200&&fabs(spacingError)<250)			//设立减速环带
+  }else if(fabs(spacingError)>500&&fabs(spacingError)<1000)
   {
-    VelCrl(CAN2, 1,10000+AnglePidControl(angleError));		  //pid中填入的是差值
-    VelCrl(CAN2, 2,-10000+AnglePidControl(angleError));
+    VelCrl(CAN2, 1,10000.f+AnglePidControl(angleError));
+    VelCrl(CAN2, 2,-10000.f+AnglePidControl(angleError));
 		parkingTime=0;
-  }
-  if(fabs(spacingError)<200&&fabs(spacingError)>80)
+  }else if(fabs(spacingError)>400&&fabs(spacingError)<500)
+	{
+		VelCrl(CAN2, 1,6000.f+AnglePidControl(angleError));			
+    VelCrl(CAN2, 2,-6000.f+AnglePidControl(angleError));
+	}else if(fabs(spacingError)>200&&fabs(spacingError)<=400)			
   {
-    VelCrl(CAN2, 1,2000+AnglePidControl(angleError));			//pid中填入的是差值
-    VelCrl(CAN2, 2,-2000+AnglePidControl(angleError));
-		parkingTime=0;
-  }
-  if(fabs(spacingError)>0&&fabs(spacingError)<80)
+    VelCrl(CAN2, 1,3000+AnglePidControl(angleError));		  
+    VelCrl(CAN2, 2,-3000+AnglePidControl(angleError));
+  }else if(fabs(spacingError)<200&&fabs(spacingError)>0)//完成停车
   {		
-    VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+    VelCrl(CAN2, 1,0);																	
     VelCrl(CAN2, 2,0);
 		parkingTime=0;
     return 1;
   }
-	if(parkingTime>600)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
+	if(parkingTime>350)//超出3.5秒没有到达目标点便判定为与车卡死里面进行矫正
 	{
 		parkingTime=0;
 		gRobot.status|=STATUS_FIX;
