@@ -106,9 +106,10 @@ void robotInit(void)
 	elmoInit();
 	
 	variableInit();
-
-	Delay_ms(8000);
-  Delay_ms(7000);
+	//GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	while(!gRobot.gpsSignal){};
+//	Delay_ms(8000);
+//  Delay_ms(7000);
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-   CollectBallVelCtr(60);                                       //让辊子转起来
+  CollectBallVelCtr(60);                                       //让辊子转起来
 }

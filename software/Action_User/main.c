@@ -16,8 +16,6 @@ Robot_t gRobot={0};
 int main(void)
 {
 	robotInit();
-	GPIO_SetBits(GPIOE,GPIO_Pin_7);
-	while(!gRobot.gpsSignal)
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
   while(LaserStart());
   while (1)
@@ -55,7 +53,6 @@ int main(void)
 				AbnormityHandle();
 			}else if (gRobot.status & STATUS_SWEEP)
 			{
-	//			AntiClockWise();
 					Run();
 			}
 			else if (gRobot.status & STATUS_FIX)

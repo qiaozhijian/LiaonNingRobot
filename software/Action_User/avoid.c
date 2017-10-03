@@ -125,12 +125,13 @@ void BackCarIn(float angle) //内环倒车程序
 	static int step=0;
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
-	static int backtime;
-   backtime++;
+	static int avoidtime=0;
+	static int backtime=0;
+   avoidtime++;
 	switch(step)
 	{
 		case 0:
-			backtime=0;
+			avoidtime=0;
 			LastX=gRobot.walk_t.pos.x;
 			LastY=gRobot.walk_t.pos.y;
 			aimAngle = angle - 45;
@@ -140,15 +141,17 @@ void BackCarIn(float angle) //内环倒车程序
 			USART_OUT(UART5,"get%d\t");
 			break;
 		case 1:
-				backtime=0;
+				avoidtime=0;
+				backtime++;
 			 VelCrl(CAN2, 1, -10000); //pid中填入的是差值
 		   VelCrl(CAN2, 2,  10000);
-		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
+		 if(backtime>100)
 			 {
+				 backtime=0;
 				 step++;
 				 LastX=gRobot.walk_t.pos.x;
 				 LastY=gRobot.walk_t.pos.y;
-				 backtime=0;
+				 avoidtime=0;
 			 }
 			 USART_OUT(UART5,"get2%d\t");
 			 USART_OUT(UART5,"get2%d\t");
@@ -160,7 +163,7 @@ void BackCarIn(float angle) //内环倒车程序
 		  if(fabs(angleError) < 5)
 				{
 					step++;
-					backtime=0;
+					avoidtime=0;
 				}
 				USART_OUT(UART5,"get3%d\t");
 				USART_OUT(UART5,"get3%d\t");
@@ -174,7 +177,7 @@ void BackCarIn(float angle) //内环倒车程序
 					gRobot.status&=~STATUS_AVOID_HANDLE;
 					gRobot.status|=STATUS_AVOID_JUDGE;
 					step=0;
-					backtime=0;
+					avoidtime=0;
 			 }
 			 USART_OUT(UART5,"get4%d\t");
 			 USART_OUT(UART5,"get4%d\t");
@@ -184,12 +187,12 @@ void BackCarIn(float angle) //内环倒车程序
 	//时间限制
 	angleError = angleErrorCount(aimAngle,angle);
 	USART_OUT(UART5,"ep=%d\t\r\n",step);
-	if(backtime>250)
+	if(avoidtime>250)
 	{
 	  gRobot.status&=~STATUS_AVOID_HANDLE;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		step=0;
-		backtime=0;
+		avoidtime=0;
 	}
 }
  /****************************************************************************
@@ -208,8 +211,9 @@ void BackCarOut(float angle) //外环倒车程序
 	static int step=0;
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
-	static int backtime;
-   backtime++;
+	static int avoidtime=0;
+	static int backtime=0;
+   avoidtime++;
 	angleError = angleErrorCount(aimAngle,angle);
 	switch(step)
 	{
@@ -223,13 +227,15 @@ void BackCarOut(float angle) //外环倒车程序
 			USART_OUT(UART5,"get%d\t");
 			break;
 		case 1:
+			backtime++;
 			 VelCrl(CAN2, 1, -10000); //pid中填入的是差值
 		   VelCrl(CAN2, 2,  10000);
-		 if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
+		 if(backtime>100)
 			 {
 					step++;
 				 LastX=gRobot.walk_t.pos.x;
 				 LastY=gRobot.walk_t.pos.y;
+				 avoidtime=0;
 				 backtime=0;
 			 }
 			 USART_OUT(UART5,"get2%d\t");
@@ -242,7 +248,7 @@ void BackCarOut(float angle) //外环倒车程序
 		  if(fabs(angleError) < 5)
 				{
 					step++;
-					backtime=0;
+					avoidtime=0;
 				}
 				USART_OUT(UART5,"get3%d\t");
 				USART_OUT(UART5,"get3%d\t");
@@ -256,7 +262,7 @@ void BackCarOut(float angle) //外环倒车程序
 					gRobot.status&=~STATUS_AVOID_HANDLE;
 					gRobot.status|=STATUS_AVOID_JUDGE;
 				  step=0;
-					backtime=0;
+					avoidtime=0;
 			 }
 			 USART_OUT(UART5,"get4%d\t");
 			 USART_OUT(UART5,"get4%d\t");
@@ -265,12 +271,12 @@ void BackCarOut(float angle) //外环倒车程序
 	}
 	//时间限制
 	USART_OUT(UART5,"ep=%d\t\r\n",step);
-	if(backtime>250)
+	if(avoidtime>250)
 	{
 	  gRobot.status&=~STATUS_AVOID_HANDLE;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		step=0;
-		backtime=0;
+		avoidtime=0;
 	}
 }
  /****************************************************************************
@@ -283,13 +289,27 @@ void BackCarOut(float angle) //外环倒车程序
 ****************************************************************************/
 void BackCar(void)
 {
-	if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
+	//顺时针
+	if(gRobot.walk_t.circleChange.direction==1)
 	{
-		BackCarIn(gRobot.walk_t.pos.angle);
-	}
-	else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
+		if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
+		{
+			BackCarIn(gRobot.walk_t.pos.angle);
+		}
+		else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
+		{
+			BackCarOut(gRobot.walk_t.pos.angle);
+		}
+  }else if(gRobot.walk_t.circleChange.direction==0)//顺时针
 	{
-		BackCarOut(gRobot.walk_t.pos.angle);
+		if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
+		{
+			BackCarOut(gRobot.walk_t.pos.angle);
+		}
+		else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
+		{
+			BackCarIn(gRobot.walk_t.pos.angle);
+		}
 	}
 }	
 
@@ -1307,7 +1327,7 @@ void CornerIn(float angle) //内环倒车程序
 	static float angleError = 0; //目标角度与当前角度的偏差
 	static int i = 0;																  //目标角度变换标志位
 	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	static int backtime=0;
+	static int avoidtime=0;
 	if (i == 0)																		    //使目标角度偏向右边45
 	{
 		aimAngle = angle - 45; //让车头目标角度右偏45度
@@ -1329,14 +1349,14 @@ void CornerIn(float angle) //内环倒车程序
 			j = 0;//清空标志位
 			gRobot.status|=STATUS_AVOID_JUDGE;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
-			backtime=0;
+			avoidtime=0;
 		} 
 	}
-	if(backtime>250)
+	if(avoidtime>250)
 	{
 		gRobot.status&=~STATUS_AVOID_HANDLE;
 		gRobot.status|=STATUS_AVOID_JUDGE;
-		backtime=0;
+		avoidtime=0;
 	}
 //	pidZongShuchu = AnglePidControl(angleError);
 }
@@ -1354,7 +1374,7 @@ void CornerOut(float angle) //外环倒车程序
 	static float angleError = 0; //目标角度与当前角度的偏差
 	static int i = 0;																  //目标角度变换标志位
 	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	static int backtime=0;
+	static int avoidtime=0;
 	if (i == 0)																		  //使目标角度偏向右边45
 	{
 		aimAngle = angle + 90; //让车头目标角度右偏90度
@@ -1376,14 +1396,14 @@ void CornerOut(float angle) //外环倒车程序
 			j = 0;//清空标志位
 			gRobot.status|=STATUS_AVOID_JUDGE;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
-			backtime=0;
+			avoidtime=0;
 		}
 	}
-	if(backtime>250)
+	if(avoidtime>250)
 	{
 	  gRobot.status&=~STATUS_AVOID_HANDLE;
 		gRobot.status|=STATUS_AVOID_JUDGE;
-		backtime=0;
+		avoidtime=0;
 	}
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

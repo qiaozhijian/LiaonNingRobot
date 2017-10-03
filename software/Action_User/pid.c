@@ -159,7 +159,7 @@ void Line(float aimX,float aimY,float aimAngle,int line1,int sign,int lineChange
 	
 		lineChangeSymbol=lineChangeSymbol-1;
 	
-	  Vchange(0);										              //脉冲转换为速度
+	  Vchange(lineChangeSymbol);										              //脉冲转换为速度
 	
 	switch(line1)
 	{

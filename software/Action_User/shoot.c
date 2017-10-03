@@ -50,8 +50,8 @@ else if (ballNum==1)                     //假如球是黑球
 		y0 = 2335.35;
 	}
 		//计算航向角转轴的坐标
-		x = x - 97.2f*sinf(angle);
-		y = y + 97.2f*cosf(angle);
+		x = x - 92.2f*sinf(angle);
+		y = y + 92.2f*cosf(angle);
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
@@ -94,7 +94,6 @@ static int ballColor=1;
 	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
 	static int YesBallCount=0;									//有球时推的时间
-	//CollectBallVelCtr(0);
 	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
@@ -122,7 +121,7 @@ static int ballColor=1;
 //	}
 //	else
 //	{
-	  ShootCtr(launcher.speed);
+	  ShootCtr(launcher.speed+2.0f);
 //	}
 
 /**********************************测试版***************************/
@@ -130,16 +129,16 @@ static int ballColor=1;
 		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
-		}else if(YesBallCount>63&&YesBallCount<200)
-		   {
+		}else if(YesBallCount>63&&YesBallCount<130)
+		{
 			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>50)
 			{
 				gRobot.shoot_t.pReal.error++;
 			}
-		}else if(YesBallCount<=203&&YesBallCount>=200)
+		}else if(YesBallCount<=133&&YesBallCount>=130)
 		{	
 			PushBallReset();
-		}else if(YesBallCount<=400&&YesBallCount>263)
+		}else if(YesBallCount<=260&&YesBallCount>133)
 		{
 			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>50)
 			{
@@ -147,7 +146,7 @@ static int ballColor=1;
 			}
 		}
 		YesBallCount++;
-		YesBallCount%=400;
+		YesBallCount%=300;
 	
 	if(ballColor==0)
 	{
@@ -164,6 +163,7 @@ static int ballColor=1;
 	} 
 	if(gRobot.shoot_t.pReal.error>30)
 	{
+		gRobot.shoot_t.pReal.error=0;
 	/*应急状态*/
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	}

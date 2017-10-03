@@ -109,10 +109,6 @@ void Vchange(int lineChangeSymbol)
   {
     gRobot.walk_t.base=vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
   }
-	if(gRobot.avoid_t.passflag==1)
-	{
-		 gRobot.walk_t.base=-gRobot.walk_t.base;
-	}
 }
 /****************************************************************************
 * 名    称：turnTimeLead(int lineChangeSymbol)
@@ -463,7 +459,6 @@ void Run(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int tempcirclerem=0;
 void ClockWise(void)
 {
 	circleChange();
@@ -482,6 +477,10 @@ void ClockWise(void)
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
 		Square2();
+	}
+	if(gRobot.walk_t.circleChange.turnTime<gRobot.walk_t.circleChange.turnTimerem)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-1;
 	}
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
@@ -537,24 +536,24 @@ void AntiClockWise(void)
 * 调用方法：无 
 ****************************************************************************/
 void ChangeBoard(void){
-	if(gRobot.walk_t.circleChange.direction==0) //ni时针
+	if(gRobot.walk_t.circleChange.direction==0) //顺时针
 	{
 	if(gRobot.walk_t.circleChange.circleNum==0){
-		gRobot.walk_t.board[0][0]=100;
+		gRobot.walk_t.board[0][0]=-100;
 		gRobot.walk_t.board[0][1]=2900;
-		gRobot.walk_t.board[0][2]=-100;
-		gRobot.walk_t.board[0][3]=1200;
+		gRobot.walk_t.board[0][2]=100;
+		gRobot.walk_t.board[0][3]=1900;
 	}else if(gRobot.walk_t.circleChange.circleNum!=0){
-		gRobot.walk_t.board[1][0]=1110;
+		gRobot.walk_t.board[1][0]=-1110;
 		gRobot.walk_t.board[1][1]=3550;
-		gRobot.walk_t.board[1][2]=-1110;
+		gRobot.walk_t.board[1][2]=1110;
 		gRobot.walk_t.board[1][3]=1250;
 	}
   }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
 		if(gRobot.walk_t.circleChange.circleNum==0){
 		gRobot.walk_t.board[0][0]=100;
-		gRobot.walk_t.board[0][1]=2700;
+		gRobot.walk_t.board[0][1]=2900;
 		gRobot.walk_t.board[0][2]=-100;
 		gRobot.walk_t.board[0][3]=1900;
 	}else if(gRobot.walk_t.circleChange.circleNum!=0){
@@ -578,14 +577,13 @@ int Square(void)
 {
 	//改变区域的值
 	ChangeBoard();
-	
-	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][1]){
 		gRobot.walk_t.circleChange.turnTime=0;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
 		gRobot.walk_t.circleChange.turnTime=1;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
 		gRobot.walk_t.circleChange.turnTime=2;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
 		gRobot.walk_t.circleChange.turnTime=3;
 	}else{
 		//角度闭环
@@ -692,11 +690,11 @@ int Circle(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 4:
-    ShunShiZhenCircleBiHuan(1800,1100,0,2400);
+    ShunShiZhenCircleBiHuan(2200,900,0,2400);
     break;
     
   case 5:
-    ShunShiZhenCircleBiHuan(1800,1600.f,0,2400);
+    ShunShiZhenCircleBiHuan(2400,1400.f,0,2400);
     break;
     
   default:
@@ -717,11 +715,11 @@ int AntiCircle(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {		
   case 4:
-    NiShiZhenCircleBiHuan(2100,900,0,2400);
+    NiShiZhenCircleBiHuan(2200,900,0,2400);
     break;
     
   case 5:
-    NiShiZhenCircleBiHuan(2200,1400.f,0,2400);
+    NiShiZhenCircleBiHuan(2400,1400.f,0,2400);
     break;
     
   default:
@@ -748,7 +746,7 @@ int Square2(void)
 		gRobot.walk_t.circleChange.turnTime=7;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
 		gRobot.walk_t.circleChange.turnTime=8;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1 ][3]){
 		gRobot.walk_t.circleChange.turnTime=9;
 	}else{
 		//角度闭环
@@ -766,19 +764,19 @@ int Square2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(-600.f,3400.f,0,0,1,4);//x
+    Line(-2100.f,3400.f,0,0,1,4);//x
     break;
     
   case 7:
-    Line(600.f,3400.f,-90,1,1,4);//y
+    Line(600.f,4500.f,-90,1,1,4);//y
     break;
     
   case 8:
-    Line(600.f,1400,180,0,-1,4);//x
+    Line(600.f,2100,180,0,-1,4);//x
     break;
     
   case 9:
-    Line(-600.f,1400,90,1,-1,4);//y
+    Line(-600.f,300,90,1,-1,4);//y
     break;
     
   default:
@@ -821,19 +819,19 @@ int AntiSquare2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(2010.f,3400.f,0,0,1,1);
+    Line(2100.f,3400.f,0,0,1,1);
     break;
     
   case 7:
-    Line(-600.f,4450.f,90,1,1,1);
+    Line(-600.f,4500.f,90,1,1,1);
     break;
     
   case 8:
-    Line(-2010.f,1400,180,0,-1,1);
+    Line(-2100.f,1400,180,0,-1,1);
     break;
     
   case 9:
-    Line(600.f,350,-90,1,-1,1);
+    Line(600.f,300,-90,1,-1,1);
     break;
   default:
     break;
