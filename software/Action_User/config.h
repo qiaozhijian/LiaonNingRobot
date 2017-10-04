@@ -95,6 +95,7 @@
 #define ABNOMAL_BLOCK_MIDDLE    			    3
 #define ABNOMAL_BLOCK_IN_CORNER                 4
 #define ABNOMAL_BLOCK_OUT_CORNER 				5
+//#define ABNOMAL_BLOCK_OUT_CORNER        6
 /*射球异常*/
 #define ABNOMAL_LEFT_CAR_COMING   			8
 #define ABNOMAL_RIGHT_CAR_COMING   			9

@@ -88,6 +88,7 @@ void NiShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//逆时针旋转
 				aimAngle=-(90-kAngle);
 			}
 		}
+		gRobot.walk_t.pid.aimAngle=aimAngle;
 		angleError=angleErrorCount(aimAngle,angle);
 		V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 		V2=((R-(WHEEL_TREAD/2))/R)*V;
@@ -170,6 +171,7 @@ void ShunShiZhenCircleBiHuan(float V,float R,float X0,float Y0)//顺时针旋转
 					aimAngle=90.f+kAngle;
 				}
 			}
+			gRobot.walk_t.pid.aimAngle=aimAngle;
 			angleError=angleErrorCount(aimAngle,angle);
 			V1=((R+(WHEEL_TREAD/2))/R)*V;	//可以得到外轮的速度
 			V2=((R-(WHEEL_TREAD/2))/R)*V;

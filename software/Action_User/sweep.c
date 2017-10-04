@@ -482,6 +482,7 @@ void ClockWise(void)
 	{
 		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-1;
 	}
+	gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
@@ -520,6 +521,7 @@ void AntiClockWise(void)
 	{
 		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-1;
 	}
+	gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
@@ -768,15 +770,15 @@ int Square2(void)
     break;
     
   case 7:
-    Line(600.f,4500.f,-90,1,1,4);//y
+    Line(600.f,3400.f,-90,1,1,4);//y
     break;
     
   case 8:
-    Line(600.f,2100,180,0,-1,4);//x
+    Line(600.f,1400,180,0,-1,4);//x
     break;
     
   case 9:
-    Line(-600.f,300,90,1,-1,4);//y
+    Line(-600.f,1400,90,1,-1,4);//y
     break;
     
   default:

@@ -24,6 +24,7 @@ int main(void)
     {	
 			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
 				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
+				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
 //				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
 //	  		USART_OUT(UART5,"%d\t",(int)getRightAdc());
 				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
@@ -38,7 +39,7 @@ int main(void)
 				TestMode();
 			 #else
 			MotorRead();  
-			if(gRobot.walk_t.right.real>6000||Startflag==1)
+			if(gRobot.avoid_t.signal>6000||Startflag==1)
 			{
 				 Startflag=0;
 				 gRobot.status|=STATUS_AVOID_JUDGE;
@@ -53,7 +54,7 @@ int main(void)
 				AbnormityHandle();
 			}else if (gRobot.status & STATUS_SWEEP)
 			{
-					Run();
+				Run();
 			}
 			else if (gRobot.status & STATUS_FIX)
 			{

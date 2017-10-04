@@ -43,7 +43,6 @@ if (ballNum == 100)                      //加入球是白球
 		x0 = -162.5;
 		y0 = 2335.35;
 	}
-
 else if (ballNum==1)                     //假如球是黑球
 	{
 		x0 = 162.5;
@@ -55,16 +54,24 @@ else if (ballNum==1)                     //假如球是黑球
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
-
-		//v = 157.f / s / __sqrtf(1.234f*s - h);
-		//v=1.59f*s*(__sqrtf(g*1000/(1.234f*s-h)));
-		
-	  //launcher.speed=0.01402f*v-5.457f+2.0f;
-		launcher.speed=0.01442f*v-9.314f;
-		//launcher.rev=(0.01434f*v-6.086f);
-		//launcher.rev=launcher.rev+zhuan*zhuansu;
-			
-		//launcher.rev=v/(66*PI);
+		launcher.speed=0.01442f*v-9.314f+4.0f;
+//	//彻底卡死
+//	 if(gRobot.abnormal==)
+//	 {
+//		 //白球
+//		 if (ballNum == 100)
+//		 {
+//				x0=0;
+//				y0=2850;
+//		 }
+//		else if(ballNum==1)
+//			{
+//				x0=0;
+//				y0=1950;
+//			}
+//		 s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
+//	   launcher.speed=0.01356f*s+31.01f;
+//	 }
 		dx = x0 - x;
 		dy = y0 - y;
 		alpha = atan2(dy, dx) * 180 / PI ;
@@ -121,7 +128,7 @@ static int ballColor=1;
 //	}
 //	else
 //	{
-	  ShootCtr(launcher.speed+2.0f);
+	  ShootCtr(launcher.speed);
 //	}
 
 /**********************************测试版***************************/

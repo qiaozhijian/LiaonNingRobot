@@ -7,8 +7,7 @@ void CheckOutline(void);  			 //避障检测
 void BackCar(void);
 void BackCarIn(float angle);     //内环倒车
 void BackCarOut(float angle);    //外环倒车
-void CornerIn(float angle);
-void CornerOut(float angle);
+void CornerIn(void);
 int CheckEnemy(void);            //fixtask前检测是否靠墙
 int Turn180(void);
 void SoundOut(void);//试探对方车是否能动
@@ -18,7 +17,7 @@ int CheckIntersect(void);//检查是否与边相交
 void Escape(void);
 void EscapeCar(void);
 int JudgeStick(void);
-
+void LineBack(void);
 
 void SweepJudge(void);
 void FixJudge(void);

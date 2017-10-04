@@ -598,7 +598,7 @@ void CWalkJudge(void)
 	if(JudgeStick()==1)
 	{
 		//判断
-		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
+		              //判断卡死的区域;
 		gRobot.status&=~STATUS_AVOID_JUDGE;
 		gRobot.status|=STATUS_AVOID_HANDLE;
 	}
@@ -665,59 +665,6 @@ int JudgeStick(void)
   }
 	return 0;
 }
-/****************************************************************************
-* 名    称：void Escape(void)
-* 功    能：逃逸执行函数
-* 入口参数：无
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-//void Escape(void)
-//{
-//  USART_OUT(UART5,"stick:%d\r\n",(int)stickStatus);
-//  
-//	switch(stickStatus)
-//  {
-//		case 1://内圈撞墙
-//			
-//    break;
-//    
-//		case 2://外圈撞墙
-//			BackCar(gRobot.walk_t.pos.angle);
-//    break;
-//    
-//  case 3://和车撞
-//    //SoundOut();
-//    USART_OUT(UART5,"case3");
-//    if(statusRemember==25)
-//    {
-//      gRobot.avoid_t.posRem.angle=gRobot.walk_t.pos.angle;
-//      gRobot.avoid_t.passflag=1;                    //检测是否执行过倒车
-//      gRobot.avoid_t.pid.aimAngle=gRobot.walk_t.pos.angle+180;
-//      
-//      gRobot.status=statusRemember;              //切换到进入避障前的大状态
-//      gRobot.walk_t.circleChange.turnTimerem=gRobot.walk_t.circleChange.turnTime;
-//    }else if(statusRemember==6)
-//    {
-//      BackCar(gRobot.walk_t.pos.angle);
-//    }
-//    break;
-//    
-//  case 4://和内圈角撞
-//    USART_OUT(UART5,"case4");
-//    BackCar(gRobot.walk_t.pos.angle);
-//    break;
-//    
-//  case 5://和外圈角撞
-//    USART_OUT(UART5,"case5");
-//    BackCar(gRobot.walk_t.pos.angle);
-//    break;
-//    
-//  default:
-//    break;
-//  }
-//}
 /****************************************************************************
 * 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
 * 功    能：检查是否撞车
@@ -1133,55 +1080,74 @@ void Transition(void) 											//外环倒车程序
 	
 }
 }
-/****************************************************************************
-* 名    称：void AbnormityHandle()
-* 功    能：异常处理
-* 入口参数：无
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-void AbnormityHandle(void)
+void CornerIn(void) //内环倒车程序
 {
-	if (gRobot.status & STATUS_SWEEP)
-  {
-			SweepHandle();
-  }
-  else if (gRobot.status & STATUS_FIX)
-  {
-			//\FixHandle();
-  }
-  else if (gRobot.status & STATUS_SHOOTER)
-  {
-		ShootHandle();
-  }	
-  else if(gRobot.status & STATUS_CAMERA_WALK)
-  {
-    WalkHandle();
-	}    	
+	static float aimAngle = 0;   //目标角度
+	static float angleError = 0; //目标角度与当前角度的偏差
+	static int i = 0;																  //目标角度变换标志位
+	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static int avoidtime=0;
+	if (i == 0)																		    //使目标角度偏向右边45
+	{
+		aimAngle = gRobot.walk_t.pos.angle - 45; //让车头目标角度右偏45度
+		i = 1;
+	}
+	angleError = angleErrorCount(aimAngle,gRobot.walk_t.pos.angle);
+	j++;
+	if (j < 150)
+	{
+		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		VelCrl(CAN2, 2,  10000);
+	}else if (j >=150)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			i = 0;
+			j = 0;//清空标志位
+			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			avoidtime=0;
+		} 
+	}
+	if(avoidtime>250)
+	{
+		gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		avoidtime=0;
+	}
 }
+
 void WalkHandle(void)
 {
 	switch(gRobot.abnormal)
 	{
 		case ABNOMAL_BLOCK_IN:
-			SquareTransition();
-			break;
+			//SquareTransition();
+			CornerIn();
+		break;
+		
 		case ABNOMAL_BLOCK_OUT :
-			Square2Transition();
-			break;
+			//Square2Transition();
+		  LineBack();
+		break;
+		
 		case ABNOMAL_BLOCK_MIDDLE :
 			CircleTransition();
 		 break;
+		
 		case ABNOMAL_BLOCK_IN_CORNER:
-			CornerIn(gRobot.walk_t.pos.angle);
-			break;
+			CornerIn();
+		break;
+		
 		case ABNOMAL_BLOCK_OUT_CORNER:
-			CornerOut(gRobot.walk_t.pos.angle);
-			break;
+			LineBack();
+		break;
+		
 		default:
 			USART_OUT(UART5,"SweepHandleErr");
-			break;
+		break;
 	}
 }
 /****************************************************************************
@@ -1197,23 +1163,30 @@ void SweepHandle(void)
 	switch(gRobot.abnormal)
 	{
 		case ABNOMAL_BLOCK_IN:
-			SquareTransition();
-			break;
+			//SquareTransition();
+			CornerIn();
+		break;
+		
 		case ABNOMAL_BLOCK_OUT :
-			Square2Transition();
-			break;
+			//Square2Transition();
+		  LineBack();
+		break;
+		
 		case ABNOMAL_BLOCK_MIDDLE :
 			CircleTransition();
 		 break;
+		
 		case ABNOMAL_BLOCK_IN_CORNER:
-			CornerIn(gRobot.walk_t.pos.angle);
-			break;
+			CornerIn();
+		break;
+		
 		case ABNOMAL_BLOCK_OUT_CORNER:
-			CornerOut(gRobot.walk_t.pos.angle);
-			break;
+			LineBack();
+		break;
+		
 		default:
 			USART_OUT(UART5,"SweepHandleErr");
-			break;
+		break;
 	}
 		
 }
@@ -1248,13 +1221,6 @@ void SquareTransition(void)
 ****************************************************************************/
 void CircleTransition(void)
 {
-//	if(gRobot.walk_t.circleChange.direction==0)     //顺时针
-//	{
-//		
-//	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
-//	{
-//		
-//	}
 	BackCar();
 }
 /****************************************************************************
@@ -1321,45 +1287,6 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 		}
 
 }
-void CornerIn(float angle) //内环倒车程序
-{
-	static float aimAngle = 0;   //目标角度
-	static float angleError = 0; //目标角度与当前角度的偏差
-	static int i = 0;																  //目标角度变换标志位
-	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
-	static int avoidtime=0;
-	if (i == 0)																		    //使目标角度偏向右边45
-	{
-		aimAngle = angle - 45; //让车头目标角度右偏45度
-		i = 1;
-	}
-	angleError = angleErrorCount(aimAngle,angle);
-	j++;
-	if (j < 150)
-	{
-		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
-		VelCrl(CAN2, 2,  10000);
-	}else if (j >=150)
-	{
-		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
-		VelCrl(CAN2, 2, AnglePidControl(angleError));
-		if (fabs(angleError) < 5)
-		{
-			i = 0;
-			j = 0;//清空标志位
-			gRobot.status|=STATUS_AVOID_JUDGE;
-			gRobot.status&=~STATUS_AVOID_HANDLE;
-			avoidtime=0;
-		} 
-	}
-	if(avoidtime>250)
-	{
-		gRobot.status&=~STATUS_AVOID_HANDLE;
-		gRobot.status|=STATUS_AVOID_JUDGE;
-		avoidtime=0;
-	}
-//	pidZongShuchu = AnglePidControl(angleError);
-}
  /****************************************************************************
 * 名    称：void BackCarOut(float angle) 
 * 功    能：外环逃逸程序后退1.5s，内转45度
@@ -1368,19 +1295,12 @@ void CornerIn(float angle) //内环倒车程序
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-void CornerOut(float angle) //外环倒车程序
+void LineBack(void)//边界倒车程序
 {
-	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
-	static int i = 0;																  //目标角度变换标志位
 	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
 	static int avoidtime=0;
-	if (i == 0)																		  //使目标角度偏向右边45
-	{
-		aimAngle = angle + 90; //让车头目标角度右偏90度
-		i = 1;
-	}
-	angleError = angleErrorCount(aimAngle,angle);
+	angleError = angleErrorCount(gRobot.walk_t.pid.aimAngle,gRobot.walk_t.pos.angle);
 	j++;
 	if (j < 150)
 	{
@@ -1392,7 +1312,6 @@ void CornerOut(float angle) //外环倒车程序
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
 		if (fabs(angleError) < 5)
 		{
-			i = 0;
 			j = 0;//清空标志位
 			gRobot.status|=STATUS_AVOID_JUDGE;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
@@ -1405,5 +1324,32 @@ void CornerOut(float angle) //外环倒车程序
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		avoidtime=0;
 	}
+}
+/****************************************************************************
+* 名    称：void AbnormityHandle()
+* 功    能：异常处理
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void AbnormityHandle(void)
+{
+	if (gRobot.status & STATUS_SWEEP)
+  {
+			SweepHandle();
+  }
+  else if (gRobot.status & STATUS_FIX)
+  {
+			//\FixHandle();
+  }
+  else if (gRobot.status & STATUS_SHOOTER)
+  {
+		ShootHandle();
+  }	
+  else if(gRobot.status & STATUS_CAMERA_WALK)
+  {
+    WalkHandle();
+	}    	
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/

@@ -35,10 +35,6 @@ void CameraBaseWalk3(void)										//摄像头基础走形
 	y = gRobot.walk_t.pos.y;										//矫正过的y坐标
 	angle = gRobot.walk_t.pos.angle; 						//矫正过的角度角度
 	AreaCheck(x,y);
-	if(gRobot.walk_t.right.real>2000)
-	{
-		gRobot.avoid_t.signal=1;
-	}
   switch (gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime)
 	{
 	case 0:
@@ -353,11 +349,6 @@ void CameraBaseWalk2(void)
 	angle = gRobot.walk_t.pos.angle;
 	circleChange();
 //	turnTimeRem=gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime;
-	if(gRobot.walk_t.right.real>6107)
-	{
-		gRobot.avoid_t.signal=1;
-	}
-
 	circleChangeSymbol = CheckArea2(x,y,circleChangeSymbol);//通过走的区域判断是否走完
 	
 	if(x<250+circleChangeSymbol*500&&y<1700-circleChangeSymbol*260)
