@@ -117,10 +117,7 @@ void TravelSwitchTest(void)
 {
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
 	{
-		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-		Delay_ms(800);
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
-		Delay_ms(800);
 	}else if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==0)
 	{
 		GPIO_ResetBits(GPIOE,GPIO_Pin_7);

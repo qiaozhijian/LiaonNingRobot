@@ -15,6 +15,8 @@ Robot_t gRobot={0};
 //#define TEST 
 int main(void)
 {
+	int left=0;
+	int right=0;
 	robotInit();
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
   while(LaserStart());
@@ -22,6 +24,9 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {	
+			left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
+			right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
+			
 			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
 				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
 				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
@@ -33,7 +38,11 @@ int main(void)
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
 		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
+			  USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrant);
+				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrantlast);
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
+			  USART_OUT(UART5,"l=%d\t",(int)left);
+				USART_OUT(UART5,"r=%d\t",(int)right);
 				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum);
 			 #ifdef TEST 
 				TestMode();

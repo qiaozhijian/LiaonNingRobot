@@ -37,6 +37,7 @@ typedef struct{
 	int linenum;
 	//记录圈数
 	int circleNum;
+	int quadrantlast;
 	//车所再象限
 	int quadrant;
 	//车的顺逆方向

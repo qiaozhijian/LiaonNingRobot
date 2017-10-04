@@ -21,7 +21,8 @@ void LineBack(void);
 
 void SweepJudge(void);
 void FixJudge(void);
-void ShootJudge(float leftLaser,float rightLaser);//投球检查对方车辆是否靠近
+void ShootJudge(void);//投球检查对方车辆是否靠近
+int LaserJudge(void);
 void CWalkJudge(void);
 void AbnormityJudge(void);
 void WalkHandle(void);

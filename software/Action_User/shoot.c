@@ -48,13 +48,14 @@ else if (ballNum==1)                     //假如球是黑球
 		x0 = 162.5;
 		y0 = 2335.35;
 	}
+//		USART_OUT(UART5,"%d\r\n",ballNum);
 		//计算航向角转轴的坐标
 		x = x - 92.2f*sinf(angle);
 		y = y + 92.2f*cosf(angle);
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
-		launcher.speed=0.01442f*v-9.314f+4.0f;
+		launcher.speed=0.01364f*v-1.333f;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -136,24 +137,26 @@ static int ballColor=1;
 		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
-		}else if(YesBallCount>63&&YesBallCount<130)
+			USART_OUT(UART5,"tuis=%d\t\r\n",YesBallCount);
+		}else if(YesBallCount>100&&YesBallCount<130)
 		{
-			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>50)
+			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>200)
 			{
 				gRobot.shoot_t.pReal.error++;
 			}
-		}else if(YesBallCount<=133&&YesBallCount>=130)
+		}else if(YesBallCount<=156&&YesBallCount>=133		)
 		{	
 			PushBallReset();
-		}else if(YesBallCount<=260&&YesBallCount>133)
+			USART_OUT(UART5,"huis=%d\t\r\n");
+		}else if(YesBallCount<=260&&YesBallCount>200)
 		{
-			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>50)
+			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>200)
 			{
 				gRobot.shoot_t.pReal.error++;
 			}
 		}
 		YesBallCount++;
-		YesBallCount%=300;
+		YesBallCount%=260;
 	
 	if(ballColor==0)
 	{
@@ -179,14 +182,15 @@ static int ballColor=1;
 	{
 		CollectBallVelCtr(60);
 		Delay_ms(1000);
-		gRobot.status=STATUS_CAMERA_AND_WALK;
+		gRobot.status|=STATUS_CAMERA_AND_WALK;
+		gRobot.status|=STATUS_AVOID_JUDGE;
 		noBall=0;
 		YesBallCount=0;
 		noBallCount= 0;
 		gRobot.shoot_t.startSignal=0;
 	}
 	
-//	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
+//	USART_OUT(UART5,"nn%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
