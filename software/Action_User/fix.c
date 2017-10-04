@@ -84,11 +84,11 @@ float getYpos(void)
 ****************************************************************************/
 float getLeftAdc()
 {
-	return 0.9415f*Get_Adc_Average(ADC_Channel_15, 200)+415.6f;
+	return 0.9415f*Get_Adc_Average(ADC_Channel_15, 20)+415.6f;
 }
 float getRightAdc()
 {
-	return 0.9386f*Get_Adc_Average(ADC_Channel_14, 200)+423.8f;
+	return 0.9386f*Get_Adc_Average(ADC_Channel_14, 20)+423.8f;
 }
 
 /****************************************************************************

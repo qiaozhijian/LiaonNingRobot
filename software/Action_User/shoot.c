@@ -137,18 +137,16 @@ static int ballColor=1;
 		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
-			USART_OUT(UART5,"tuis=%d\t\r\n",YesBallCount);
-		}else if(YesBallCount>100&&YesBallCount<130)
+		}else if(YesBallCount>100&&YesBallCount<160)
 		{
 			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>200)
 			{
 				gRobot.shoot_t.pReal.error++;
 			}
-		}else if(YesBallCount<=156&&YesBallCount>=133		)
+		}else if(YesBallCount<=163&&YesBallCount>=160)
 		{	
 			PushBallReset();
-			USART_OUT(UART5,"huis=%d\t\r\n");
-		}else if(YesBallCount<=260&&YesBallCount>200)
+		}else if(YesBallCount<=320&&YesBallCount>163)
 		{
 			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>200)
 			{
@@ -156,7 +154,7 @@ static int ballColor=1;
 			}
 		}
 		YesBallCount++;
-		YesBallCount%=260;
+		YesBallCount%=320;
 	
 	if(ballColor==0)
 	{
@@ -175,13 +173,12 @@ static int ballColor=1;
 	{
 		gRobot.shoot_t.pReal.error=0;
 	/*应急状态*/
-		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	}
 	//脱离状态 
 	if(noBall>4)
 	{
-		CollectBallVelCtr(60);
-		Delay_ms(1000);
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
+		gRobot.status&=~STATUS_SHOOTER;
 		gRobot.status|=STATUS_CAMERA_AND_WALK;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		noBall=0;
@@ -190,7 +187,7 @@ static int ballColor=1;
 		gRobot.shoot_t.startSignal=0;
 	}
 	
-//	USART_OUT(UART5,"nn%d\t",noBall);
+	USART_OUT(UART5,"nn%d\r\n",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 

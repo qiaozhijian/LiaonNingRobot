@@ -420,78 +420,6 @@ int CheckEnemy(void)
   }
   return YES;
 }
-/****************************************************************************
-* 名    称：Turn180(void)	
-* 功    能：逆时针转角函数
-* 入口参数：无
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-* 注    意: 
-****************************************************************************/
-int Turn180(void)
-{
-  //防止旋转过程中turnTime加
-  gRobot.walk_t.circleChange.linenum=0;
-  if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) >100)
-  {
-    if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==0) 
-    {	
-      VelCrl(CAN2, 1, -1000);     //顺时针
-      VelCrl(CAN2, 2, 10000);
-    }else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==0)
-    {
-      VelCrl(CAN2, 1,-10000);
-      VelCrl(CAN2, 2,1000);
-    }else if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==1)
-    {	
-      VelCrl(CAN2, 1, -10000);    //逆时针
-      VelCrl(CAN2, 2, 1000);
-    }else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==1)
-    {
-      VelCrl(CAN2, 1,-1000);
-      VelCrl(CAN2, 2,10000);
-    }
-  }else if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle))<100)
-  {
-    if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==0) 
-    {	
-      VelCrl(CAN2, 1, 10000);     //顺时针
-      VelCrl(CAN2, 2, 0);
-    }else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==0)
-    {
-      VelCrl(CAN2, 1,0);
-      VelCrl(CAN2, 2,-10000);
-    }else if(gRobot.walk_t.circleChange.turnTime<=4 && gRobot.walk_t.circleChange.direction==1)
-    {		
-      VelCrl(CAN2, 1, 0);      //逆时针
-      VelCrl(CAN2, 2, -10000);
-    }else if(gRobot.walk_t.circleChange.turnTime>4 && gRobot.walk_t.circleChange.direction==1)
-    {
-      VelCrl(CAN2, 1,10000);
-      VelCrl(CAN2, 2,0);
-    }
-  }
-  //判断是否满足条件
-  //	//时间条件
-  //	gRobot.avoid_t.pid.pidtime++;
-  //	if(gRobot.avoid_t.pid.pidtime>400)
-  //	{
-  //		gRobot.avoid_t.pid.pidtime=0;
-  //		return 1;
-  //	}
-  //角度条件
-  if(fabs(angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle)) <5)
-  {
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
-}
-
-
 int JudgeStick(void);
 void SweepJudge(void)
 {
@@ -588,14 +516,17 @@ void ShootJudge(void)
 		gRobot.abnormal=9;
 		gRobot.status|=STATUS_AVOID_HANDLE;
 		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}else if(LaserJudge()==0)
+	}
+	/*else if(LaserJudge()==0)
 	{
 		gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
 		if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
 		{
 			gRobot.abnormal=10;
+			gRobot.status|=STATUS_AVOID_HANDLE;
+			gRobot.status&=~STATUS_AVOID_JUDGE;
 		}
-	}
+	}*/
 }
 
 

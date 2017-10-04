@@ -88,7 +88,7 @@ void AgainstWall(float aimAngle,float angle,float spacingError)
 	{
 		VelCrl(CAN2, 1, -12000);
 		VelCrl(CAN2, 2,  4000);
-	}else if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==1)
+	}else if(TRAVEL_SWITCH_LEFT==0 && TRAVEL_SWITCH_RIGHT==1)
 	{
 		VelCrl(CAN2, 1, -4000);
 		VelCrl(CAN2, 2,  12000);
@@ -731,11 +731,11 @@ int AntiCircle(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {		
   case 4:
-    NiShiZhenCircleBiHuan(2200,900,0,2400);
+    NiShiZhenCircleBiHuan(2200,800,0,2400);
     break;
     
   case 5:
-    NiShiZhenCircleBiHuan(2400,1400.f,0,2400);
+    NiShiZhenCircleBiHuan(2400,1200.f,0,2400);
     break;
     
   default:
