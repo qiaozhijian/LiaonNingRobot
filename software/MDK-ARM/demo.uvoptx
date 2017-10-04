@@ -82,47 +82,47 @@
         <Book>
           <Number>0</Number>
           <Title>MCBSTM32F400 Quick Start Guide (MCBSTM32F400)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\MCBSTM32F400_QSG.pdf</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\MCBSTM32F400_QSG.pdf</Path>
         </Book>
         <Book>
           <Number>1</Number>
           <Title>User Manual (MCBSTM32F400)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f200.chm</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f200.chm</Path>
         </Book>
         <Book>
           <Number>2</Number>
           <Title>Schematics (MCBSTM32F400)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f400-schematics.pdf</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\Keil\MCBSTM32F400\Documentation\mcbstm32f400-schematics.pdf</Path>
         </Book>
         <Book>
           <Number>3</Number>
           <Title>STM32F4-Discovery Quick Start Guide (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\32F4-DISCOVERY_QSG.pdf</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\32F4-DISCOVERY_QSG.pdf</Path>
         </Book>
         <Book>
           <Number>4</Number>
           <Title>Getting Started (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00037368.pdf</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00037368.pdf</Path>
         </Book>
         <Book>
           <Number>5</Number>
           <Title>User Manual (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00039084.pdf</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\DM00039084.pdf</Path>
         </Book>
         <Book>
           <Number>6</Number>
           <Title>Bill of Materials (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_bom.zip</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_bom.zip</Path>
         </Book>
         <Book>
           <Number>7</Number>
           <Title>Gerber Files (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_gerber.zip</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_gerber.zip</Path>
         </Book>
         <Book>
           <Number>8</Number>
           <Title>Schematics (STM32F4-Discovery)</Title>
-          <Path>D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_sch.zip</Path>
+          <Path>E:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\MDK\Boards\ST\STM32F4-Discovery\Documentation\stm32f4discovery_sch.zip</Path>
         </Book>
         <Book>
           <Number>9</Number>
@@ -189,7 +189,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>/</Name>
+          <Name>???Ow??</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -202,7 +202,56 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_1024 -FS08000000 -FL0100000 -FP0($$Device:STM32F405RGTx$CMSIS\Flash\STM32F4xx_1024.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>600</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134230240</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Action_User\avoid.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\demo\../Action_User/avoid.c\600</Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>laserLeft</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>laserRight</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>leftChangeAver</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>count,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gRobot.abnormal,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gRobot.abnormal</ItemText>
+        </Ww>
+      </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>

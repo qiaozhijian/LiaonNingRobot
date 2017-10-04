@@ -503,7 +503,7 @@ void AbnormityJudge(void)
   }
   else if (gRobot.status & STATUS_SHOOTER)
   {
-      ShootJudge(getLeftAdc(),getRightAdc());
+      ShootJudge();
   }	
   else if(gRobot.status & STATUS_CAMERA_WALK)
   {
@@ -524,74 +524,115 @@ void SweepJudge(void)
 //		USART_OUT(UART5,"gRobots%d\t\r\n",(int)gRobot.status);
 	}
 }
-void ShootJudge(float leftLaser,float rightLaser)//多加躲避敌方//投球检查对方车辆是否靠近
+int LaserJudge(void)
+{
+	static int count=0;//计算激光的变换时间来判断是否有车过来
+  float laserLeft=getLeftAdc();
+	float laserRight=getRightAdc();
+  static float lastlaserRight=0;//50ms前的右激光的值
+  static float lastlaserLeft=0;//50ms前左激光的值
+  static int changeErrorRight=0;//右激光疯狂变换
+	static int changeErrorLeft=0;//左激光疯狂变换
+	static float leftChangeAver=0;//左激光变换的平均值
+	static float rightChangeAver=0;//右激光变换的平均值
+  //记录从哪个状态进来的
+  count++;
+  if(count>=5)
+	{
+    count=0; 
+		//计算激光变换速度告诉我旁边是否有车过来
+    leftChangeAver=__sqrtf((laserLeft-lastlaserLeft)*(laserLeft-lastlaserLeft));
+		rightChangeAver=__sqrtf((laserRight-lastlaserRight)*(laserRight-lastlaserRight));
+		
+    if(TwoNumCompare(40,rightChangeAver))
+    {
+      changeErrorRight++;
+    }
+    else
+    {
+      changeErrorRight=0;
+    }
+		
+		if(laserLeft<1350&&TwoNumCompare(40,leftChangeAver))
+    {
+      changeErrorLeft++;
+    }
+    else
+    {
+      changeErrorLeft=0;
+    }
+		
+		
+    if(laserRight<1350&&changeErrorRight>=2)//右边有车来
+    {
+      changeErrorRight=0;
+			return 1;
+		}
+		if(changeErrorLeft>=2)//左边有车来
+		{
+			changeErrorLeft=0;
+			return 2;
+		}
+			//记住当前的激光值
+    lastlaserLeft=laserLeft;
+		lastlaserRight=laserRight;
+		USART_OUT(UART5,"Left=%d\t",(int)laserLeft);
+		USART_OUT(UART5,"Right=%d\t",(int)laserRight);
+		USART_OUT(UART5,"lastRight=%d\t",(int)lastlaserRight);
+		USART_OUT(UART5,"lastLeft%d\t",(int)lastlaserLeft);
+		USART_OUT(UART5,"ErrorLeft=%d\t",(int)changeErrorLeft);
+		USART_OUT(UART5,"ErrorRight=%d\t",(int)changeErrorRight);	
+		USART_OUT(UART5,"righteAver=%d\t",(int)rightChangeAver);	
+		USART_OUT(UART5,"leftAver=%d\t\r\n",(int)leftChangeAver);	
+  }
+	return 0;
+}
+void ShootJudge(void)
 {
 	static float xShoot=0,yShoot=0;
-	//用来记住左边车是否有车来的计时
-	static int crazyCarLeft=0;
-	static int crazyCarRight=0;
-	//用来记住投球时两边激光的距离
-	static int leftRem=0;
-	static int rightRem=0;
 	if(gRobot.shoot_t.startSignal==0)
 	{
-		//记住点
 		xShoot=gRobot.walk_t.pos.x;
 		yShoot=gRobot.walk_t.pos.y;
-		//记住激光
-		leftRem=leftLaser;
-		rightRem=rightLaser;
 	}
-	if(leftLaser+rightLaser<4750)//预判提前调节
-	{
-	  if(fabs(leftRem-leftLaser)>30)//左边有车//给定预判距离1000mm
-		{
-			crazyCarLeft++;
-		}
-		else
-		{
-			crazyCarLeft=0;
-		}
-		
-		if(fabs(rightRem-rightLaser)>30)//右边有车
-		{
-			crazyCarRight++;
-		}else 
-		{
-			crazyCarRight=0;
-		}
-	}else if(fabs(xShoot-gRobot.walk_t.pos.x)>5||fabs(yShoot-gRobot.walk_t.pos.y)>5)//受到冲击撞上发生位移
-	{
-			gRobot.abnormal=10;
-	}
-	
-	if(crazyCarLeft>5)//50ms左边证明有车
+	if(LaserJudge()==2)//发现左边有车来
 	{
 		gRobot.abnormal=8;
-		crazyCarLeft=0;
-		crazyCarRight=0;
-		leftRem=0;
-		rightRem=0;
 		gRobot.status|=STATUS_AVOID_HANDLE;
 		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}else if(crazyCarRight>5)//30ms右边证明有车
+	}else if(LaserJudge()==1)//发现右边有车来
 	{
 		gRobot.abnormal=9;
-	  crazyCarRight=0;
-		crazyCarLeft=0;
-		leftRem=0;
-		rightRem=0;
 		gRobot.status|=STATUS_AVOID_HANDLE;
 		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}	
+	}else if(LaserJudge()==0)
+	{
+		gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
+	}
+	
+	if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
+	{
+		gRobot.abnormal=10;
+	}
 }
+
 
 void FixJudge(void)
 {
-//	if()
-//	{
-//		
-//	}
+	if(LaserJudge()==2)//发现左边有车来
+	{
+		gRobot.abnormal=8;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+	}else if(LaserJudge()==1)//发现右边有车来
+	{
+		gRobot.abnormal=9;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+	}else if(LaserJudge()==0)
+	{
+		gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
+	}
 }
 void CWalkJudge(void)
 {
