@@ -113,21 +113,21 @@ void AgainstWall(float aimAngle,float angle,float spacingError)
 void Vchange(int lineChangeSymbol)
 {
   //最外环速度
-  const float vOut1 = 1300.0f; 	
+  const float vOut1 = 1000.0f; 	
   //中环速度
   const float vOut2 = 1600.f;
   //内环速度
   const float vIn = 1300;  																//内环速度
-  if (lineChangeSymbol < 1)
+  if (lineChangeSymbol==0)
   {
-    gRobot.walk_t.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
-  }else if(lineChangeSymbol >=1&&lineChangeSymbol < 3)
+    gRobot.walk_t.base=gRobot.walk_t.base=vIn / (3.14f * WHEEL_DIAMETER) * 4096.f;
+  }else if(lineChangeSymbol==1)
   {
-    gRobot.walk_t.base=vOut2 / (3.14f * WHEEL_DIAMETER) * 4096.f;
+    gRobot.walk_t.base=gRobot.walk_t.base=vOut2 / (3.14f * WHEEL_DIAMETER) * 4096.f;
   }
-  else if (lineChangeSymbol >= 3)
+  else if (lineChangeSymbol==2)
   {
-    gRobot.walk_t.base=vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
+   gRobot.walk_t.base=gRobot.walk_t.base=vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
   }
 }
 /****************************************************************************
@@ -780,19 +780,19 @@ int Square2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(-600.f,3400.f,0,0,1,1);
+    Line(-2100.f,3400.f,0,0,1,1);//x
     break;
     
   case 7:
-    Line(600.f,3400.f,-90,1,1,1);
+    Line(600.f,4500.f,-90,1,1,1);//y
     break;
     
   case 8:
-    Line(600.f,1400,180,0,-1,1);
+    Line(2100.f,1400,180,0,-1,1);//x
     break;
     
   case 9:
-    Line(-600.f,1400,90,1,-1,1);
+    Line(-600.f,300,90,1,-1,1);//y
     break;
     
   default:

@@ -340,8 +340,6 @@ void CameraBaseWalk2(void)
 	//static int M=12214;
 	static float x = 0, y = 0, angle = 0; 							
 	static int circleChangeSymbol=2;
-	gRobot.walk_t.base=12214;
-	gRobot.walk_t.base=12214;
 //	static int turnTimeRem = 0;//当turnTime改变时通过Rem来使车知道它转弯了
 //	static int circleNum=0;
 	x = gRobot.walk_t.pos.x;														//矫正过的x坐标
@@ -369,7 +367,7 @@ void CameraBaseWalk2(void)
 		//gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime=3;
 	}
 	
-
+	Vchange(circleChangeSymbol);
 	switch (gRobot.camera_t.camrBaseWalk_t.circleChange.turnTime)
 	{
 	case 0:

@@ -21,8 +21,7 @@
 #define CHANGE_TO_RADIAN    0.017453f   
 //弧度制转换为角度制系数
 #define CHANGE_TO_ANGLE     57.2958f				
-//圆周率
-#define PI                  3.1415926f
+
 
 #define NULL 0
 

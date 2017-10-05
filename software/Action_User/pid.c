@@ -164,9 +164,8 @@ void Line(float aimX,float aimY,float aimAngle,int line1,int sign,int lineChange
 	switch(line1)
 	{
 case 0:
-		gRobot.walk_t.pid.disError = x-(aimX+ sign*lineChangeSymbol*470);
-		gRobot.walk_t.pid.angleError=angleErrorCount(aimAngle,angle);;
-		gRobot.walk_t.pid.distanceStraight=sign*(aimY+ sign*lineChangeSymbol*350)-sign*y;
+		gRobot.walk_t.pid.disError = x-(aimX);
+		gRobot.walk_t.pid.angleError=angleErrorCount(aimAngle,angle);
 		
 			if(lineChangeSymbol<1)
 			{
@@ -183,11 +182,9 @@ case 0:
 			}
 				break;
 case 1:
-			gRobot.walk_t.pid.disError = y - (aimY +  sign*lineChangeSymbol*350); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
+			gRobot.walk_t.pid.disError = y - (aimY); //小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下//4100
 			gRobot.walk_t.pid.angleError = angleErrorCount(aimAngle,angle);
-			gRobot.walk_t.pid.distanceStraight = (aimX -sign*lineChangeSymbol*470) - x;
 
-		
 			gRobot.walk_t.right.aim=gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
 			gRobot.walk_t.left.aim=-gRobot.walk_t.base + AnglePidControl(gRobot.walk_t.pid.angleError +sign* distancePidControl(gRobot.walk_t.pid.disError));
 			VelCrl(CAN2, 1,gRobot.walk_t.right.aim); //pid中填入的是差值

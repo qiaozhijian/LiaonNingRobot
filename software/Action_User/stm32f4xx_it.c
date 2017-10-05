@@ -68,7 +68,7 @@ if(StdId==0x280+GUN_YAW_ID)
 	{
 		if(Can1Msg.receivebuff[0]==0x00005850)
 		{
-		 gRobot.shoot_t.sReal.angle=Can1Msg.receivebuff[1];
+		 gRobot.shoot_t.sReal.angle=Can1Msg.receivebuff[1]*90.0f/4096.0f;
 		}
 	}
 /**************收球电机*****************/

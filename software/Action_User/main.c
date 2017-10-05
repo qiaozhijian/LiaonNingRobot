@@ -16,9 +16,11 @@ Robot_t gRobot={0};
 int main(void)
 {
 	//int OSCPUUsage=0; 
+	
 	int left=0;
 	int right=0;
 	robotInit();
+	USART_OUT(UART5,"initsucess");
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
   while(LaserStart());
   while (1)
