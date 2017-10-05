@@ -19,6 +19,7 @@ void EscapeCar(void);
 int JudgeStick(void);
 void LineBack(void);
 
+void PositionJudge(void);
 void SweepJudge(void);
 void FixJudge(void);
 void ShootJudge(void);//投球检查对方车辆是否靠近

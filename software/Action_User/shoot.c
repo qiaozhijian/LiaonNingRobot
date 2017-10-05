@@ -101,11 +101,29 @@ static int ballColor=1;
 	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
 	static int YesBallCount=0;									//有球时推的时间
-	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
-	
+	if(gRobot.shoot_t.startSignal==0)
+	{
+		gRobot.shoot_t.shootPos.x=gRobot.walk_t.pos.x;
+		gRobot.shoot_t.shootPos.y=gRobot.walk_t.pos.y;
+		gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
+		//确定当前矫正的边是这条边
+		if(gRobot.walk_t.pos.y>250&&gRobot.walk_t.pos.y<4550&&gRobot.walk_t.pos.x<-2150)
+		{
+			gRobot.fix_t.inBorder=0;
+		}else if(gRobot.walk_t.pos.y<250&&gRobot.walk_t.pos.x>-2150&&gRobot.walk_t.pos.x<2150)
+		{
+			gRobot.fix_t.inBorder=1;
+		}else if(gRobot.walk_t.pos.y>250&&gRobot.walk_t.pos.y<4550&&gRobot.walk_t.pos.x>2150)
+		{
+			gRobot.fix_t.inBorder=2;
+		}else if(gRobot.walk_t.pos.y>4550&&gRobot.walk_t.pos.x>-2150&&gRobot.walk_t.pos.x<2150)
+		{
+			gRobot.fix_t.inBorder=3;
+		}
+	}
 	ballColor=getBallColor();
 	
 	yawCount++;
@@ -136,21 +154,9 @@ static int ballColor=1;
 		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
-		}else if(YesBallCount>63&&YesBallCount<130)
-		{
-			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)>50)
-			{
-				gRobot.shoot_t.pReal.error++;
-			}
 		}else if(YesBallCount<=133&&YesBallCount>=130)
 		{	
 			PushBallReset();
-		}else if(YesBallCount<=260&&YesBallCount>133)
-		{
-			if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)>50)
-			{
-				gRobot.shoot_t.pReal.error++;
-			}
 		}
 		YesBallCount++;
 		YesBallCount%=300;
@@ -168,23 +174,17 @@ static int ballColor=1;
 		noBall=0;
 		noBallCount=0;
 	} 
-	if(gRobot.shoot_t.pReal.error>30)
-	{
-		gRobot.shoot_t.pReal.error=0;
-	/*应急状态*/
-		GPIO_SetBits(GPIOE,GPIO_Pin_7);
-	}
 	//脱离状态 
-	if(noBall>4)
-	{
-		CollectBallVelCtr(60);
-		Delay_ms(1000);
-		gRobot.status=STATUS_CAMERA_AND_WALK;
-		noBall=0;
-		YesBallCount=0;
-		noBallCount= 0;
-		gRobot.shoot_t.startSignal=0;
-	}
+//	if(noBall>4)
+//	{
+//		CollectBallVelCtr(60);
+//		Delay_ms(1000);
+//		gRobot.status=STATUS_CAMERA_AND_WALK;
+//		noBall=0;
+//		YesBallCount=0;
+//		noBallCount= 0;
+//		gRobot.shoot_t.startSignal=0;
+//	}
 	
 //	USART_OUT(UART5,(uint8_t *)"%d\t",noBall);
 //	USART_OUT(UART5,(uint8_t *)"%d\t",(int)gRobot.walk_t.pos.x);

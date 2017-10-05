@@ -533,89 +533,129 @@ int LaserJudge(void)
   static float lastlaserLeft=0;//50ms前左激光的值
   static int changeErrorRight=0;//右激光疯狂变换
 	static int changeErrorLeft=0;//左激光疯狂变换
-	static float leftChangeAver=0;//左激光变换的平均值
-	static float rightChangeAver=0;//右激光变换的平均值
-  //记录从哪个状态进来的
-  count++;
-  if(count>=5)
+	if(count==0)
 	{
-    count=0; 
-		//计算激光变换速度告诉我旁边是否有车过来
-    leftChangeAver=__sqrtf((laserLeft-lastlaserLeft)*(laserLeft-lastlaserLeft));
-		rightChangeAver=__sqrtf((laserRight-lastlaserRight)*(laserRight-lastlaserRight));
-		
-    if(TwoNumCompare(40,rightChangeAver))
-    {
-      changeErrorRight++;
-    }
-    else
-    {
-      changeErrorRight=0;
-    }
-		
-		if(laserLeft<1350&&TwoNumCompare(40,leftChangeAver))
-    {
-      changeErrorLeft++;
-    }
-    else
-    {
-      changeErrorLeft=0;
-    }
-		
-		
-    if(laserRight<1350&&changeErrorRight>=2)//右边有车来
-    {
-      changeErrorRight=0;
-			return 1;
-		}
-		if(changeErrorLeft>=2)//左边有车来
-		{
-			changeErrorLeft=0;
-			return 2;
-		}
-			//记住当前的激光值
+		//记住当前的激光值
     lastlaserLeft=laserLeft;
 		lastlaserRight=laserRight;
-		USART_OUT(UART5,"Left=%d\t",(int)laserLeft);
-		USART_OUT(UART5,"Right=%d\t",(int)laserRight);
-		USART_OUT(UART5,"lastRight=%d\t",(int)lastlaserRight);
-		USART_OUT(UART5,"lastLeft%d\t",(int)lastlaserLeft);
-		USART_OUT(UART5,"ErrorLeft=%d\t",(int)changeErrorLeft);
-		USART_OUT(UART5,"ErrorRight=%d\t",(int)changeErrorRight);	
-		USART_OUT(UART5,"righteAver=%d\t",(int)rightChangeAver);	
-		USART_OUT(UART5,"leftAver=%d\t\r\n",(int)leftChangeAver);	
-  }
+	}
+	count%=2;
+	count++;
+	if(laserRight<1350&&fabs(laserRight-lastlaserRight)>40)//右边有车来
+	{
+		count=0;
+		return 1;
+	}
+	if(laserLeft<1350&&fabs(laserLeft-lastlaserLeft)>40)//左边有车来
+	{
+		count=0;
+		return 2;
+	}
+	USART_OUT(UART5,"Left=%d\t",(int)laserLeft);
+	USART_OUT(UART5,"Right=%d\t",(int)laserRight);
+	USART_OUT(UART5,"lastRight=%d\t",(int)lastlaserRight);
+	USART_OUT(UART5,"lastLeft%d\t\r\n",(int)lastlaserLeft);
 	return 0;
 }
 void ShootJudge(void)
 {
-	static float xShoot=0,yShoot=0;
-	if(gRobot.shoot_t.startSignal==0)
+	PositionJudge();
+	if(gRobot.abnormal!=ABNOMAL_START_CRASHING)
 	{
-		xShoot=gRobot.walk_t.pos.x;
-		yShoot=gRobot.walk_t.pos.y;
+		if(LaserJudge()==2)//发现左边有车来
+		{
+			gRobot.abnormal=8;
+			gRobot.status|=STATUS_AVOID_HANDLE;
+			gRobot.status&=~STATUS_AVOID_JUDGE;
+		}else if(LaserJudge()==1)//发现右边有车来
+		{
+			gRobot.abnormal=9;
+			gRobot.status|=STATUS_AVOID_HANDLE;
+			gRobot.status&=~STATUS_AVOID_JUDGE;
+		}else
+		{
+			gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
+		}
 	}
-	if(LaserJudge()==2)//发现左边有车来
+//	
+//	if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
+//	{
+//		gRobot.abnormal=10;
+//	}
+}
+void PositionJudge(void)
+{
+	static int crashError=0;//受到冲击
+	if(fabs(gRobot.shoot_t.shootPos.y-gRobot.walk_t.pos.y)>20||fabs(gRobot.shoot_t.shootPos.x-gRobot.walk_t.pos.x)>20)
 	{
-		gRobot.abnormal=8;
-		gRobot.status|=STATUS_AVOID_HANDLE;
-		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}else if(LaserJudge()==1)//发现右边有车来
+		crashError++;
+	}
+	else 
 	{
-		gRobot.abnormal=9;
-		gRobot.status|=STATUS_AVOID_HANDLE;
-		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}else if(LaserJudge()==0)
-	{
-		gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
+		crashError=0;
 	}
 	
-	if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
+	if(crashError>3)
 	{
-		gRobot.abnormal=10;
+		gRobot.abnormal=ABNOMAL_START_CRASHING;
+		crashError=0;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
 	}
-}
+	else 
+	{
+		gRobot.abnormal=0;
+	}
+	
+	
+	if(gRobot.abnormal==ABNOMAL_START_CRASHING)//得到旋转的角度
+	{
+		switch(gRobot.fix_t.inBorder)
+		{
+			case 0:
+				if(gRobot.walk_t.pos.y-gRobot.shoot_t.shootPos.y>20)
+				{
+					gRobot.avoid_t.aimAngle=0;
+				}else if(gRobot.walk_t.pos.y-gRobot.shoot_t.shootPos.y<-20)
+				{
+					gRobot.avoid_t.aimAngle=180;
+				}
+			break;
+			
+			case 1:
+				if(gRobot.walk_t.pos.x-gRobot.shoot_t.shootPos.x>20)
+				{
+					gRobot.avoid_t.aimAngle=-90;
+				}else if(gRobot.walk_t.pos.x-gRobot.shoot_t.shootPos.x<-20)
+				{
+					gRobot.avoid_t.aimAngle=90;
+				}
+			break;
+			
+			case 2:
+				if(gRobot.walk_t.pos.y-gRobot.shoot_t.shootPos.y>20)
+				{
+					gRobot.avoid_t.aimAngle=0;
+				}else if(gRobot.walk_t.pos.y-gRobot.shoot_t.shootPos.y<-20)
+				{
+					gRobot.avoid_t.aimAngle=180;
+				}
+			break;
+			
+			case 3:
+				if(gRobot.walk_t.pos.x-gRobot.shoot_t.shootPos.x>20)
+				{
+					gRobot.avoid_t.aimAngle=-90;
+				}else if(gRobot.walk_t.pos.x-gRobot.shoot_t.shootPos.x<-20)
+				{
+					gRobot.avoid_t.aimAngle=90;
+				}
+			break;
+		}
+	}
+	USART_OUT(UART5,"avoidaimAngle=%d\t\r\n",(int)gRobot.avoid_t.aimAngle);
 
+}
 
 void FixJudge(void)
 {
@@ -1289,43 +1329,98 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 	 static int getAimWall=1;
 	 static AimPos_t aimPos={0};																					//躲避的停车位
 	 static int aimWall=0;
-	 if(getAimWall)
+	 static int commitAgainst=0;//允许的靠墙时间
+	 static int commitRotate=0;//允许的旋转时间
+	 if(gRobot.abnormal==8||gRobot.abnormal==9)
 	 {
-		 switch(gRobot.abnormal)
+		 if(getAimWall)
 		 {
-			 case 8://证明车从左边来反向去下一面墙
-				aimWall=gRobot.fix_t.inBorder-1;
-			 if(aimWall<0)
+			 switch(gRobot.abnormal)
 			 {
-				 aimWall=3;
-			 }
-			 break;
-			 
-			 
-			 case 9://证明车从右边来
-				 aimWall=gRobot.fix_t.inBorder+1;
-				 if(aimWall>3)
+				 case 8://证明车从左边来反向去下一面墙
+					aimWall=gRobot.fix_t.inBorder-1;
+				 if(aimWall<0)
 				 {
-						aimWall=0;//目标墙
+					 aimWall=3;
 				 }
-			 break;
+				 break;
 				 
-			 case 10:
-					aimWall=gRobot.fix_t.inBorder;
-			 break;
+				 
+				 case 9://证明车从右边来
+					 aimWall=gRobot.fix_t.inBorder+1;
+					 if(aimWall>3)
+					 {
+							aimWall=0;//目标墙
+					 }
+				 break;
+				
+				 default:
+					break;
+				}
+				aimPos=Go2NextWall(aimWall);
+				getAimWall=0;
 			}
-			aimPos=Go2NextWall(aimWall);
-			getAimWall=0;
+		 
+			USART_OUT(UART5,"aimWall=%d\t\r\n",aimWall);
+			if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
+			{															//将异常处理关闭
+				gRobot.status|=STATUS_FIX;
+				getAimWall=1;
+				gRobot.status|=STATUS_AVOID_JUDGE;
+				gRobot.status&=~STATUS_AVOID_HANDLE;
+				gRobot.abnormal=0;
+			}
 		}
-		USART_OUT(UART5,"aimWall=%d\t\r\n",aimWall);
-		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
-		{															//将异常处理关闭
-			gRobot.status|=STATUS_FIX;
-			getAimWall=1;
-			gRobot.status|=STATUS_AVOID_JUDGE;
+	 
+		if(gRobot.abnormal==10)
+		{
+			commitAgainst++;
+			VelCrl(CAN2,1,-8000);
+			VelCrl(CAN2,2, 8000);
+			if(CheckAgainstWall()==1)
+			{
+				commitAgainst=0;
+				gRobot.status&=~STATUS_AVOID_HANDLE;
+				gRobot.status|=STATUS_AVOID_JUDGE;//继续射击
+			}else if(CheckAgainstWall()==2)//坐标卡死行程开关没触发
+			{
+				gRobot.abnormal=12;
+				commitAgainst=0;
+			}
+			if(commitAgainst>300)//允许它靠墙时间为3s
+			{
+				commitAgainst=0;
+				gRobot.abnormal=12;
+			}
+	  }
+		
+		if(gRobot.abnormal==12)
+		{
+			commitRotate++;
+			gRobot.walk_t.pid.angleError=angleErrorCount(gRobot.avoid_t.aimAngle,gRobot.walk_t.pos.angle);
+			VelCrl(CAN2,1,AnglePidControl(gRobot.walk_t.pid.angleError));
+			VelCrl(CAN2,2,AnglePidControl(gRobot.walk_t.pid.angleError));
+			if(gRobot.walk_t.pid.angleError<5&&fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3)
+			{
+				commitRotate=0;
+				gRobot.status&=~STATUS_AVOID_HANDLE;
+				gRobot.status|=STATUS_AVOID_JUDGE;//继续射击
+			}
+			if(commitRotate>400)//旋转卡死
+			{
+				commitRotate=0;
+				gRobot.abnormal=13;
+			}
+		}
+		
+		if(gRobot.abnormal==13)//暂时让它继续射击
+		{   
+			commitRotate=0;
+			
 			gRobot.status&=~STATUS_AVOID_HANDLE;
-			gRobot.abnormal=0;
+			gRobot.status|=STATUS_AVOID_JUDGE;//继续射击
 		}
+		
 
 }
  /****************************************************************************

@@ -1,7 +1,7 @@
 #ifndef  __TASK_H
 #define  __TASK_H
 #include "config.h"
-
+#include "Motioncard.h"
 /******************矫正结构体***********************/
 //激光距离
 typedef struct {
@@ -108,6 +108,8 @@ typedef struct{
 	PushPara_t pAim;
 	
 	int startSignal;
+	
+	Point_t shootPos;
 }Shoot_t;
 
 /******************摄像头结构体***********************/
@@ -146,6 +148,7 @@ typedef struct{
 	int passflag;     //每经过backcare一次被置1
 	Pid_t pid;				//判断逃逸倒车后的角度与目标角度的差值
 	PosRem_t posRem;  //记录进入backcare时的姿态
+	float aimAngle;   //得到旋转的目标角度
 }Avoid_t;
 
 /******************辊子收球结构体***********************/

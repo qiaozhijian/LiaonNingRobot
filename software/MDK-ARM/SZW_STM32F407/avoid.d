@@ -32,11 +32,11 @@
 .\szw_stm32f407\avoid.o: ..\Action_User\adc.h
 .\szw_stm32f407\avoid.o: ..\Action_User\task.h
 .\szw_stm32f407\avoid.o: ..\Action_User\config.h
+.\szw_stm32f407\avoid.o: ..\Control_Card\Motioncard.h
 .\szw_stm32f407\avoid.o: ..\Action_User\tools.h
 .\szw_stm32f407\avoid.o: ..\Action_User\pid.h
 .\szw_stm32f407\avoid.o: ..\Action_User\camera.h
 .\szw_stm32f407\avoid.o: ..\Action_User\avoid.h
-.\szw_stm32f407\avoid.o: ..\Control_Card\MotionCard.h
 .\szw_stm32f407\avoid.o: ..\Action_User\motor.h
 .\szw_stm32f407\avoid.o: ..\Action_User\debug.h
 .\szw_stm32f407\avoid.o: ..\Action_User\dma.h

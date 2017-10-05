@@ -52,7 +52,8 @@ int CheckAgainstWall(void)
   {
     againstTime=0;
     return 1; 	//另外一种标志方案
-  }else if(againstError>100)
+  }
+	if(againstError>100)
   {
 	againstError=0;
 	return 2;
@@ -225,6 +226,8 @@ int Pointparking(float Pointx,float Pointy)
   }
 	if(parkingTime>700)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
 	{
+		VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+    VelCrl(CAN2, 2,0);
 		parkingTime=0;
 		gRobot.status|=STATUS_FIX;
 		gRobot.abnormal=ABNOMAL_PARKING_BLOCK;//停车异常

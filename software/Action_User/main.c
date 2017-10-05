@@ -17,13 +17,29 @@ int main(void)
 {
 	robotInit();
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+	gRobot.shoot_t.shootPos.x=0;
+	gRobot.shoot_t.shootPos.y=0;
+	gRobot.walk_t.pos.x=0;
+	gRobot.walk_t.pos.y=0;
+	gRobot.status=72;
   //while(LaserStart());
   while (1)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {	
-			gRobot.shoot_t.startSignal=1;
-			ShootJudge();
+			if(gRobot.status&STATUS_AVOID_JUDGE)
+			{
+				ShootJudge();
+			}
+			if(gRobot.status&STATUS_AVOID_HANDLE)
+			{
+				ShootHandle();
+			}
+//			else if(gRobot.status&STATUS_AVOID_JUDGE)
+//			{
+//				fireTask();
+//			}
+			
 //			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
 //				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
 //				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);

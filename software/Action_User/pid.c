@@ -137,6 +137,17 @@ float AgainstWallPidControl(float ERR)
 	ERR_OLD = ERR;
 	return OUTPUT;
 }
+float RotateAnglePidControl(float ERR)
+{
+	static int ERR_OLD = 0;
+	static float Kp = 200; //0.1
+	static float Ki = 0;
+	static float Kd = 1;
+	static float OUTPUT;
+	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD) +Ki*0.0f;
+	ERR_OLD = ERR;
+	return OUTPUT;
+}
 /****************************************************************************
 * 名    称：Line1()
 * 功    能：主扫场PID
