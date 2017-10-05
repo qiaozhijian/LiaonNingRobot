@@ -113,9 +113,9 @@ void AgainstWall(float aimAngle,float angle,float spacingError)
 void Vchange(int lineChangeSymbol)
 {
   //最外环速度
-  const float vOut1 = 1000.0f; 	
+  const float vOut1 = 1300.0f; 	
   //中环速度
-  const float vOut2 = 1600.f;
+  const float vOut2 = 1100.f;
   //内环速度
   const float vIn = 1300;  																//内环速度
   if (lineChangeSymbol==0)
@@ -125,7 +125,7 @@ void Vchange(int lineChangeSymbol)
   {
     gRobot.walk_t.base=gRobot.walk_t.base=vOut2 / (3.14f * WHEEL_DIAMETER) * 4096.f;
   }
-  else if (lineChangeSymbol==2)
+  else if (lineChangeSymbol>=2)
   {
    gRobot.walk_t.base=gRobot.walk_t.base=vOut1 / (3.14f * WHEEL_DIAMETER) * 4096.f;
   }

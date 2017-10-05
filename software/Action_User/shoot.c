@@ -169,7 +169,7 @@ static int ballColor=1;
 				{
 					case 0:
 						PushBallReset();
-					  if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<100)
+					  if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<100)
 					{
 						Nostep=1;
 					  step=2;
@@ -177,7 +177,7 @@ static int ballColor=1;
 						break;
 					case 1:
 						PushBall();
-						if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<100)
+						if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<100)
 						{
 						Nostep=0;
 						step=1;
@@ -192,6 +192,7 @@ static int ballColor=1;
 				gRobot.status|=STATUS_CAMERA_AND_WALK;
 				gRobot.status|=STATUS_AVOID_JUDGE;
 				noBall=0;
+				step=0;
 				noBallCount=0;
 				gRobot.shoot_t.startSignal=0;
 			}
@@ -203,6 +204,7 @@ static int ballColor=1;
 	/*应急状态*/
 	}
 	//脱离状态 
+	USART_OUT(UART5,"%d\t",(int)noBall);
 	USART_OUT(UART5,"%d\t",(int)ballColor);
 	USART_OUT(UART5,"%d\t",(int)step);
 	USART_OUT(UART5,"%d\t",(int)ballColor);
