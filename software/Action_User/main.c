@@ -26,9 +26,9 @@ int main(void)
   while (1)
   {
     while (getTimeFlag())                              //10ms执行进入一次
-    {	
-			left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
-			right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
+    {
+			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
+			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
 			
 			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
 				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);

@@ -55,7 +55,8 @@ int CheckAgainstWall(void)
     againstTime=0;
 		totalTime=0;
 		return 1;
-  }else if(againstError>100)
+  }
+	if(againstError>100)
   {
 		againstError=0;
 		totalTime=0;
@@ -233,6 +234,7 @@ int Pointparking(float Pointx,float Pointy)
   {
     VelCrl(CAN2, 1,0);																		//pid中填入的是差值
     VelCrl(CAN2, 2,0);
+		parkingTime=0;
     return 1;
   }
 	if(parkingTime>700)//超出6秒没有到达目标点便判定为与车卡死里面进行矫正
@@ -503,7 +505,7 @@ void ClockWise(void)
         gRobot.status&=~STATUS_SWEEP;
         gRobot.walk_t.circleChange.turnTime=0;
     }
-  }
+ }
 /****************************************************************************
 * 名    称：AntiClockWise ()	
 * 功    能：逆时针行驶

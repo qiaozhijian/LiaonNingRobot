@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Oct 05 17:48:04 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Thu Oct 05 21:43:32 2017
 <BR><P>
 <H3>Maximum Stack Usage =        464 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1387,6 +1387,7 @@ Global Symbols
 
 <P><STRONG><a name="[135]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PullLevel
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[17f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 </UL>
 
@@ -1595,7 +1596,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
 
-<P><STRONG><a name="[110]"></a>Pointparking</STRONG> (Thumb, 1442 bytes, Stack size 56 bytes, sweep.o(i.Pointparking))
+<P><STRONG><a name="[110]"></a>Pointparking</STRONG> (Thumb, 1448 bytes, Stack size 56 bytes, sweep.o(i.Pointparking))
 <BR><BR>[Stack]<UL><LI>Max Depth = 320<LI>Call Chain = Pointparking &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
@@ -1648,9 +1649,9 @@ Global Symbols
 <P><STRONG><a name="[11b]"></a>PullLevel</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, gpio.o(i.PullLevel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = PullLevel &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
+<BR>[Calls]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
@@ -2700,13 +2701,13 @@ Global Symbols
 <P><STRONG><a name="[17f]"></a>fireTask</STRONG> (Thumb, 1260 bytes, Stack size 40 bytes, shoot.o(i.fireTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = fireTask &rArr; Launcher &rArr; __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
+<BR>[Calls]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getBallColor
 <LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
 <LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBall
-<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
@@ -2885,11 +2886,12 @@ Global Symbols
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CameraBaseWalk2
 </UL>
 
-<P><STRONG><a name="[184]"></a>robotInit</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, task.o(i.robotInit))
+<P><STRONG><a name="[184]"></a>robotInit</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, task.o(i.robotInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 204<LI>Call Chain = robotInit &rArr; elmoInit &rArr; Vel_cfg &rArr; USART_OUT &rArr; itoa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
 <LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr
 <LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;variableInit
 <LI><a href="#[17c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmoInit

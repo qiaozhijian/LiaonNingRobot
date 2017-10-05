@@ -106,7 +106,7 @@ void robotInit(void)
 	elmoInit();
 	
 	variableInit();
-//	GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	while(!gRobot.gpsSignal){};
 //	Delay_ms(8000);
 //  Delay_ms(7000);
