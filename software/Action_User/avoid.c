@@ -611,19 +611,6 @@ int JudgeStick(void)
 }
 /****************************************************************************
 * 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
-* 功    能：检查是否撞车
-* 入口参数：无
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-****************************************************************************/
-
-//	cP[0] leftUp;
-//	cP[1] letDown;
-//	cP[2] rightDown;
-//	cP[3] rightUp;
-/****************************************************************************
-* 名    称：CheckIntersect(float x, float y, float angle, Point_t cP[4])
 * 功    能：检查撞到的状态
 * 入口参数：无
 * 出口参数：无
@@ -1204,7 +1191,6 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			 }
 			 break;
 			 
-			 
 			 case 9://证明车从右边来
 				 aimWall=gRobot.fix_t.inBorder+1;
 				 if(aimWall>3)
@@ -1300,7 +1286,7 @@ void AbnormityHandle(void)
 {
 	if (gRobot.status & STATUS_SWEEP)
   {
-			SweepHandle();
+		SweepHandle();
   }
   else if (gRobot.status & STATUS_FIX)
   {

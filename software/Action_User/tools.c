@@ -148,7 +148,7 @@ void MotorRead(void)
 					ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);  //逆时针读取右轮子速度
 					gRobot.avoid_t.signal=gRobot.walk_t.right.real;
 				}
-				//ReadActualPos(CAN1,PUSH_BALL_ID);           //读取CAN1电机位置
+				ReadActualPos(CAN1,PUSH_BALL_ID);           //读取CAN1电机位置
 				count=0;
 			}
 }

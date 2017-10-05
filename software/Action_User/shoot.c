@@ -133,7 +133,8 @@ static int ballColor=1;
 //	}
 
 /**********************************测试版***************************/
-
+ if(fabs(gRobot.shoot_t.sReal.speed-launcher.speed)<2)
+ {	 
 		if(YesBallCount<=3&&YesBallCount>=0)
 		{
 			PushBall();
@@ -155,7 +156,12 @@ static int ballColor=1;
 		}
 		YesBallCount++;
 		YesBallCount%=320;
-	
+	}
+  else 
+	{
+		YesBallCount=0;
+	}
+	//检测没有球
 	if(ballColor==0)
 	{
 		noBallCount++;
@@ -169,15 +175,16 @@ static int ballColor=1;
 		noBall=0;
 		noBallCount=0;
 	} 
+	//确定棍子被卡死
 	if(gRobot.shoot_t.pReal.error>30)
 	{
 		gRobot.shoot_t.pReal.error=0;
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	/*应急状态*/
 	}
 	//脱离状态 
 	if(noBall>4)
 	{
-		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 		gRobot.status&=~STATUS_SHOOTER;
 		gRobot.status|=STATUS_CAMERA_AND_WALK;
 		gRobot.status|=STATUS_AVOID_JUDGE;

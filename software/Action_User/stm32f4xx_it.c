@@ -225,6 +225,9 @@ void UART5_IRQHandler(void)
 				}else if(data=='3')//发射整套自检
 				{
 					testMode=3;
+				}else if(data=='4')
+				{
+					testMode=4;
 				}
 					else 
 				{

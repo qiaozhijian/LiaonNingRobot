@@ -6,5 +6,6 @@ void Debug(void);
 void WheelTest(float laserRight,float laserLeft);
 void TravelSwitchTest(void);
 void ShootTest(void);
+void Wheeltest(void);
 #endif
 

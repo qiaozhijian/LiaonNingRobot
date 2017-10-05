@@ -44,7 +44,8 @@ int main(void)
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
 			  USART_OUT(UART5,"l=%d\t",(int)left);
 				USART_OUT(UART5,"r=%d\t",(int)right);
-			  //USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
+			  USART_OUT(UART5,"r=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
+			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
 				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
 				TestMode();

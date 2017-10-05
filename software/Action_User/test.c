@@ -12,7 +12,12 @@ void TestMode(void)
 	float laserLeft=getLeftAdc();
   switch(testMode)
 	{
-		case 1://检查摄像头数的球
+		case 1:
+			WheelTest(laserRight,laserLeft);
+			TravelSwitchTest();
+		break;
+		
+		case 2://检查摄像头数的球
 			ballNum=getF_ball();
 			if(ballNum<=2)
 			{
@@ -35,14 +40,15 @@ void TestMode(void)
 			}
 		break;
 		
-		case 2:
-			WheelTest(laserRight,laserLeft);
-			TravelSwitchTest();
-		break;
-	
 		case 3://发射自检
 			ShootTest();
 		break;
+		
+		case 4:
+			Wheeltest();
+			break;
+		
+		
 		
 		default:
 		break;
@@ -102,14 +108,14 @@ void WheelTest(float laserRight,float laserLeft)
 	}
 	if(laserRight<=600)
 	{
-		VelCrl(CAN2,1,laserRight*10);
-		VelCrl(CAN2,2,0);
+		VelCrl(CAN2,1,8000);
+		VelCrl(CAN2,2,-8000);
 		CollectBallVelCtr(laserRight/8);
 	}
 	if(laserLeft<=600)
 	{
-		VelCrl(CAN2,1,0);
-		VelCrl(CAN2,2,-laserLeft*10);
+		VelCrl(CAN2,1,-8000);
+		VelCrl(CAN2,2,8000);
 		CollectBallVelCtr(laserLeft/8);
 	}
 }	
@@ -149,4 +155,9 @@ void ShootTest(void)
 	}
   pullTime++;
 	pullTime%=400;
+}
+void Wheeltest(void)
+{
+	VelCrl(CAN2,1,5000);
+	VelCrl(CAN2,2,-5000);
 }

@@ -326,7 +326,7 @@ void WalkOne()
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-#define SUCCESSTIMES 50
+#define SUCCESSTIMES 20
 int LaserStart(void)
 {
   static uint32_t successCount[6]={0};		//前三个代表左的不同状况 后三个代表右的不同状况
@@ -492,7 +492,7 @@ void ClockWise(void)
 	{
 		Square2();
 	}
-	if(	gRobot.walk_t.circleChange.quadrantlast<gRobot.walk_t.circleChange.quadrant)
+	if(	gRobot.walk_t.circleChange.quadrantlast<gRobot.walk_t.circleChange.quadrant && gRobot.walk_t.circleChange.quadrant!=4 && gRobot.walk_t.circleChange.quadrantlast!=1)
 	{
 		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
 	}
@@ -762,7 +762,7 @@ int Square2(void)
 		gRobot.walk_t.circleChange.turnTime=7;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
 		gRobot.walk_t.circleChange.turnTime=8;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1 ][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
 		gRobot.walk_t.circleChange.turnTime=9;
 	}else{
 		//角度闭环
@@ -780,19 +780,19 @@ int Square2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(-2100.f,3400.f,0,0,1,1);
+    Line(-600.f,3400.f,0,0,1,1);
     break;
     
   case 7:
-    Line(-2100.f,4500.f,-90,1,1,1);
+    Line(600.f,3400.f,-90,1,1,1);
     break;
     
   case 8:
-    Line(2100.f,1400,180,0,-1,1);
+    Line(600.f,1400,180,0,-1,1);
     break;
     
   case 9:
-    Line(-600.f,300,90,1,-1,1);
+    Line(-600.f,1400,90,1,-1,1);
     break;
     
   default:
