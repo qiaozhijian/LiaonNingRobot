@@ -434,6 +434,30 @@ void SweepJudge(void)
 //		USART_OUT(UART5,"gRobots%d\t\r\n",(int)gRobot.status);
 	}
 }
+void PositionJudge(void)
+{
+	static int crashError=0;//受到冲击
+	if(fabs(gRobot.shoot_t.shootPos.y-gRobot.walk_t.pos.y)>20||fabs(gRobot.shoot_t.shootPos.x-gRobot.walk_t.pos.x)>20)
+	{
+		crashError++;
+	}
+	else 
+	{
+		crashError=0;
+	}
+	
+	if(crashError>3)
+	{
+		gRobot.abnormal=ABNOMAL_START_CRASHING;
+		crashError=0;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+	}
+	else 
+	{
+		gRobot.abnormal=0;
+	}
+}
 int LaserJudge(void)
 {
 	static int count=0;//计算激光的变换时间来判断是否有车过来
@@ -447,23 +471,8 @@ int LaserJudge(void)
 	static float rightChangeAver=0;//右激光变换的平均值
   //记录从哪个状态进来的
   count++;
-  if(count>=5)
-	{
-    count=0; 
-		//计算激光变换速度告诉我旁边是否有车过来
-    leftChangeAver=__sqrtf((laserLeft-lastlaserLeft)*(laserLeft-lastlaserLeft));
-		rightChangeAver=__sqrtf((laserRight-lastlaserRight)*(laserRight-lastlaserRight));
-		
-    if(TwoNumCompare(40,rightChangeAver))
-    {
-      changeErrorRight++;
-    }
-    else
-    {
-      changeErrorRight=0;
-    }
-		
-		if(laserLeft<1350&&TwoNumCompare(40,leftChangeAver))
+	
+	if(laserLeft<1350&&fabs(laserLeft-gRobot.shoot_t.lastLaser.left)>40)
     {
       changeErrorLeft++;
     }
@@ -472,61 +481,63 @@ int LaserJudge(void)
       changeErrorLeft=0;
     }
 		
+	if(laserRight<1350&&fabs(laserRight-gRobot.shoot_t.lastLaser.right)>40)//右边有车来
+	{
+		changeErrorRight++;
+		return 1;
+	}else
+	{
+		changeErrorRight=0;
+	}
+	
+	if(changeErrorRight>=2)
+	{
+		return 1;
+	}
+	if(changeErrorLeft>=2)//左边有车来
+	{
 		
-    if(laserRight<1350&&changeErrorRight>=2)//右边有车来
-    {
-      changeErrorRight=0;
-			return 1;
-		}
-		if(changeErrorLeft>=2)//左边有车来
-		{
-			changeErrorLeft=0;
-			return 2;
-		}
-			//记住当前的激光值
-    lastlaserLeft=laserLeft;
-		lastlaserRight=laserRight;
-		USART_OUT(UART5,"Left=%d\t",(int)laserLeft);
-		USART_OUT(UART5,"Right=%d\t",(int)laserRight);
-		USART_OUT(UART5,"count=%d\t",(int)count);
-		USART_OUT(UART5,"lastRight=%d\t",(int)lastlaserRight);
-		USART_OUT(UART5,"lastLeft%d\t",(int)lastlaserLeft);
-		USART_OUT(UART5,"ErrorLeft=%d\t",(int)changeErrorLeft);
-		USART_OUT(UART5,"ErrorRight=%d\t",(int)changeErrorRight);	
-		USART_OUT(UART5,"righteAver=%d\t",(int)rightChangeAver);	
-		USART_OUT(UART5,"leftAver=%d\t\r\n",(int)leftChangeAver);	
-  }
+		return 2;
+	}
+  
+	USART_OUT(UART5,"Left=%d\t",(int)laserLeft);
+	USART_OUT(UART5,"Right=%d\t",(int)laserRight);
+	USART_OUT(UART5,"count=%d\t",(int)count);
+	USART_OUT(UART5,"lastLeft=%d\t",(int)gRobot.shoot_t.lastLaser.left);
+	USART_OUT(UART5,"lastRight%d\t",(int)gRobot.shoot_t.lastLaser.right);
+	USART_OUT(UART5,"ErrorRight=%d\t",(int)changeErrorRight);
+	USART_OUT(UART5,"ErrorLeft=%d\t\r\n",(int)changeErrorLeft);	
+	
 	return 0;
 }
 void ShootJudge(void)
 {
-	static float xShoot=0,yShoot=0;
-	if(gRobot.shoot_t.startSignal==0)
+//	PositionJudge();
+	if(gRobot.abnormal!=10)
 	{
-		xShoot=gRobot.walk_t.pos.x;
-		yShoot=gRobot.walk_t.pos.y;
-	}
-	if(LaserJudge()==2)//发现左边有车来
-	{
-		gRobot.abnormal=8;
-		gRobot.status|=STATUS_AVOID_HANDLE;
-		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}else if(LaserJudge()==1)//发现右边有车来
-	{
-		gRobot.abnormal=9;
-		gRobot.status|=STATUS_AVOID_HANDLE;
-		gRobot.status&=~STATUS_AVOID_JUDGE;
-	}
-	/*else if(LaserJudge()==0)
-	{
-		gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
-		if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
+		if(LaserJudge()==2)//发现左边有车来
 		{
-			gRobot.abnormal=10;
+			gRobot.abnormal=8;
+			gRobot.status|=STATUS_AVOID_HANDLE;
+			gRobot.status&=~STATUS_AVOID_JUDGE;
+		}else if(LaserJudge()==1)//发现右边有车来
+		{
+			gRobot.abnormal=9;
 			gRobot.status|=STATUS_AVOID_HANDLE;
 			gRobot.status&=~STATUS_AVOID_JUDGE;
 		}
-	}*/
+		USART_OUT(UART5,"LaserJudge=%d\t\r\n",(int)LaserJudge());	
+		/*else if(LaserJudge()==0)
+		{
+			gRobot.abnormal=0;	//说明要嘛激光没发现要嘛真的没有车过来用射球坐标判断
+			if(fabs(xShoot-gRobot.walk_t.pos.x)>20||fabs(yShoot-gRobot.walk_t.pos.y)>20)//受到冲击撞上发生位移
+			{
+				gRobot.abnormal=10;
+				gRobot.status|=STATUS_AVOID_HANDLE;
+				gRobot.status&=~STATUS_AVOID_JUDGE;
+			}
+		}*/
+	}
 }
 
 
@@ -1193,7 +1204,11 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			 break;
 				 
 			 case 10:
-					aimWall=gRobot.fix_t.inBorder;
+					aimWall=gRobot.fix_t.inBorder+1;
+					if(aimWall>3)
+					{
+						aimWall=0;//目标墙
+					}
 			 break;
 			}
 			aimPos=Go2NextWall(aimWall);
@@ -1201,10 +1216,11 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 		}
 		USART_OUT(UART5,"aimWall=%d\t\r\n",aimWall);
 		gRobot.ParkingPoint.x=aimPos.x;
-		gRobot.ParkingPoint.y=aimPos.y;			
+		gRobot.ParkingPoint.y=aimPos.y;
+		gRobot.fix_t.toBorder=aimWall;
 		getAimWall=1;
 		gRobot.status|=STATUS_PARKING;
-		gRobot.status|=STATUS_FIX;
+//		gRobot.status|=STATUS_FIX;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		gRobot.status&=~STATUS_AVOID_HANDLE;
 }
@@ -1380,7 +1396,11 @@ void ParkingHandle(void)
 		break;
 	}
 }
+void FixJudge(void)
+{
 
+
+}
 void AbnormityJudge(void)
 {
 	if (gRobot.status & STATUS_SWEEP)
@@ -1390,10 +1410,10 @@ void AbnormityJudge(void)
 	{
 		  ParkingJudge();
 	}
-//  else if (gRobot.status & STATUS_FIX)
-//  {
-//			FixJudge();
-//  }
+  else if (gRobot.status & STATUS_FIX)
+  {
+			FixJudge();
+  }
   else if (gRobot.status & STATUS_SHOOTER)
   {
       ShootJudge();

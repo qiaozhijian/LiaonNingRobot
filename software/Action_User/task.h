@@ -112,6 +112,10 @@ typedef struct{
 	PushPara_t pAim;
 	
 	int startSignal;
+	
+	Point_t shootPos;
+	
+	Laser_t lastLaser;
 }Shoot_t;
 
 /******************摄像头结构体***********************/

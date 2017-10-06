@@ -471,6 +471,10 @@ void FixTask(void)
 		gRobot.status&=~STATUS_FIX;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		gRobot.fix_t.inBorder=aimBorder;
+		gRobot.shoot_t.shootPos.x=getXpos();
+		gRobot.shoot_t.shootPos.y=getYpos();
+		gRobot.shoot_t.lastLaser.left=getLeftAdc();
+		gRobot.shoot_t.lastLaser.right=getRightAdc();
 		fix_status=11;
 		fixSuccessFlag= 0;
 		againstTime=0;

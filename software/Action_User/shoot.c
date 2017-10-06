@@ -197,7 +197,15 @@ static int ballColor=1;
 				}
 			}
 			}
-		if(noBall>4)
+		}
+	if(gRobot.shoot_t.pReal.error>500)
+	{
+		gRobot.shoot_t.pReal.error=0;
+     noBall=5;
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	/*应急状态*/
+	}
+	if(noBall>4)
 			{
 				gRobot.status&=~STATUS_SHOOTER;
 				gRobot.status|=STATUS_CAMERA_AND_WALK;
@@ -207,13 +215,6 @@ static int ballColor=1;
 				noBallCount=0;
 				gRobot.shoot_t.startSignal=0;
 			}
-		}
-	if(gRobot.shoot_t.pReal.error>400)
-	{
-		gRobot.shoot_t.pReal.error=0;
-		GPIO_SetBits(GPIOE,GPIO_Pin_7);
-	/*应急状态*/
-	}
 	//脱离状态 
 	USART_OUT(UART5,"%d\t",(int)noBall);
 	USART_OUT(UART5,"%d\t",(int)ballColor);

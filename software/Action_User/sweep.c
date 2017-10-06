@@ -220,8 +220,8 @@ int Pointparking(float Pointx,float Pointy)
 	gRobot.walk_t.pid.aimAngle=aimAngle;
   angleError=angleErrorCount(aimAngle,angle);
 
-	VelCrl(CAN2, 1, 3000+ParkingSpacingPidControl(spacingError)+AnglePidControl(angleError));			//pid中填入的是差值
-  VelCrl(CAN2, 2, -3000-ParkingSpacingPidControl(spacingError)+AnglePidControl(angleError));
+	VelCrl(CAN2, 1, 4500+ParkingSpacingPidControl(spacingError)+AnglePidControl(angleError));			//pid中填入的是差值
+  VelCrl(CAN2, 2, -4500-ParkingSpacingPidControl(spacingError)+AnglePidControl(angleError));
 	gRobot.walk_t.base=3000+ParkingSpacingPidControl(spacingError);
 //	if(fabs(spacingError)>500)
 //  {
@@ -285,7 +285,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 3:
-			if(gRobot.walk_t.pos.y<3950)
+			if(gRobot.walk_t.pos.y>3950)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);

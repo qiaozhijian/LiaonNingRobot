@@ -51,7 +51,8 @@ int main(void)
 			 #ifdef TEST 
 				TestMode();
 			 #else
-			MotorRead();  
+			MotorRead(); 
+			//CornerJammedJudge();
 			if(gRobot.avoid_t.signal>6000)
 			{
 				 gRobot.status|=STATUS_AVOID_JUDGE;
