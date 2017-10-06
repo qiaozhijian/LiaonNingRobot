@@ -86,7 +86,7 @@
 #define STATUS_FIX     										16 //	0001 0000	状态 矫正
 #define STATUS_AVOID_HANDLE   							32 //	0010 0000	状态 避障
 #define STATUS_AVOID_JUDGE   							64 //	0100 0000	状态 避障
-
+#define STATUS_PARKING   							128 //	1000 0000	状态 
 /*异常分类*/
 /*走形异常*/
 

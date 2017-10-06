@@ -10,6 +10,6 @@ float ParkingAnglePidControl(float ERR);
 float onceDistancePidControl(float ERR);
 float AgainstWallPidControl(float ERR);
 void Line(float aimX,float aimY,float aimAngle,int line1,int sign,int lineChangeSymbol);
-
+float ParkingSpacingPidControl(float ERR);
 #endif
 

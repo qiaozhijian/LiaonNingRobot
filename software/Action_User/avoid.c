@@ -530,13 +530,6 @@ void ShootJudge(void)
 }
 
 
-void FixJudge(void)
-{
-//	if()
-//	{
-//		
-//	}
-}
 void CWalkJudge(void)
 {
 	if(JudgeStick()==1)
@@ -1207,15 +1200,13 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			getAimWall=0;
 		}
 		USART_OUT(UART5,"aimWall=%d\t\r\n",aimWall);
-		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
-		{															//将异常处理关闭
-			gRobot.status|=STATUS_FIX;
-			getAimWall=1;
-			gRobot.status|=STATUS_AVOID_JUDGE;
-			gRobot.status&=~STATUS_AVOID_HANDLE;
-			gRobot.abnormal=0;
-		}
-
+		gRobot.ParkingPoint.x=aimPos.x;
+		gRobot.ParkingPoint.y=aimPos.y;			
+		getAimWall=1;
+		gRobot.status|=STATUS_PARKING;
+		gRobot.status|=STATUS_FIX;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		gRobot.status&=~STATUS_AVOID_HANDLE;
 }
  /****************************************************************************
 * 名    称：void BackCarOut(float angle) 
@@ -1255,16 +1246,154 @@ void LineBack(void)//边界倒车程序
 		avoidtime=0;
 	}
 }
+void ParkingSmallHandle(void)
+{
+	static float aimAngle = 0;   //目标角度
+	static float angleError = 0; //目标角度与当前角度的偏差
+	static int i = 0;																  //目标角度变换标志位
+	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static int avoidtime=0;
+	if (i == 0)																		    //使目标角度偏向右边45
+	{
+		aimAngle = gRobot.walk_t.pos.angle + 45; //让车头目标角度右偏45度
+		i = 1;
+	}
+	angleError = angleErrorCount(aimAngle,gRobot.walk_t.pos.angle);
+	j++;
+	if (j < 120)
+	{
+		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		VelCrl(CAN2, 2,  10000);
+	}else if (j >=120)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			i = 0;
+			j = 0;//清空标志位
+			gRobot.status&=~STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			gRobot.status&=~STATUS_PARKING;//关闭停车
+			gRobot.status|=STATUS_FIX;
+		} 
+	}
+	
+	if(avoidtime>400)
+	{
+		gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		avoidtime=0;
+	}
+}
+//void ParkingJudge(void)
+//{
+//	static int stickError = 0;													  //卡死错误积累值
+//	static float xError = 0, yError = 0;
+//	xError = gRobot.walk_t.pos.x - getxRem();
+//	yError = gRobot.walk_t.pos.y - getyRem();
+//	if (fabs(xError) < 2 && fabs(yError) < 2 && gRobot.walk_t.base>600)
+//	{
+//		stickError++;
+//	}
+//	else
+//	{
+//		stickError = 0;
+//	}
+//	if (stickError > 100)
+//	{
+//		xStick = getxRem();																	//记住卡死的坐标
+//		yStick = getyRem();
+//		stickError = 0;
+//		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
+//		gRobot.status|=STATUS_AVOID_HANDLE;
+//		gRobot.status&=~STATUS_AVOID_JUDGE;
+//	}
+//}
+void ParkingJudge(void)
+{
+	if(JudgeStick()==1)
+	{
+		//判断
+		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+	}
+}
+void ParkingLineBack(void)//边界倒车程序
+{
+	static float angleError = 0; //目标角度与当前角度的偏差
+	static int j = 0; 																//在此设立标志位在信号量10ms进入一次，达到延时的效果
+	static int avoidtime=0;
+	angleError = angleErrorCount(gRobot.walk_t.pid.aimAngle,gRobot.walk_t.pos.angle);
+	j++;
+	if (j < 100)
+	{
+		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
+		VelCrl(CAN2, 2,  10000);
+	}else if (j >=100)
+	{
+		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
+		VelCrl(CAN2, 2, AnglePidControl(angleError));
+		if (fabs(angleError) < 5)
+		{
+			j = 0;//清空标志位
+			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			avoidtime=0;
+		}
+	}
+	if(avoidtime>250)
+	{
+	  gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.status|=STATUS_AVOID_JUDGE;
+		avoidtime=0;
+	}
+}
+
+void ParkingHandle(void)
+{
+	switch(gRobot.abnormal)
+	{
+		case ABNOMAL_BLOCK_IN:
+			ParkingLineBack();
+		break;
+		
+		case ABNOMAL_BLOCK_OUT :
+		  ParkingSmallHandle();
+		break;
+		
+		case ABNOMAL_BLOCK_MIDDLE :
+			CircleTransition();
+		break;
+		
+		case ABNOMAL_BLOCK_IN_CORNER:
+			ParkingLineBack();
+		break;
+		
+		case ABNOMAL_BLOCK_OUT_CORNER:
+			ParkingLineBack();
+		break;
+		
+		default:
+			USART_OUT(UART5,"SweepHandleErr");
+		break;
+	}
+}
+
 void AbnormityJudge(void)
 {
 	if (gRobot.status & STATUS_SWEEP)
   {
 			SweepJudge();
-  }
-  else if (gRobot.status & STATUS_FIX)
-  {
-			FixJudge();
-  }
+  }else if(gRobot.status & STATUS_PARKING)
+	{
+		  ParkingJudge();
+	}
+//  else if (gRobot.status & STATUS_FIX)
+//  {
+//			FixJudge();
+//  }
   else if (gRobot.status & STATUS_SHOOTER)
   {
       ShootJudge();
@@ -1288,9 +1417,9 @@ void AbnormityHandle(void)
   {
 		SweepHandle();
   }
-  else if (gRobot.status & STATUS_FIX)
+  else if (gRobot.status & STATUS_PARKING)
   {
-			//\FixHandle();
+		ParkingHandle();
   }
   else if (gRobot.status & STATUS_SHOOTER)
   {

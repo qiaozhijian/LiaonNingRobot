@@ -46,7 +46,7 @@ int main(void)
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
 			  USART_OUT(UART5,"l=%d\t",(int)left);
 				USART_OUT(UART5,"r=%d\t",(int)right);
-			  USART_OUT(UART5,"r=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
+			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
 			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
 				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
@@ -69,6 +69,9 @@ int main(void)
 			}else if (gRobot.status & STATUS_SWEEP)
 			{
 				Run();
+			}else if(gRobot.status & STATUS_PARKING)
+			{
+				Pointparking(gRobot.ParkingPoint.x,gRobot.ParkingPoint.y);
 			}
 			else if (gRobot.status & STATUS_FIX)
 			{

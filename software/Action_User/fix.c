@@ -422,7 +422,7 @@ void FixTask(void)
 					fixSuccessFlag=1;
 					fix_status=0;																		//在这里改变状态码
 				}
-				else 																								//第二次矫正
+				else //激光出现问题																								//第二次矫正
 				{
 					fixPosSec(aimBorder);															//矫正当前的角度
 					againstTime++;
@@ -446,7 +446,7 @@ void FixTask(void)
 			}
 		}
 	}
-	else if (fix_status & TRY_SEC_FIX)
+	else if (fix_status & TRY_SEC_FIX)//进入定点停车
 	{
 		if(aimBorderRem==aimBorder)//下次进入时候比较前后是否一样，一样则加1
 		{
@@ -456,15 +456,16 @@ void FixTask(void)
 					aimBorder=0;
 				}
 		}
-		aimPos=Go2NextWall(aimBorder);
-		if(Pointparking(aimPos.x,aimPos.y)==1)//停车完成
-		{
-			fix_status=0;
+		aimPos=Go2NextWall(aimBorder);//得到下一一个边界点
+		gRobot.ParkingPoint.x=aimPos.x;
+		gRobot.ParkingPoint.y=aimPos.y;
+		gRobot.status|=STATUS_PARKING;
+		fix_status=0;
 //			fix_status &=~TRY_SEC_FIX;
-			fix_status |=TRY_FIRST_FIX;
-			fix_status |=AGAINST_Wall;
-		}
+		fix_status |=TRY_FIRST_FIX;
+		fix_status |=AGAINST_Wall;
 	}
+	gRobot.fix_t.toBorder=aimBorder;//知道现在去哪一个边界
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;
@@ -484,15 +485,16 @@ void FixTask(void)
 		USART_OUT(UART5, "fix=%d\t", (int)fixSuccessFlag);
 		USART_OUT(UART5, "%d\t", (int)fix_status);
 		USART_OUT(UART5, "%d\t", (int)commitFix);
-		USART_OUT(UART5, "%d\t", (int)aimBorder);
+		USART_OUT(UART5, "aiB=%d\t", (int)aimBorder);
+		USART_OUT(UART5, "toB=%d\t", (int)gRobot.fix_t.toBorder);
 		USART_OUT(UART5, "%d\t", (int)fixPara.angle);
 		USART_OUT(UART5, "%d\t", (int)errSingle); //errSingle = realSingle - nowSingle
 		USART_OUT(UART5, "%d\t", (int)errX0);
 		USART_OUT(UART5, "%d\t", (int)errY0);
 		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.x);
 		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.y);
-//		USART_OUT(UART5, "%d\t", (int)getxRem());
-//		USART_OUT(UART5, "%d\t", (int)getyRem());
+		USART_OUT(UART5, "Px=%d\t", (int)gRobot.ParkingPoint.x);
+		USART_OUT(UART5, "Py=%d\t", (int)gRobot.ParkingPoint.y);
 		USART_OUT(UART5, "%d\t", (int)gRobot.walk_t.pos.angle);
 		USART_OUT(UART5, "%d\t", (int)againstTime);
 		USART_OUT(UART5, "%d\t", (int)laserLeftDistance);

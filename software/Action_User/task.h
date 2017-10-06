@@ -1,7 +1,7 @@
 #ifndef  __TASK_H
 #define  __TASK_H
 #include "config.h"
-
+#include "MotionCard.h"
 /******************矫正结构体***********************/
 //激光距离
 typedef struct {
@@ -16,6 +16,9 @@ typedef struct{
 	Laser_t laser;
 	//知道矫正完投球在哪个边界
 	int inBorder;
+	//去哪一个边界
+	int toBorder;
+	
 }Fix_t;
 /*************************PID调解***********************/
 //PID调解的相关参数
@@ -183,7 +186,9 @@ typedef struct {
 	Avoid_t avoid_t;
 	/******************收球进程***********************/
 	Collect_t collect_t;
-	
+	/*******************定点停车进程********************/
+	Point_t ParkingPoint;
+	/********************等待定位系统的反馈**************/
 	int gpsSignal;
 
 //	/*场地区域数组*/

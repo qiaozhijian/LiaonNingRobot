@@ -37,8 +37,18 @@ float angleErrorCount(float aimAngle,float angle)
 float ParkingAnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 70; //90
+	static float Kp = 100; //90
 	static float Kd = 10;
+	static float OUTPUT;
+	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);
+	ERR_OLD = ERR;
+	return OUTPUT;
+}
+float ParkingSpacingPidControl(float ERR)
+{
+	static int ERR_OLD = 0;
+	static float Kp = 7; //90
+	static float Kd = 0;
 	static float OUTPUT;
 	OUTPUT = Kp * ERR + Kd * (ERR - ERR_OLD);
 	ERR_OLD = ERR;
