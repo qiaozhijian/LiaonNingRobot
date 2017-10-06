@@ -142,16 +142,27 @@ static int ballColor=1;
 					break;
 					
 				case 1:
-					gRobot.shoot_t.pReal.error++;
 							PushBallReset();
+				//判断为卡死
 							if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<100)
-							step=2;
+							{
+								step=2;
+								gRobot.shoot_t.pReal.error=0;
+							}else{
+								gRobot.shoot_t.pReal.error++;
+							}
 				  break;
+							
 				case 2:
-					gRobot.shoot_t.pReal.error++;
 							PushBall();
+				//判断为卡死
 					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<100)
-							step=1;   
+							{
+								step=1;   
+								gRobot.shoot_t.pReal.error=0;
+							}else{
+								gRobot.shoot_t.pReal.error++;
+							}
 					break;
 			}
 	  }
@@ -169,7 +180,7 @@ static int ballColor=1;
 				{
 					case 0:
 						PushBallReset();
-					  if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<100)
+					  if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<300)
 					{
 						Nostep=1;
 					  step=2;
@@ -177,7 +188,7 @@ static int ballColor=1;
 						break;
 					case 1:
 						PushBall();
-						if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<100)
+						if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
 						{
 						Nostep=0;
 						step=1;
@@ -197,7 +208,7 @@ static int ballColor=1;
 				gRobot.shoot_t.startSignal=0;
 			}
 		}
-	if(gRobot.shoot_t.pReal.error>300)
+	if(gRobot.shoot_t.pReal.error>400)
 	{
 		gRobot.shoot_t.pReal.error=0;
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
@@ -217,6 +228,7 @@ static int ballColor=1;
 	USART_OUT(UART5,"%d\t",(int)launcher.speed);
 	USART_OUT(UART5,"%d\r\n",(int)gRobot.shoot_t.sReal.speed);
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+
 }
 
 

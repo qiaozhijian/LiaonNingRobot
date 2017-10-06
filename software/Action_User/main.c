@@ -10,7 +10,6 @@
 *			None
 ******************************************************************************/
 #include "config.h"
-static int Startflag=1;
 Robot_t gRobot={0};
 //#define TEST 
 int main(void)
@@ -53,9 +52,8 @@ int main(void)
 				TestMode();
 			 #else
 			MotorRead();  
-			if(gRobot.avoid_t.signal>6000||Startflag==1)
+			if(gRobot.avoid_t.signal>6000)
 			{
-				 Startflag=0;
 				 gRobot.status|=STATUS_AVOID_JUDGE;
 			}
 			//1在处理异常  为0就判断
