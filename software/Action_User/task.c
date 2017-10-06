@@ -62,8 +62,8 @@ void HardWare(void){
 void elmoInit(void){
 	
 	elmo_Init(CAN2);
-	elmo_Enable(CAN2, 1);
-	elmo_Enable(CAN2, 2);
+	elmo_Disable(CAN2, 1);
+	elmo_Disable(CAN2, 2);
 	
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);
@@ -106,7 +106,7 @@ void robotInit(void)
 	elmoInit();
 	
 	variableInit();
-	GPIO_SetBits(GPIOE,GPIO_Pin_7);
+//	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	while(!gRobot.gpsSignal){};
 //	Delay_ms(8000);
 //  Delay_ms(7000);

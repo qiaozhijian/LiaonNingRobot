@@ -142,7 +142,7 @@ void MotorRead(void)
 				if(gRobot.walk_t.circleChange.direction==0)
 				{
 					ReadActualVel(CAN2,LEFT_MOTOR_WHEEL_ID);   //顺时针读取左轮子速度
-		      gRobot.avoid_t.signal=gRobot.walk_t.left.real;
+		      gRobot.avoid_t.signal=-gRobot.walk_t.left.real;
 				}else if(gRobot.walk_t.circleChange.direction==1)
 				{
 					ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);  //逆时针读取右轮子速度
@@ -152,6 +152,10 @@ void MotorRead(void)
 				ReadActualPos(CAN1,GUN_YAW_ID);             //读取航向角电机位置
 				count=0;
 			}
+	#ifdef TEST
+			ReadActualVel(CAN2,RIGHT_MOTOR_WHEEL_ID);
+			ReadActualVel(CAN2,LEFT_MOTOR_WHEEL_ID); 
+			#endif
 }
 /************************脉冲转速度***********************/
 float Pulse2Vel(float Pulse)

@@ -98,7 +98,6 @@ if(StdId==0x280+PUSH_BALL_ID)
 	CAN_ClearFlag(CAN1, CAN_FLAG_FF1);
 	CAN_ClearFlag(CAN1, CAN_FLAG_FOV1);
 }
-int c=0;
 void CAN2_RX0_IRQHandler(void)
 {
 	 Msg_t Can2Msg; 
@@ -118,7 +117,6 @@ if(StdId==0x280+LEFT_MOTOR_WHEEL_ID)
 if(StdId==0x280+RIGHT_MOTOR_WHEEL_ID)
 {
 	//得到电机速度
-	c=c+1;
 		if(Can2Msg.receivebuff[0]==0x00005856)
 		{
 			gRobot.walk_t.right.real=Can2Msg.receivebuff[1];
@@ -215,15 +213,19 @@ void UART5_IRQHandler(void)
 				
 			case 6:
 				step=0;
-				if(data=='1')//摄像头
+				if(data=='1')//轮子自检
 				{	
 					testMode=1;
+					USART_OUT(UART5,"WheelTest\t\n");
+					USART_OUT(UART5,"TravelSwitchTest\r\n");
 				}
 					else if(data=='2')//轮子，激光，行程开关自检
 				{
+					USART_OUT(UART5,"CameraTest\t\n");
 					testMode=2;
 				}else if(data=='3')//发射整套自检
 				{
+					USART_OUT(UART5,"ShootTest\t\n");
 					testMode=3;
 				}else if(data=='4')
 				{

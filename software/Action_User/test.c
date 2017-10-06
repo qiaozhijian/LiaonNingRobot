@@ -43,84 +43,57 @@ void TestMode(void)
 		case 3://发射自检
 			ShootTest();
 		break;
-		
 		case 4:
-			Wheeltest();
 			break;
-		
-		
 		
 		default:
 		break;
 	
 }
-
-	
-	
-	
-	
-
-/*****************************************ʱӢ˔*****************************************/
-	USART_OUT(UART5,"%d\t",(int)gRobot.camera_t.camerapid.aimAngle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
-	USART_OUT(UART5,"%d\t",(int)gRobot.collect_t.PhotoElectric.ballcount);						
-	USART_OUT(UART5,"%d\r\n",(int)gRobot.avoid_t.signal);
-							
-	USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.passflag);	
-	USART_OUT(UART5,"%d\t",(int)angleErrorCount(gRobot.avoid_t.pid.aimAngle,gRobot.walk_t.pos.angle));
-							
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);			
-							
-	USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.pid.aimAngle);	
-	//USART_OUT(UART5,"%d\t%d\t%d\t%d\t",(int)gRobot.walk_t.right.real,gRobot.status,gRobot.avoid_t.signal,(int)gRobot.walk_t.right.aim);
-	USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
-	USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTimerem);
-	USART_OUT(UART5,"%d\r\n",(int)gRobot.status);
-
-				//			WalkTask1();
-				//			WalkTask2();
-				//			Ŧʱ֫ѽת
-				//       CirlceSweep();
-				//			NiShiZhenCircleBiHuan(1200,1600,2400,2400);
-				//			USART_OUTF(Key1);
-				
-				//			USART_OUTF(Key2);
-				//			fireTask();
-				//      Sub_Box();
-				//			Findball_3();
-				//			Findball_5();
-				//			Debug();
-				//USART_OUT(UART5,"%d\r\n",(int)gRobot.shoot_t.sReal.speed);
-/*****************************************ʱӢ˔*****************************************/			
-
 }
 void WheelTest(float laserRight,float laserLeft)
 {
+	static int rightvel;
+	static int leftvel;
 	if(laserRight>600&&laserLeft>600)
 	{
-		VelCrl(CAN2,1,0);
-		VelCrl(CAN2,2,0);
+		rightvel=0;
+		leftvel=0;
+		VelCrl(CAN2,1,rightvel);
+		VelCrl(CAN2,2,leftvel);
 		CollectBallVelCtr(0);
-	}
-	if(laserRight<=600)
+	}else if(laserRight<=600)
 	{
-		VelCrl(CAN2,1,8000);
-		VelCrl(CAN2,2,-8000);
+		rightvel=8000;
+		leftvel=-8000;
+		VelCrl(CAN2,1,rightvel);
+		VelCrl(CAN2,2,leftvel);
+		if(laserRight/8>50)
+		{
+			laserRight=400;
+		}
 		CollectBallVelCtr(laserRight/8);
-	}
-	if(laserLeft<=600)
+	}else if(laserLeft<=600)
 	{
-		VelCrl(CAN2,1,-8000);
-		VelCrl(CAN2,2,8000);
+		rightvel=-8000;
+		leftvel=8000;
+		VelCrl(CAN2,1,rightvel);
+		VelCrl(CAN2,2,leftvel);
+		if(laserRight/8>50)
+		{
+			laserLeft=400;
+		}
 		CollectBallVelCtr(laserLeft/8);
 	}
+	USART_OUT(UART5,"AimrightVel:%d\t",(int)rightvel);
+	USART_OUT(UART5,"AimleftVel:%d\t",(int)leftvel);
+	USART_OUT(UART5,"RealrightVel:%d\t",(int)gRobot.walk_t.right.real);
+	USART_OUT(UART5,"RealleftVel:%d\r\n",(int)gRobot.walk_t.left.real);
 }	
 void TravelSwitchTest(void)
 {
+	static int right=0;
+	static int left=0;
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
 	{
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
@@ -140,24 +113,39 @@ void TravelSwitchTest(void)
 	{
 		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	}
+	 left=(GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2));
+	 right=(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0));
+	USART_OUT(UART5,"rightkey:%d\t",(int)right);
+	USART_OUT(UART5,"leftkey:%d\r\n",(int)left);
 }
 void ShootTest(void)
 {
 	static int pullTime=0;
 	YawAngleCtr(gRobot.shoot_t.sAim.angle);
+	USART_OUT(UART5,"Shootspeed:%d\t",(int)gRobot.shoot_t.sReal.speed);
 	ShootCtr(gRobot.shoot_t.sAim.speed);
+	USART_OUT(UART5,"Shootangle:%d\t",(int)gRobot.shoot_t.sReal.angle);
 	if(pullTime<3)
 	{
 		PushBall();
+		USART_OUT(UART5,"PushBall:%d\t",(int)gRobot.shoot_t.pReal.pos);
 	}else if(pullTime>200&&pullTime<203)
 	{
 		PushBallReset();
+		USART_OUT(UART5,"PushBallRest%d\t",(int)gRobot.shoot_t.pReal.pos);
 	}
   pullTime++;
 	pullTime%=400;
-}
-void Wheeltest(void)
-{
-	VelCrl(CAN2,1,5000);
-	VelCrl(CAN2,2,-5000);
+	if(getBallColor()==1)
+	{
+		USART_OUT(UART5,"whitesucess\r\n");
+	}
+	else if(getBallColor()==100)
+	{
+		USART_OUT(UART5,"whitesucess\r\n");
+	}
+	else
+	{
+		USART_OUT(UART5,"CCDFault\r\n");
+	}
 }

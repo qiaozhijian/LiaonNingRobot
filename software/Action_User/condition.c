@@ -44,8 +44,7 @@ int circleChange(void)
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=4;
 	}
-	
-	
+
 	if(gRobot.walk_t.circleChange.linenum==4)
 	{
 		gRobot.walk_t.circleChange.linenum=0;
@@ -141,5 +140,67 @@ int LineCheck(int position)
 			break;	
   }
 	return 0;
+}
+/****************************************************************************
+* 名    称：int CornerJammed(void)
+* 功    能：判断车的是否在角落卡死
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void CornerJammedJudge(void)
+{
+	static int step=0;
+	static int stoptime=0;
+	static int shoottime=0;
+	static int Lasttime=0;
+	static float Lastx=0.0f;
+	static float Lasty=0.0f;
+	static float Lastangle=0.0f;
+	
+	switch(step)
+	{
+		case 0:
+			Lastx=gRobot.walk_t.pos.x;
+			Lasty=gRobot.walk_t.pos.y;
+			Lastangle=gRobot.walk_t.pos.angle;
+			step=1;
+		 USART_OUT(UART5,"case0\r\n");
+			break;
+		case 1://判断卡死前的过程,为试图逃逸与投球做好准备
+			Lasttime++;
+			if(fabs(gRobot.walk_t.pos.x-Lastx)<10 && fabs(gRobot.walk_t.pos.y-Lasty)<10 && fabs(gRobot.walk_t.pos.angle-Lastangle)<3)
+			{
+				stoptime++;
+			}else{
+				stoptime=0;
+			}
+			if(Lasttime>50)
+			{
+				Lasttime=0;
+				Lastx=gRobot.walk_t.pos.x;
+				Lasty=gRobot.walk_t.pos.y;
+				Lastangle=gRobot.walk_t.pos.angle;
+			}
+			
+			if(stoptime>=500)
+			{
+				step=2;
+				stoptime=0;
+			}
+			
+			 USART_OUT(UART5,"%d\t",(int)Lastangle);
+			 USART_OUT(UART5,"%d\t",(int)Lastx);
+			 USART_OUT(UART5,"%d\t",(int)Lasty);
+			 USART_OUT(UART5,"%d\t",(int)stoptime);
+			 USART_OUT(UART5,"%d\r\n",(int)step);
+			break;
+		case 2://开始射球
+			USART_OUT(UART5,"case2\r\n");
+			GPIO_SetBits(GPIOE,GPIO_Pin_7);
+		    fireTask();
+			break;
+	}
 }
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
