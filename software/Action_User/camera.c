@@ -386,7 +386,7 @@ void CameraBaseWalk2(void)
 	break;
 
 	case 1:
-			gRobot.camera_t.camerapid.disError = x-(600+circleChangeSymbol*700-Findball_5());
+			gRobot.camera_t.camerapid.disError = x-(700+circleChangeSymbol*700-Findball_5());
 			gRobot.camera_t.camerapid.aimAngle=0;
 			gRobot.camera_t.camerapid.angleError=angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 		
@@ -416,7 +416,7 @@ void CameraBaseWalk2(void)
 
 	case 3:
 		//小车距离与直线的偏差//不加绝对值是因为判断车在直线上还是直线下
-		gRobot.camera_t.camerapid.disError = x + (600 + circleChangeSymbol*700-Findball_5()); 
+		gRobot.camera_t.camerapid.disError = x + (700 + circleChangeSymbol*700-Findball_5()); 
 		gRobot.camera_t.camerapid.aimAngle = 180;
 		gRobot.camera_t.camerapid.angleError= angleErrorCount(gRobot.camera_t.camerapid.aimAngle,angle);
 	
@@ -436,6 +436,7 @@ void CameraBaseWalk2(void)
 	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum>2)
 	{
 		//进入矫正投球
+		gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum=0;
 		gRobot.status=24;
 	}
 		USART_OUT(UART5, "%d\t", (int)angle);//gRobot.walk_t.pos.angle
@@ -522,9 +523,6 @@ int CheckArea2(float x, float y, int circleSymbol)
 		area = 3;
 		checkMode = 2;
 	}
-
-
-	
 	if (areaRem != area)
 	{
 		areaCheckSymbol = 1;//打开行列检查
@@ -587,4 +585,3 @@ int CheckArea2(float x, float y, int circleSymbol)
 	USART_OUT(UART5, "%d\t\r\n", (int)areaCheckSymbol);
 	return min;
 }
-

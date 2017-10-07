@@ -110,6 +110,7 @@ void robotInit(void)
 	while(!gRobot.gpsSignal){};
 //	Delay_ms(8000);
 //  Delay_ms(7000);
+	PushBallReset();
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
   CollectBallVelCtr(60);                                       //让辊子转起来
 }

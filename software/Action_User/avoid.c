@@ -467,9 +467,7 @@ int LaserJudge(void)
   static float lastlaserLeft=0;//50ms前左激光的值
   static int changeErrorRight=0;//右激光疯狂变换
 	static int changeErrorLeft=0;//左激光疯狂变换
-	static float leftChangeAver=0;//左激光变换的平均值
-	static float rightChangeAver=0;//右激光变换的平均值
-  //记录从哪个状态进来的
+
   count++;
 	
 	if(laserLeft<1350&&fabs(laserLeft-gRobot.shoot_t.lastLaser.left)>40)
@@ -568,7 +566,6 @@ int JudgeStick(void)
   static float lastX=0;
   static float lastY=0;
   static int stickError=0;
-  //记录从哪个状态进来的
   count++;
   if(count==5)
 	{
@@ -597,6 +594,7 @@ int JudgeStick(void)
 			//记住卡死坐标
 			xStick=gRobot.walk_t.pos.x;
 			yStick=gRobot.walk_t.pos.y;
+			gRobot.avoid_t.continueTrigger++;
 			return 1;
 		}
     lastX=gRobot.walk_t.pos.x;
@@ -1024,7 +1022,13 @@ void CornerIn(void) //内环倒车程序
 	static int avoidtime=0;
 	if (i == 0)																		    //使目标角度偏向右边45
 	{
-		aimAngle = gRobot.walk_t.pos.angle - 45; //让车头目标角度右偏45度
+		if(gRobot.walk_t.circleChange.direction==0)
+		{
+			aimAngle = gRobot.walk_t.pos.angle + 45; //让车头目标角度右偏45度
+		}else if(gRobot.walk_t.circleChange.direction==1)
+		{
+			aimAngle = gRobot.walk_t.pos.angle - 45;
+		}
 		i = 1;
 	}
 	angleError = angleErrorCount(aimAngle,gRobot.walk_t.pos.angle);
@@ -1372,7 +1376,7 @@ void ParkingHandle(void)
 	switch(gRobot.abnormal)
 	{
 		case ABNOMAL_BLOCK_IN:
-			ParkingLineBack();
+			CornerIn();
 		break;
 		
 		case ABNOMAL_BLOCK_OUT :
@@ -1384,7 +1388,7 @@ void ParkingHandle(void)
 		break;
 		
 		case ABNOMAL_BLOCK_IN_CORNER:
-			ParkingLineBack();
+			CornerIn();
 		break;
 		
 		case ABNOMAL_BLOCK_OUT_CORNER:
@@ -1403,6 +1407,29 @@ void FixJudge(void)
 }
 void AbnormityJudge(void)
 {
+	if(gRobot.avoid_t.continueTrigger>=7)//倘若这时候出现了扫场便把它储存起来
+	{
+//		if(gRobot.status&STATUS_PARKING)
+//		{
+//			gRobot.avoid_t.statusRem|=STATUS_PARKING;
+//			gRobot.status&=~STATUS_PARKING;//将sweep关闭
+//		}  
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+		gRobot.status&=~STATUS_AVOID_HANDLE;
+		//对除了异常处理的情况进行状态储存
+		gRobot.avoid_t.statusRem|=gRobot.status;
+		if(gRobot.status&STATUS_SWEEP)
+		{
+			gRobot.status&=~STATUS_SWEEP;//将sweep关闭
+		}  
+		if(gRobot.status&STATUS_PARKING)
+		{
+			gRobot.status&=~STATUS_PARKING;//将parking关闭
+		}  
+		gRobot.status|=STATUS_FIX;//连续触发直接关闭所有在fix前面状态handle，直接进入矫正
+		gRobot.avoid_t.continueTrigger=0;
+		gRobot.avoid_t.continueTriggerSignal=1;
+	}
 	if (gRobot.status & STATUS_SWEEP)
   {
 			SweepJudge();
@@ -1422,6 +1449,10 @@ void AbnormityJudge(void)
   {
       CWalkJudge();
 	}
+	USART_OUT(UART5,"statusRem=%d\t",(int)gRobot.avoid_t.statusRem);
+	USART_OUT(UART5,"gRobot.status=%d\t",(int)gRobot.status);		
+	USART_OUT(UART5,"Signal=%d\t",(int)gRobot.avoid_t.continueTriggerSignal);	
+	USART_OUT(UART5,"continueTrigger=%d\t\r\n",(int)gRobot.avoid_t.continueTrigger);		
 }
 /****************************************************************************
 * 名    称：void AbnormityHandle()

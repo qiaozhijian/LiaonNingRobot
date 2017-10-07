@@ -55,7 +55,9 @@ else if (ballNum==1)                     //假如球是黑球
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
-		launcher.speed=0.01364f*v-1.333f;
+//		launcher.speed=0.01364f*v-1.333f;
+//		launcher.speed=0.01371f*v-3.413f;
+	   launcher.speed=0.01517f*v-10.88f-3;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -102,7 +104,7 @@ static int ballColor=1;
 	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
 	static int step=0;
-	static int Nostep=0;
+	static int noballtime=0;
 	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
@@ -125,6 +127,7 @@ static int ballColor=1;
 	{
 		noBall=0;
 		noBallCount=0;
+		noballtime=0;
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
 			switch(step)
@@ -132,11 +135,11 @@ static int ballColor=1;
 				case 0://判断投球的初始位置
 					if(gRobot.shoot_t.pReal.pos<2000)
 					{
-						step=2;
+						step=1;
 						PushBallReset();
 					}else if(gRobot.shoot_t.pReal.pos>=2000)
 					{
-						step=1;
+						step=2;
 						PushBall();
 					}
 					break;
@@ -144,7 +147,7 @@ static int ballColor=1;
 				case 1:
 							PushBallReset();
 				//判断为卡死
-							if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<100)
+							if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<300)
 							{
 								step=2;
 								gRobot.shoot_t.pReal.error=0;
@@ -156,7 +159,7 @@ static int ballColor=1;
 				case 2:
 							PushBall();
 				//判断为卡死
-					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<100)
+					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
 							{
 								step=1;   
 								gRobot.shoot_t.pReal.error=0;
@@ -170,34 +173,27 @@ static int ballColor=1;
 	}else if(ballColor==0)  //没球快推
 	{
 			noBallCount++;
+			noballtime++;
 		if(noBallCount>=200)
 		{ 
 			noBall++;
 			noBallCount=0;
-			if(noBall<4)
-			{ 
-				switch(Nostep)
-				{
-					case 0:
-						PushBallReset();
-					  if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<300)
-					{
-						Nostep=1;
-					  step=2;
-					}
-						break;
-					case 1:
-						PushBall();
-						if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
-						{
-						Nostep=0;
-						step=1;
-						}
-						break;
-				}
-			}
-			}
 		}
+		//槽内没有球
+		if(noballtime>150)
+		{
+			if(step==1)
+			{
+				PushBallReset();
+				step=2;
+			}else if(step==2)
+			{
+				PushBall();
+				step=1;
+			}
+			noballtime=0;
+		}
+	}
 	if(gRobot.shoot_t.pReal.error>500)
 	{
 		gRobot.shoot_t.pReal.error=0;
@@ -219,6 +215,7 @@ static int ballColor=1;
 	USART_OUT(UART5,"%d\t",(int)noBall);
 	USART_OUT(UART5,"%d\t",(int)ballColor);
 	USART_OUT(UART5,"%d\t",(int)step);
+	USART_OUT(UART5,"%d\t",(int)noballtime);
 	USART_OUT(UART5,"%d\t",(int)ballColor);
 	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
 	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);

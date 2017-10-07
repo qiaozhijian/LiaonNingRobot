@@ -436,7 +436,7 @@ void FixTask(void)
 					fix_status = 0;
 					fix_status |= WAIT_AIM_DIRECTION;
 					fix_status |= TRY_SEC_FIX;
-				}
+				} 
 			}else if(CheckAgainstWall()==2)//靠墙失败
 			{
 				fix_status = 0;
@@ -469,7 +469,15 @@ void FixTask(void)
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;
-		gRobot.status|=STATUS_AVOID_JUDGE;
+		if(gRobot.avoid_t.continueTriggerSignal!=1)
+		{
+			gRobot.status|=STATUS_AVOID_JUDGE;
+		}else if(gRobot.avoid_t.continueTriggerSignal==1)
+		{
+			gRobot.status|=gRobot.avoid_t.statusRem;//坐标爆炸，矫正结束后瞬间将原来的扫场状态码拿出来
+			gRobot.avoid_t.continueTriggerSignal=0;
+			gRobot.avoid_t.statusRem=0;
+		}
 		gRobot.fix_t.inBorder=aimBorder;
 		gRobot.shoot_t.shootPos.x=getXpos();
 		gRobot.shoot_t.shootPos.y=getYpos();

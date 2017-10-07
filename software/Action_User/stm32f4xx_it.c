@@ -44,6 +44,9 @@
 
 
 extern Robot_t gRobot;
+float Yxpos=0;
+float Yypos=0;
+float Yangle=0;
 /****************CAn***start******************/
 /******************5856电机速度*******************/
 /******************5850电机位置*******************/
@@ -398,6 +401,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
 				posY = posture.ActVal[4];//y
+				Yxpos=posX;
+				Yypos=posY;
+				Yangle=angle;
 //				USART_OUT(UART5,"a=%d\t",(int)(angle*100.0f));
 //				USART_OUT(UART5,"x=%d\t",(int)(posX));
 //   			USART_OUT(UART5,"y=%d\r\n",(int)posY);

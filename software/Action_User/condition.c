@@ -157,6 +157,7 @@ void CornerJammedJudge(void)
 	static float Lastx=0.0f;
 	static float Lasty=0.0f;
 	static float Lastangle=0.0f;
+	static int shoottime=0;
 if(gRobot.status&(STATUS_SWEEP | STATUS_FIX | STATUS_PARKING | STATUS_CAMERA_AND_WALK))
 {	
 	switch(step)
@@ -189,17 +190,23 @@ if(gRobot.status&(STATUS_SWEEP | STATUS_FIX | STATUS_PARKING | STATUS_CAMERA_AND
 				step=2;
 				stoptime=0;
 			}
-			
+			 USART_OUT(UART5,"case1\t");
 			 USART_OUT(UART5,"%d\t",(int)Lastangle);
 			 USART_OUT(UART5,"%d\t",(int)Lastx);
 			 USART_OUT(UART5,"%d\t",(int)Lasty);
 			 USART_OUT(UART5,"%d\t",(int)stoptime);
 			 USART_OUT(UART5,"%d\r\n",(int)step);
-			break;
+			break; 
 		case 2://开始射球
+			shoottime++;
 			USART_OUT(UART5,"case2\r\n");
 			GPIO_SetBits(GPIOE,GPIO_Pin_7);
 		    fireTask();
+			if(shoottime>1000)
+			{
+				shoottime=0;
+				step=0;
+			}
 			break;
 	}
 }

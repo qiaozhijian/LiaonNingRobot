@@ -5,11 +5,13 @@ extern Robot_t gRobot;
 
 int a=0;
 extern int testMode;
+float laserRight;
+float laserLeft;
 void TestMode(void)
 {
 	int ballNum=0;
-	float laserRight=getRightAdc();
-	float laserLeft=getLeftAdc();
+	 laserRight=getRightAdc();
+	 laserLeft=getLeftAdc();
   switch(testMode)
 	{
 		case 1:

@@ -8,7 +8,10 @@ int turnTimeLead(int lineChangeSymbol);           //计算提前量
 int CheckAgainstWall(void);                       //检测是否靠墙
 int Pointparking(float Pointx,float Pointy);      //定点停车
 void AgainstWall(float aimAngle,float angle,float spacingError);    //靠墙
-void In2Out(int lineChangeSymbol,int direction);  //刚开始的基础扫场程序
+void In2Out(void);  //刚开始的基础扫场程序
+void In2Out2(void);
+void In2Out3(void);
+void Out2In(void);
 void Debug(void);                                 //debug                        
 void Vchange(int lineChangeSymbol);               //速度与脉冲的转换
 int LaserStart(void);                             //激光启动
@@ -21,8 +24,8 @@ void Ygoal(float aimX,float aimY,float aimAngle,int sign,int lineChangeSymbol);/
 
 int Square(void);
 int AntiSquare(void);
-int Circle(void); 
-int AntiCircle(void);
+int Circle(float vel,float r); 
+int AntiCircle(float vel,float r);
 int Square2(void);
 int AntiSquare2(void);
 

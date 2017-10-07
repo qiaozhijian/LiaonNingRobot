@@ -56,7 +56,7 @@ int CheckAgainstWall(void)
 		totalTime=0;
 		return 1;
   }
-	if(againstError>100)
+	if(againstError>350)
   {
 		againstError=0;
 		totalTime=0;
@@ -249,7 +249,7 @@ int Pointparking(float Pointx,float Pointy)
 	switch(gRobot.fix_t.toBorder)
 	{
 		case 0:
-			if(gRobot.walk_t.pos.x<-1550)
+			if(gRobot.walk_t.pos.x<-1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -261,7 +261,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 1:
-			if(gRobot.walk_t.pos.y<850)
+			if(gRobot.walk_t.pos.y<1000)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -273,7 +273,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 2:
-			if(gRobot.walk_t.pos.x>1550)
+			if(gRobot.walk_t.pos.x>1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -285,7 +285,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 3:
-			if(gRobot.walk_t.pos.y>3950)
+			if(gRobot.walk_t.pos.y>3800)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -326,30 +326,6 @@ int LineChange(void)			   //，
   return 0;
 }
 /****************************************************************************
-* 名    称：In2Out()	
-* 功    能：主扫场控制程序
-* 入口参数：lineChangeSymbol(改变第一圈的位置)
-* 出口参数：无
-* 说    明：无
-* 调用方法：无 
-* 注    意: 0:逆 1:顺
-****************************************************************************/
-void In2Out(int lineChangeSymbol,int direction)
-{
-  //条件判断
-  switch(direction)
-  {
-  case 0:
-    ClockWise();
-    break;
-  case 1:
-    AntiClockWise();
-    break;
-  default:
-    break;
-  }
-}
-/****************************************************************************
 * 名    称：WalkOne()	
 * 功    能：挡车程序
 * 入口参数：无
@@ -371,7 +347,7 @@ void WalkOne()
     Ygoal(300,1400,-90,-1,0);
     break;
   case 2:
-    In2Out(0,1);
+    In2Out();
     break;
   default:
     break;
@@ -433,11 +409,11 @@ int LaserStart(void)
 			gRobot.walk_t.circleChange.direction=0;
 			return 0;
 		case 2:
-			gRobot.walk_t.laser.status=1;
+			gRobot.walk_t.laser.status=2;
 			gRobot.walk_t.circleChange.direction=0;
 			return 0;
 		case 3:
-			gRobot.walk_t.laser.status=1;
+			gRobot.walk_t.laser.status=3;
 			gRobot.walk_t.circleChange.direction=0;
 			return 0;
 		case 4:
@@ -445,11 +421,11 @@ int LaserStart(void)
 			gRobot.walk_t.circleChange.direction=1;
 			return 0;
 		case 5:
-			gRobot.walk_t.laser.status=1;
+			gRobot.walk_t.laser.status=2;
 			gRobot.walk_t.circleChange.direction=1;
 			return 0;
 		case 6:
-			gRobot.walk_t.laser.status=1;
+			gRobot.walk_t.laser.status=3;
 			gRobot.walk_t.circleChange.direction=1;
 			return 0;
 	}
@@ -512,14 +488,18 @@ void Run(void)
 {
   switch(gRobot.walk_t.laser.status)
   {
-  case 1:
-    In2Out(1,gRobot.walk_t.circleChange.direction);
+ case 1:
+    In2Out();
     break;
   case 2:
-    WalkOne();
+	 In2Out2();
     break;
   case 3:
+		In2Out3();
     break;
+	case 4:
+		WalkOne();
+		break;
   default:
     break;
   }
@@ -541,11 +521,11 @@ void ClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		Circle();
+		Circle(2200,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		Circle();
+		Circle(2400,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
@@ -580,11 +560,11 @@ void AntiClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		AntiCircle();
+		AntiCircle(2200,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		AntiCircle();
+		AntiCircle(2400,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
@@ -632,10 +612,10 @@ void ChangeBoard(void){
 		gRobot.walk_t.board[0][2]=-100;
 		gRobot.walk_t.board[0][3]=1900;
 	}else if(gRobot.walk_t.circleChange.circleNum!=0){
-		gRobot.walk_t.board[1][0]=1110;
-		gRobot.walk_t.board[1][1]=3550;
-		gRobot.walk_t.board[1][2]=-1110;
-		gRobot.walk_t.board[1][3]=1250;
+		gRobot.walk_t.board[1][0]=900;//1110
+		gRobot.walk_t.board[1][1]=3300;//3550
+		gRobot.walk_t.board[1][2]=-900;
+		gRobot.walk_t.board[1][3]=1500;
 	}
 
 }
@@ -760,16 +740,16 @@ int AntiSquare(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int Circle(void)
+int Circle(float vel,float r)
 {
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 4:
-    ShunShiZhenCircleBiHuan(2200,900,0,2400);
+    ShunShiZhenCircleBiHuan(vel,r,0,2400);
     break;
     
   case 5:
-    ShunShiZhenCircleBiHuan(2400,1400.f,0,2400);
+    ShunShiZhenCircleBiHuan(vel,r,0,2400);
     break;
     
   default:
@@ -785,16 +765,16 @@ int Circle(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
-int AntiCircle(void)
+int AntiCircle(float vel,float r)
 {
   switch(gRobot.walk_t.circleChange.turnTime)
   {		
   case 4:
-    NiShiZhenCircleBiHuan(2200,800,0,2400);
+    NiShiZhenCircleBiHuan(vel,r,0,2400);
     break;
     
   case 5:
-    NiShiZhenCircleBiHuan(2400,1200.f,0,2400);
+    NiShiZhenCircleBiHuan(vel,r,0,2400);
     break;
     
   default:
@@ -894,19 +874,19 @@ int AntiSquare2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(2100.f,3400.f,0,0,1,1);
+    Line(2150.f,3400.f,0,0,1,4);
     break;
     
   case 7:
-    Line(-600.f,4500.f,90,1,1,1);
+    Line(-600.f,4550.f,90,1,1,4);
     break;
     
   case 8:
-    Line(-2100.f,1400,180,0,-1,1);
+    Line(-2150.f,1400,180,0,-1,4);
     break;
     
   case 9:
-    Line(600.f,300,-90,1,-1,1);
+    Line(600.f,250,-90,1,-1,4);
     break;
   default:
     break;
@@ -928,5 +908,293 @@ void AngleRoute(float aimangle)
 	VelCrl(CAN2, 1,7000+AnglePidControl(AngleErr)); //pid中填入的是差值
 	VelCrl(CAN2, 2,-7000+AnglePidControl(AngleErr));
 }
+/****************************************************************************
+* 名    称：In2Out()	
+* 功    能：主扫场控制程序
+* 入口参数：lineChangeSymbol(改变第一圈的位置)
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+* 注    意: 0:逆 1:顺
+****************************************************************************/
+void In2Out()
+{
+  //条件判断
+  switch(gRobot.walk_t.circleChange.direction)
+  {
+  case 0:
+    ClockWise();
+    break;
+  case 1:
+    AntiClockWise();
+    break;
+  default:
+    break;
+  }
+}
+/****************************************************************************
+* 名    称：In2Out2()	
+* 功    能：顺时针行驶绕第二圈
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void In2Out2(void)
+{
+	 static int step=0;
+	 static int circlelast=0;
+		circleChange();
+	if(gRobot.walk_t.circleChange.direction==0)
+	{
+		switch(step)
+		{
+			case 0:
+				circlelast=gRobot.walk_t.circleChange.circleNum;
+				step++;
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=4;
+				if(gRobot.walk_t.circleChange.linenum<=2)
+				{
+					Circle(1800,800);
+				}
+				else
+				{
+					Circle(2200,800);
+				}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  Circle(2400,1100);
+				break;
+			case 3:
+				Square2();
+				break;
+		}
+  }else if(gRobot.walk_t.circleChange.direction==1)
+	{
+		switch(step)
+		{
+			case 0:
+				circlelast=gRobot.walk_t.circleChange.circleNum;
+				step++;
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=4;
+			if(gRobot.walk_t.circleChange.linenum<=2)
+			{
+				AntiCircle(1800,800);
+			}else
+			{
+				AntiCircle(2200,1100);
+			}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  AntiCircle(2400,1100);
+				break;
+			case 3:
+				AntiSquare2();
+				break;
+		}
+	}
+	
+	if(circlelast!=gRobot.walk_t.circleChange.circleNum)
+	{
+	  step++;
+		circlelast=gRobot.walk_t.circleChange.circleNum;
+	}
+	
+	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+	}
+	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	
+	//进入矫正	
+	if(gRobot.walk_t.circleChange.circleNum==3)
+	{
+			gRobot.status&=~STATUS_SWEEP;
+			gRobot.walk_t.circleChange.turnTime=0;
+	}
+}	
+/****************************************************************************
+* 名    称：In2Out3()	
+* 功    能：顺时针行驶绕第二圈
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void In2Out3(void)
+{
+	static int step=0;
+	static int circlelast=0;
+		circleChange();
+	if(gRobot.walk_t.circleChange.direction==0)
+	{
+		switch(step)
+		{
+			case 0:
+				circlelast=gRobot.walk_t.circleChange.circleNum;
+				step++;
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			if(gRobot.walk_t.circleChange.linenum<=2)
+			{
+				Circle(1800,1100);
+			}else{
+				Circle(2400,1100);
+			}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=4;
+				Circle(2400,800);
+				break;
+			case 3:
+				Square2();
+				break;
+		}
+  }else if(gRobot.walk_t.circleChange.direction==1)
+	{
+		switch(step)
+		{
+			case 0:
+				circlelast=gRobot.walk_t.circleChange.circleNum;
+				step++;
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			if(gRobot.walk_t.circleChange.linenum<=2)
+			{
+				AntiCircle(1800,1100);
+			}else{
+				AntiCircle(2400,1100);
+			}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=4;
+				AntiCircle(2400,800);
+				break;
+			case 3:
+				AntiSquare2();
+				break;
+		}
+	}
+	
+	if(circlelast!=gRobot.walk_t.circleChange.circleNum)
+	{
+	  step++;
+		circlelast=gRobot.walk_t.circleChange.circleNum;
+	}
+	
+	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+	}
+	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	
+	//进入矫正	
+	if(gRobot.walk_t.circleChange.circleNum==3)
+	{
+			gRobot.status&=~STATUS_SWEEP;
+			gRobot.walk_t.circleChange.turnTime=0;
+	}
+}
+/****************************************************************************
+* 名    称：Out2In()	
+* 功    能：从外到内
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void Out2In(void)
+{
+	static int step=0;
+	gRobot.status&=~STATUS_SHOOTER;
+	circleChange();
+	if(gRobot.walk_t.circleChange.direction==0) //顺时针
+	{
+		switch(step)
+		{
+			case 0:
+				Square2();
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
+				{
+					step++;
+				}
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  Circle(2200,1100);
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
+				{
+					step++;
+				}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=4;
+			  Circle(2000,800);
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==3)
+				{
+					step++;
+				}
+				break;
+			case 3:
+				Square();
+				break;
+		}
+  }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
+	{
+		switch(step)
+		{
+		case 0:
+				AntiSquare2();
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
+				{
+					step++;
+				}
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  AntiCircle(2200,1100);
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
+				{
+					step++;
+				}
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=4;
+			  AntiCircle(2000,800);
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==3)
+				{
+					step++;
+				}
+				break;
+			case 3:
+				AntiSquare();
+				break;
+		}
+	}
+	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+	}
+	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	
+	//进入矫正	
+	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==4)
+	{
+		  gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum=0;
+		  gRobot.status|=STATUS_FIX;
+			gRobot.status|=STATUS_SHOOTER;
+			gRobot.walk_t.circleChange.turnTime=0;
+			step=0;
+	}
+}
+
 /********************* (C) COPYRIGHT NEU_ACTION_2017 ****************END OF FILE************************/
 

@@ -154,6 +154,9 @@ typedef struct{
 	int passflag;     //每经过backcare一次被置1
 	Pid_t pid;				//判断逃逸倒车后的角度与目标角度的差值
 	PosRem_t posRem;  //记录进入backcare时的姿态
+	int continueTriggerSignal;
+	int continueTrigger;
+	int statusRem;//连续触发瞬间进入矫正进程让它记住当前的大状态码
 }Avoid_t;
 
 /******************辊子收球结构体***********************/
