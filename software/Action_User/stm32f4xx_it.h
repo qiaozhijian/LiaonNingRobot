@@ -51,7 +51,8 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-
+int IsSendOK(void);
+void SetOKFlagZero(void);
 
 #endif /* __STM32F4xx_IT_H */
 

@@ -3,6 +3,8 @@
 #include "config.h"
 #include "MotionCard.h"
 /******************矫正结构体***********************/
+void driveGyro(void);
+void DisDriveGyro(void);
 //激光距离
 typedef struct {
 	int left;
@@ -100,6 +102,8 @@ typedef struct {
 	float speed;
 	//电机速度达到所给速度标志位
 	int velAchieve;
+	//射了的球的个数
+	int shootNum;
 }ShootPara_t;
 
 typedef struct{

@@ -339,12 +339,10 @@ static float angle;
 static float posX;
 static float posY;
 float avel=0;
-
-int flagggg=0;
+static int isOKFlag=0;
 void USART3_IRQHandler(void) //更新频率200Hz
 {
 	static uint8_t ch;
-	gRobot.gpsSignal=1;
 	static union {
 		uint8_t data[24];
 		float ActVal[6];
@@ -355,12 +353,13 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	{
 		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 		ch = USART_ReceiveData(USART3);
-		flagggg=1;
 		switch (count)
 		{
 		case 0:
 			if (ch == 0x0d)
 				count++;
+			else if(ch=='O')
+				count=5;
 			else
 				count = 0;
 			break;
@@ -397,17 +396,15 @@ void USART3_IRQHandler(void) //更新频率200Hz
 		case 4:
 			if (ch == 0x0d)
 			{
+				gRobot.gpsSignal=1;
 				angle =posture.ActVal[0] ;//角度
 				posture.ActVal[1] = posture.ActVal[1];
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
-				posY = posture.ActVal[4];//y
-				Yxpos=posX;
-				Yypos=posY;
+				posY = posture.ActVal[4];//y 
+				Yxpos=posY;
+				Yypos=posX;
 				Yangle=angle;
-//				USART_OUT(UART5,"a=%d\t",(int)(angle*100.0f));
-//				USART_OUT(UART5,"x=%d\t",(int)(posX));
-//   			USART_OUT(UART5,"y=%d\r\n",(int)posY);
 				avel=posture.ActVal[5] = posture.ActVal[5];
 				setXpos(posX);
 				setYpos(posY);
@@ -418,7 +415,11 @@ void USART3_IRQHandler(void) //更新频率200Hz
 			}
 			count = 0;
 			break;
-
+		case 5:
+			count = 0;
+			if(ch=='K')
+				isOKFlag=1;
+			break;
 		 default:
 			count = 0;
 			break;
@@ -428,6 +429,17 @@ void USART3_IRQHandler(void) //更新频率200Hz
 	{
 		USART_ReceiveData(USART3);
 	}
+}
+
+
+/************************定位器******************/
+int IsSendOK(void)
+{
+	return isOKFlag;
+}
+void SetOKFlagZero(void)
+{
+	isOKFlag=0;
 }
 //树莓派接收图片帧程序程序
 int Ball_counter=0;

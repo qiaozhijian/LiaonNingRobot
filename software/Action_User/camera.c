@@ -585,3 +585,4 @@ int CheckArea2(float x, float y, int circleSymbol)
 	USART_OUT(UART5, "%d\t\r\n", (int)areaCheckSymbol);
 	return min;
 }
+

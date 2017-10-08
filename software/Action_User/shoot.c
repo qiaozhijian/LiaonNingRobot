@@ -57,7 +57,7 @@ else if (ballNum==1)                     //假如球是黑球
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
 //		launcher.speed=0.01364f*v-1.333f;
 //		launcher.speed=0.01371f*v-3.413f;
-	   launcher.speed=0.01517f*v-10.88f ;
+	   launcher.speed=0.01517f*v-10.88f-2.0f;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -142,6 +142,7 @@ static int ballColor=1;
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
 			Stabletime++;
+			ShootCount();
 			switch(step)
 			{
 				case 0://判断投球的初始位置

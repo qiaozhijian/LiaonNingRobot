@@ -8,6 +8,7 @@ void BackCar(void);
 void BackCarIn(float angle);     //内环倒车
 void BackCarOut(float angle);    //外环倒车
 void CornerIn(void);
+void CornerOut(void);
 int CheckEnemy(void);            //fixtask前检测是否靠墙
 int Turn180(void);
 void SoundOut(void);//试探对方车是否能动

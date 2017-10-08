@@ -11,7 +11,7 @@
 ******************************************************************************/
 #include "config.h"
 Robot_t gRobot={0};
-// #define TEST 
+//#define TEST 
 extern float Yxpos,Yypos,Yangle,avel;
 int main(void)
 {
@@ -23,6 +23,7 @@ int main(void)
 	USART_OUT(UART5,"initsucess\r\n");
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
   while(LaserStart());
+	//driveGyro();
   while (1)
   {
     while (getTimeFlag())                              //10ms执行进入一次
@@ -57,7 +58,7 @@ int main(void)
 			 #ifdef TEST 
 				TestMode();
 			 #else
-			MotorRead(); 
+ 			MotorRead(); 
 			CornerJammedJudge();
 			if(gRobot.avoid_t.signal>6000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
 			{

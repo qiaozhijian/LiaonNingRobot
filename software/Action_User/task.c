@@ -107,10 +107,44 @@ void robotInit(void)
 	
 	variableInit();
 	GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	
+  //driveGyro();
 	while(!gRobot.gpsSignal){};
-//	Delay_ms(8000);
-//  Delay_ms(7000);
+	//DisDriveGyro();
 	PushBallReset();
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
   CollectBallVelCtr(60);                                       //让辊子转起来
+}
+
+void driveGyro(void){
+	while(!IsSendOK()){
+		Delay_ms(5);
+		USART_SendData(USART3,'A');
+		USART_SendData(USART3,'T');
+		USART_SendData(USART3,'+');
+		USART_SendData(USART3,'b');
+		USART_SendData(USART3,'e');
+		USART_SendData(USART3,'g');
+		USART_SendData(USART3,'i');
+		USART_SendData(USART3,'n');
+		USART_SendData(USART3,'\r');
+		USART_SendData(USART3,'\n');
+	}
+	SetOKFlagZero();
+}
+
+void DisDriveGyro(void){
+	while(!IsSendOK()){
+		Delay_ms(5);
+		USART_SendData(USART3,'A');
+		USART_SendData(USART3,'T');
+		USART_SendData(USART3,'+');
+		USART_SendData(USART3,'s');
+		USART_SendData(USART3,'t');
+		USART_SendData(USART3,'o');
+		USART_SendData(USART3,'p');
+		USART_SendData(USART3,'\r');
+		USART_SendData(USART3,'\n');
+	}
+	SetOKFlagZero();
 }

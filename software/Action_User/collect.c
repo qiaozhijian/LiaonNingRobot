@@ -103,5 +103,23 @@ void CountBall(void)
 	}
 
 }
-
-
+/****************************************************************************
+* 名    称：CountBall()
+* 功    能：发射电机数球函数
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+void ShootCount(void)
+{
+	static int shootnum=0;
+	if(fabs(gRobot.shoot_t.sAim.speed-gRobot.shoot_t.sReal.speed)>5)
+	{
+		shootnum++;
+	}
+	if(shootnum>2)
+	{
+		gRobot.shoot_t.sReal.shootNum++;
+	}
+}

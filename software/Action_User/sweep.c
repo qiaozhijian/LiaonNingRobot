@@ -819,19 +819,19 @@ int Square2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(-2100.f,3400.f,0,0,1,1);//x
+    Line(-2100.f,3400.f,0,0,1,4);//x
     break;
     
   case 7:
-    Line(600.f,4500.f,-90,1,1,1);//y
+    Line(600.f,4500.f,-90,1,1,4);//y
     break;
     
   case 8:
-    Line(2100.f,1400,180,0,-1,1);//x
+    Line(2100.f,1400,180,0,-1,4);//x
     break;
     
   case 9:
-    Line(-600.f,300,90,1,-1,1);//y
+    Line(-600.f,300,90,1,-1,4);//y
     break;
     
   default:
