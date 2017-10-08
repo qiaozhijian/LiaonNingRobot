@@ -12,7 +12,7 @@
 #include "config.h"
 Robot_t gRobot={0};
 // #define TEST 
-extern float Yxpos,Yypos,Yangle;
+extern float Yxpos,Yypos,Yangle,avel;
 int main(void)
 {
 	//int OSCPUUsage=0; 
@@ -34,11 +34,11 @@ int main(void)
 				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
 				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
 				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
-	  		USART_OUT(UART5,"%d\t",(int)getRightAdc());
+	  		USART_OUT(UART5,"%d\t\r\n",(int)getRightAdc());
 				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.speed);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
+				USART_OUT(UART5,"g%d\t",(int)gRobot.walk_t.pos.angle);
+				USART_OUT(UART5,"g%d\t",(int)gRobot.walk_t.pos.x);
+				USART_OUT(UART5,"g %d\t",(int)gRobot.walk_t.pos.y);
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
 		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
@@ -47,9 +47,10 @@ int main(void)
 				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
 			  USART_OUT(UART5,"l=%d\t",(int)left);
 				USART_OUT(UART5,"r=%d\t",(int)right);
+				USART_OUT(UART5,"%d\t",(int)avel);
 				USART_OUT(UART5,"%d\t",(int)Yxpos);
-				USART_OUT(UART5,"%d\t",(int)Yypos);
-				USART_OUT(UART5," %d\t",(int)Yangle);
+    		USART_OUT(UART5,"%d\t",(int)Yypos);
+				USART_OUT(UART5," %d\t\r\n",(int)Yangle);
 			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
 			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
 				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
@@ -58,7 +59,7 @@ int main(void)
 			 #else
 			MotorRead(); 
 			CornerJammedJudge();
-			if(gRobot.avoid_t.signal>6000)
+			if(gRobot.avoid_t.signal>6000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
 			{
 				 gRobot.status|=STATUS_AVOID_JUDGE;
 			}
@@ -80,7 +81,7 @@ int main(void)
 			else if (gRobot.status & STATUS_FIX)
 			{
 				FixTask();
-			}
+			} 
 			else if (gRobot.status & STATUS_SHOOTER)
 			{
 				fireTask();
@@ -91,7 +92,7 @@ int main(void)
 				//CameraBaseWalk2();
 			}
 			#endif
-		}
+ 		}
 //		
 	//OSCPUUsage=getTimeCount();
 }

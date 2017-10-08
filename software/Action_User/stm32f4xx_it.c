@@ -338,6 +338,7 @@ void USART1_IRQHandler(void)
 static float angle;
 static float posX;
 static float posY;
+float avel=0;
 
 int flagggg=0;
 void USART3_IRQHandler(void) //更新频率200Hz
@@ -407,7 +408,7 @@ void USART3_IRQHandler(void) //更新频率200Hz
 //				USART_OUT(UART5,"a=%d\t",(int)(angle*100.0f));
 //				USART_OUT(UART5,"x=%d\t",(int)(posX));
 //   			USART_OUT(UART5,"y=%d\r\n",(int)posY);
-				posture.ActVal[5] = posture.ActVal[5];
+				avel=posture.ActVal[5] = posture.ActVal[5];
 				setXpos(posX);
 				setYpos(posY);
 				setAngle(angle);

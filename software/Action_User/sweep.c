@@ -65,7 +65,7 @@ int CheckAgainstWall(void)
 	USART_OUT(UART5, "againstTime%d\t", againstTime);
 	USART_OUT(UART5, "againstError%d\t", againstError);
 	USART_OUT(UART5, "total%d\t\r\n", totalTime);
-	if(totalTime>1000)
+	if(totalTime>1000&&fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3)
 	{
 		totalTime=0;
 		return 1;
@@ -117,7 +117,7 @@ void AgainstWall(float aimAngle,float angle,float spacingError)
 void Vchange(int lineChangeSymbol)
 {
   //最外环速度
-  const float vOut1 = 1300.0f; 	
+  const float vOut1 = 1700.0f; 	
   //中环速度
   const float vOut2 = 1100.f;
   //内环速度
@@ -249,7 +249,7 @@ int Pointparking(float Pointx,float Pointy)
 	switch(gRobot.fix_t.toBorder)
 	{
 		case 0:
-			if(gRobot.walk_t.pos.x<-1400)
+			if(gRobot.walk_t.pos.y>1000&&gRobot.walk_t.pos.y<3800&&gRobot.walk_t.pos.x<-1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -261,7 +261,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 1:
-			if(gRobot.walk_t.pos.y<1000)
+			if(gRobot.walk_t.pos.y<1000&&gRobot.walk_t.pos.x>-1400&&gRobot.walk_t.pos.x<1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -273,7 +273,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 2:
-			if(gRobot.walk_t.pos.x>1400)
+			if(gRobot.walk_t.pos.y>1000&&gRobot.walk_t.pos.y<3800&&gRobot.walk_t.pos.x>1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -285,7 +285,7 @@ int Pointparking(float Pointx,float Pointy)
 		break;
 		
 		case 3:
-			if(gRobot.walk_t.pos.y>3800)
+			if(gRobot.walk_t.pos.y>3800&&gRobot.walk_t.pos.x>-1400&&gRobot.walk_t.pos.x<1400)
 			{
 				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
 				VelCrl(CAN2, 2,0);
@@ -957,7 +957,7 @@ void In2Out2(void)
 				gRobot.walk_t.circleChange.turnTime=4;
 				if(gRobot.walk_t.circleChange.linenum<=2)
 				{
-					Circle(1800,800);
+					Circle(2000,800);
 				}
 				else
 				{

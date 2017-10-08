@@ -136,9 +136,9 @@ void BackCarIn(float angle) //内环倒车程序
 			LastY=gRobot.walk_t.pos.y;
 			aimAngle = angle - 45;
 		  step++;
-			USART_OUT(UART5,"get%d\t");
-			USART_OUT(UART5,"get%d\t");
-			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
 			break;
 		case 1:
 				avoidtime=0;
@@ -153,9 +153,9 @@ void BackCarIn(float angle) //内环倒车程序
 				 LastY=gRobot.walk_t.pos.y;
 				 avoidtime=0;
 			 }
-			 USART_OUT(UART5,"get2%d\t");
-			 USART_OUT(UART5,"get2%d\t");
-			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
 			break;
 		case 2:
 			 VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
@@ -165,9 +165,9 @@ void BackCarIn(float angle) //内环倒车程序
 					step++;
 					avoidtime=0;
 				}
-				USART_OUT(UART5,"get3%d\t");
-				USART_OUT(UART5,"get3%d\t");
-				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
 			break;
 		case 3:
 			 VelCrl(CAN2, 1, 10000); //pid中填入的是差值
@@ -222,9 +222,9 @@ void BackCarOut(float angle) //外环倒车程序
 			LastY=gRobot.walk_t.pos.y;
 			aimAngle = angle + 45;
 		   step++;
-			USART_OUT(UART5,"get%d\t");
-			USART_OUT(UART5,"get%d\t");
-			USART_OUT(UART5,"get%d\t");
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
+			USART_OUT(UART5,"get%d\t",(int)aimAngle);
 			break;
 		case 1:
 			backtime++;
@@ -238,9 +238,9 @@ void BackCarOut(float angle) //外环倒车程序
 				 avoidtime=0;
 				 backtime=0;
 			 }
-			 USART_OUT(UART5,"get2%d\t");
-			 USART_OUT(UART5,"get2%d\t");
-			 USART_OUT(UART5,"get2%d\t");
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
+			 USART_OUT(UART5,"get2%d\t",(int)aimAngle);
 			break;
 		case 2:
 			 VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
@@ -250,9 +250,9 @@ void BackCarOut(float angle) //外环倒车程序
 					step++;
 					avoidtime=0;
 				}
-				USART_OUT(UART5,"get3%d\t");
-				USART_OUT(UART5,"get3%d\t");
-				USART_OUT(UART5,"get3%d\t");
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
+				USART_OUT(UART5,"get3%d\t",(int)aimAngle);
 			break;
 		case 3:
 			 VelCrl(CAN2, 1, 10000); //pid中填入的是差值
@@ -264,9 +264,9 @@ void BackCarOut(float angle) //外环倒车程序
 				  step=0;
 					avoidtime=0;
 			 }
-			 USART_OUT(UART5,"get4%d\t");
-			 USART_OUT(UART5,"get4%d\t");
-			 USART_OUT(UART5,"get4%d\t");
+			 USART_OUT(UART5,"get4\t");
+			 USART_OUT(UART5,"get4\t");
+			 USART_OUT(UART5,"get4\t");
 			break;
 	}
 	//时间限制

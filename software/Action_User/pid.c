@@ -65,7 +65,7 @@ float ParkingSpacingPidControl(float ERR)
 float AnglePidControl(float ERR)
 {
 	static int ERR_OLD = 0;
-	static float Kp = 180;//165
+	static float Kp = 250;//165
 	static float Kd = 20;//13
 	static float OUTPUT;
 

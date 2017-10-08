@@ -57,7 +57,7 @@ else if (ballNum==1)                     //假如球是黑球
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
 //		launcher.speed=0.01364f*v-1.333f;
 //		launcher.speed=0.01371f*v-3.413f;
-	   launcher.speed=0.01517f*v-10.88f-3;
+	   launcher.speed=0.01517f*v-10.88f ;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -104,7 +104,10 @@ static int ballColor=1;
 	static int noBallCount=0;										//没球计时间
 	static int noBall=0;
 	static int step=0;
-	static int noballtime=0;
+	static int noballtime=0;                    //没球时间
+	static int Stabletime=0;                    //转速稳定时间
+	static int Stabletimelim=0;                 //黑白球交替
+	static int balllast=0;
 	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
@@ -128,19 +131,36 @@ static int ballColor=1;
 		noBall=0;
 		noBallCount=0;
 		noballtime=0;
+		if(balllast!=ballColor)
+		{
+			Stabletimelim=30;
+			balllast=ballColor;
+		}
+		else{
+			Stabletimelim=10;
+		}
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
+			Stabletime++;
 			switch(step)
 			{
 				case 0://判断投球的初始位置
 					if(gRobot.shoot_t.pReal.pos<2000)
 					{
-						step=1;
-						PushBallReset();
+						if(Stabletime>Stabletimelim)
+						{
+							step=1;
+							PushBallReset();
+							Stabletime=0;
+						}
 					}else if(gRobot.shoot_t.pReal.pos>=2000)
 					{
-						step=2;
-						PushBall();
+						if(Stabletime>Stabletimelim)
+						{
+							step=2;
+							PushBall();
+							Stabletime=0;
+						}
 					}
 					break;
 					
@@ -182,7 +202,7 @@ static int ballColor=1;
 		//槽内没有球
 		if(noballtime>150)
 		{
-			if(step==1)
+			if(step==1||step==0)
 			{
 				PushBallReset();
 				step=2;

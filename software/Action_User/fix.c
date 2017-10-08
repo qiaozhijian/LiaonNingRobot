@@ -208,7 +208,7 @@ static int fix_status=11;//需要矫正时赋值为11//矫正开始时赋值为1
 int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进行修正激光被挡或者不在激光处理范围内
 {
 	static int commitFix=0;//靠下一面墙的标志位
-	if(laserLeftDistance>4096+ROBOT_WIDTH/2||laserLeftDistance<40+ROBOT_WIDTH/2)
+	if(laserLeftDistance<530||laserLeftDistance<530)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}
@@ -217,7 +217,7 @@ int CommitFix(int laserLeftDistance,int laserRightDistance)//确定是否能进�
 		commitFix=1;	//说明能够进行矫正
 	}
 	
-	if(laserRightDistance>4096+ROBOT_WIDTH/2||laserRightDistance<40+ROBOT_WIDTH/2)
+	if(laserRightDistance<530||laserRightDistance<530)
 	{
 		commitFix=0;//说明要靠下一面墙
 	}
