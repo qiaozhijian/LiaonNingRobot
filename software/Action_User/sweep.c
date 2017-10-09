@@ -117,7 +117,7 @@ void AgainstWall(float aimAngle,float angle,float spacingError)
 void Vchange(int lineChangeSymbol)
 {
   //最外环速度
-  const float vOut1 = 1800.0f; 	
+  const float vOut1 = 1600.0f; 	
   //中环速度
   const float vOut2 = 1100.f;
   //内环速度
@@ -521,21 +521,16 @@ void ClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		Circle(1800,800);
+		Circle(2000,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		Circle(1800,1100);
+		Circle(2000,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
 		Square2();
 	}
-	if(	gRobot.walk_t.circleChange.quadrantlast<gRobot.walk_t.circleChange.quadrant && gRobot.walk_t.circleChange.quadrant!=4 && gRobot.walk_t.circleChange.quadrantlast!=1)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
@@ -560,21 +555,16 @@ void AntiClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		AntiCircle(1800,800);
+		AntiCircle(2000,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		AntiCircle(1800,1100);
+		AntiCircle(2000,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
 		AntiSquare2();
 	}
-	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
     //进入矫正	
     if(gRobot.walk_t.circleChange.circleNum==4)
     {
@@ -840,6 +830,117 @@ int Square2(void)
   return 1;
 }
 /****************************************************************************
+* 名    称：void Square3(void)	
+* 功    能：顺时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int Square3(void)
+{
+		//改变区域的值
+	ChangeBoard();
+	
+	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=6;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=7;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=8;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=9;
+	}else{
+		//角度闭环
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(180);
+		}else{
+		 AngleRoute(0);
+		}
+	}
+	
+  switch(gRobot.walk_t.circleChange.turnTime)
+  {
+  case 6:
+    Line(-1900.f,3400.f,0,0,1,4);//x
+    break;
+    
+  case 7:
+    Line(600.f,4400.f,-90,1,1,4);//y
+    break;
+    
+  case 8:
+    Line(1900.f,1400,180,0,-1,4);//x
+    break;
+    
+  case 9:
+    Line(-600.f,500,90,1,-1,4);//y
+    break;
+    
+  default:
+    break;
+  }
+  return 1;
+}
+/****************************************************************************
+* 名    称：void AntiSquare3(void)	
+* 功    能：顺时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int AntiSquare3(void)
+{
+		ChangeBoard();
+	
+	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=6;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=7;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=8;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=9;
+	}else{
+		//角度闭环
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(0);
+		}else{
+		 AngleRoute(180);
+		}
+	}
+  switch(gRobot.walk_t.circleChange.turnTime)
+  {
+  case 6:
+    Line(1900.f,3400.f,0,0,1,4);
+    break;
+    
+  case 7:
+    Line(-600.f,4400.f,90,1,1,4);
+    break;
+    
+  case 8:
+    Line(-1900.f,1400,180,0,-1,4);
+    break;
+    
+  case 9:
+    Line(600.f,500,-90,1,-1,4);
+    break;
+  default:
+    break;
+  }
+  return 1;
+}
+/****************************************************************************
 * 名    称：int AntiSquare2(void)	
 * 功    能：逆时针最外圈正方形
 * 入口参数：无
@@ -874,19 +975,19 @@ int AntiSquare2(void)
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 6:
-    Line(2150.f,3400.f,0,0,1,4);
+    Line(2100.f,3400.f,0,0,1,4);
     break;
     
   case 7:
-    Line(-600.f,4550.f,90,1,1,4);
+    Line(-600.f,4500.f,90,1,1,4);
     break;
     
   case 8:
-    Line(-2150.f,1400,180,0,-1,4);
+    Line(-2100.f,1400,180,0,-1,4);
     break;
     
   case 9:
-    Line(600.f,250,-90,1,-1,4);
+    Line(600.f,300,-90,1,-1,4);
     break;
   default:
     break;
@@ -961,12 +1062,12 @@ void In2Out2(void)
 				}
 				else
 				{
-					Circle(1800,800);
+					Circle(2000,800);
 				}
 				break;
 			case 2:
 				gRobot.walk_t.circleChange.turnTime=5;
-			  Circle(1800,1100);
+			  Circle(2000,1100);
 				break;
 			case 3:
 				Square2();
@@ -987,12 +1088,12 @@ void In2Out2(void)
 				AntiCircle(1800,800);
 			}else
 			{
-				AntiCircle(1800,1100);
+				AntiCircle(2000,1100);
 			}
 				break;
 			case 2:
 				gRobot.walk_t.circleChange.turnTime=5;
-			  AntiCircle(1800,1100);
+			  AntiCircle(2000,1100);
 				break;
 			case 3:
 				AntiSquare2();
@@ -1006,17 +1107,17 @@ void In2Out2(void)
 		circlelast=gRobot.walk_t.circleChange.circleNum;
 	}
 	
-	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+//	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+//	{
+//		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+//	}
+//	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
 	
 	//进入矫正	
 	if(gRobot.walk_t.circleChange.circleNum==3)
 	{
 			gRobot.status&=~STATUS_SWEEP;
-			gRobot.status&=~STATUS_AVOID_JUDGE;
+			//gRobot.status&=~STATUS_AVOID_JUDGE;
 			gRobot.walk_t.circleChange.turnTime=0;
 	}
 }	
@@ -1047,12 +1148,12 @@ void In2Out3(void)
 			{
 				Circle(1800,1100);
 			}else{
-				Circle(1800,1100);
+				Circle(2000,1100);
 			}
 				break;
 			case 2:
 				gRobot.walk_t.circleChange.turnTime=4;
-				Circle(1800,800);
+				Circle(2000,800);
 				break;
 			case 3:
 				Square2();
@@ -1091,11 +1192,11 @@ void In2Out3(void)
 		circlelast=gRobot.walk_t.circleChange.circleNum;
 	}
 	
-	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+//	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+//	{
+//		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+//	}
+//	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
 	
 	//进入矫正	
 	if(gRobot.walk_t.circleChange.circleNum==3)
@@ -1122,10 +1223,10 @@ void Out2In(void)
 		switch(step)
 		{
 			case 0:
-				Square2();
+				Square3();
 				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
 				{
-					step++;
+					step=1;
 				}
 				break;
 			case 1:
@@ -1133,7 +1234,7 @@ void Out2In(void)
 			  Circle(1800,1100);
 				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
 				{
-					step++;
+					step=0;
 				}
 				break;
 		}
@@ -1142,10 +1243,10 @@ void Out2In(void)
 		switch(step)
 		{
 		case 0:
-				AntiSquare2();
+				AntiSquare3();
 				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
 				{
-					step++;
+					step=1;
 				}
 				break;
 			case 1:
@@ -1153,17 +1254,11 @@ void Out2In(void)
 			  AntiCircle(1800,1100);
 				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
 				{
-					step++;
+					step=0;
 				}
 				break;
 		}
 	}
-	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
-	
 	//进入矫正	
 	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum>2)
 	{

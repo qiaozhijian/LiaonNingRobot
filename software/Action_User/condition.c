@@ -51,7 +51,22 @@ int circleChange(void)
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=4;
 	}
-	
+	//防止避障时区域误判
+	if(gRobot.walk_t.circleChange.direction==0)
+	{
+		if(	gRobot.walk_t.circleChange.quadrantlast<gRobot.walk_t.circleChange.quadrant && gRobot.walk_t.circleChange.quadrant!=4 && gRobot.walk_t.circleChange.quadrantlast!=1)
+		{
+			gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+		}
+		gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	}else if(gRobot.walk_t.circleChange.direction==1)
+	{
+		if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+		{
+			gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+		}
+	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	}
 	
 	if(gRobot.walk_t.circleChange.linenum==4)
 	{

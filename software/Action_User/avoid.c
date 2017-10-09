@@ -134,8 +134,14 @@ void BackCarIn(float angle) //内环倒车程序
 			avoidtime=0;
 			LastX=gRobot.walk_t.pos.x;
 			LastY=gRobot.walk_t.pos.y;
-			aimAngle = angle - 45;
-					if (aimAngle > 180) 
+			if(gRobot.walk_t.circleChange.direction==1)
+			{
+				aimAngle = angle - 45;
+			}else if(gRobot.walk_t.circleChange.direction==0)
+			{
+				aimAngle = angle + 45;
+			}
+			if (aimAngle > 180) 
 			{
 				aimAngle = aimAngle - 360;
 			}
@@ -230,8 +236,14 @@ void BackCarOut(float angle) //外环倒车程序
 		case 0:
 			LastX=gRobot.walk_t.pos.x;
 			LastY=gRobot.walk_t.pos.y;
-			aimAngle = angle + 45;
-					if (aimAngle > 180) 
+			if(gRobot.walk_t.circleChange.direction==1)
+			{
+				aimAngle = angle + 45;
+			}else if(gRobot.walk_t.circleChange.direction==0)
+			{
+				aimAngle = angle - 45;
+			}
+			if (aimAngle > 180) 
 			{
 				aimAngle = aimAngle - 360;
 			}
@@ -656,6 +668,24 @@ int JudgeStick(void)
 		gRobot.status|=STATUS_AVOID_HANDLE;
     gRobot.avoid_t.signal=0;             //清零
 		gRobot.avoid_t.continueTrigger++;
+		if(gRobot.avoid_t.continueTrigger>=5)//倘若这时候出现了扫场便把它储存起来
+		{
+			gRobot.status&=~STATUS_AVOID_HANDLE;
+			//对除了异常处理的情况进行状态储存
+			gRobot.avoid_t.statusRem|=gRobot.status;
+			//gRobot.st atus&=~STATUS_AVOID_JUDGE;
+			if(gRobot.status&STATUS_SWEEP)
+			{
+				gRobot.status&=~STATUS_SWEEP;//将sweep关闭
+			}  
+//			if(gRobot.status&STATUS_PARKING)
+//			{
+//				gRobot.status&=~STATUS_PARKING;//将parking关闭
+//			}  
+			gRobot.status|=STATUS_FIX;//连续触发直接关闭所有在fix前面状态handle，直接进入矫正
+			gRobot.avoid_t.continueTrigger=0;
+			gRobot.avoid_t.continueTriggerSignal=1;
+		}
 		return 1;
 	}
 	return 0;
@@ -1062,7 +1092,7 @@ void Transition(void) 											//外环倒车程序
 	
 }
 }
-void CornerIn(void) //内环倒车程序
+ void CornerIn(void) //内环倒车程序
 {
 	static float aimAngle = 0;   //目标角度
 	static float angleError = 0; //目标角度与当前角度的偏差
@@ -1082,11 +1112,11 @@ void CornerIn(void) //内环倒车程序
 	}
 	angleError = angleErrorCount(aimAngle,gRobot.walk_t.pos.angle);
 	j++;
-	if (j < 150)
+	if (j < 100)
 	{
 		VelCrl(CAN2, 1, -10000); //pid中填入的是差值
 		VelCrl(CAN2, 2,  10000);
-	}else if (j >=150)
+	}else if (j >=100)
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
@@ -1483,117 +1513,112 @@ void FixJudge(void)
 }
 void Pointparking2(void)
 {
-	static int step=0;
-	gRobot.status&=~STATUS_SHOOTER;
+	static int step=1;
+	circleChange();
 	//circleChange();
 	if(gRobot.avoid_t.direction==0) //顺时针
 	{
 		switch(step)
 		{
 			case 0:
-				Square2();
+				Square3();
 				break;
 			case 1:
 				gRobot.walk_t.circleChange.turnTime=5;
 			  Circle(1800,1100);
+				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  Circle(1800,800);
 				break;
 		}
   }else if(gRobot.avoid_t.direction==1) //逆时针
 	{
 		switch(step)
 		{
-		case 0:
-				AntiSquare2();
+		  case 0:
+				AntiSquare3();
 				break;
 			case 1:
 				gRobot.walk_t.circleChange.turnTime=5;
 			  AntiCircle(1800,1100);
 				break;
+			case 2:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  AntiCircle(1800,800);
+				break;
 		}
 	}
-	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-	{
-		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-	}
-	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
-	
-	switch(gRobot.fix_t.toBorder)
-	{
-		case 0:
-			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x<-1500)
-			{
-				step=!step;
-				gRobot.status|=STATUS_FIX;
-				gRobot.status&=~STATUS_PARKING;
-				gRobot.status|=STATUS_SHOOTER;
-			}
-		break;
-		
-		case 1:
-			if(gRobot.walk_t.pos.y<1500&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
-			{
-				step=!step;
-				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-				VelCrl(CAN2, 2,0);
-				gRobot.status|=STATUS_FIX;
-				gRobot.status&=~STATUS_PARKING;
-				gRobot.status|=STATUS_SHOOTER;
-			}
-		break;
-		
-		case 2:
-			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x>1500)
-			{
-				step=!step;
-				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-				VelCrl(CAN2, 2,0);
-				gRobot.status|=STATUS_FIX;
-				gRobot.status&=~STATUS_PARKING;
-				gRobot.status|=STATUS_SHOOTER;
-			}
-		break;
-		
-		case 3:
-			if(gRobot.walk_t.pos.y>3300&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
-			{
-				step=!step;
-				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-				VelCrl(CAN2, 2,0);
-				gRobot.status|=STATUS_FIX;
-				gRobot.status&=~STATUS_PARKING;
-				gRobot.status|=STATUS_SHOOTER;
-			}
-		break;
-	}
+//	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+//		{
+//			gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+//		}
+//	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	if(gRobot.walk_t.circleChange.linenum>=2)
+		{
+			gRobot.walk_t.circleChange.linenum=0;
+			step=!step;
+			gRobot.status&=~STATUS_PARKING;
+			gRobot.status|=STATUS_FIX;
+			gRobot.status|=STATUS_SHOOTER;
+		}
+//	switch(gRobot.fix_t.toBorder)
+//	{
+//		case 0:
+//			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x<-1500)
+//			{
+//				step=!step;
+//				gRobot.status|=STATUS_FIX;
+//				gRobot.status&=~STATUS_PARKING;
+//				gRobot.status|=STATUS_SHOOTER;
+//			}
+//		break;
+//		
+//		case 1:
+//			if(gRobot.walk_t.pos.y<1500&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+//			{
+//				step=!step;
+//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+//				VelCrl(CAN2, 2,0);
+//				gRobot.status|=STATUS_FIX;
+//				gRobot.status&=~STATUS_PARKING;
+//				gRobot.status|=STATUS_SHOOTER;
+//			}
+//		break;
+//		
+//		case 2:
+//			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x>1500)
+//			{
+//				step=!step;
+//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+//				VelCrl(CAN2, 2,0);
+//				gRobot.status|=STATUS_FIX;
+//				gRobot.status&=~STATUS_PARKING;
+//				gRobot.status|=STATUS_SHOOTER;
+//			}
+//		break;
+//		
+//		case 3:
+//			if(gRobot.walk_t.pos.y>3300&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+//			{
+//				step=!step;
+//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+//				VelCrl(CAN2, 2,0);
+//				gRobot.status|=STATUS_FIX;
+//				gRobot.status&=~STATUS_PARKING;
+//				gRobot.status|=STATUS_SHOOTER;
+//			}
+//		break;
+//	}
 	USART_OUT(UART5,"eppa=%d\t\r\n",step);
 }
-
+void FixHandle(void)
+{
+	gRobot.status&=~STATUS_AVOID_HANDLE;
+}
 
 void AbnormityJudge(void)
 {
-	if(gRobot.avoid_t.continueTrigger>=5)//倘若这时候出现了扫场便把它储存起来
-	{
-//		if(gRobot.status&STATUS_PARKING)
-//		{
-//			gRobot.avoid_t.statusRem|=STATUS_PARKING;
-//			gRobot.status&=~STATUS_PARKING;//将sweep关闭
-//		}  
-		gRobot.status&=~STATUS_AVOID_JUDGE;
-		gRobot.status&=~STATUS_AVOID_HANDLE;
-		//对除了异常处理的情况进行状态储存
-		gRobot.avoid_t.statusRem|=gRobot.status;
-		if(gRobot.status&STATUS_SWEEP)
-		{
-			gRobot.status&=~STATUS_SWEEP;//将sweep关闭
-		}  
-		if(gRobot.status&STATUS_PARKING)
-		{
-			gRobot.status&=~STATUS_PARKING;//将parking关闭
-		}  
-		gRobot.status|=STATUS_FIX;//连续触发直接关闭所有在fix前面状态handle，直接进入矫正
-		gRobot.avoid_t.continueTrigger=0;
-		gRobot.avoid_t.continueTriggerSignal=1;
-	}
 	if (gRobot.status & STATUS_SWEEP)
   {
 			SweepJudge();
@@ -1635,7 +1660,10 @@ void AbnormityHandle(void)
   else if (gRobot.status & STATUS_PARKING)
   {
 		ParkingHandle();
-  }
+  }else if(gRobot.status & STATUS_FIX)
+	{
+		FixHandle();
+	}
   else if (gRobot.status & STATUS_SHOOTER)
   {
 		ShootHandle();

@@ -115,7 +115,7 @@ void robotInit(void)
 	PushBallReset();
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
   CollectBallVelCtr(60);                                       //让辊子转起来
-}
+} 
 
 void driveGyro(void){
 	while(!IsSendOK()){

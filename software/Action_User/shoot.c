@@ -59,7 +59,7 @@ else if (ballNum==1)                     //假如球是黑球
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
 //		launcher.speed=0.01364f*v-1.333f;
 //		launcher.speed=0.01371f*v-3.413f;
-	   launcher.speed=0.01517f*v-10.88f-2.0f;
+	   launcher.speed=0.01517f*v-10.88f-4.0f;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -126,7 +126,7 @@ static int ballColor=1;
 		YawAngleCtr(launcher.angle);
 	}
 	//当行程开关触发时一直矫正
-	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1&&getLeftAdc()+getRightAdc()<4850&&getLeftAdc()+getRightAdc()>4700)
 	{
 		fixPosFirst(gRobot.fix_t.inBorder);
 	}
@@ -241,6 +241,7 @@ static int ballColor=1;
 				gRobot.shoot_t.startSignal=0;
 			}
 	//脱离状态 
+			//				gRobot.status&=~STATUS_AVOID_JUDGE;
 //	USART_OUT(UART5,"%d\t",(int)noBall);
 //	USART_OUT(UART5,"%d\t",(int)ballColor);
 //	USART_OUT(UART5,"%d\t",(int)step);

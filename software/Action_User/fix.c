@@ -388,7 +388,8 @@ void FixTask(void)
 	static int aimBorderRem=0;//记住需要靠的墙，因为第一次靠墙的时候在卡死的时候会发生没办法排除掉这面墙的情况
 	AimPos_t aimPos;																					//二次矫正的停车位
 	
-	gRobot.status&=~STATUS_AVOID_JUDGE;//关闭异常判断交给fixtask自己处理
+	//gRobot.status&=~STATUS_AVOID_JUDGE;//关闭异常判断交给fixtask自己处理
+	gRobot.status|=STATUS_AVOID_JUDGE;
 	gRobot.abnormal=0;
 	ShootCtr(60);
 	

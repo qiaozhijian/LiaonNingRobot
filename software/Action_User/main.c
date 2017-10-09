@@ -31,7 +31,7 @@ int main(void)
     {
 			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
 			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
-			
+				USART_OUT(UART5,"h%d\t",(int)gRobot.avoid_t.handleEnd);
 			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
 				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
 				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);

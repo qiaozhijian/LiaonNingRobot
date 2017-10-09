@@ -12,6 +12,8 @@ void In2Out(void);  //刚开始的基础扫场程序
 void In2Out2(void);
 void In2Out3(void);
 void Out2In(void);
+int AntiSquare3(void);
+int Square3(void);
 void Debug(void);                                 //debug                        
 void Vchange(int lineChangeSymbol);               //速度与脉冲的转换
 int LaserStart(void);                             //激光启动
