@@ -231,8 +231,11 @@ void UART5_IRQHandler(void)
 				}else if(data=='4')
 				{
 					testMode=4;
+				}else if(data=='5')
+				{
+					testMode=5;
 				}
-					else 
+				else 
 				{
 					testMode=0;
 				}
@@ -402,8 +405,8 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				posture.ActVal[2] = posture.ActVal[2];
 				posX = posture.ActVal[3];//x
 				posY = posture.ActVal[4];//y 
-				Yxpos=posY;
-				Yypos=posX;
+				Yxpos=posX;
+				Yypos=posY;
 				Yangle=angle;
 				avel=posture.ActVal[5] = posture.ActVal[5];
 				setXpos(posX);

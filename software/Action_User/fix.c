@@ -465,7 +465,7 @@ void FixTask(void)
 		fix_status |=TRY_FIRST_FIX;
 		fix_status |=AGAINST_Wall;
 	}
-	gRobot.fix_t.toBorder=aimBorder;//知道现在去哪一个边界
+//	gRobot.fix_t.toBorder=aimBorder;//知道现在去哪一个边界
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;

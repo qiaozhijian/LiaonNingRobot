@@ -47,6 +47,11 @@ void TestMode(void)
 		break;
 		case 4:
 			break;
+		case 5:
+			USART_OUT(UART5,"posX:%d\t",(int)getXpos());
+			USART_OUT(UART5,"POSY:%d\t",(int)getYpos());
+			USART_OUT(UART5,"POSY:%d\t\r\n",(int)getAngle());
+		break;
 		
 		default:
 		break;
@@ -57,17 +62,17 @@ void WheelTest(float laserRight,float laserLeft)
 {
 	static int rightvel;
 	static int leftvel;
-	if(laserRight>600&&laserLeft>600)
+	if(laserRight>800&&laserLeft>800)
 	{
 		rightvel=0;
 		leftvel=0;
 		VelCrl(CAN2,1,rightvel);
 		VelCrl(CAN2,2,leftvel);
 		CollectBallVelCtr(0);
-	}else if(laserRight<=600)
+	}else if(laserRight<=800)
 	{
-		rightvel=8000;
-		leftvel=-8000;
+		rightvel=laserRight*10;
+		leftvel=-laserRight*10;
 		VelCrl(CAN2,1,rightvel);
 		VelCrl(CAN2,2,leftvel);
 		if(laserRight/8>50)
@@ -75,10 +80,10 @@ void WheelTest(float laserRight,float laserLeft)
 			laserRight=400;
 		}
 		CollectBallVelCtr(laserRight/8);
-	}else if(laserLeft<=600)
+	}else if(laserLeft<=800)
 	{
-		rightvel=-8000;
-		leftvel=8000;
+		rightvel=-laserLeft*10;
+		leftvel=laserLeft*10;
 		VelCrl(CAN2,1,rightvel);
 		VelCrl(CAN2,2,leftvel);
 		if(laserRight/8>50)
@@ -140,11 +145,11 @@ void ShootTest(void)
 	pullTime%=400;
 	if(getBallColor()==1)
 	{
-		USART_OUT(UART5,"whitesucess\r\n");
+		USART_OUT(UART5,"blacksucess:%d\r\n",(int)getBallColor());
 	}
 	else if(getBallColor()==100)
 	{
-		USART_OUT(UART5,"whitesucess\r\n");
+		USART_OUT(UART5,"whitesucess:%d\r\n",(int)getBallColor());
 	}
 	else
 	{

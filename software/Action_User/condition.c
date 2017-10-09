@@ -26,21 +26,28 @@ int circleChange(void)
 	//Quadrant//象限
 	if(gRobot.walk_t.pos.x>100 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=1)
 	{
+			gRobot.camera_t.camrBaseWalk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=1;
 	}
 	if(gRobot.walk_t.pos.x>100 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=2)
 	{
+			
+			gRobot.camera_t.camrBaseWalk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=2;
 	}
 	if(gRobot.walk_t.pos.x<100 && gRobot.walk_t.pos.y>2400 && gRobot.walk_t.circleChange.quadrant!=3)
 	{
+			
+			gRobot.camera_t.camrBaseWalk_t.circleChange.linenum++;
 		  gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=3;
 	}
 	if(gRobot.walk_t.pos.x<100 && gRobot.walk_t.pos.y<2400 && gRobot.walk_t.circleChange.quadrant!=4)
 	{
+			
+			gRobot.camera_t.camrBaseWalk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.linenum++;
 			gRobot.walk_t.circleChange.quadrant=4;
 	}
@@ -48,6 +55,8 @@ int circleChange(void)
 	
 	if(gRobot.walk_t.circleChange.linenum==4)
 	{
+		
+		gRobot.camera_t.camrBaseWalk_t.circleChange.linenum=0;
 		gRobot.walk_t.circleChange.linenum=0;
 		if(gRobot.status&STATUS_SWEEP)
 		{

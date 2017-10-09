@@ -247,6 +247,7 @@ int t_FindBall=0;
 void TIM3_IRQHandler(void)
 {
 	static float xRem=0,yRem=0;
+	static int startTime=0;//车一旦启动就会计时
 	static int tim3Counter=0;
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) == SET)
 	{
@@ -256,18 +257,29 @@ void TIM3_IRQHandler(void)
 		t_FindBall++;
 		t_FindBall%=65535;
 		
-		tim3Counter++;
-		if(tim3Counter%2)
+		if(tim3Counter%2==0)
 		{
 			xRem=gRobot.walk_t.pos.x;
 			yRem=gRobot.walk_t.pos.y;
 			setxRem(xRem);
 			setyRem(yRem);
 		}
+		tim3Counter++;
 		if(tim3Counter>400)
 		{
 			tim3Counter=0;
 		}
+		if(gRobot.start==1)
+		{
+			startTime++;
+		}
+//		if(startTime>16000)//时间到了2分40秒立刻矫正投球
+//		{
+//			gRobot.status=0;
+//			gRobot.status|=STATUS_FIX;
+//			gRobot.status|=STATUS_SHOOTER;
+//		}
+		
 	}
 
 }

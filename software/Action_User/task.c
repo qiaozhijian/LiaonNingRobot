@@ -88,6 +88,7 @@ void variableInit(void)
 	gRobot.walk_t.circleChange.linenum=-1;
 	//??赋值
 	gRobot.walk_t.board[0][0]=0.f;
+	gRobot.avoid_t.handleEnd=1;//将这位放置为1来开启judge
 }
  /****************************************************************************
 * 名    称：robotInit()
@@ -102,9 +103,9 @@ void robotInit(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	
 	HardWare();
-	
+#ifndef TEST
 	elmoInit();
-	
+#endif
 	variableInit();
 	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	

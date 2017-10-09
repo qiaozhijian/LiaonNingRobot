@@ -183,9 +183,10 @@ void BackCarIn(float angle) //内环倒车程序
 		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
 			 {
 					gRobot.status&=~STATUS_AVOID_HANDLE;
-					gRobot.status|=STATUS_AVOID_JUDGE;
+//					gRobot.status|=STATUS_AVOID_JUDGE;
 					step=0;
 					avoidtime=0;
+					gRobot.avoid_t.handleEnd=1;
 			 }
 			 USART_OUT(UART5,"get4\t");
 			 USART_OUT(UART5,"get4\t");
@@ -198,9 +199,10 @@ void BackCarIn(float angle) //内环倒车程序
 	if(avoidtime>250)
 	{
 	  gRobot.status&=~STATUS_AVOID_HANDLE;
-		gRobot.status|=STATUS_AVOID_JUDGE;
+//		gRobot.status|=STATUS_AVOID_JUDGE;
 		step=0;
 		avoidtime=0;
+		gRobot.avoid_t.handleEnd=1;
 	}
 }
  /****************************************************************************
@@ -276,9 +278,10 @@ void BackCarOut(float angle) //外环倒车程序
 		   if(Dis(LastX,LastY,gRobot.walk_t.pos.x,gRobot.walk_t.pos.y)>300)
 			 {
 					gRobot.status&=~STATUS_AVOID_HANDLE;
-					gRobot.status|=STATUS_AVOID_JUDGE;
+//					gRobot.status|=STATUS_AVOID_JUDGE;
 				  step=0;
 					avoidtime=0;
+					gRobot.avoid_t.handleEnd=1;
 			 }
 			 USART_OUT(UART5,"get4\t");
 			 USART_OUT(UART5,"get4\t");
@@ -290,9 +293,10 @@ void BackCarOut(float angle) //外环倒车程序
 	if(avoidtime>250)
 	{
 	  gRobot.status&=~STATUS_AVOID_HANDLE;
-		gRobot.status|=STATUS_AVOID_JUDGE;
+//		gRobot.status|=STATUS_AVOID_JUDGE;
 		step=0;
 		avoidtime=0;
+		gRobot.avoid_t.handleEnd=1;
 	}
 }
  /****************************************************************************
@@ -479,14 +483,14 @@ int LaserJudge(void)
 	static int count=0;//计算激光的变换时间来判断是否有车过来
   float laserLeft=getLeftAdc();
 	float laserRight=getRightAdc();
-  static float lastlaserRight=0;//50ms前的右激光的值
-  static float lastlaserLeft=0;//50ms前左激光的值
+//  static float lastlaserRight=0;//50ms前的右激光的值
+//  static float lastlaserLeft=0;//50ms前左激光的值
   static int changeErrorRight=0;//右激光疯狂变换
 	static int changeErrorLeft=0;//左激光疯狂变换
 
   count++;
 	
-	if(laserLeft<1350&&fabs(laserLeft-gRobot.shoot_t.lastLaser.left)>40)
+	if(laserLeft<1350&&fabs(laserLeft-gRobot.shoot_t.lastLaser.left)>100)
     {
       changeErrorLeft++;
     }
@@ -495,7 +499,7 @@ int LaserJudge(void)
       changeErrorLeft=0;
     }
 		
-	if(laserRight<1350&&fabs(laserRight-gRobot.shoot_t.lastLaser.right)>40)//右边有车来
+	if(laserRight<1350&&fabs(laserRight-gRobot.shoot_t.lastLaser.right)>100)//右边有车来
 	{
 		changeErrorRight++;
 		return 1;
@@ -573,58 +577,87 @@ void CWalkJudge(void)
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/
+//int JudgeStick(void)
+//{
+//	static int count=0;
+//  static float velX=0;
+//  static float velY=0;
+//  static float aimVel=0.0f;
+//  static float lastX=0;
+//  static float lastY=0;
+//  static int stickError=0;
+//  count++;
+//	if(count==5)
+//	{
+//    count=0;
+//    velX=(gRobot.walk_t.pos.x-lastX)/5.0f*100.0f;
+//    velY=(gRobot.walk_t.pos.y-lastY)/5.0f*100.0f;
+//    //卡死速度比较值
+//    aimVel=Pulse2Vel(gRobot.walk_t.base);
+//		//目前实际速度
+//    gRobot.walk_t.averageV=__sqrtf(velX*velX+velY*velY);
+//    if(TwoNumCompare(gRobot.walk_t.averageV,aimVel*0.2f))
+//    {
+//      stickError++;
+//    }
+//    else
+//    {
+//      stickError=0;
+//    }
+//    if(stickError==5)
+//    {
+//      stickError=0;
+//      //改变状态码
+//			gRobot.status&=~STATUS_AVOID_JUDGE;
+//			gRobot.status|=STATUS_AVOID_HANDLE;
+//      gRobot.avoid_t.signal=0;             //清零
+//			//记住卡死坐标
+//			xStick=gRobot.walk_t.pos.x;
+//			yStick=gRobot.walk_t.pos.y;
+//			gRobot.avoid_t.continueTrigger++;
+//			return 1;
+//		}
+//    lastX=gRobot.walk_t.pos.x;
+//    lastY=gRobot.walk_t.pos.y;
+//		USART_OUT(UART5,"%d\t",(int)velX);
+//		USART_OUT(UART5,"%d\t",(int)velY);
+//		USART_OUT(UART5,"%d\t",(int)aimVel);
+//		USART_OUT(UART5,"%d\t",(int)__sqrtf(velX*velX+velY*velY));
+//		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+//		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);	
+//		USART_OUT(UART5,"%d\t",(int)stickError);	
+//		USART_OUT(UART5,"%d\t",(int)gRobot.status);	
+//		USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
+//  }
+//	return 0;
+//}
 int JudgeStick(void)
 {
-	static int count=0;
-  static float velX=0;
-  static float velY=0;
-  static float aimVel=0.0f;
-  static float lastX=0;
-  static float lastY=0;
-  static int stickError=0;
-  count++;
-  if(count==5)
+	static float xError = 0, yError = 0,angleError=0;
+	static int stickError=0;
+	xError = gRobot.walk_t.pos.x - getxRem();
+	yError = gRobot.walk_t.pos.y - getyRem();
+	angleError=gRobot.walk_t.pos.angle-getAngle();
+	if (fabs(xError) < 3 && fabs(yError) < 3 && gRobot.walk_t.base!=0/*&&fabs(angleError)<3*/)
 	{
-    count=0;
-    velX=(gRobot.walk_t.pos.x-lastX)/5.0f*100.0f;
-    velY=(gRobot.walk_t.pos.y-lastY)/5.0f*100.0f;
-    //卡死速度比较值
-    aimVel=Pulse2Vel(gRobot.walk_t.base);
-		//目前实际速度
-    gRobot.walk_t.averageV=__sqrtf(velX*velX+velY*velY);
-    if(TwoNumCompare(gRobot.walk_t.averageV,aimVel*0.2f))
-    {
-      stickError++;
-    }
-    else
-    {
-      stickError=0;
-    }
-    if(stickError==5)
-    {
-      stickError=0;
+		stickError++;
+	}
+	else
+	{
+		stickError = 0;
+	}
+	if (stickError > 36)
+	{
+		stickError = 0;
+		xStick=gRobot.walk_t.pos.x;
+		yStick=gRobot.walk_t.pos.y;
       //改变状态码
-			gRobot.status&=~STATUS_AVOID_JUDGE;
-			gRobot.status|=STATUS_AVOID_HANDLE;
-      gRobot.avoid_t.signal=0;             //清零
-			//记住卡死坐标
-			xStick=gRobot.walk_t.pos.x;
-			yStick=gRobot.walk_t.pos.y;
-			gRobot.avoid_t.continueTrigger++;
-			return 1;
-		}
-    lastX=gRobot.walk_t.pos.x;
-    lastY=gRobot.walk_t.pos.y;
-		USART_OUT(UART5,"%d\t",(int)velX);
-		USART_OUT(UART5,"%d\t",(int)velY);
-		USART_OUT(UART5,"%d\t",(int)aimVel);
-		USART_OUT(UART5,"%d\t",(int)__sqrtf(velX*velX+velY*velY));
-		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-		USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);	
-		USART_OUT(UART5,"%d\t",(int)stickError);	
-		USART_OUT(UART5,"%d\t",(int)gRobot.status);	
-		USART_OUT(UART5,"%d\r\n",(int)gRobot.walk_t.circleChange.turnTime);
-  }
+		gRobot.status&=~STATUS_AVOID_JUDGE;
+		gRobot.status|=STATUS_AVOID_HANDLE;
+    gRobot.avoid_t.signal=0;             //清零
+		gRobot.avoid_t.continueTrigger++;
+		return 1;
+	}
 	return 0;
 }
 /****************************************************************************
@@ -1061,7 +1094,8 @@ void CornerIn(void) //内环倒车程序
 		{
 			i = 0;
 			j = 0;//清空标志位
-			gRobot.status|=STATUS_AVOID_JUDGE;
+//			gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.avoid_t.handleEnd=1;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
 			avoidtime=0;
 		} 
@@ -1069,8 +1103,9 @@ void CornerIn(void) //内环倒车程序
 	if(avoidtime>250)
 	{
 		gRobot.status&=~STATUS_AVOID_HANDLE;
-		gRobot.status|=STATUS_AVOID_JUDGE;
+//		gRobot.status|=STATUS_AVOID_JUDGE;
 		avoidtime=0;
+		gRobot.avoid_t.handleEnd=1;
 	}
 }
 void CornerOut(void) //内环倒车程序
@@ -1105,16 +1140,18 @@ void CornerOut(void) //内环倒车程序
 		{
 			i = 0;
 			j = 0;//清空标志位
-			gRobot.status|=STATUS_AVOID_JUDGE;
+//			gRobot.status|=STATUS_AVOID_JUDGE;
 			gRobot.status&=~STATUS_AVOID_HANDLE;
 			avoidtime=0;
+			gRobot.avoid_t.handleEnd=1;
 		} 
 	}
 	if(avoidtime>250)
 	{
 		gRobot.status&=~STATUS_AVOID_HANDLE;
-		gRobot.status|=STATUS_AVOID_JUDGE;
+//		gRobot.status|=STATUS_AVOID_JUDGE;
 		avoidtime=0;
+		gRobot.avoid_t.handleEnd=1;
 	}
 }
 void WalkHandle(void)
@@ -1258,6 +1295,7 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 			 {
 				 aimWall=3;
 			 }
+			 gRobot.avoid_t.direction=1;
 			 break;
 			 
 			 case 9://证明车从右边来
@@ -1266,6 +1304,7 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 				 {
 						aimWall=0;//目标墙
 				 }
+				 gRobot.avoid_t.direction=0;
 			 break;
 				 
 			 case 10:
@@ -1367,30 +1406,6 @@ void ParkingSmallHandle(void)
 		avoidtime=0;
 	}
 }
-//void ParkingJudge(void)
-//{
-//	static int stickError = 0;													  //卡死错误积累值
-//	static float xError = 0, yError = 0;
-//	xError = gRobot.walk_t.pos.x - getxRem();
-//	yError = gRobot.walk_t.pos.y - getyRem();
-//	if (fabs(xError) < 2 && fabs(yError) < 2 && gRobot.walk_t.base>600)
-//	{
-//		stickError++;
-//	}
-//	else
-//	{
-//		stickError = 0;
-//	}
-//	if (stickError > 100)
-//	{
-//		xStick = getxRem();																	//记住卡死的坐标
-//		yStick = getyRem();
-//		stickError = 0;
-//		gRobot.abnormal=CheckIntersect();              //判断卡死的区域;
-//		gRobot.status|=STATUS_AVOID_HANDLE;
-//		gRobot.status&=~STATUS_AVOID_JUDGE;
-//	}
-//}
 void ParkingJudge(void)
 {
 	if(JudgeStick()==1)
@@ -1441,7 +1456,7 @@ void ParkingHandle(void)
 		break;
 		
 		case ABNOMAL_BLOCK_OUT :
-		  ParkingSmallHandle();
+		  CornerOut();
 		break;
 		
 		case ABNOMAL_BLOCK_MIDDLE :
@@ -1466,9 +1481,97 @@ void FixJudge(void)
 
 
 }
+void Pointparking2(void)
+{
+	static int step=0;
+	gRobot.status&=~STATUS_SHOOTER;
+	//circleChange();
+	if(gRobot.avoid_t.direction==0) //顺时针
+	{
+		switch(step)
+		{
+			case 0:
+				Square2();
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  Circle(1800,1100);
+				break;
+		}
+  }else if(gRobot.avoid_t.direction==1) //逆时针
+	{
+		switch(step)
+		{
+		case 0:
+				AntiSquare2();
+				break;
+			case 1:
+				gRobot.walk_t.circleChange.turnTime=5;
+			  AntiCircle(1800,1100);
+				break;
+		}
+	}
+	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
+	{
+		gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
+	}
+	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
+	
+	switch(gRobot.fix_t.toBorder)
+	{
+		case 0:
+			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x<-1500)
+			{
+				step=!step;
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 1:
+			if(gRobot.walk_t.pos.y<1500&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+			{
+				step=!step;
+				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+				VelCrl(CAN2, 2,0);
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 2:
+			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x>1500)
+			{
+				step=!step;
+				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+				VelCrl(CAN2, 2,0);
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 3:
+			if(gRobot.walk_t.pos.y>3300&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+			{
+				step=!step;
+				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
+				VelCrl(CAN2, 2,0);
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+	}
+	USART_OUT(UART5,"eppa=%d\t\r\n",step);
+}
+
+
 void AbnormityJudge(void)
 {
-	if(gRobot.avoid_t.continueTrigger>=7)//倘若这时候出现了扫场便把它储存起来
+	if(gRobot.avoid_t.continueTrigger>=5)//倘若这时候出现了扫场便把它储存起来
 	{
 //		if(gRobot.status&STATUS_PARKING)
 //		{

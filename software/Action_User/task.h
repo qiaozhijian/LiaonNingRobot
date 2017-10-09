@@ -161,6 +161,8 @@ typedef struct{
 	int continueTriggerSignal;
 	int continueTrigger;
 	int statusRem;//连续触发瞬间进入矫正进程让它记住当前的大状态码
+	int direction;
+	int handleEnd;
 }Avoid_t;
 
 /******************辊子收球结构体***********************/
@@ -201,7 +203,8 @@ typedef struct {
 	Point_t ParkingPoint;
 	/********************等待定位系统的反馈**************/
 	int gpsSignal;
-
+	/********************等待彻底启动**************/
+	int start;
 //	/*场地区域数组*/
 //  uint32_t area[];
 	uint32_t abnormal;

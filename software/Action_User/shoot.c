@@ -40,18 +40,20 @@ ShootPara_t Launcher(float x,float y,float angle,int ballNum)
 	ballNum=getBallColor();
 if (ballNum == 100)                      //加入球是白球
 	{
-		x0 = -162.5f;
-		y0 = 2335.35f;
+//		x0 = -162.5f;
+//		y0 = 2335.35f;
+		x0 = -150.0f;
+		y0 = 2392.0f;
 	}
 else if (ballNum==1)                     //假如球是黑球
 	{
-		x0 = 162.5f;
-		y0 = 2335.35f;
+		x0 = 150.0f;
+		y0 = 2392.0f;
 	}
 //		USART_OUT(UART5,"%d\r\n",ballNum);
 		//计算航向角转轴的坐标
-		x = x - 92.2f*sinf(angle);
-		y = y + 92.2f*cosf(angle);
+		//x = x - 92.2f*sinf(angle);
+		//y = y + 92.2f*cosf(angle);
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
@@ -123,6 +125,11 @@ static int ballColor=1;
 	{	
 		YawAngleCtr(launcher.angle);
 	}
+	//当行程开关触发时一直矫正
+	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	{
+		fixPosFirst(gRobot.fix_t.inBorder);
+	}
 	//实施速度
 	ShootCtr(launcher.speed);
 	//实施推球	
@@ -133,11 +140,11 @@ static int ballColor=1;
 		noballtime=0;
 		if(balllast!=ballColor)
 		{
-			Stabletimelim=30;
+			Stabletimelim=60;
 			balllast=ballColor;
 		}
 		else{
-			Stabletimelim=10;
+			Stabletimelim=50;
 		}
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
@@ -227,25 +234,28 @@ static int ballColor=1;
 				gRobot.status&=~STATUS_SHOOTER;
 				gRobot.status|=STATUS_CAMERA_AND_WALK;
 				gRobot.status|=STATUS_AVOID_JUDGE;
+				gRobot.status&=~STATUS_FIX;
 				noBall=0;
 				step=0;
 				noBallCount=0;
 				gRobot.shoot_t.startSignal=0;
 			}
 	//脱离状态 
-	USART_OUT(UART5,"%d\t",(int)noBall);
-	USART_OUT(UART5,"%d\t",(int)ballColor);
-	USART_OUT(UART5,"%d\t",(int)step);
-	USART_OUT(UART5,"%d\t",(int)noballtime);
-	USART_OUT(UART5,"%d\t",(int)ballColor);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
-	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
-	USART_OUT(UART5,"%d\t",(int)launcher.angle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sReal.angle);
-	USART_OUT(UART5,"%d\t",(int)launcher.speed);
-	USART_OUT(UART5,"%d\r\n",(int)gRobot.shoot_t.sReal.speed);
+//	USART_OUT(UART5,"%d\t",(int)noBall);
+//	USART_OUT(UART5,"%d\t",(int)ballColor);
+//	USART_OUT(UART5,"%d\t",(int)step);
+//	USART_OUT(UART5,"%d\t",(int)noballtime);
+//	USART_OUT(UART5,"%d\t",(int)ballColor);
+			
+////	USART_OUTF(gRobot.walk_t.pos.angle);
+////	USART_OUTF(gRobot.walk_t.pos.x);
+////	USART_OUTF(gRobot.walk_t.pos.y);
+//////	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
+////	USART_OUTF(launcher.angle);
+////	USART_OUTF(gRobot.shoot_t.sReal.angle);
+////	USART_OUTF(launcher.speed);
+////	USART_OUTF(gRobot.shoot_t.sReal.speed);
+////	USART_OUT_CHAR("\r\n");
 //	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }

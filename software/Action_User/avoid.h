@@ -32,5 +32,6 @@ void CircleTransition(void);
 void Square2Transition(void);
 void SquareTransition(void);
 void AbnormityHandle(void);
+void Pointparking2(void);
 
 #endif
