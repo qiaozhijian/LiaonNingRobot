@@ -559,11 +559,11 @@ void ClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		Circle(2000,800);
+		Circle(2200,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		Circle(2000,1100);
+		Circle(2200,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
@@ -593,11 +593,11 @@ void AntiClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		AntiCircle(2000,800);
+		AntiCircle(2200,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		AntiCircle(2000,1100);
+		AntiCircle(2200,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{
@@ -1070,9 +1070,11 @@ void In2Out()
   switch(gRobot.walk_t.circleChange.direction)
   {
   case 0:
+		//顺时针
     ClockWise();
     break;
   case 1:
+		//逆时针
     AntiClockWise();
     break;
   default:

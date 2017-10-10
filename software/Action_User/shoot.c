@@ -59,7 +59,8 @@ else if (ballNum==1)                     //假如球是黑球
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
 //		launcher.speed=0.01364f*v-1.333f;
 //		launcher.speed=0.01371f*v-3.413f;
-	   launcher.speed=0.01517f*v-10.88f-4.0f;
+	  // launcher.speed=0.01517f*v-10.88f-4.0f;
+		launcher.speed=0.01387f*v-4.814f;
 //	//彻底卡死
 //	 if(gRobot.abnormal==)
 //	 {
@@ -140,11 +141,11 @@ static int ballColor=1;
 		noballtime=0;
 		if(balllast!=ballColor)
 		{
-			Stabletimelim=100;
+			Stabletimelim=60;
 			balllast=ballColor;
 		}
 		else{
-			Stabletimelim=60;
+			Stabletimelim=30;
 		}
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
@@ -158,6 +159,7 @@ static int ballColor=1;
 						if(Stabletime>Stabletimelim)
 						{
 							step=1;
+							if(gRobot.shoot_t.sReal.speed<-60)
 							PushBallReset();
 							Stabletime=0;
 						}
@@ -166,6 +168,7 @@ static int ballColor=1;
 						if(Stabletime>Stabletimelim)
 						{
 							step=2;
+							if(gRobot.shoot_t.sReal.speed<-60)
 							PushBall();
 							Stabletime=0;
 						}
@@ -173,6 +176,7 @@ static int ballColor=1;
 					break;
 					
 				case 1:
+							if(gRobot.shoot_t.sReal.speed<-60)
 							PushBallReset();
 				//判断为卡死
 							if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<300)
@@ -185,6 +189,7 @@ static int ballColor=1;
 				  break;
 							
 				case 2:
+							if(gRobot.shoot_t.sReal.speed<-60)
 							PushBall();
 				//判断为卡死
 					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
@@ -212,10 +217,12 @@ static int ballColor=1;
 		{
 			if(step==1||step==0)
 			{
+				if(gRobot.shoot_t.sReal.speed<-60)
 				PushBallReset();
 				step=2;
 			}else if(step==2)
 			{
+				if(gRobot.shoot_t.sReal.speed<-60)
 				PushBall();
 				step=1;
 			}

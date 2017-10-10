@@ -239,7 +239,6 @@ void CornerJammedJudge(void)
 				gRobot.status|=STATUS_FIX;
 			} 
 				gRobot.status&=~STATUS_FIX;
-			if(gRobot.shoot_t.sReal.speed<-60)
 		    fireTask();
 			break;
 	}

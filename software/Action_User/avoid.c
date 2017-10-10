@@ -1393,6 +1393,7 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 //		gRobot.status|=STATUS_FIX;
 		gRobot.status|=STATUS_AVOID_JUDGE;
 		gRobot.status&=~STATUS_AVOID_HANDLE;
+		gRobot.avoid_t.handleEnd=1;
 }
  /****************************************************************************
 * 名    称：void BackCarOut(float angle) 

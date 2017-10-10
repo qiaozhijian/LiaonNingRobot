@@ -47,8 +47,42 @@ extern Robot_t gRobot;
 float Yxpos=0;
 float Yypos=0;
 float Yangle=0;
+static float angle;
+static float posX;
+static float posY;
 /****************CAn***start******************/
 /******************5856电机速度*******************/
+/******************直接给定定位器的坐标*************/
+void correctPos(float Givenangle,float GivenposX,float GivenposY){
+	static union
+	{
+		float   val;
+		uint8_t data[4];
+	}float2char;
+	while(!(fabs(GivenposX-posX)<0.1&&fabs(GivenposY-posY)<0.1&&fabs(Givenangle-angle)<0.1))
+	{
+		USART_SendData(USART3,'A');
+		USART_SendData(USART3,'C');
+		USART_SendData(USART3,'T');
+		USART_SendData(USART3,'A');
+		float2char.val=Givenangle;
+		USART_SendData(USART3,float2char.data[0]);
+		USART_SendData(USART3,float2char.data[1]);
+		USART_SendData(USART3,float2char.data[2]);
+		USART_SendData(USART3,float2char.data[3]);
+		float2char.val=GivenposX;
+		USART_SendData(USART3,float2char.data[0]);
+		USART_SendData(USART3,float2char.data[1]);
+		USART_SendData(USART3,float2char.data[2]);
+		USART_SendData(USART3,float2char.data[3]);
+		float2char.val=GivenposY;
+		USART_SendData(USART3,float2char.data[0]);
+		USART_SendData(USART3,float2char.data[1]);
+		USART_SendData(USART3,float2char.data[2]);
+		USART_SendData(USART3,float2char.data[3]);
+		Delay_ms(10);
+	}
+}
 /******************5850电机位置*******************/
 typedef union{
 	uint8_t buffer[8];
@@ -338,9 +372,6 @@ void USART1_IRQHandler(void)
 //	USART_OUT(UART5,(uint8_t*)"%d\r\n",(int)data);
 }
 }
-static float angle;
-static float posX;
-static float posY;
 float avel=0;
 static int isOKFlag=0;
 void USART3_IRQHandler(void) //更新频率200Hz
