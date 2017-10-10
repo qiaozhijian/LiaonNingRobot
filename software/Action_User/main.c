@@ -124,8 +124,32 @@ int main(void)
 				//CameraBaseWalk2();
 			}
 			#endif
- 		}
-		
+ 		}	
 	//OSCPUUsage=getTimeCount();
 }
 }
+//int ChooseLine(float spacingError)
+//{
+//	float angleError=0-gRobot.walk_t.pos.angle;
+//	if(gRobot.walk_t.pos.x>-1300 && gRobot.walk_t.pos.y<1300&&gRobot.walk_t.pos.y<1700)
+//	{
+//		 if(TRAVEL_SWITCH_LEFT==0&&TRAVEL_SWITCH_RIGHT==0)
+//		{
+//			VelCrl(CAN2, 1, -5000 + AnglePidControl(gRobot.walk_t.pid.angleError)-AgainstWallPidControl(spacingError));
+//			VelCrl(CAN2, 2, 5000 + AnglePidControl(gRobot.walk_t.pid.angleError)+AgainstWallPidControl(spacingError));
+//		}
+//		else if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==0)
+//		{
+//			VelCrl(CAN2, 1, -12000);
+//			VelCrl(CAN2, 2,  4000);
+//		}else if(TRAVEL_SWITCH_LEFT==0 && TRAVEL_SWITCH_RIGHT==1)
+//		{
+//			VelCrl(CAN2, 1, -4000);
+//			VelCrl(CAN2, 2,  12000);
+//		}
+//	}
+//	if(CheckAgainstWall()==1)
+//	{
+//			
+//	}
+//}

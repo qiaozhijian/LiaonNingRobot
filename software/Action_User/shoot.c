@@ -140,11 +140,11 @@ static int ballColor=1;
 		noballtime=0;
 		if(balllast!=ballColor)
 		{
-			Stabletimelim=60;
+			Stabletimelim=100;
 			balllast=ballColor;
 		}
 		else{
-			Stabletimelim=50;
+			Stabletimelim=60;
 		}
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{

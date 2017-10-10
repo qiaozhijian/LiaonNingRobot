@@ -34,13 +34,15 @@ void setErrSingle(float reaAngle)
 void setErrX(float realX)
 {
 	float temp;
-	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
+//	temp = xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180);
+	temp = xpos * cos(-errSingle * PI / 180) + ypos * sin(-errSingle * PI / 180);
 	errX0 = realX - temp;
 }
 void setErrY(float realy)
 {
 	float temp;
-	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
+//	temp = xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180);
+	temp =  ypos * cos(-errSingle * PI / 180) - xpos * sin(-errSingle * PI / 180) ;
 	errY0 = realy - temp;
 }
 void setErr(float reaAngle,float realX,float realy)
@@ -68,11 +70,11 @@ float getAngle(void)
 }
 float getXpos(void)
 {
-	return xpos * cos(-errSingle * PI / 180) - ypos * sin(-errSingle * PI / 180) + errX0;
+	return xpos * cos(-errSingle * PI / 180) + ypos * sin(-errSingle * PI / 180) + errX0;
 }
 float getYpos(void)
 {
-	return xpos * sin(-errSingle * PI / 180) + ypos * cos(-errSingle * PI / 180) + errY0;
+	return  ypos * cos(-errSingle * PI / 180) - xpos * sin(-errSingle * PI / 180) + errY0;
 }
 /****************************************************************************
 * 名    称：getLeftAdc()	getRightAdc()

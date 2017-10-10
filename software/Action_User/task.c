@@ -107,7 +107,7 @@ void robotInit(void)
 	elmoInit();
 #endif
 	variableInit();
-	GPIO_SetBits(GPIOE,GPIO_Pin_7);
+//	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	
   //driveGyro();
 	while(!gRobot.gpsSignal){};

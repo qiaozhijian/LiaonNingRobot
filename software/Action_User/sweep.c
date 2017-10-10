@@ -30,8 +30,39 @@ int CheckAgainstWall(void)
   static int againstTime=0;//靠在墙上的时间
   static int againstError=0;
 	static int totalTime=0;
+	static int switchError=0;
   //这两个要结合在一起，不能在矫正的时候卡死
 	totalTime++;
+	
+//	if(switchError>=2)
+//	{
+//		if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(TRAVEL_SWITCH_LEFT==1||TRAVEL_SWITCH_RIGHT==1))
+//		{
+//			againstTime++;
+//			againstError=0;
+//		}
+//		else
+//		{
+//			againstTime=0;
+//		}
+//	   
+//		if (againstTime > 100&&againstTime<200)
+//		{
+//			VelCrl(CAN2,1,-10000);
+//			VelCrl(CAN2,2,  2000);
+//		}else if(againstTime > 200&&againstTime<300)
+//		{	
+//			VelCrl(CAN2,1, -2000);
+//			VelCrl(CAN2,2, 10000);
+//		}
+//		if(againstTime>350)
+//		{
+//			return 1;
+//		}
+//		return 0;
+//	}
+	//正常行程开关矫正
+	
   if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
   {
   	againstError++;
@@ -50,28 +81,35 @@ int CheckAgainstWall(void)
   {
     againstTime = 0;
   }
-  if (againstTime > 30)
+	
+  if (againstTime > 30)//大于300ms允许矫正
   {
     againstTime=0;
 		totalTime=0;
+		switchError=0;
 		return 1;
   }
-	if(againstError>350)
+	
+	if(againstError>350)//350ms坐标卡死，行程开关不出发，或者坏掉了
   {
 		againstError=0;
 		totalTime=0;
+		switchError++;
 		return 2;
   }
+	USART_OUT(UART5, "getx%d\t",(int)getxRem());
+	USART_OUT(UART5, "gety%d\t", (int)getyRem());
 	USART_OUT(UART5, "againstTime%d\t", againstTime);
 	USART_OUT(UART5, "againstError%d\t", againstError);
 	USART_OUT(UART5, "total%d\t\r\n", totalTime);
+
 	if(totalTime>1000&&fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3)
 	{
 		totalTime=0;
 		return 1;
 	}
   return 0;
-
+	
 }
 /*****************************************************************************
 名    称：void AgainstWall(float aimAngle,float angle)

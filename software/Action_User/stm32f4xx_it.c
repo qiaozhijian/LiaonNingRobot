@@ -412,9 +412,9 @@ void USART3_IRQHandler(void) //更新频率200Hz
 				setXpos(posX);
 				setYpos(posY);
 				setAngle(angle);
-				gRobot.walk_t.pos.x=getXpos();
-				gRobot.walk_t.pos.y=getYpos();
-				gRobot.walk_t.pos.angle=getAngle();
+				gRobot.walk_t.pos.x=getXpos();//posX;//
+				gRobot.walk_t.pos.y=getYpos();//posY;//
+				gRobot.walk_t.pos.angle=getAngle();//getAngle();
 			}
 			count = 0;
 			break;

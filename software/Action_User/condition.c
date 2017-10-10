@@ -178,10 +178,12 @@ void CornerJammedJudge(void)
 	static int step=0;
 	static int stoptime=0;
 	static int Lasttime=0;
+	static int jumptime=0;
+	static int shoottime=0;
 	static float Lastx=0.0f;
 	static float Lasty=0.0f;
 	static float Lastangle=0.0f;
-	static int jumptime=0;
+	
  if(gRobot.status & (STATUS_SWEEP | STATUS_FIX | STATUS_PARKING | STATUS_CAMERA_AND_WALK))
 {	
 	switch(step)
@@ -237,6 +239,7 @@ void CornerJammedJudge(void)
 				gRobot.status|=STATUS_FIX;
 			} 
 				gRobot.status&=~STATUS_FIX;
+			if(gRobot.shoot_t.sReal.speed<-60)
 		    fireTask();
 			break;
 	}

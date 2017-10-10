@@ -159,6 +159,11 @@ void BackCarIn(float angle) //内环倒车程序
 				backtime++;
 			 VelCrl(CAN2, 1, -6000); //pid中填入的是差值
 		   VelCrl(CAN2, 2,  6000);
+		 if(fabs(angleError) < 5)
+				{
+					step=2;
+					avoidtime=0;
+				}
 		 if(backtime>100)
 			 {
 				 backtime=0;
@@ -260,6 +265,11 @@ void BackCarOut(float angle) //外环倒车程序
 			backtime++;
 			 VelCrl(CAN2, 1, -10000); //pid中填入的是差值
 		   VelCrl(CAN2, 2,  10000);
+		 if(fabs(angleError) < 5)
+				{
+					step=2;
+					avoidtime=0;
+				}
 		 if(backtime>100)
 			 {
 					step++;
@@ -627,6 +637,24 @@ void CWalkJudge(void)
 //			xStick=gRobot.walk_t.pos.x;
 //			yStick=gRobot.walk_t.pos.y;
 //			gRobot.avoid_t.continueTrigger++;
+//		if(gRobot.avoid_t.continueTrigger>=5)//倘若这时候出现了扫场便把它储存起来
+//		{
+//			gRobot.status&=~STATUS_AVOID_HANDLE;
+//			//对除了异常处理的情况进行状态储存
+//			gRobot.avoid_t.statusRem|=gRobot.status;
+//			//gRobot.st atus&=~STATUS_AVOID_JUDGE;
+//			if(gRobot.status&STATUS_SWEEP)
+//			{
+//				gRobot.status&=~STATUS_SWEEP;//将sweep关闭
+//			}  
+////			if(gRobot.status&STATUS_PARKING)
+////			{
+////				gRobot.status&=~STATUS_PARKING;//将parking关闭
+////			}  
+//			gRobot.status|=STATUS_FIX;//连续触发直接关闭所有在fix前面状态handle，直接进入矫正
+//			gRobot.avoid_t.continueTrigger=0;
+//			gRobot.avoid_t.continueTriggerSignal=1;
+//		}
 //			return 1;
 //		}
 //    lastX=gRobot.walk_t.pos.x;
@@ -658,11 +686,16 @@ int JudgeStick(void)
 	{
 		stickError = 0;
 	}
+	USART_OUT(UART5,"%d\t",(int)xError);
+	USART_OUT(UART5,"%d\t",(int)getxRem());
+	USART_OUT(UART5,"%d\t\r\n",(int)getyRem());
 	if (stickError > 36)
 	{
 		stickError = 0;
 		xStick=gRobot.walk_t.pos.x;
 		yStick=gRobot.walk_t.pos.y;
+		USART_OUT(UART5,"xStick=%d\t",(int)xStick);
+		USART_OUT(UART5,"yStick=%d\t\r\n",(int)yStick);
       //改变状态码
 		gRobot.status&=~STATUS_AVOID_JUDGE;
 		gRobot.status|=STATUS_AVOID_HANDLE;
@@ -1120,7 +1153,9 @@ void Transition(void) 											//外环倒车程序
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
-		if (fabs(angleError) < 5)
+	}
+	
+	if (fabs(angleError) < 5)
 		{
 			i = 0;
 			j = 0;//清空标志位
@@ -1129,7 +1164,7 @@ void Transition(void) 											//外环倒车程序
 			gRobot.status&=~STATUS_AVOID_HANDLE;
 			avoidtime=0;
 		} 
-	}
+		
 	if(avoidtime>250)
 	{
 		gRobot.status&=~STATUS_AVOID_HANDLE;
@@ -1166,7 +1201,9 @@ void CornerOut(void) //内环倒车程序
 	{
 		VelCrl(CAN2, 1, AnglePidControl(angleError)); //pid中填入的是差值
 		VelCrl(CAN2, 2, AnglePidControl(angleError));
-		if (fabs(angleError) < 5)
+	}
+	
+	if (fabs(angleError) < 5)
 		{
 			i = 0;
 			j = 0;//清空标志位
@@ -1175,7 +1212,6 @@ void CornerOut(void) //内环倒车程序
 			avoidtime=0;
 			gRobot.avoid_t.handleEnd=1;
 		} 
-	}
 	if(avoidtime>250)
 	{
 		gRobot.status&=~STATUS_AVOID_HANDLE;
@@ -1549,15 +1585,14 @@ void Pointparking2(void)
 				break;
 		}
 	}
-//	if(gRobot.walk_t.circleChange.quadrant<gRobot.walk_t.circleChange.quadrantlast && gRobot.walk_t.circleChange.quadrant!=1&&gRobot.walk_t.circleChange.quadrantlast!=4)
-//		{
-//			gRobot.walk_t.circleChange.linenum=gRobot.walk_t.circleChange.linenum-2;
-//		}
-//	gRobot.walk_t.circleChange.quadrantlast=gRobot.walk_t.circleChange.quadrant;
 	if(gRobot.walk_t.circleChange.linenum>=2)
 		{
 			gRobot.walk_t.circleChange.linenum=0;
-			step=!step;
+			step++;
+			if(step>2)
+			{
+				step=0;
+			}
 			gRobot.status&=~STATUS_PARKING;
 			gRobot.status|=STATUS_FIX;
 			gRobot.status|=STATUS_SHOOTER;
