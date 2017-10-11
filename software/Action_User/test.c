@@ -26,6 +26,7 @@ void TestMode(void)
 		case 3://发射自检
 			ShootTest();
 		break;
+		
 		case 4:
 			break;
 		case 5:

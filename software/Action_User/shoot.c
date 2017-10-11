@@ -54,8 +54,8 @@ else if (ballNum==1)                     //假如球是黑球
 	}
 //		USART_OUT(UART5,"%d\r\n",ballNum);
 		//计算航向角转轴的坐标
-		//x = x - 92.2f*sinf(angle);
-		//y = y + 92.2f*cosf(angle);
+		x = x - 92.2f*sinf(angle);
+		y = y + 92.2f*cosf(angle);
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
@@ -281,9 +281,15 @@ static int ballColor=1;
 	yawCount%=4;
 	if(yawCount>=3)
 	{	
+		launcher.angle=launcher.angle+gRobot.angle;
 		YawAngleCtr(launcher.angle);
 	}
+	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
+	{
+		fixPosFirst(gRobot.correctSide);
+	}
 	//实施速度
+	launcher.speed=launcher.speed+gRobot.speed;
 	ShootCtr(launcher.speed);
 	//实施推球	
   if(ballColor!=0)

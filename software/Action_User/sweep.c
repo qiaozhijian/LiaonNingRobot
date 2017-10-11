@@ -732,6 +732,7 @@ int Square(void)
 ****************************************************************************/
 int AntiSquare(void)
 {
+	static int flag=0;
 	//改变区域的值
 	ChangeBoard();
 	
@@ -739,6 +740,7 @@ int AntiSquare(void)
 		gRobot.walk_t.circleChange.turnTime=0;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
 		gRobot.walk_t.circleChange.turnTime=1;
+		flag=1;
 	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
 		gRobot.walk_t.circleChange.turnTime=2;
 	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
@@ -755,6 +757,12 @@ int AntiSquare(void)
 		 AngleRoute(180);
 		}
 	}
+	
+	if(flag==0)
+	{
+		gRobot.walk_t.circleChange.turnTime=0;
+	}
+	
   switch(gRobot.walk_t.circleChange.turnTime)
   {
   case 0:

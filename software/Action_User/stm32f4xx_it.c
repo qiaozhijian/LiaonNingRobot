@@ -201,6 +201,15 @@ void UART5_IRQHandler(void)
 				else if(data=='t')
 				{
 					step=3;
+				}else if(data=='j')
+				{
+					step=11;
+				}else if(data=='d')
+				{
+					step=12;
+				}else if(data=='b')
+				{
+					step=13;
 				}
 				else
 				{
@@ -297,6 +306,45 @@ void UART5_IRQHandler(void)
 				i=0;
 			break;
 				
+			case 11:
+				if(data=='0')
+				{
+					gRobot.correctSide=0;
+				}else if(data=='1')
+				{
+					gRobot.correctSide=1;
+				}else if(data=='2')
+				{
+					gRobot.correctSide=2;
+				}else if(data=='3')
+				{
+				  gRobot.correctSide=3;
+				}
+				else
+				{
+					gRobot.correctSide=6;//随便给定的值
+				}
+			break;
+				
+			case 12:
+				if(data=='0')
+				{
+					gRobot.angle++;
+				}else if(data=='1')
+				{
+					gRobot.angle--;
+				}else if(data=='2')
+				{
+					gRobot.speed++;
+				}else if(data=='3')
+				{
+					gRobot.speed--;
+				}
+				break;
+			case 13:
+				  gRobot.angle=0;
+					gRobot.speed=0;
+				break;
 			default:
 				break;
 		}

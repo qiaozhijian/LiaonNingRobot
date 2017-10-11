@@ -296,6 +296,8 @@ void fixPosFirst(int aimBorder)
 			}
 		break;
 	
+		default:
+		break;
 	}
 	USART_OUT(UART5, "%s\t\r\n", "hahahahahha1");
 }

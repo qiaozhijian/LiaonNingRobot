@@ -11,6 +11,7 @@ typedef struct {
 	int right;
 	//激光启动
 	int status;
+	
 }Laser_t;
 
 typedef struct{
@@ -210,6 +211,12 @@ typedef struct {
 	int start;
 	/******************初始化检查硬件链接***************/
 	int check;
+	
+	int correctSide;
+	
+	int angle;
+	
+	int speed;
 //	/*场地区域数组*/
 //  uint32_t area[];
 	uint32_t abnormal;
