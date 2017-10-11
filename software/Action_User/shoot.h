@@ -3,6 +3,7 @@
 
 void fireTask(void);
 void ShootHandle(void);
+void fireTask2(void);
 #endif
 
 

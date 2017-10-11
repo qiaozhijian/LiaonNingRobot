@@ -459,16 +459,17 @@ void FixTask(void)
 					aimBorder=0;
 				}
 		}
+		gRobot.fix_t.wayChoose=0;
 		aimPos=Go2NextWall(aimBorder);//得到下一一个边界点
 		gRobot.ParkingPoint.x=aimPos.x;
 		gRobot.ParkingPoint.y=aimPos.y;
 		gRobot.status|=STATUS_PARKING;
 		fix_status=0;
 //			fix_status &=~TRY_SEC_FIX;
+		gRobot.fix_t.toBorder=aimBorder;//知道现在去哪一个边界
 		fix_status |=TRY_FIRST_FIX;
 		fix_status |=AGAINST_Wall;
 	}
-//	gRobot.fix_t.toBorder=aimBorder;//知道现在去哪一个边界
 	if(fixSuccessFlag==1)
 	{
 		gRobot.status&=~STATUS_FIX;

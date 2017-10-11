@@ -273,13 +273,13 @@ void TIM3_IRQHandler(void)
 		{
 			startTime++;
 		}
-//		if(startTime>16000)//时间到了2分40秒立刻矫正投球
-//		{
-//			gRobot.status=0;
-//			gRobot.status|=STATUS_FIX;
-//		  gRobot.status|=STATUS_AVOID_JUDGE;
-//			gRobot.status|=STATUS_SHOOTER;
-//		}
+		if(startTime>16000)//时间到了2分40秒立刻矫正投球
+		{
+			gRobot.status=0;
+			gRobot.status|=STATUS_FIX;
+		  gRobot.status|=STATUS_AVOID_JUDGE;
+			gRobot.status|=STATUS_SHOOTER;
+		}
 		
 	}
 

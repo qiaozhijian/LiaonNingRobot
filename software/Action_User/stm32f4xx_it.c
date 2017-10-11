@@ -290,7 +290,7 @@ void UART5_IRQHandler(void)
 				if(data=='\n')
 				{
 					gRobot.shoot_t.sAim.angle=(float)atof(a);
-					USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.angle*1000));
+					//USART_OUT(UART5,"%d",(int)(gRobot.shoot_t.sAim.angle*1000));
 				}
 				for(uint32_t i=0;i<8;i++)
 					a[i]=0;

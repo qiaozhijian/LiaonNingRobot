@@ -19,6 +19,9 @@ void Escape(void);
 void EscapeCar(void);
 int JudgeStick(void);
 void LineBack(void);
+void AvoidCar(int step);
+void FixErr(void);
+
 
 void SweepJudge(void);
 void FixJudge(void);

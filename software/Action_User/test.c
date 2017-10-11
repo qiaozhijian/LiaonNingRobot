@@ -20,26 +20,7 @@ void TestMode(void)
 		break;
 		
 		case 2://检查摄像头数的球
-			ballNum=getF_ball();
-			if(ballNum<=2)
-			{
-				GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(300);
-				GPIO_SetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(300);
-			}else if(ballNum<5&&ballNum>=3)
-			{
-				GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(500);
-				GPIO_SetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(500);
-			}else if(ballNum>=5)
-			{
-				GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(800);
-				GPIO_SetBits(GPIOE,GPIO_Pin_7);
-				Delay_ms(800);
-			}
+		   fireTask2();
 		break;
 		
 		case 3://发射自检

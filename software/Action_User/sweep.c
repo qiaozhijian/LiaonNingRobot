@@ -70,7 +70,7 @@ int CheckAgainstWall(void)
 
 	//正常行程开关矫正
 	
-  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
+  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
   {
   	againstError++;
 		againstTime=0;
@@ -79,7 +79,7 @@ int CheckAgainstWall(void)
 		againstError=0;
   }
   
-  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1))
+  if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1))
   {
    againstTime++;
 	 againstError=0;
@@ -97,7 +97,7 @@ int CheckAgainstWall(void)
 		return 1;
   }
 	
-	if(againstError>250)//350ms坐标卡死，行程开关不出发，或者坏掉了
+	if(againstError>200)//350ms坐标卡死，行程开关不出发，或者坏掉了
   {
 		againstError=0;
 		totalTime=0;

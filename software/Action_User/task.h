@@ -21,6 +21,8 @@ typedef struct{
 	//去哪一个边界
 	int toBorder;
 	
+	int wayChoose;
+	
 }Fix_t;
 /*************************PID调解***********************/
 //PID调解的相关参数
@@ -120,6 +122,7 @@ typedef struct{
 	Point_t shootPos;
 	
 	Laser_t lastLaser;
+	
 }Shoot_t;
 
 /******************摄像头结构体***********************/

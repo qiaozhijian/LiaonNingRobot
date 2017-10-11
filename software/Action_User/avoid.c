@@ -1368,6 +1368,7 @@ void ShootHandle(void)//此时应该躲避重新投球//放入异常判断处理
 					}
 			 break;
 			}
+		 gRobot.fix_t.wayChoose=1;
 			aimPos=Go2NextWall(aimWall);
 			getAimWall=0;
 		}
@@ -1538,8 +1539,75 @@ void FixJudge(void)
 void Pointparking2(void)
 {
 	static int step=1;
-	circleChange();
 	//circleChange();
+	switch(gRobot.fix_t.wayChoose)
+	{
+	case 0:
+		FixErr();
+		break;
+	case 1:
+		AvoidCar(step);
+		break;
+	}
+	
+	switch(gRobot.fix_t.toBorder)
+	{
+		case 0:
+			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x<-250)
+			{
+				step=!step;
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 1:
+			if(gRobot.walk_t.pos.y<1700&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+			{
+				step=!step;
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 2:
+			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x>250)
+			{
+				step=!step;
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+		
+		case 3:
+			if(gRobot.walk_t.pos.y>3100&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
+			{
+				step=!step;
+				gRobot.status|=STATUS_FIX;
+				gRobot.status&=~STATUS_PARKING;
+				gRobot.status|=STATUS_SHOOTER;
+			}
+		break;
+	}
+//	if(gRobot.walk_t.circleChange.linenum>=2)
+//		{
+//			gRobot.walk_t.circleChange.linenum=0;
+//			step++;
+//			if(step>1)
+//			{
+//				step=0;
+//			}
+//			gRobot.status&=~STATUS_PARKING;
+//			gRobot.status|=STATUS_FIX;
+//			gRobot.status|=STATUS_SHOOTER;
+//		}
+}
+	
+void AvoidCar(int step)
+{
 	if(gRobot.avoid_t.direction==0) //顺时针
 	{
 		switch(step)
@@ -1561,72 +1629,28 @@ void Pointparking2(void)
 				break;
 			case 1:
 				gRobot.walk_t.circleChange.turnTime=5;
+			USART_OUT(UART5,"hhhhhh\r\n");
+			USART_OUT(UART5,"hhhhhh\r\n");
+			USART_OUT(UART5,"hhhhhh\r\n");
 			  AntiCircle(2100,800);
 				break;
 		}
-	}
-	if(gRobot.walk_t.circleChange.linenum>=2)
-		{
-			gRobot.walk_t.circleChange.linenum=0;
-			step++;
-			if(step>1)
-			{
-				step=0;
-			}
-			gRobot.status&=~STATUS_PARKING;
-			gRobot.status|=STATUS_FIX;
-			gRobot.status|=STATUS_SHOOTER;
-		}
-//	switch(gRobot.fix_t.toBorder)
-//	{
-//		case 0:
-//			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x<-1500)
-//			{
-//				step=!step;
-//				gRobot.status|=STATUS_FIX;
-//				gRobot.status&=~STATUS_PARKING;
-//				gRobot.status|=STATUS_SHOOTER;
-//			}
-//		break;
-//		
-//		case 1:
-//			if(gRobot.walk_t.pos.y<1500&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
-//			{
-//				step=!step;
-//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-//				VelCrl(CAN2, 2,0);
-//				gRobot.status|=STATUS_FIX;
-//				gRobot.status&=~STATUS_PARKING;
-//				gRobot.status|=STATUS_SHOOTER;
-//			}
-//		break;
-//		
-//		case 2:
-//			if(gRobot.walk_t.pos.y>1700&&gRobot.walk_t.pos.y<3100&&gRobot.walk_t.pos.x>1500)
-//			{
-//				step=!step;
-//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-//				VelCrl(CAN2, 2,0);
-//				gRobot.status|=STATUS_FIX;
-//				gRobot.status&=~STATUS_PARKING;
-//				gRobot.status|=STATUS_SHOOTER;
-//			}
-//		break;
-//		
-//		case 3:
-//			if(gRobot.walk_t.pos.y>3300&&gRobot.walk_t.pos.x>-700&&gRobot.walk_t.pos.x<700)
-//			{
-//				step=!step;
-//				VelCrl(CAN2, 1,0);																		//pid中填入的是差值
-//				VelCrl(CAN2, 2,0);
-//				gRobot.status|=STATUS_FIX;
-//				gRobot.status&=~STATUS_PARKING;
-//				gRobot.status|=STATUS_SHOOTER;
-//			}
-//		break;
-//	}
-	USART_OUT(UART5,"eppa=%d\t\r\n",step);
+ }
 }
+
+void FixErr(void)
+{
+	if(gRobot.walk_t.circleChange.direction==0) //顺时针
+	{
+		gRobot.walk_t.circleChange.turnTime=5;
+		Circle(2100,800);
+	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
+	{
+		gRobot.walk_t.circleChange.turnTime=5;
+		AntiCircle(2100,800);
+  }
+}
+
 void FixHandle(void)
 {
 	gRobot.status&=~STATUS_AVOID_HANDLE;
