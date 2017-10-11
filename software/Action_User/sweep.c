@@ -33,34 +33,41 @@ int CheckAgainstWall(void)
 	static int switchError=0;
   //这两个要结合在一起，不能在矫正的时候卡死
 	totalTime++;
+	if(switchError>=3)//三次说明行程开关可能出现问题放弃行程开关
+	{
+		if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&(getLeftAdc()+getRightAdc())<4850&&(getLeftAdc()+getRightAdc())>4750)
+		{
+			againstTime++;
+		}
+		else
+		{
+			againstTime=0;
+		}
+	   
+		if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&(getLeftAdc()+getRightAdc())<4750)
+		{
+			againstError++;
+		}
+		else
+		{
+			againstError=0;
+		}
 	
-//	if(switchError>=2)
-//	{
-//		if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(TRAVEL_SWITCH_LEFT==1||TRAVEL_SWITCH_RIGHT==1))
-//		{
-//			againstTime++;
-//			againstError=0;
-//		}
-//		else
-//		{
-//			againstTime=0;
-//		}
-//	   
-//		if (againstTime > 100&&againstTime<200)
-//		{
-//			VelCrl(CAN2,1,-10000);
-//			VelCrl(CAN2,2,  2000);
-//		}else if(againstTime > 200&&againstTime<300)
-//		{	
-//			VelCrl(CAN2,1, -2000);
-//			VelCrl(CAN2,2, 10000);
-//		}
-//		if(againstTime>350)
-//		{
-//			return 1;
-//		}
-//		return 0;
-//	}
+		if(againstTime>150)
+		{
+			return 1;
+		}
+		
+		if(againstError>400)//400ms坐标卡死，行程开关不出发，或者坏掉了
+		{
+			againstError=0;
+			totalTime=0;
+			againstTime=0;
+			return 2;
+		}
+		return 0;
+	}
+
 	//正常行程开关矫正
 	
   if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&gRobot.walk_t.base!=0&&(TRAVEL_SWITCH_LEFT==0||TRAVEL_SWITCH_LEFT==0))//卡住了
@@ -90,7 +97,7 @@ int CheckAgainstWall(void)
 		return 1;
   }
 	
-	if(againstError>350)//350ms坐标卡死，行程开关不出发，或者坏掉了
+	if(againstError>250)//350ms坐标卡死，行程开关不出发，或者坏掉了
   {
 		againstError=0;
 		totalTime=0;
@@ -103,11 +110,11 @@ int CheckAgainstWall(void)
 	USART_OUT(UART5, "againstError%d\t", againstError);
 	USART_OUT(UART5, "total%d\t\r\n", totalTime);
 
-	if(totalTime>1000&&fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3)
-	{
-		totalTime=0;
-		return 1;
-	}
+//	if(totalTime>1000&&fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3)
+//	{
+//		totalTime=0;
+//		return 1;
+//	}
   return 0;
 	
 }
@@ -658,12 +665,14 @@ void ChangeBoard(void){
 ****************************************************************************/
 int Square(void)
 {
+	static int flag=0;
 	//改变区域的值
 	ChangeBoard();
 	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][1]){
 		gRobot.walk_t.circleChange.turnTime=0;
 	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][1]){
 		gRobot.walk_t.circleChange.turnTime=1;
+		flag=1;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[0][3]){
 		gRobot.walk_t.circleChange.turnTime=2;
 	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[0][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[0][3]){
@@ -679,6 +688,11 @@ int Square(void)
 		}else{
 		 AngleRoute(0);
 		}
+	}
+	 
+	if(flag==0)
+	{
+		gRobot.walk_t.circleChange.turnTime=0;
 	}
 	
   switch(gRobot.walk_t.circleChange.turnTime)
@@ -700,8 +714,7 @@ int Square(void)
     break;
     
   case 3:
-		//正常跑
-    //Line(-600.f,1400,90,1,-1,1);
+    Line(-600.f,1400,90,1,-1,1);
     break;
     
   default:
@@ -870,6 +883,117 @@ int Square2(void)
     Line(-600.f,300,90,1,-1,4);//y
     break;
     
+  default:
+    break;
+  }
+  return 1;
+}
+/****************************************************************************
+* 名    称：void Square3(void)	
+* 功    能：顺时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int Square4(void)
+{
+		//改变区域的值
+	ChangeBoard();
+	
+	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=6;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=7;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=8;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=9;
+	}else{
+		//角度闭环
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(180);
+		}else{
+		 AngleRoute(0);
+		}
+	}
+	
+  switch(gRobot.walk_t.circleChange.turnTime)
+  {
+  case 6:
+    Line(-800.0f,3400.f,0,0,1,1);//x
+    break;
+    
+  case 7:
+    Line(600.f,3500.0f,-90,1,1,1);//y
+    break;
+    
+  case 8:
+    Line(800.f,1400,180,0,-1,1);//x
+    break;
+    
+  case 9:
+    Line(-600.f,1200,90,1,-1,1);//y
+    break;
+    
+  default:
+    break;
+  }
+  return 1;
+}
+/****************************************************************************
+* 名    称：void Square3(void)	
+* 功    能：顺时针最外圈正方形
+* 入口参数：无
+* 出口参数：无
+* 说    明：无
+* 调用方法：无 
+****************************************************************************/
+int AntiSquare4(void)
+{
+	ChangeBoard();
+	
+	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=6;
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+		gRobot.walk_t.circleChange.turnTime=7;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=8;
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+		gRobot.walk_t.circleChange.turnTime=9;
+	}else{
+		//角度闭环
+		if(gRobot.walk_t.pos.y>UPPER_FRAME){
+		 AngleRoute(90);
+		}else if(gRobot.walk_t.pos.y<DOWN_FRAME){
+		 AngleRoute(-90);
+		}else if(gRobot.walk_t.pos.x>RIGHT_FRAME){
+		 AngleRoute(0);
+		}else{
+		 AngleRoute(180);
+		}
+	}
+  switch(gRobot.walk_t.circleChange.turnTime)
+  {
+  case 6:
+    Line(800.0f,3400.f,0,0,1,4);
+    break;
+    
+  case 7:
+    Line(-600.f,3500.0f,90,1,1,4);
+    break;
+    
+  case 8:
+    Line(-800.f,1400,180,0,-1,4);
+    break;
+    
+  case 9:
+    Line(600.f,1200,-90,1,-1,4);
+    break;
   default:
     break;
   }
@@ -1271,18 +1395,19 @@ void Out2In(void)
 		switch(step)
 		{
 			case 0:
-				Square3();
-				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
+				gRobot.walk_t.circleChange.turnTime=5;
+			  Circle(1800,1100);
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
 				{
 					step=1;
 				}
 				break;
 			case 1:
-				gRobot.walk_t.circleChange.turnTime=5;
-			  Circle(1800,1100);
-				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
+				//贴内圈
+				Square4();
+				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
 				{
-					step=0;
+					step=2;
 				}
 				break;
 		}
@@ -1291,19 +1416,19 @@ void Out2In(void)
 		switch(step)
 		{
 		case 0:
-				AntiSquare3();
-				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
-				{
-					step=1;
-				}
+			gRobot.walk_t.circleChange.turnTime=5;
+			AntiCircle(1800,1100);
+			if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
+			{
+				step=1;
+			}
 				break;
 			case 1:
-				gRobot.walk_t.circleChange.turnTime=5;
-			  AntiCircle(1800,1100);
-				if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==2)
-				{
-					step=0;
-				}
+			AntiSquare4();
+			if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
+			{
+				step=2;
+			}
 				break;
 		}
 	}
@@ -1314,7 +1439,7 @@ void Out2In(void)
 		  gRobot.status|=STATUS_FIX;
 			gRobot.status|=STATUS_SHOOTER;
 			gRobot.walk_t.circleChange.turnTime=0;
-			step=0;
+			step++;
 	}
 }
 

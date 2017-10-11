@@ -62,8 +62,8 @@ void HardWare(void){
 void elmoInit(void){
 	
 	elmo_Init(CAN2);
-	elmo_Disable(CAN2, 1);
-	elmo_Disable(CAN2, 2);
+	elmo_Enable(CAN2, 1);
+	elmo_Enable(CAN2, 2);
 	
 	Vel_cfg(CAN2, 1, 50000, 50000); //can通信，50000脉冲加速度
 	Vel_cfg(CAN2, 2, 50000, 50000);
@@ -99,20 +99,44 @@ void variableInit(void)
 * 调用方法：无 
 ****************************************************************************/
 void robotInit(void)
-{
+{	
+	static int checktime=0;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	
 	HardWare();
-#ifndef TEST
 	elmoInit();
-#endif
 	variableInit();
-//	GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	
+	
+//	while(fabs(gRobot.shoot_t.sReal.speed+30)>5)
+//	{
+//		gRobot.check++;
+//		if(gRobot.check>100)
+//		{
+//			ShootCtr(30);
+//			gRobot.check=0;
+//		 GPIO_SetBits(GPIOE,GPIO_Pin_7);
+//		}
+//	}
+//	gRobot.check=0;
   //driveGyro();
-	while(!gRobot.gpsSignal){};
+	while(!gRobot.gpsSignal){
+		if(gRobot.check>100)
+		{
+			GPIO_SetBits(GPIOE,GPIO_Pin_7);
+			if(gRobot.check>200)
+			{
+				gRobot.check=0;
+			}
+		}else if(gRobot.check>0  && gRobot.check<3)
+		{
+			GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+		}
+	}
+	 GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	//DisDriveGyro();
 	PushBallReset();
+		ShootCtr(0);
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
   CollectBallVelCtr(60);                                       //让辊子转起来
 } 

@@ -38,10 +38,10 @@ int main(void)
 //				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
 //	  		USART_OUT(UART5,"%d\t",(int)getRightAdc());
 //				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.shoot_t.sReal.speed);
-				USART_OUTF(gRobot.walk_t.pos.angle);
-				USART_OUTF(gRobot.walk_t.pos.x);
-				USART_OUTF(gRobot.walk_t.pos.y);
-				USART_OUT_CHAR("\r\n");
+////				USART_OUTF(gRobot.walk_t.pos.angle);
+////				USART_OUTF(gRobot.walk_t.pos.x);
+////				USART_OUTF(gRobot.walk_t.pos.y);
+////				USART_OUT_CHAR("\r\n");
 //				USART_OUT(UART5,"gA=%d\t",(int)gRobot.walk_t.pos.angle);
 //				USART_OUT(UART5,"gX=%d\t",(int)gRobot.walk_t.pos.x);
 //		    USART_OUT(UART5,"gY=%d\t\r\n",(int)gRobot.walk_t.pos.y);
@@ -62,9 +62,9 @@ int main(void)
 //				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 //			 #ifdef TEST 
 //				TestMode();
-//				MotorRead(); 
+				MotorRead(); 
 //			 #else
- 			MotorRead(); 
+//			MotorRead(); 
 //			CornerJammedJudge();
 ////			if(gRobot.avoid_t.signal>7000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
 ////			{

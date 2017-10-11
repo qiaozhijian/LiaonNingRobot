@@ -205,6 +205,8 @@ typedef struct {
 	int gpsSignal;
 	/********************等待彻底启动**************/
 	int start;
+	/******************初始化检查硬件链接***************/
+	int check;
 //	/*场地区域数组*/
 //  uint32_t area[];
 	uint32_t abnormal;

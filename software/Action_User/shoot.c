@@ -42,13 +42,15 @@ if (ballNum == 100)                      //加入球是白球
 	{
 //		x0 = -162.5f;
 //		y0 = 2335.35f;
-		x0 = -150.0f;
-		y0 = 2392.0f;
+		x0 = -162.0f;
+		y0 = 2350.0f;
 	}
 else if (ballNum==1)                     //假如球是黑球
 	{
-		x0 = 150.0f;
-		y0 = 2392.0f;
+		x0 = 162.0f;
+		y0 = 2335.0f;//2392
+//		x0 = 162.5f;
+//		y0 = 2335.35f;
 	}
 //		USART_OUT(UART5,"%d\r\n",ballNum);
 		//计算航向角转轴的坐标
@@ -60,24 +62,7 @@ else if (ballNum==1)                     //假如球是黑球
 //		launcher.speed=0.01364f*v-1.333f;
 //		launcher.speed=0.01371f*v-3.413f;
 	  // launcher.speed=0.01517f*v-10.88f-4.0f;
-		launcher.speed=0.01387f*v-4.814f;
-//	//彻底卡死
-//	 if(gRobot.abnormal==)
-//	 {
-//		 //白球
-//		 if (ballNum == 100)
-//		 {
-//				x0=0;
-//				y0=2850;
-//		 }
-//		else if(ballNum==1)
-//			{
-//				x0=0;
-//				y0=1950;
-//			}
-//		 s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
-//	   launcher.speed=0.01356f*s+31.01f;
-//	 }
+		launcher.speed=0.01387f*v-6.814f;
 		dx = x0 - x;
 		dy = y0 - y;
 		alpha = atan2(dy, dx) * 180.0f/ PI ;
@@ -122,17 +107,18 @@ static int ballColor=1;
 	//实施角度
 	yawCount++;
 	yawCount%=4;
-	if(yawCount==3)
+	if(yawCount>=3)
 	{	
 		YawAngleCtr(launcher.angle);
 	}
+	launcher.speed=15;
 	//当行程开关触发时一直矫正
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1&&getLeftAdc()+getRightAdc()<4850&&getLeftAdc()+getRightAdc()>4700)
 	{
 		fixPosFirst(gRobot.fix_t.inBorder);
 	}
 	//实施速度
-	ShootCtr(launcher.speed);
+	ShootCtr(15);
 	//实施推球	
   if(ballColor!=0)
 	{
@@ -150,7 +136,8 @@ static int ballColor=1;
 		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<2 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
 			Stabletime++;
-			ShootCount();
+			//发射电机数球函数
+			//ShootCount();
 			switch(step)
 			{
 				case 0://判断投球的初始位置
@@ -159,7 +146,7 @@ static int ballColor=1;
 						if(Stabletime>Stabletimelim)
 						{
 							step=1;
-							if(gRobot.shoot_t.sReal.speed<-60)
+							//if(gRobot.shoot_t.sReal.speed<-40)
 							PushBallReset();
 							Stabletime=0;
 						}
@@ -168,7 +155,7 @@ static int ballColor=1;
 						if(Stabletime>Stabletimelim)
 						{
 							step=2;
-							if(gRobot.shoot_t.sReal.speed<-60)
+							//if(gRobot.shoot_t.sReal.speed<-40)
 							PushBall();
 							Stabletime=0;
 						}
@@ -176,7 +163,7 @@ static int ballColor=1;
 					break;
 					
 				case 1:
-							if(gRobot.shoot_t.sReal.speed<-60)
+							//if(gRobot.shoot_t.sReal.speed<-40)
 							PushBallReset();
 				//判断为卡死
 							if(fabs(gRobot.shoot_t.pReal.pos-PUSH_RESET_POSITION)<300)
@@ -189,7 +176,7 @@ static int ballColor=1;
 				  break;
 							
 				case 2:
-							if(gRobot.shoot_t.sReal.speed<-60)
+							//if(gRobot.shoot_t.sReal.speed<-40)
 							PushBall();
 				//判断为卡死
 					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
@@ -217,12 +204,12 @@ static int ballColor=1;
 		{
 			if(step==1||step==0)
 			{
-				if(gRobot.shoot_t.sReal.speed<-60)
+				//if(gRobot.shoot_t.sReal.speed<-60)
 				PushBallReset();
 				step=2;
 			}else if(step==2)
 			{
-				if(gRobot.shoot_t.sReal.speed<-60)
+				//if(gRobot.shoot_t.sReal.speed<-60)
 				PushBall();
 				step=1;
 			}
@@ -249,22 +236,22 @@ static int ballColor=1;
 			}
 	//脱离状态 
 			//				gRobot.status&=~STATUS_AVOID_JUDGE;
-//	USART_OUT(UART5,"%d\t",(int)noBall);
-//	USART_OUT(UART5,"%d\t",(int)ballColor);
-//	USART_OUT(UART5,"%d\t",(int)step);
-//	USART_OUT(UART5,"%d\t",(int)noballtime);
-//	USART_OUT(UART5,"%d\t",(int)ballColor);
+	USART_OUT(UART5,"%d\t",(int)noBall);
+	USART_OUT(UART5,"%d\t",(int)ballColor);
+	USART_OUT(UART5,"%d\t",(int)step);
+	USART_OUT(UART5,"%d\t",(int)noballtime);
+	USART_OUT(UART5,"%d\t",(int)launcher.angle);
 			
-////	USART_OUTF(gRobot.walk_t.pos.angle);
-////	USART_OUTF(gRobot.walk_t.pos.x);
-////	USART_OUTF(gRobot.walk_t.pos.y);
-//////	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
-////	USART_OUTF(launcher.angle);
-////	USART_OUTF(gRobot.shoot_t.sReal.angle);
-////	USART_OUTF(launcher.speed);
-////	USART_OUTF(gRobot.shoot_t.sReal.speed);
-////	USART_OUT_CHAR("\r\n");
-//	USART_OUT(UART5,(uint8_t *)"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+//	USART_OUTF(gRobot.walk_t.pos.angle);
+//	USART_OUTF(gRobot.walk_t.pos.x);
+//	USART_OUTF(gRobot.walk_t.pos.y);
+////	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
+//	USART_OUTF(launcher.angle);
+//	USART_OUTF(gRobot.shoot_t.sReal.angle);
+//	USART_OUTF(launcher.speed);
+//	USART_OUTF(gRobot.shoot_t.sReal.speed);
+//	USART_OUT_CHAR("\r\n");
+	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }
 

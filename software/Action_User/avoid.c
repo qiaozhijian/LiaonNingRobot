@@ -332,8 +332,6 @@ void BackCarOut(float angle) //外环倒车程序
 void BackCar(void)
 {
 	//顺时针
-	if(gRobot.walk_t.circleChange.direction==1)
-	{
 		if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
 		{
 			BackCarIn(gRobot.walk_t.pos.angle);
@@ -342,17 +340,6 @@ void BackCar(void)
 		{
 			BackCarOut(gRobot.walk_t.pos.angle);
 		}
-  }else if(gRobot.walk_t.circleChange.direction==0)//顺时针
-	{
-		if((xStick>-1400&&xStick<1400)&&(yStick>900&&yStick<3900))//内环
-		{
-			BackCarOut(gRobot.walk_t.pos.angle);
-		}
-		else if((xStick<-1400||xStick>1400)||(yStick<900||yStick>3900))//外环
-		{
-			BackCarIn(gRobot.walk_t.pos.angle);
-		}
-	}
 }	
 
 /****************************************************************************
@@ -1562,11 +1549,7 @@ void Pointparking2(void)
 				break;
 			case 1:
 				gRobot.walk_t.circleChange.turnTime=5;
-			  Circle(1800,1100);
-				break;
-			case 2:
-				gRobot.walk_t.circleChange.turnTime=5;
-			  Circle(1800,800);
+			  Circle(2100,800);
 				break;
 		}
   }else if(gRobot.avoid_t.direction==1) //逆时针
@@ -1578,11 +1561,7 @@ void Pointparking2(void)
 				break;
 			case 1:
 				gRobot.walk_t.circleChange.turnTime=5;
-			  AntiCircle(1800,1100);
-				break;
-			case 2:
-				gRobot.walk_t.circleChange.turnTime=5;
-			  AntiCircle(1800,800);
+			  AntiCircle(2100,800);
 				break;
 		}
 	}
@@ -1590,7 +1569,7 @@ void Pointparking2(void)
 		{
 			gRobot.walk_t.circleChange.linenum=0;
 			step++;
-			if(step>2)
+			if(step>1)
 			{
 				step=0;
 			}
