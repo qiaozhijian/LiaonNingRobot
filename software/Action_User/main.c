@@ -70,6 +70,7 @@ int main(void)
 //				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
 				TestMode();
+				test2();
 				MotorRead(); 
 			 #else
 			MotorRead(); 

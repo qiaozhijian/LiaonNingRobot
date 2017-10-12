@@ -142,7 +142,7 @@ void ShootTest(void)
 		USART_OUT(UART5,"CCDFault\r\n");
 	}
 }
-void test2()
+void test2(void)
 {
 	static int step=0;
 	static int time1=0;
@@ -196,4 +196,20 @@ void test2()
 	{
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	}
+	//激光检测
+	if(getLeftAdc()<600)
+	{
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+	}else if(getRightAdc()<600)
+	{
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	}
+	//发数
+	USART_OUT(UART5,"posX:%d\t",(int)getXpos());
+	USART_OUT(UART5,"POSY:%d\t",(int)getYpos());
+	USART_OUT(UART5,"POSY:%d\t",(int)getAngle());
+	USART_OUT(UART5,"rightkey:%d\t",(int)right);
+	USART_OUT(UART5,"leftkey:%d\t",(int)left);
+	USART_OUT(UART5,"laserleft:%d\t",(int)laserLeft);
+	USART_OUT(UART5,"laserright:%d\t",(int)laserRight);
 }
