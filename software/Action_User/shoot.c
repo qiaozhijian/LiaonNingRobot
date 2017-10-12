@@ -408,21 +408,21 @@ static int ballColor=1;
 			}
 	//脱离状态 
 			//				gRobot.status&=~STATUS_AVOID_JUDGE;
-	USART_OUT(UART5,"%d\t",(int)noBall);
-	USART_OUT(UART5,"%d\t",(int)ballColor);
-	USART_OUT(UART5,"%d\t",(int)step);
-	USART_OUT(UART5,"%d\t",(int)noballtime);
-	USART_OUT(UART5,"%d\t",(int)launcher.angle);
-			
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
+//	USART_OUT(UART5,"%d\t",(int)noBall);
+//	USART_OUT(UART5,"%d\t",(int)ballColor);
+//	USART_OUT(UART5,"%d\t",(int)step);
+//	USART_OUT(UART5,"%d\t",(int)noballtime);
+//	USART_OUT(UART5,"%d\t",(int)launcher.angle);
+//			
+//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
+//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
 //	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
 //	USART_OUTF(launcher.angle);
 //	USART_OUTF(gRobot.shoot_t.sReal.angle);
 //	USART_OUTF(launcher.speed);
 //	USART_OUTF(gRobot.shoot_t.sReal.speed);
 //	USART_OUT_CHAR("\r\n");
-	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+//	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }

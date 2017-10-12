@@ -70,11 +70,11 @@ int main(void)
 //				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
 				TestMode();
-				test2();
+				//test2();
 				MotorRead(); 
 			 #else
 			MotorRead(); 
-			CornerJammedJudge();
+//			CornerJammedJudge();
 //			if(gRobot.avoid_t.signal>7000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
 //			{
 //				gRobot.status|=STATUS_AVOID_JUDGE;
