@@ -82,7 +82,7 @@ void elmoInit(void){
 void variableInit(void)
 {
 	//大状态初始值为run
-	gRobot.status=72; 
+	gRobot.status=25; 
 	//车的初始方向默认为逆时针
 	gRobot.walk_t.circleChange.direction=0;
 	gRobot.walk_t.circleChange.linenum=-1;
@@ -121,17 +121,17 @@ void robotInit(void)
 //	gRobot.check=0;
   //driveGyro();
 	while(!gRobot.gpsSignal){
-//		if(gRobot.check>100)
-//		{
-//			GPIO_SetBits(GPIOE,GPIO_Pin_7);
-//			if(gRobot.check>200)
-//			{
-//				gRobot.check=0;
-//			}
-//		}else if(gRobot.check>0  && gRobot.check<3)
-//		{
-//			GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-//		}
+		if(gRobot.check>100)
+		{
+			GPIO_SetBits(GPIOE,GPIO_Pin_7);
+			if(gRobot.check>200)
+			{
+				gRobot.check=0;
+			}
+		}else if(gRobot.check>0  && gRobot.check<3)
+		{
+			GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+		}
 	}
 	 GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	//DisDriveGyro();

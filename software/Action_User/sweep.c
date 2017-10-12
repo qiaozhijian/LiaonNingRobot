@@ -35,7 +35,7 @@ int CheckAgainstWall(void)
 	totalTime++;
 	if(switchError>=3)//三次说明行程开关可能出现问题放弃行程开关
 	{
-		if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&(getLeftAdc()+getRightAdc())<4850&&(getLeftAdc()+getRightAdc())>4750)
+		if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(getLeftAdc()+getRightAdc())<4850&&(getLeftAdc()+getRightAdc())>4750)
 		{
 			againstTime++;
 		}
@@ -44,7 +44,7 @@ int CheckAgainstWall(void)
 			againstTime=0;
 		}
 	   
-		if(fabs(gRobot.walk_t.pos.x-getxRem())<1&&fabs(gRobot.walk_t.pos.y-getyRem())<1&&(getLeftAdc()+getRightAdc())<4750)
+		if(fabs(gRobot.walk_t.pos.x-getxRem())<3&&fabs(gRobot.walk_t.pos.y-getyRem())<3&&(getLeftAdc()+getRightAdc())<4750)
 		{
 			againstError++;
 		}
@@ -65,6 +65,12 @@ int CheckAgainstWall(void)
 			againstTime=0;
 			return 2;
 		}
+		USART_OUT(UART5, "ganini=%d\t",(int)switchError);
+		USART_OUT(UART5, "getx%d\t",(int)getxRem());
+		USART_OUT(UART5, "gety%d\t", (int)getyRem());
+		USART_OUT(UART5, "againstTime%d\t", againstTime);
+		USART_OUT(UART5, "againstError%d\t", againstError);
+		USART_OUT(UART5, "total%d\t\r\n", totalTime);
 		return 0;
 	}
 
@@ -97,7 +103,7 @@ int CheckAgainstWall(void)
 		return 1;
   }
 	
-	if(againstError>200)//350ms坐标卡死，行程开关不出发，或者坏掉了
+	if(againstError>150)//350ms坐标卡死，行程开关不出发，或者坏掉了
   {
 		againstError=0;
 		totalTime=0;
@@ -670,6 +676,19 @@ void ChangeBoard(void){
 	}
 
 }
+	if(gRobot.avoid_t.direction==0)
+	{
+		gRobot.walk_t.board[3][0]=-1110;
+		gRobot.walk_t.board[3][1]=3550;
+		gRobot.walk_t.board[3][2]=1110;
+		gRobot.walk_t.board[3][3]=1250;
+	}else if(gRobot.avoid_t.direction==1)
+	{
+		gRobot.walk_t.board[3][0]=900;//1110
+		gRobot.walk_t.board[3][1]=3300;//3550
+		gRobot.walk_t.board[3][2]=-900;
+		gRobot.walk_t.board[3][3]=1500;
+	}
 }
 /****************************************************************************
 * 名    称：void Square(void)	
@@ -1036,13 +1055,13 @@ int Square3(void)
 		//改变区域的值
 	ChangeBoard();
 	
-	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+	if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[3][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[3][1]){
 		gRobot.walk_t.circleChange.turnTime=6;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[3][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[3][1]){
 		gRobot.walk_t.circleChange.turnTime=7;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[3][2] && gRobot.walk_t.pos.y>(gRobot.walk_t.board)[3][3]){
 		gRobot.walk_t.circleChange.turnTime=8;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[3][0] && gRobot.walk_t.pos.y<(gRobot.walk_t.board)[3][3]){
 		gRobot.walk_t.circleChange.turnTime=9;
 	}else{
 		//角度闭环
@@ -1092,13 +1111,13 @@ int AntiSquare3(void)
 {
 		ChangeBoard();
 	
-	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][1]){
+	if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[3][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[3][1]){
 		gRobot.walk_t.circleChange.turnTime=6;
-	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][1]){
+	}else if(gRobot.walk_t.pos.x>(gRobot.walk_t.board)[3][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[3][1]){
 		gRobot.walk_t.circleChange.turnTime=7;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[3][2]&&gRobot.walk_t.pos.y>(gRobot.walk_t.board)[3][3]){
 		gRobot.walk_t.circleChange.turnTime=8;
-	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[1][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[1][3]){
+	}else if(gRobot.walk_t.pos.x<(gRobot.walk_t.board)[3][0]&&gRobot.walk_t.pos.y<(gRobot.walk_t.board)[3][3]){
 		gRobot.walk_t.circleChange.turnTime=9;
 	}else{
 		//角度闭环

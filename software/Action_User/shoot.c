@@ -59,10 +59,10 @@ else if (ballNum==1)                     //假如球是黑球
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
-//		launcher.speed=0.01364f*v-1.333f;
-//		launcher.speed=0.01371f*v-3.413f;
-	  // launcher.speed=0.01517f*v-10.88f-4.0f;
-		launcher.speed=0.01387f*v-6.814f;
+/***********************1********************/
+	//	launcher.speed=0.01387f*v-6.814f;
+/***********************2********************/
+		launcher.speed=0.01393*v-3.908f-3.0f;
 		dx = x0 - x;
 		dy = y0 - y;
 		alpha = atan2(dy, dx) * 180.0f/ PI ;

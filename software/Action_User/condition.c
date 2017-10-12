@@ -211,7 +211,7 @@ void CornerJammedJudge(void)
 				Lastangle=gRobot.walk_t.pos.angle;
 			}
 			
-			if(stoptime>=500)
+			if(stoptime>=1000)
 			{
 				step=2;
 				stoptime=0;

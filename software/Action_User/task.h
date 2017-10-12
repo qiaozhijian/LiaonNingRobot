@@ -79,7 +79,7 @@ typedef struct{
 	//激光启动
 	Laser_t laser;
 	//正方形区域  x1 y1 x2 y2的顺序
-	float board[3][4];
+	float board[4][4];
 	//位移计算量 
 	float averageV;
 }Walk_t;

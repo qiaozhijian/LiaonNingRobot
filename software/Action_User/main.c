@@ -61,6 +61,7 @@ int main(void)
 				USART_OUT(UART5,"an=%d\t\r\n",(int)Yangle);
 				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.wayChoose);
 			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
+				USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.direction);
 			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
 				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
