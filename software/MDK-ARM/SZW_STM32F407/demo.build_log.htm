@@ -27,14 +27,16 @@ Project File Date:  10/12/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
 Build target 'ACTION'
-compiling task.c...
-..\Action_User\task.c(103): warning:  #177-D: variable "checktime" was declared but never referenced
-  	static int checktime=0;
-..\Action_User\task.c: 1 warning, 0 errors
+compiling test.c...
+..\Action_User\test.c(12): warning:  #177-D: variable "ballNum" was declared but never referenced
+  	int ballNum=0;
+..\Action_User\test.c(147): warning:  #177-D: variable "step" was declared but never referenced
+  	static int step=0;
+..\Action_User\test.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=33232 RO-data=1632 RW-data=496 ZI-data=18648  
+Program Size: Code=33216 RO-data=1632 RW-data=520 ZI-data=18648  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 1 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE

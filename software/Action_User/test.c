@@ -75,7 +75,7 @@ void WheelTest(float laserRight,float laserLeft)
 	}
 	USART_OUT(UART5,"posX:%d\t",(int)getXpos());
 	USART_OUT(UART5,"POSY:%d\t",(int)getYpos());
-	USART_OUT(UART5,"POSY:%d\t\r\n",(int)getAngle());
+	USART_OUT(UART5,"POSY:%d\t",(int)getAngle());
 	USART_OUT(UART5,"laserleft:%d\t",(int)laserLeft);
 	USART_OUT(UART5,"laserright:%d\t",(int)laserRight);
 	USART_OUT(UART5,"AimrightVel:%d\t",(int)rightvel);
@@ -142,4 +142,58 @@ void ShootTest(void)
 		USART_OUT(UART5,"CCDFault\r\n");
 	}
 }
-
+void test2()
+{
+	static int step=0;
+	static int time1=0;
+	static int time2=0;
+	static int time3=0;
+	static int left=0;
+	static int right=0;
+	 left=(GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2));
+	 right=(GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0));
+	time1++;
+	time2++;
+	time3++;
+	//轮子检测
+	if(time1>0 && time1<300)
+	{
+		VelCrl(CAN2,1,5000);
+		VelCrl(CAN2,2,-5000);
+	}else if(time1>300 && time1<600)
+	{
+		VelCrl(CAN2,1,-5000);
+		VelCrl(CAN2,2,5000);
+	}else if(time1>600)
+	{
+		time1=0;
+	}
+	//推子机构检测
+	if(time2>0 && time2<3)
+	{
+		ShootCtr(15);
+		PushBall();
+	}else if(time2>150 && time2<153)
+	{
+	  PushBallReset();
+	}else if(time2>300)
+	{
+		time2=0;
+	}
+	//发射机构检测
+	if(getBallColor()==1)
+	{
+	  YawAngleCtr(45);
+	}else if(getBallColor()==100)
+	{
+		YawAngleCtr(-45);
+	}
+	//蜂鸣器检测
+	if(left==1)
+	{
+		GPIO_ResetBits(GPIOE,GPIO_Pin_7);
+	}else if(right==1)
+	{
+		GPIO_SetBits(GPIOE,GPIO_Pin_7);
+	}
+}
