@@ -24,15 +24,14 @@ void TestMode(void)
 		break;
 		
 		case 3://发射自检
+			 CollectBallVelCtr(60);        
 			ShootTest();
 		break;
 		
 		case 4:
 			break;
 		case 5:
-			USART_OUT(UART5,"posX:%d\t",(int)getXpos());
-			USART_OUT(UART5,"POSY:%d\t",(int)getYpos());
-			USART_OUT(UART5,"POSY:%d\t\r\n",(int)getAngle());
+				
 		break;
 		
 		default:
@@ -44,14 +43,14 @@ void WheelTest(float laserRight,float laserLeft)
 {
 	static int rightvel;
 	static int leftvel;
-	if(laserRight>800&&laserLeft>800)
+	if(laserRight>600&&laserLeft>600)
 	{
 		rightvel=0;
 		leftvel=0;
 		VelCrl(CAN2,1,rightvel);
 		VelCrl(CAN2,2,leftvel);
 		CollectBallVelCtr(0);
-	}else if(laserRight<=800)
+	}else if(laserRight<=600)
 	{
 		rightvel=laserRight*10;
 		leftvel=-laserRight*10;
@@ -62,7 +61,7 @@ void WheelTest(float laserRight,float laserLeft)
 			laserRight=400;
 		}
 		CollectBallVelCtr(laserRight/8);
-	}else if(laserLeft<=800)
+	}else if(laserLeft<=600)
 	{
 		rightvel=-laserLeft*10;
 		leftvel=laserLeft*10;
@@ -74,10 +73,15 @@ void WheelTest(float laserRight,float laserLeft)
 		}
 		CollectBallVelCtr(laserLeft/8);
 	}
+	USART_OUT(UART5,"posX:%d\t",(int)getXpos());
+	USART_OUT(UART5,"POSY:%d\t",(int)getYpos());
+	USART_OUT(UART5,"POSY:%d\t\r\n",(int)getAngle());
+	USART_OUT(UART5,"laserleft:%d\t",(int)laserLeft);
+	USART_OUT(UART5,"laserright:%d\t",(int)laserRight);
 	USART_OUT(UART5,"AimrightVel:%d\t",(int)rightvel);
 	USART_OUT(UART5,"AimleftVel:%d\t",(int)leftvel);
 	USART_OUT(UART5,"RealrightVel:%d\t",(int)gRobot.walk_t.right.real);
-	USART_OUT(UART5,"RealleftVel:%d\r\n",(int)gRobot.walk_t.left.real);
+	USART_OUT(UART5,"RealleftVel:%d\t",(int)gRobot.walk_t.left.real);
 }	
 void TravelSwitchTest(void)
 {
@@ -138,3 +142,4 @@ void ShootTest(void)
 		USART_OUT(UART5,"CCDFault\r\n");
 	}
 }
+

@@ -120,19 +120,6 @@ void robotInit(void)
 //	}
 //	gRobot.check=0;
   //driveGyro();
-	while(!gRobot.gpsSignal){
-		if(gRobot.check>100)
-		{
-			GPIO_SetBits(GPIOE,GPIO_Pin_7);
-			if(gRobot.check>200)
-			{
-				gRobot.check=0;
-			}
-		}else if(gRobot.check>0  && gRobot.check<3)
-		{
-			GPIO_ResetBits(GPIOE,GPIO_Pin_7);
-		}
-	}
 	 GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	//DisDriveGyro();
 	PushBallReset();

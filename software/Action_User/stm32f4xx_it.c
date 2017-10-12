@@ -277,8 +277,7 @@ void UART5_IRQHandler(void)
 				}else if(data=='5')
 				{
 					testMode=5;
-				}
-				else 
+				}else 
 				{
 					testMode=0;
 				}
