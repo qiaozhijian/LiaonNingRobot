@@ -451,7 +451,7 @@ void FixTask(void)
 	}
 	else if (fix_status & TRY_SEC_FIX)//进入定点停车
 	{
-		if(aimBorderRem==aimBorder)//下次进入时候比较前后是否一样，一样则加1
+		if(aimBorderRem==aimBorder&&map[0]==0&&map[1]==0&&map[2]==0&&map[3]==0)//下次进入时候比较前后是否一样，一样则加1
 		{
 				aimBorder++;
 				if(aimBorder>3)//防止目标边界溢出
