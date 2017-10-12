@@ -65,7 +65,7 @@ int CheckAgainstWall(void)
 			againstTime=0;
 			return 2;
 		}
-		USART_OUT(UART5, "ganini=%d\t",(int)switchError);
+		USART_OUT(UART5, "ganini1=%d\t",(int)switchError);
 		USART_OUT(UART5, "getx%d\t",(int)getxRem());
 		USART_OUT(UART5, "gety%d\t", (int)getyRem());
 		USART_OUT(UART5, "againstTime%d\t", againstTime);
@@ -110,6 +110,7 @@ int CheckAgainstWall(void)
 		switchError++;
 		return 2;
   }
+	USART_OUT(UART5, "ganini2=%d\t",(int)switchError);
 	USART_OUT(UART5, "getx%d\t",(int)getxRem());
 	USART_OUT(UART5, "gety%d\t", (int)getyRem());
 	USART_OUT(UART5, "againstTime%d\t", againstTime);
@@ -648,10 +649,10 @@ void ChangeBoard(void){
 	
 	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
 	{
-		gRobot.walk_t.board[2][0]=-300;
-		gRobot.walk_t.board[2][1]=3200;
-		gRobot.walk_t.board[2][2]=300;
-		gRobot.walk_t.board[2][3]=1500;
+		gRobot.walk_t.board[2][0]=-200;
+		gRobot.walk_t.board[2][1]=3100;
+		gRobot.walk_t.board[2][2]=200;
+		gRobot.walk_t.board[2][3]=1600;
 	}
   }else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
@@ -669,10 +670,10 @@ void ChangeBoard(void){
 	
 	if(gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum==1)
 	{
-		gRobot.walk_t.board[2][0]=300;
-		gRobot.walk_t.board[2][1]=3200;
-		gRobot.walk_t.board[2][2]=-300;
-		gRobot.walk_t.board[2][3]=1500;
+		gRobot.walk_t.board[2][0]=200;
+		gRobot.walk_t.board[2][1]=3100;
+		gRobot.walk_t.board[2][2]=-200;
+		gRobot.walk_t.board[2][3]=1600;
 	}
 
 }

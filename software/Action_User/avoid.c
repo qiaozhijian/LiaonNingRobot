@@ -1644,11 +1644,11 @@ void FixErr(void)
 	if(gRobot.walk_t.circleChange.direction==0) //顺时针
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		Circle(1400,1200);
+		Circle(1400,1600);
 	}else if(gRobot.walk_t.circleChange.direction==1) //逆时针
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		AntiCircle(1400,1200);
+		AntiCircle(1400,1600);
   }
 }
 
