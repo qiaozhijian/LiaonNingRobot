@@ -388,6 +388,7 @@ void FixTask(void)
 	int laserRightDistance=getRightAdc();											//右边激光
 	static int commitFix=0;
 	static int aimBorderRem=0;//记住需要靠的墙，因为第一次靠墙的时候在卡死的时候会发生没办法排除掉这面墙的情况
+	static int checkAgainstWall=0;
 	AimPos_t aimPos;																					//二次矫正的停车位
 	
 	//gRobot.status&=~STATUS_AVOID_JUDGE;//关闭异常判断交给fixtask自己处理
@@ -407,11 +408,12 @@ void FixTask(void)
 	} 
 	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
+		checkAgainstWall=CheckAgainstWall();
 		if ((fix_status & AGAINST_Wall))												//靠墙 1010 & 1000
 		{
 			fixPara=getFixPara(aimBorder);											//得到矫正的参数
 			AgainstWall(fixPara.angle,gRobot.walk_t.pos.angle,fixPara.spacingError);
-			if (CheckAgainstWall()==1)																//检查靠墙
+			if (checkAgainstWall==1)																//检查靠墙
 			{
 					VelCrl(CAN2, 1, 0);
 					VelCrl(CAN2, 2, 0);
@@ -440,7 +442,7 @@ void FixTask(void)
 					fix_status |= WAIT_AIM_DIRECTION;
 					fix_status |= TRY_SEC_FIX;
 				} 
-			}else if(CheckAgainstWall()==2)//靠墙失败
+			}else if(checkAgainstWall==2)//靠墙失败
 			{
 				fix_status = 0;
 				fix_status |= WAIT_AIM_DIRECTION;
