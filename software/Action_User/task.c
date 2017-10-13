@@ -120,9 +120,10 @@ void robotInit(void)
 //	}
 //	gRobot.check=0;
   //driveGyro();
+	while(!gRobot.gpsSignal){};
 	 GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	//DisDriveGyro();
-	PushBallReset();
+	//PushBallReset();
 		ShootCtr(0);
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
   CollectBallVelCtr(60);                                       //让辊子转起来

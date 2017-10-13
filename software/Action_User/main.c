@@ -61,6 +61,8 @@ int main(void)
 //				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
 
 //				USART_OUT(UART5,"%d\t\r\n",(int)avel);
+				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.angle);
+				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.speed);
 				USART_OUT(UART5,"an=%d\t",(int)Yangle);
 				USART_OUT(UART5,"x=%d\t",(int)Yxpos);
     		USART_OUT(UART5,"y=%d\t\r\n",(int)Yypos);
