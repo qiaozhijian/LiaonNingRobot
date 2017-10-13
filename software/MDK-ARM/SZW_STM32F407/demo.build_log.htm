@@ -27,11 +27,14 @@ Project File Date:  10/12/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
 Build target 'ACTION'
-compiling fix.c...
+compiling condition.c...
+..\Action_User\condition.c(182): warning:  #177-D: variable "shoottime" was declared but never referenced
+  	static int shoottime=0;
+..\Action_User\condition.c: 1 warning, 0 errors
 linking...
-Program Size: Code=60148 RO-data=1772 RW-data=1348 ZI-data=18708  
+Program Size: Code=60172 RO-data=1772 RW-data=1348 ZI-data=18708  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 0 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE

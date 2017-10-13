@@ -743,10 +743,10 @@ int Square(void)
     
   case 2:
 		//正常跑
-    //Line(600.f,1400,180,0,-1,1);
+    Line(600.f,1400,180,0,-1,1);
 		//扫一边直接切圆
-		gRobot.walk_t.circleChange.circleNum=1;
-		gRobot.walk_t.circleChange.linenum=0;
+		//gRobot.walk_t.circleChange.circleNum=1;
+		//gRobot.walk_t.circleChange.linenum=0;
     break;
     
   case 3:
@@ -810,10 +810,10 @@ int AntiSquare(void)
     break;
     
   case 2:
-    //Line(-600.f,1400,180,0,-1,1);
+    Line(-600.f,1400,180,0,-1,1);
 		//扫一边直接切圆
-		gRobot.walk_t.circleChange.circleNum=1;
-		gRobot.walk_t.circleChange.linenum=0;
+		//gRobot.walk_t.circleChange.circleNum=1;
+		//gRobot.walk_t.circleChange.linenum=0;
     break;
     
   case 3:
