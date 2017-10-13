@@ -27,14 +27,18 @@ Project File Date:  10/12/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
 Build target 'ACTION'
-compiling task.c...
-..\Action_User\task.c(103): warning:  #177-D: variable "checktime" was declared but never referenced
-  	static int checktime=0;
-..\Action_User\task.c: 1 warning, 0 errors
+compiling shoot.c...
+..\Action_User\shoot.c(87): warning:  #550-D: variable "x" was set but never used
+  	static float x=0,y=0,angle=0;
+..\Action_User\shoot.c(87): warning:  #550-D: variable "y" was set but never used
+  	static float x=0,y=0,angle=0;
+..\Action_User\shoot.c(87): warning:  #550-D: variable "angle" was set but never used
+  	static float x=0,y=0,angle=0;
+..\Action_User\shoot.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=33412 RO-data=1636 RW-data=520 ZI-data=18648  
+Program Size: Code=33708 RO-data=1636 RW-data=464 ZI-data=18648  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 1 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE
