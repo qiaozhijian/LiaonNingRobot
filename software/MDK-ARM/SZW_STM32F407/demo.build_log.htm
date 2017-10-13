@@ -27,18 +27,27 @@ Project File Date:  10/12/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\program files\mdk521a\ARM\ARMCC\Bin'
 Build target 'ACTION'
-compiling shoot.c...
+compiling main.c...
+..\Action_User\main.c(140): warning:  #1-D: last line of file ends without a newline
+  }
+..\Action_User\main.c(19): warning:  #177-D: variable "openTime" was declared but never referenced
+  	static int openTime=0;
+..\Action_User\main.c(20): warning:  #550-D: variable "left" was set but never used
+  	int left=0;
+..\Action_User\main.c(21): warning:  #550-D: variable "right" was set but never used
+  	int right=0;
+..\Action_User\main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=33032 RO-data=1632 RW-data=520 ZI-data=18648  
+Program Size: Code=33348 RO-data=1636 RW-data=520 ZI-data=18648  
 FromELF: creating hex file...
-".\SZW_STM32F407\demo.axf" - 0 Error(s), 0 Warning(s).
+".\SZW_STM32F407\demo.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\yangxiu\Desktop\LIAONING\qiaocub\software\MDK-ARM\RTE
   D:\program files\mdk521a\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>
