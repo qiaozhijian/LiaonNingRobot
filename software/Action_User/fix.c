@@ -289,10 +289,10 @@ void fixPosFirst(int aimBorder)
 		case UP_BORDER:
 			if(fabs((getRightAdc()-2400)-x) <= fabs((2400-getLeftAdc())-x))
 			{
-				setErr(180,getRightAdc()-2400,Y_MAX);
+				setErr(179.9f,getRightAdc()-2400,Y_MAX);
 			}else 
 			{
-				setErr(180,2400-getLeftAdc(),Y_MAX);
+				setErr(179.9f,2400-getLeftAdc(),Y_MAX);
 			}
 		break;
 	
