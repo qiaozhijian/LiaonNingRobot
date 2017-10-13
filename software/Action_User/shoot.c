@@ -96,6 +96,8 @@ static int ballColor=1;
 	static int Stabletime=0;                    //转速稳定时间
 	static int Stabletimelim=0;                 //黑白球交替
 	static int balllast=0;
+	static float Lastangle=0;
+	static float Lastspeed=0;
 	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
@@ -104,31 +106,30 @@ static int ballColor=1;
 	ballColor=getBallColor();
 	//计算角度速度
 	launcher=Launcher(x,y,angle,ballColor);
-	USART_OUT(UART5,"hhhh1");
-	USART_OUT(UART5,"hhhh1");
-	USART_OUT(UART5,"hhhh1");
-	USART_OUT(UART5,"hhhh1");
 	//实施角度
 	yawCount++;
 	yawCount%=4;
-	if(yawCount>=3)
+	if(fabsf(Lastangle-launcher.angle)>0.2f)
 	{	
+		Lastangle=launcher.angle;
 		YawAngleCtr(launcher.angle);
+	}
+	
+	if(fabsf(Lastspeed-launcher.angle)>0.3f)
+	{
+		Lastspeed=launcher.speed;
+		//实施速度
+	   ShootCtr(launcher.speed);
 	}
 	//当行程开关触发时一直矫正
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1&&getLeftAdc()+getRightAdc()<4850&&getLeftAdc()+getRightAdc()>4700)
 	{
 		fixPosFirst(gRobot.fix_t.inBorder);
 	}
-	//实施速度
-	ShootCtr(launcher.speed);
+
 	//实施推球	
   if(ballColor!=0)
 	{
-	USART_OUT(UART5,"hhhh2");
-	USART_OUT(UART5,"hhhh2");
-	USART_OUT(UART5,"hhhh2");
-	USART_OUT(UART5,"hhhh2");
 		noBall=0;
 		noBallCount=0;
 		noballtime=0;
@@ -211,7 +212,7 @@ static int ballColor=1;
 			noBallCount=0;
 		}
 		//槽内没有球
-		if(noballtime>150)
+		if(noballtime>100)
 		{
 			if(step==1||step==0)
 			{
