@@ -408,9 +408,9 @@ void FixTask(void)
 	} 
 	else if (fix_status & TRY_FIRST_FIX)											//第一次矫正 1010 & 0010
 	{
-		checkAgainstWall=CheckAgainstWall();
 		if ((fix_status & AGAINST_Wall))												//靠墙 1010 & 1000
 		{
+			checkAgainstWall=CheckAgainstWall();
 			fixPara=getFixPara(aimBorder);											//得到矫正的参数
 			AgainstWall(fixPara.angle,gRobot.walk_t.pos.angle,fixPara.spacingError);
 			if (checkAgainstWall==1)																//检查靠墙
