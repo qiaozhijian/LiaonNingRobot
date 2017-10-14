@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sat Oct 14 10:35:46 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sat Oct 14 15:15:38 2017
 <BR><P>
 <H3>Maximum Stack Usage =        464 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -848,9 +848,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angleErrorCount
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AnglePidControl
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWallPidControl
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
 </UL>
@@ -1188,8 +1188,8 @@ Global Symbols
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getxRem
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
@@ -1384,12 +1384,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = FixTask &rArr; fixPosFirst &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Go2NextWall
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;VelCrl
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckAgainstWall
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getFixPara
 <LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getAimBorder
@@ -1431,7 +1431,6 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckAgainstWall
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AgainstWall
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;maoCountBall
 </UL>
 
@@ -1443,6 +1442,7 @@ Global Symbols
 
 <P><STRONG><a name="[13a]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PullLevel
+<LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 </UL>
 
@@ -1744,9 +1744,9 @@ Global Symbols
 <P><STRONG><a name="[11e]"></a>PullLevel</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, gpio.o(i.PullLevel))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = PullLevel &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
+<BR>[Calls]<UL><LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HardWare
 </UL>
@@ -2797,19 +2797,19 @@ Global Symbols
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[184]"></a>fireTask</STRONG> (Thumb, 1316 bytes, Stack size 48 bytes, shoot.o(i.fireTask))
+<P><STRONG><a name="[184]"></a>fireTask</STRONG> (Thumb, 1304 bytes, Stack size 48 bytes, shoot.o(i.fireTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 360<LI>Call Chain = fireTask &rArr; fixPosFirst &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
+<BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getBallColor
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosFirst
 <LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
 <LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBall
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -2890,7 +2890,6 @@ Global Symbols
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosFirst
 </UL>
 
@@ -2904,7 +2903,6 @@ Global Symbols
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosFirst
 </UL>
 
@@ -2963,13 +2961,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 </UL>
 
-<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 522 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[7e]"></a>main</STRONG> (Thumb, 242 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 392<LI>Call Chain = main &rArr; AbnormityHandle &rArr; WalkHandle &rArr; CircleTransition &rArr; BackCar &rArr; BackCarOut &rArr; Dis &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getTimeFlag
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_OUT
 <LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run
@@ -2978,7 +2974,6 @@ Global Symbols
 <LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MotorRead
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LaserStart
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FixTask
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AbnormityJudge
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AbnormityHandle
@@ -2999,12 +2994,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Line
 </UL>
 
-<P><STRONG><a name="[189]"></a>robotInit</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, task.o(i.robotInit))
+<P><STRONG><a name="[189]"></a>robotInit</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, task.o(i.robotInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 204<LI>Call Chain = robotInit &rArr; elmoInit &rArr; Vel_cfg &rArr; USART_OUT &rArr; itoa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[15d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr
 <LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;variableInit
 <LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;elmoInit

@@ -9,7 +9,6 @@ float laserRight;
 float laserLeft;
 void TestMode(void)
 {
-	int ballNum=0;
 	 laserRight=getRightAdc();
 	 laserLeft=getLeftAdc();
   switch(testMode)

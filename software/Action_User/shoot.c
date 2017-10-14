@@ -81,7 +81,6 @@ else if (ballNum==1)                     //假如球是黑球
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/ 
-static int ballColor=1;
 void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
@@ -102,7 +101,6 @@ void fireTask(void)
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	//得到球的颜色
-	ballColor=getBallColor();
 	//计算角度速度
 	launcher=Launcher(x,y,angle,getBallColor());
 	//实施角度
