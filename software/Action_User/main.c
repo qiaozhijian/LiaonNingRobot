@@ -29,47 +29,47 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {
-			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
-			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
-				USART_OUT(UART5,"h%d\t",(int)gRobot.avoid_t.handleEnd);
-			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
-				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
-				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
-				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
-	  		USART_OUT(UART5,"%d\t",(int)getRightAdc());
-				USART_OUT(UART5,"%d\t",(int)getRightAdc()+getLeftAdc());
-				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.shoot_t.sReal.speed);
-//				USART_OUTF(gRobot.walk_t.pos.angle);
-//				USART_OUTF(gRobot.walk_t.pos.x);
-//				USART_OUTF(gRobot.walk_t.pos.y);
-//				USART_OUT_CHAR("\r\n");
-				USART_OUT(UART5,"gA=%d\t",(int)gRobot.walk_t.pos.angle);
-				USART_OUT(UART5,"gX=%d\t",(int)gRobot.walk_t.pos.x);
-		    USART_OUT(UART5,"gY=%d\t\r\n",(int)gRobot.walk_t.pos.y);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
-		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
-			  USART_OUT(UART5,"%d\t" ,(int)gRobot.walk_t.circleChange.quadrant);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrantlast);
-				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
-			  USART_OUT(UART5,"l=%d\t",(int)left);
-				USART_OUT(UART5,"r=%d\t",(int)right);
-				USART_OUT(UART5,"%d\t\r\n",(int)avel);
-				USART_OUT(UART5,"x=%d\t",(int)Yxpos);
-    		USART_OUT(UART5,"y=%d\t",(int)Yypos);
-				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.toBorder);
-				USART_OUT(UART5,"an=%d\t\r\n",(int)Yangle);
-				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.wayChoose);
-			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
-				USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.direction);
-			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
-				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
+//			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
+//			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
+//				USART_OUT(UART5,"h%d\t",(int)gRobot.avoid_t.handleEnd);
+//			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
+//				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
+//				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
+//	  		USART_OUT(UART5,"%d\t",(int)getRightAdc());
+//				USART_OUT(UART5,"%d\t",(int)getRightAdc()+getLeftAdc());
+//				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.shoot_t.sReal.speed);
+////				USART_OUTF(gRobot.walk_t.pos.angle);
+////				USART_OUTF(gRobot.walk_t.pos.x);
+////				USART_OUTF(gRobot.walk_t.pos.y);
+////				USART_OUT_CHAR("\r\n");
+//				USART_OUT(UART5,"gA=%d\t",(int)gRobot.walk_t.pos.angle);
+//				USART_OUT(UART5,"gX=%d\t",(int)gRobot.walk_t.pos.x);
+//		    USART_OUT(UART5,"gY=%d\t\r\n",(int)gRobot.walk_t.pos.y);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
+//		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
+//			  USART_OUT(UART5,"%d\t" ,(int)gRobot.walk_t.circleChange.quadrant);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrantlast);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
+//			  USART_OUT(UART5,"l=%d\t",(int)left);
+//				USART_OUT(UART5,"r=%d\t",(int)right);
+//				USART_OUT(UART5,"%d\t\r\n",(int)avel);
+//				USART_OUT(UART5,"x=%d\t",(int)Yxpos);
+//    		USART_OUT(UART5,"y=%d\t",(int)Yypos);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.toBorder);
+//				USART_OUT(UART5,"an=%d\t\r\n",(int)Yangle);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.wayChoose);
+//			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.avoid_t.direction);
+//			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
+//				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
 			 #ifdef TEST 
 				TestMode();
 				MotorRead(); 
 			 #else
 			MotorRead(); 
-			CornerJammedJudge();
+	//		CornerJammedJudge();
 			if((gRobot.status&STATUS_AVOID_HANDLE)==0&&gRobot.avoid_t.handleEnd==1)
 			{
 				openTime++;
