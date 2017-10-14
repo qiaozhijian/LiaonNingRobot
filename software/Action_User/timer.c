@@ -275,6 +275,7 @@ void TIM3_IRQHandler(void)
 		}
 		if(startTime>16000)//时间到了2分40秒立刻矫正投球
 		{
+			startTime=0;
 			gRobot.status=0;
 			gRobot.status|=STATUS_FIX;
 		  gRobot.status&=~STATUS_AVOID_JUDGE;
