@@ -1274,7 +1274,7 @@ void In2Out2(void)
 				gRobot.walk_t.circleChange.turnTime=4;
 				if(gRobot.walk_t.circleChange.linenum<=2)
 				{
-					Circle(1800,800);
+					Circle(2000,800);
 				}
 				else
 				{
