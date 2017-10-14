@@ -81,7 +81,8 @@ else if (ballNum==1)                     //假如球是黑球
 * 说    明：无
 * 调用方法：无 
 ****************************************************************************/ 
- void fireTask(void)
+static int ballColor=1;
+void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
@@ -94,27 +95,37 @@ else if (ballNum==1)                     //假如球是黑球
 	static int Stabletime=0;                    //转速稳定时间
 	static int Stabletimelim=0;                 //黑白球交替
 	static int balllast=0;
+	static float Lastangle=0;
+	static float Lastspeed=0;
 	gRobot.shoot_t.startSignal=1;//打开发射球标志位告诉检查射球时是否被撞到函数记住此时的坐标
 	x=gRobot.walk_t.pos.x;											 //当前x坐标
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	//得到球的颜色
+	ballColor=getBallColor();
 	//计算角度速度
-	launcher=Launcher(0,0,0,getBallColor());
+	launcher=Launcher(x,y,angle,getBallColor());
 	//实施角度
 	yawCount++;
 	yawCount%=4;
-	if(yawCount>=3)
+	if(fabsf(Lastangle-launcher.angle)>0.2f)
 	{	
+		Lastangle=launcher.angle;
 		YawAngleCtr(launcher.angle);
+	}
+	
+	if(fabsf(Lastspeed-launcher.angle)>0.3f)
+	{
+		Lastspeed=launcher.speed;
+		//实施速度
+	   ShootCtr(launcher.speed);
 	}
 	//当行程开关触发时一直矫正
 	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1&&getLeftAdc()+getRightAdc()<4850&&getLeftAdc()+getRightAdc()>4700)
 	{
 		fixPosFirst(gRobot.fix_t.inBorder);
 	}
-	//实施速度
-	ShootCtr(launcher.speed);
+
 	//实施推球	
   if(getBallColor()!=0)
 	{
@@ -127,9 +138,9 @@ else if (ballNum==1)                     //假如球是黑球
 			balllast=getBallColor();
 		}
 		else{
-			Stabletimelim=70;
+			Stabletimelim=50;
 		}
-		if(fabsf(gRobot.shoot_t.sReal.speed+launcher.speed)<0.5f && fabsf(gRobot.shoot_t.sReal.angle-launcher.angle)<0.5f)
+		if(fabs(gRobot.shoot_t.sReal.speed+launcher.speed)<1 && fabs(gRobot.shoot_t.sReal.angle-launcher.angle)<1)
 		{
 			Stabletime++;
 			//发射电机数球函数
@@ -177,7 +188,7 @@ else if (ballNum==1)                     //假如球是黑球
 				//判断为卡死
 					    if(fabs(gRobot.shoot_t.pReal.pos-PUSH_POSITION)<300)
 							{
-								step=1;   
+ 								step=1;   
 								gRobot.shoot_t.pReal.error=0;
 							}else{
 								gRobot.shoot_t.pReal.error++;
@@ -196,16 +207,16 @@ else if (ballNum==1)                     //假如球是黑球
 			noBallCount=0;
 		}
 		//槽内没有球
-		if(noballtime>150)
+		if(noballtime>100)
 		{
 			if(step==1||step==0)
 			{
-				if(getBallColor()==0)
+				//if(gRobot.shoot_t.sReal.speed<-60)
 				PushBallReset();
 				step=2;
 			}else if(step==2)
 			{
-				if(getBallColor()==0)
+				//if(gRobot.shoot_t.sReal.speed<-60)
 				PushBall();
 				step=1;
 			}
@@ -219,7 +230,6 @@ else if (ballNum==1)                     //假如球是黑球
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	/*应急状态*/
 	}
-
 	if(noBall>2)
 			{
 				gRobot.status&=~STATUS_SHOOTER;
@@ -233,25 +243,24 @@ else if (ballNum==1)                     //假如球是黑球
 			}
 	//脱离状态 
 			//				gRobot.status&=~STATUS_AVOID_JUDGE;
-//	USART_OUT(UART5,"%d\t",(int)noBall);
-//	USART_OUT(UART5,"%d\t",(int)getBallColor());
+//	USART_OUT(UART5,"zz%d\t",(int)noBall);
+//	USART_OUT(UART5,"%d\t",(int)ballColor);
 //	USART_OUT(UART5,"%d\t",(int)step);
 //	USART_OUT(UART5,"%d\t",(int)noballtime);
 //	USART_OUT(UART5,"%d\t",(int)launcher.angle);
-			
+//			
 //	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
 //	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
 //	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
-	USART_OUTF(gRobot.shoot_t.pReal.pos);
-//	USART_OUTF(launcher.angle);
-//	USART_OUTF(gRobot.shoot_t.sReal.angle);
-	USART_OUTF(launcher.speed);
-	USART_OUTF(gRobot.shoot_t.sReal.speed);
-	USART_OUT_CHAR("\r\n");
-//	USART_OUT(UART5,"%d\t\r\n",(int)noballtime);
+////	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
+////	USART_OUTF(launcher.angle);
+////	USART_OUTF(gRobot.shoot_t.sReal.angle);
+////	USART_OUTF(launcher.speed);
+////	USART_OUTF(gRobot.shoot_t.sReal.speed);
+////	USART_OUT_CHAR("\r\n");
+//	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }
-
 /******************试场********************/
  void fireTask2(void)
 {

@@ -144,7 +144,6 @@ void ShootTest(void)
 }
 void test2(void)
 {
-	static int step=0;
 	static int time1=0;
 	static int time2=0;
 	static int time3=0;

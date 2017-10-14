@@ -11,7 +11,7 @@
 ******************************************************************************/
 #include "config.h"
 Robot_t gRobot={0};
-#define TEST 
+//#define TEST 
 extern float Yxpos,Yypos,Yangle,avel;
 int main(void)
 {
@@ -22,7 +22,7 @@ int main(void)
 	robotInit();
 	USART_OUT(UART5,"initsucess\r\n");
 	GPIO_ResetBits(GPIOE,GPIO_Pin_7);
- // while(LaserStart());
+  while(LaserStart());
 	gRobot.start=1;
 	//driveGyro();
   while (1)
@@ -78,21 +78,6 @@ int main(void)
 				MotorRead(); 
 			 #else
 			MotorRead(); 
-//			CornerJammedJudge();
-//			if(gRobot.avoid_t.signal>7000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
-//			{
-//				gRobot.status|=STATUS_AVOID_JUDGE;
-////				openTime++;
-////				if(openTime>350)
-////				{
-////					gRobot.status|=STATUS_AVOID_JUDGE;
-////					openTime=0;
-////				}
-//			}
-//			else if((gRobot.status&STATUS_AVOID_HANDLE)==1)
-//			{
-//				openTime=0;
-//			}
 			if((gRobot.status&STATUS_AVOID_HANDLE)==0&&gRobot.avoid_t.handleEnd==1)
 			{
 				openTime++;
