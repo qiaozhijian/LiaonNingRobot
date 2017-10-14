@@ -220,7 +220,7 @@ else if (ballNum==1)                     //假如球是黑球
 	/*应急状态*/
 	}
 
-	if(noBall>3)
+	if(noBall>2)
 			{
 				gRobot.status&=~STATUS_SHOOTER;
 				gRobot.status|=STATUS_CAMERA_AND_WALK;

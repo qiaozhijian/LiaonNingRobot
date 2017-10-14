@@ -566,11 +566,11 @@ void ClockWise(void)
 	}else if(gRobot.walk_t.circleChange.circleNum==1)
   {
 		gRobot.walk_t.circleChange.turnTime=4;
-		Circle(2200,800);
+		Circle(2400,800);
   }else if(gRobot.walk_t.circleChange.circleNum==2)
 	{
 		gRobot.walk_t.circleChange.turnTime=5;
-		Circle(2200,1100);
+		Circle(2400,1100);
 	}
 	else if(gRobot.walk_t.circleChange.circleNum>=3)
 	{

@@ -29,113 +29,113 @@ int main(void)
   {
     while (getTimeFlag())                              //10ms执行进入一次
     {
-//			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
-//			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
-////				USART_OUT(UART5,"h%d\t",(int)gRobot.avoid_t.handleEnd);
-////			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
-////				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
-////				USART_OUT(UART5,"a=%d\t",(int)gRobot.angle);
-////				USART_OUT(UART5,"s=%d\t",(int)gRobot.speed);
-////				USART_OUT(UART5,"l=%d\t",(int)left);
-////				USART_OUT(UART5,"r=%d\t",(int)right);
-//			  USART_OUT(UART5,"a%d\t",(int)gRobot.angle);
-//				USART_OUT(UART5,"s%d\t",(int)gRobot.speed);
-//				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
-//				USART_OUT(UART5,"%d\t",(int)getRightAdc());
-////				USART_OUT(UART5,"%d\t",(int)getRightAdc()+getLeftAdc());
-////				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.shoot_t.sReal.speed);
-//////				USART_OUTF(gRobot.walk_t.pos.angle);
-//////				USART_OUTF(gRobot.walk_t.pos.x);
-//////				USART_OUTF(gRobot.walk_t.pos.y);
-//////				USART_OUT_CHAR("\r\n");
-//				USART_OUT(UART5,"correctSide=%d\t",(int)gRobot.correctSide);
-//				USART_OUT(UART5,"gA=%d\t",(int)gRobot.walk_t.pos.angle); 
-//				USART_OUT(UART5,"gX=%d\t",(int)gRobot.walk_t.pos.x);
-//		    USART_OUT(UART5,"gY=%d\t",(int)gRobot.walk_t.pos.y);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
-////		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
-////			  USART_OUT(UART5,"%d\t" ,(int)gRobot.walk_t.circleChange.quadrant);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrantlast);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
+			  left=GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2);
+			  right=GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_0);
+//				USART_OUT(UART5,"h%d\t",(int)gRobot.avoid_t.handleEnd);
+//			  USART_OUT(UART5,"s=%d\t",(int)gRobot.status);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.abnormal);
+//				USART_OUT(UART5,"ai=%d\t",(int)gRobot.walk_t.pid.aimAngle);
+//				USART_OUT(UART5,"a=%d\t",(int)gRobot.angle);
+//				USART_OUT(UART5,"s=%d\t",(int)gRobot.speed);
+//				USART_OUT(UART5,"l=%d\t",(int)left);
+//				USART_OUT(UART5,"r=%d\t",(int)right);
+			  USART_OUT(UART5,"a%d\t",(int)gRobot.angle);
+				USART_OUT(UART5,"s%d\t",(int)gRobot.speed);
+				USART_OUT(UART5,"%d\t",(int)getLeftAdc());
+				USART_OUT(UART5,"%d\t",(int)getRightAdc());
+//				USART_OUT(UART5,"%d\t",(int)getRightAdc()+getLeftAdc());
+//				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.shoot_t.sReal.speed);
+////				USART_OUTF(gRobot.walk_t.pos.angle);
+////				USART_OUTF(gRobot.walk_t.pos.x);
+////				USART_OUTF(gRobot.walk_t.pos.y);
+////				USART_OUT_CHAR("\r\n");
+				USART_OUT(UART5,"correctSide=%d\t",(int)gRobot.correctSide);
+				USART_OUT(UART5,"gA=%d\t",(int)gRobot.walk_t.pos.angle); 
+				USART_OUT(UART5,"gX=%d\t",(int)gRobot.walk_t.pos.x);
+		    USART_OUT(UART5,"gY=%d\t",(int)gRobot.walk_t.pos.y);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.linenum);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.turnTime);
+//		    USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.laser.status);
+//			  USART_OUT(UART5,"%d\t" ,(int)gRobot.walk_t.circleChange.quadrant);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.quadrantlast);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.circleChange.direction);
 
-////				USART_OUT(UART5,"%d\t\r\n",(int)avel);
-//				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.angle);
-//				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.speed);
-//				USART_OUT(UART5,"an=%d\t",(int)Yangle);
-//				USART_OUT(UART5,"x=%d\t",(int)Yxpos);
-//    		USART_OUT(UART5,"y=%d\t\r\n",(int)Yypos);
-////				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.toBorder);
+//				USART_OUT(UART5,"%d\t\r\n",(int)avel);
+				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.angle);
+				USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.sAim.speed);
+				USART_OUT(UART5,"an=%d\t",(int)Yangle);
+				USART_OUT(UART5,"x=%d\t",(int)Yxpos);
+    		USART_OUT(UART5,"y=%d\t\r\n",(int)Yypos);
+//				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.toBorder);
 
-////				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.wayChoose);
-////			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
-////			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
-////				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
-//			 #ifdef TEST 
-//				TestMode();
-//				//test2();
+//				USART_OUT(UART5,"%d\t",(int)gRobot.fix_t.wayChoose);
+//			  USART_OUT(UART5,"c=%d\t",(int) gRobot.camera_t.camrBaseWalk_t.circleChange.circleNum);
+//			//USART_OUT(UART5,"os%d\t",(int)OSCPUUsage);
+//				USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.circleChange.circleNum); 
+			 #ifdef TEST 
+				TestMode();
+				//test2();
 				MotorRead(); 
-//			 #else
-//			MotorRead(); 
-////			CornerJammedJudge();
-////			if(gRobot.avoid_t.signal>7000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
-////			{
-////				gRobot.status|=STATUS_AVOID_JUDGE;
-//////				openTime++;
-//////				if(openTime>350)
-//////				{
-//////					gRobot.status|=STATUS_AVOID_JUDGE;
-//////					openTime=0;
-//////				}
-////			}
-////			else if((gRobot.status&STATUS_AVOID_HANDLE)==1)
-////			{
-////				openTime=0;
-////			}
-//			if((gRobot.status&STATUS_AVOID_HANDLE)==0&&gRobot.avoid_t.handleEnd==1)
+			 #else
+			MotorRead(); 
+//			CornerJammedJudge();
+//			if(gRobot.avoid_t.signal>7000&&((gRobot.status&STATUS_AVOID_HANDLE)==0))
 //			{
-//				openTime++;
-//				if(openTime>100)
-//				{
-//					gRobot.status|=STATUS_AVOID_JUDGE;
-//					openTime=0;
-//					gRobot.avoid_t.handleEnd=0;
-//				}
-//			}else
+//				gRobot.status|=STATUS_AVOID_JUDGE;
+////				openTime++;
+////				if(openTime>350)
+////				{
+////					gRobot.status|=STATUS_AVOID_JUDGE;
+////					openTime=0;
+////				}
+//			}
+//			else if((gRobot.status&STATUS_AVOID_HANDLE)==1)
 //			{
 //				openTime=0;
 //			}
-//			//1在处理异常  为0就判断
-//			if(gRobot.status&STATUS_AVOID_JUDGE)
-//			{
-//				AbnormityJudge();
-//			}
-//			if(gRobot.status&STATUS_AVOID_HANDLE)
-//			{
-//				AbnormityHandle();
-//			}else if (gRobot.status & STATUS_SWEEP)
-//			{
-//				Run();
-//			}else if(gRobot.status & STATUS_PARKING)
-//			{
-//				//Pointparking(gRobot.ParkingPoint.x,gRobot.ParkingPoint.y);
-//				Pointparking2();
-//			}
-//			else if (gRobot.status & STATUS_FIX)
-//			{
-//				FixTask();
-//			} 
-//			else if (gRobot.status & STATUS_SHOOTER)
-//			{
+			if((gRobot.status&STATUS_AVOID_HANDLE)==0&&gRobot.avoid_t.handleEnd==1)
+			{
+				openTime++;
+				if(openTime>100)
+				{
+					gRobot.status|=STATUS_AVOID_JUDGE;
+					openTime=0;
+					gRobot.avoid_t.handleEnd=0;
+				}
+			}else
+			{
+				openTime=0;
+			}
+			//1在处理异常  为0就判断
+			if(gRobot.status&STATUS_AVOID_JUDGE)
+			{
+				AbnormityJudge();
+			}
+			if(gRobot.status&STATUS_AVOID_HANDLE)
+			{
+				AbnormityHandle();
+			}else if (gRobot.status & STATUS_SWEEP)
+			{
+				Run();
+			}else if(gRobot.status & STATUS_PARKING)
+			{
+				//Pointparking(gRobot.ParkingPoint.x,gRobot.ParkingPoint.y);
+				Pointparking2();
+			}
+			else if (gRobot.status & STATUS_FIX)
+			{
+				FixTask();
+			} 
+			else if (gRobot.status & STATUS_SHOOTER)
+			{
 				fireTask();
-//			}	 
-//			else if(gRobot.status & STATUS_CAMERA_WALK)
-//			{
-//				Out2In();
-//				//CameraBaseWalk2();
-//			}
-//			#endif
+			}	 
+			else if(gRobot.status & STATUS_CAMERA_WALK)
+			{
+				Out2In();
+				//CameraBaseWalk2();
+			}
+			#endif
  		}	
 	//OSCPUUsage=getTimeCount();
 }
