@@ -296,8 +296,6 @@ void fixPosFirst(int aimBorder)
 			}
 		break;
 	
-		default:
-		break;
 	}
 	USART_OUT(UART5, "%s\t\r\n", "hahahahahha1");
 }
@@ -506,6 +504,7 @@ void FixTask(void)
 		USART_OUT(UART5, "%d\t", (int)fix_status);
 		USART_OUT(UART5, "%d\t", (int)commitFix);
 		USART_OUT(UART5, "aiB=%d\t", (int)aimBorder);
+		USART_OUT(UART5, "brm%d\t", (int)aimBorderRem);
 		USART_OUT(UART5, "toB=%d\t", (int)gRobot.fix_t.toBorder);
 		USART_OUT(UART5, "%d\t", (int)fixPara.angle);
 		USART_OUT(UART5, "%d\t", (int)errSingle); //errSingle = realSingle - nowSingle

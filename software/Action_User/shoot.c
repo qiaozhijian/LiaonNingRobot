@@ -54,14 +54,15 @@ else if (ballNum==1)                     //假如球是黑球
 	}
 //		USART_OUT(UART5,"%d\r\n",ballNum);
 		//计算航向角转轴的坐标
-		x = x - 92.2f*sinf(angle);
-		y = y + 92.2f*cosf(angle);
+		//x = x - 92.2f*sinf(angle);
+		//y = y + 92.2f*cosf(angle);
 		//计算发射装置的速度
 		s = __sqrtf((x - x0)*(x - x0) + (y - y0)*(y - y0));
 	  v = __sqrtf(12372.3578f * s * s / (s * 1.2349f - h));
-
-	//	launcher.speed=0.01387f*v-6.814f;
-	  launcher.speed=0.01393f*v-3.908f-3.0f;
+/***********************1********************/
+		launcher.speed=0.01387f*v-6.814f;
+/***********************2********************/
+		//launcher.speed=0.01393*v-3.908f-3.0f;
 		dx = x0 - x;
 		dy = y0 - y;
 		alpha = atan2(dy, dx) * 180.0f/ PI ;
@@ -80,8 +81,9 @@ else if (ballNum==1)                     //假如球是黑球
 * 出口参数：无
 * 说    明：无
 * 调用方法：无 
-****************************************************************************/ 
-void fireTask(void)
+****************************************************************************/
+static int ballColor=1;
+ void fireTask(void)
 {
 //	static int waitAdjust=0;									//定义发射电机以及航向角调整等待他们调整完之后进行推送球
 	static float x=0,y=0,angle=0;
@@ -101,6 +103,7 @@ void fireTask(void)
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	//得到球的颜色
+	ballColor=getBallColor();
 	//计算角度速度
 	launcher=Launcher(x,y,angle,getBallColor());
 	//实施角度
@@ -259,6 +262,7 @@ void fireTask(void)
 //	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }
+
 /******************试场********************/
  void fireTask2(void)
 {
@@ -278,33 +282,28 @@ void fireTask(void)
 	y=gRobot.walk_t.pos.y;											 //当前y坐标
 	angle=gRobot.walk_t.pos.angle;							 //当前角度
 	//得到球的颜色
+	ballColor=getBallColor();
 	//计算角度速度
-	launcher=Launcher(x,y,angle,getBallColor());
+	launcher=Launcher(x,y,angle,ballColor);
 	//实施角度
 	yawCount++;
 	yawCount%=4;
 	if(yawCount>=3)
 	{	
-		launcher.angle=launcher.angle+gRobot.angle;
 		YawAngleCtr(launcher.angle);
 	}
-	if(TRAVEL_SWITCH_LEFT==1&&TRAVEL_SWITCH_RIGHT==1)
-	{
-		fixPosFirst(gRobot.correctSide);
-	}
 	//实施速度
-	launcher.speed=launcher.speed+gRobot.speed;
 	ShootCtr(launcher.speed);
 	//实施推球	
-  if(getBallColor()!=0)
+  if(ballColor!=0)
 	{
 		noBall=0;
 		noBallCount=0;
 		noballtime=0;
-		if(balllast!=getBallColor())
+		if(balllast!=ballColor)
 		{
 			Stabletimelim=70;
-			balllast=getBallColor();
+			balllast=ballColor;
 		}
 		else{
 			Stabletimelim=50;
@@ -366,7 +365,7 @@ void fireTask(void)
 			}
 	  }
 		//推子被卡死
-	}else if(getBallColor()==0)  //没球快推
+	}else if(ballColor==0)  //没球快推
 	{
 			noBallCount++;
 			noballtime++;
@@ -412,21 +411,21 @@ void fireTask(void)
 			}
 	//脱离状态 
 			//				gRobot.status&=~STATUS_AVOID_JUDGE;
-//	USART_OUT(UART5,"%d\t",(int)noBall);
-//	USART_OUT(UART5,"%d\t",(int)getBallColor());
-//	USART_OUT(UART5,"%d\t",(int)step);
-//	USART_OUT(UART5,"%d\t",(int)noballtime);
-//	USART_OUT(UART5,"%d\t",(int)launcher.angle);
-//			
-//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
-//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
-//	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
+	USART_OUT(UART5,"%d\t",(int)noBall);
+	USART_OUT(UART5,"%d\t",(int)ballColor);
+	USART_OUT(UART5,"%d\t",(int)step);
+	USART_OUT(UART5,"%d\t",(int)noballtime);
+	USART_OUT(UART5,"%d\t",(int)launcher.angle);
+			
+	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.angle);
+	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.x);
+	USART_OUT(UART5,"%d\t",(int)gRobot.walk_t.pos.y);
 //	USART_OUT(UART5,"%d\t",(int)gRobot.shoot_t.pReal.pos);
 //	USART_OUTF(launcher.angle);
 //	USART_OUTF(gRobot.shoot_t.sReal.angle);
 //	USART_OUTF(launcher.speed);
 //	USART_OUTF(gRobot.shoot_t.sReal.speed);
 //	USART_OUT_CHAR("\r\n");
-//	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
+	USART_OUT(UART5,"%d\t\r\n",(int)gRobot.walk_t.pos.y);
 
 }

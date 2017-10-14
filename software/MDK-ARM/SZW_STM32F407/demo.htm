@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\SZW_STM32F407\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\SZW_STM32F407\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sat Oct 14 15:27:11 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060300: Last Updated: Sat Oct 14 18:51:30 2017
 <BR><P>
 <H3>Maximum Stack Usage =        464 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1170,7 +1170,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckIntersect
 </UL>
 
-<P><STRONG><a name="[c3]"></a>ChangeBoard</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, sweep.o(i.ChangeBoard))
+<P><STRONG><a name="[c3]"></a>ChangeBoard</STRONG> (Thumb, 374 bytes, Stack size 0 bytes, sweep.o(i.ChangeBoard))
 <BR><BR>[Called By]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Square4
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Square3
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Square2
@@ -1181,7 +1181,7 @@ Global Symbols
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AntiSquare
 </UL>
 
-<P><STRONG><a name="[f2]"></a>CheckAgainstWall</STRONG> (Thumb, 964 bytes, Stack size 24 bytes, sweep.o(i.CheckAgainstWall))
+<P><STRONG><a name="[f2]"></a>CheckAgainstWall</STRONG> (Thumb, 1208 bytes, Stack size 24 bytes, sweep.o(i.CheckAgainstWall))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = CheckAgainstWall &rArr; USART_OUT &rArr; itoa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getyRem
@@ -1380,7 +1380,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AbnormityJudge
 </UL>
 
-<P><STRONG><a name="[10a]"></a>FixTask</STRONG> (Thumb, 970 bytes, Stack size 32 bytes, fix.o(i.FixTask))
+<P><STRONG><a name="[10a]"></a>FixTask</STRONG> (Thumb, 982 bytes, Stack size 32 bytes, fix.o(i.FixTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = FixTask &rArr; fixPosFirst &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Go2NextWall
@@ -1566,12 +1566,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[128]"></a>Launcher</STRONG> (Thumb, 578 bytes, Stack size 72 bytes, shoot.o(i.Launcher))
+<P><STRONG><a name="[128]"></a>Launcher</STRONG> (Thumb, 522 bytes, Stack size 72 bytes, shoot.o(i.Launcher))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = Launcher &rArr; __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getBallColor
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
@@ -1663,7 +1661,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AntiCircle
 </UL>
 
-<P><STRONG><a name="[136]"></a>Out2In</STRONG> (Thumb, 242 bytes, Stack size 8 bytes, sweep.o(i.Out2In))
+<P><STRONG><a name="[136]"></a>Out2In</STRONG> (Thumb, 316 bytes, Stack size 8 bytes, sweep.o(i.Out2In))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = Out2In &rArr; Circle &rArr; ShunShiZhenCircleBiHuan &rArr; getYpos &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circleChange
@@ -1720,8 +1718,8 @@ Global Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_TransmitStatus
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
-<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
+<BR>[Called By]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
+<LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBall
 </UL>
 
@@ -1768,7 +1766,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PosCrl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
+<BR>[Called By]<UL><LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;robotInit
+<LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fireTask
 </UL>
 
 <P><STRONG><a name="[af]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
@@ -2464,7 +2463,6 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CarPointTrans
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
 </UL>
 
 <P><STRONG><a name="[ce]"></a>__hardfp_fabs</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, fabs.o(i.__hardfp_fabs))
@@ -2549,7 +2547,6 @@ Global Symbols
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CarPointTrans
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
 </UL>
 
 <P><STRONG><a name="[ed]"></a>__hardfp_sqrt</STRONG> (Thumb, 122 bytes, Stack size 32 bytes, sqrt.o(i.__hardfp_sqrt))
@@ -2797,18 +2794,18 @@ Global Symbols
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[184]"></a>fireTask</STRONG> (Thumb, 1304 bytes, Stack size 48 bytes, shoot.o(i.fireTask))
+<P><STRONG><a name="[184]"></a>fireTask</STRONG> (Thumb, 1316 bytes, Stack size 48 bytes, shoot.o(i.fireTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 360<LI>Call Chain = fireTask &rArr; fixPosFirst &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getLeftAdc
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
+<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getBallColor
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fixPosFirst
 <LI><a href="#[15f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;YawAngleCtr
-<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBall
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Launcher
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
@@ -2819,7 +2816,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[10f]"></a>fixPosFirst</STRONG> (Thumb, 818 bytes, Stack size 40 bytes, fix.o(i.fixPosFirst))
+<P><STRONG><a name="[10f]"></a>fixPosFirst</STRONG> (Thumb, 814 bytes, Stack size 40 bytes, fix.o(i.fixPosFirst))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = fixPosFirst &rArr; setErr &rArr; setErrY &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRightAdc
@@ -2994,11 +2991,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Line
 </UL>
 
-<P><STRONG><a name="[189]"></a>robotInit</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, task.o(i.robotInit))
+<P><STRONG><a name="[189]"></a>robotInit</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, task.o(i.robotInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 204<LI>Call Chain = robotInit &rArr; elmoInit &rArr; Vel_cfg &rArr; USART_OUT &rArr; itoa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[15d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Vel_cfg
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShootCtr
+<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PushBallReset
 <LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_PriorityGroupConfig
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CollectBallVelCtr

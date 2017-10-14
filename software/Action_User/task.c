@@ -100,7 +100,6 @@ void variableInit(void)
 ****************************************************************************/
 void robotInit(void)
 {	
-	static int checktime=0;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	
 	HardWare();
@@ -135,10 +134,10 @@ void robotInit(void)
 	}
 	 GPIO_ResetBits(GPIOE,GPIO_Pin_7);
 	//DisDriveGyro();
-	//PushBallReset();
+	PushBallReset();
 		ShootCtr(0);
   Vel_cfg(CAN1, COLLECT_BALL_ID, 50000, 50000);
-  CollectBallVelCtr(60);                                       //让辊子转起来
+  CollectBallVelCtr(60);                                       //让辊子转起来                                   //让辊子转起来
 } 
 
 void driveGyro(void){

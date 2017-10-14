@@ -278,7 +278,7 @@ void TIM3_IRQHandler(void)
 			startTime=0;
 			gRobot.status=0;
 			gRobot.status|=STATUS_FIX;
-		  gRobot.status|=STATUS_AVOID_JUDGE;
+		  gRobot.status&=~STATUS_AVOID_JUDGE;
 			gRobot.status|=STATUS_SHOOTER;
 		}
 		
