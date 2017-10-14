@@ -6330,45 +6330,45 @@ Image Symbol Table
     i.TIM1_UP_TIM10_IRQHandler               0x08008478   Section        0  timer.o(i.TIM1_UP_TIM10_IRQHandler)
     i.TIM2_IRQHandler                        0x08008494   Section        0  timer.o(i.TIM2_IRQHandler)
     i.TIM3_IRQHandler                        0x080084e8   Section        0  timer.o(i.TIM3_IRQHandler)
-    i.TIM4_IRQHandler                        0x080085e0   Section        0  timer.o(i.TIM4_IRQHandler)
-    i.TIM5_IRQHandler                        0x0800860c   Section        0  timer.o(i.TIM5_IRQHandler)
-    i.TIM8_UP_TIM13_IRQHandler               0x08008628   Section        0  timer.o(i.TIM8_UP_TIM13_IRQHandler)
-    i.TIM_ClearITPendingBit                  0x08008644   Section        0  stm32f4xx_tim.o(i.TIM_ClearITPendingBit)
-    i.TIM_Cmd                                0x0800864a   Section        0  stm32f4xx_tim.o(i.TIM_Cmd)
-    i.TIM_GetITStatus                        0x08008662   Section        0  stm32f4xx_tim.o(i.TIM_GetITStatus)
-    i.TIM_ITConfig                           0x08008684   Section        0  stm32f4xx_tim.o(i.TIM_ITConfig)
-    i.TIM_Init                               0x08008698   Section        0  timer.o(i.TIM_Init)
-    i.TIM_TimeBaseInit                       0x0800885c   Section        0  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
-    i.TravelSwitch_Init                      0x080088e0   Section        0  gpio.o(i.TravelSwitch_Init)
-    i.UART5DMAInit                           0x08008944   Section        0  dma.o(i.UART5DMAInit)
-    i.UART5_IRQHandler                       0x080089f0   Section        0  stm32f4xx_it.o(i.UART5_IRQHandler)
-    i.UART5_Init                             0x08008c38   Section        0  dma.o(i.UART5_Init)
-    i.USART1_IRQHandler                      0x08008d08   Section        0  stm32f4xx_it.o(i.USART1_IRQHandler)
-    i.USART2_IRQHandler                      0x08008e04   Section        0  stm32f4xx_it.o(i.USART2_IRQHandler)
-    i.USART3_IRQHandler                      0x08008ef4   Section        0  stm32f4xx_it.o(i.USART3_IRQHandler)
-    i.USART_ClearFlag                        0x080090ec   Section        0  stm32f4xx_usart.o(i.USART_ClearFlag)
-    i.USART_ClearITPendingBit                0x080090fe   Section        0  stm32f4xx_usart.o(i.USART_ClearITPendingBit)
-    i.USART_Cmd                              0x0800911c   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
-    i.USART_DMACmd                           0x08009134   Section        0  stm32f4xx_usart.o(i.USART_DMACmd)
-    i.USART_DeInit                           0x08009148   Section        0  stm32f4xx_usart.o(i.USART_DeInit)
-    i.USART_GetFlagStatus                    0x080091fc   Section        0  stm32f4xx_usart.o(i.USART_GetFlagStatus)
-    i.USART_GetITStatus                      0x08009216   Section        0  stm32f4xx_usart.o(i.USART_GetITStatus)
-    i.USART_ITConfig                         0x0800926a   Section        0  stm32f4xx_usart.o(i.USART_ITConfig)
-    i.USART_Init                             0x080092b4   Section        0  stm32f4xx_usart.o(i.USART_Init)
-    i.USART_OUT                              0x08009388   Section        0  usart.o(i.USART_OUT)
-    i.USART_ReceiveData                      0x0800948e   Section        0  stm32f4xx_usart.o(i.USART_ReceiveData)
-    i.USART_SendData                         0x08009498   Section        0  stm32f4xx_usart.o(i.USART_SendData)
-    i.UsageFault_Handler                     0x080094c4   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
-    i.Vchange                                0x080094c8   Section        0  sweep.o(i.Vchange)
-    i.VelCrl                                 0x08009538   Section        0  elmo.o(i.VelCrl)
-    i.Vel_cfg                                0x08009628   Section        0  elmo.o(i.Vel_cfg)
-    i.WalkHandle                             0x0800972c   Section        0  avoid.o(i.WalkHandle)
-    i.WalkOne                                0x08009788   Section        0  sweep.o(i.WalkOne)
-    i.YawAngleCtr                            0x08009828   Section        0  motor.o(i.YawAngleCtr)
-    i.YawTransform                           0x08009858   Section        0  motor.o(i.YawTransform)
-    i.Ygoal                                  0x08009874   Section        0  sweep.o(i.Ygoal)
-    i.__ARM_fpclassify                       0x080099c4   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__ARM_fpclassifyf                      0x080099f4   Section        0  fpclassifyf.o(i.__ARM_fpclassifyf)
+    i.TIM4_IRQHandler                        0x080085e4   Section        0  timer.o(i.TIM4_IRQHandler)
+    i.TIM5_IRQHandler                        0x08008610   Section        0  timer.o(i.TIM5_IRQHandler)
+    i.TIM8_UP_TIM13_IRQHandler               0x0800862c   Section        0  timer.o(i.TIM8_UP_TIM13_IRQHandler)
+    i.TIM_ClearITPendingBit                  0x08008648   Section        0  stm32f4xx_tim.o(i.TIM_ClearITPendingBit)
+    i.TIM_Cmd                                0x0800864e   Section        0  stm32f4xx_tim.o(i.TIM_Cmd)
+    i.TIM_GetITStatus                        0x08008666   Section        0  stm32f4xx_tim.o(i.TIM_GetITStatus)
+    i.TIM_ITConfig                           0x08008688   Section        0  stm32f4xx_tim.o(i.TIM_ITConfig)
+    i.TIM_Init                               0x0800869c   Section        0  timer.o(i.TIM_Init)
+    i.TIM_TimeBaseInit                       0x08008860   Section        0  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
+    i.TravelSwitch_Init                      0x080088e4   Section        0  gpio.o(i.TravelSwitch_Init)
+    i.UART5DMAInit                           0x08008948   Section        0  dma.o(i.UART5DMAInit)
+    i.UART5_IRQHandler                       0x080089f4   Section        0  stm32f4xx_it.o(i.UART5_IRQHandler)
+    i.UART5_Init                             0x08008c3c   Section        0  dma.o(i.UART5_Init)
+    i.USART1_IRQHandler                      0x08008d0c   Section        0  stm32f4xx_it.o(i.USART1_IRQHandler)
+    i.USART2_IRQHandler                      0x08008e08   Section        0  stm32f4xx_it.o(i.USART2_IRQHandler)
+    i.USART3_IRQHandler                      0x08008ef8   Section        0  stm32f4xx_it.o(i.USART3_IRQHandler)
+    i.USART_ClearFlag                        0x080090f0   Section        0  stm32f4xx_usart.o(i.USART_ClearFlag)
+    i.USART_ClearITPendingBit                0x08009102   Section        0  stm32f4xx_usart.o(i.USART_ClearITPendingBit)
+    i.USART_Cmd                              0x08009120   Section        0  stm32f4xx_usart.o(i.USART_Cmd)
+    i.USART_DMACmd                           0x08009138   Section        0  stm32f4xx_usart.o(i.USART_DMACmd)
+    i.USART_DeInit                           0x0800914c   Section        0  stm32f4xx_usart.o(i.USART_DeInit)
+    i.USART_GetFlagStatus                    0x08009200   Section        0  stm32f4xx_usart.o(i.USART_GetFlagStatus)
+    i.USART_GetITStatus                      0x0800921a   Section        0  stm32f4xx_usart.o(i.USART_GetITStatus)
+    i.USART_ITConfig                         0x0800926e   Section        0  stm32f4xx_usart.o(i.USART_ITConfig)
+    i.USART_Init                             0x080092b8   Section        0  stm32f4xx_usart.o(i.USART_Init)
+    i.USART_OUT                              0x0800938c   Section        0  usart.o(i.USART_OUT)
+    i.USART_ReceiveData                      0x08009492   Section        0  stm32f4xx_usart.o(i.USART_ReceiveData)
+    i.USART_SendData                         0x0800949c   Section        0  stm32f4xx_usart.o(i.USART_SendData)
+    i.UsageFault_Handler                     0x080094c8   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
+    i.Vchange                                0x080094cc   Section        0  sweep.o(i.Vchange)
+    i.VelCrl                                 0x0800953c   Section        0  elmo.o(i.VelCrl)
+    i.Vel_cfg                                0x0800962c   Section        0  elmo.o(i.Vel_cfg)
+    i.WalkHandle                             0x08009730   Section        0  avoid.o(i.WalkHandle)
+    i.WalkOne                                0x0800978c   Section        0  sweep.o(i.WalkOne)
+    i.YawAngleCtr                            0x0800982c   Section        0  motor.o(i.YawAngleCtr)
+    i.YawTransform                           0x0800985c   Section        0  motor.o(i.YawTransform)
+    i.Ygoal                                  0x08009878   Section        0  sweep.o(i.Ygoal)
+    i.__ARM_fpclassify                       0x080099c8   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__ARM_fpclassifyf                      0x080099f8   Section        0  fpclassifyf.o(i.__ARM_fpclassifyf)
     i.__hardfp_atan                          0x08009a20   Section        0  atan.o(i.__hardfp_atan)
     i.__hardfp_atan2                         0x08009cf8   Section        0  atan2.o(i.__hardfp_atan2)
     i.__hardfp_atanf                         0x08009ee8   Section        0  atanf.o(i.__hardfp_atanf)
@@ -7220,46 +7220,46 @@ Image Symbol Table
     SystemInit                               0x08008411   Thumb Code    88  system_stm32f4xx.o(i.SystemInit)
     TIM1_UP_TIM10_IRQHandler                 0x08008479   Thumb Code    24  timer.o(i.TIM1_UP_TIM10_IRQHandler)
     TIM2_IRQHandler                          0x08008495   Thumb Code    70  timer.o(i.TIM2_IRQHandler)
-    TIM3_IRQHandler                          0x080084e9   Thumb Code   218  timer.o(i.TIM3_IRQHandler)
-    TIM4_IRQHandler                          0x080085e1   Thumb Code    34  timer.o(i.TIM4_IRQHandler)
-    TIM5_IRQHandler                          0x0800860d   Thumb Code    24  timer.o(i.TIM5_IRQHandler)
-    TIM8_UP_TIM13_IRQHandler                 0x08008629   Thumb Code    24  timer.o(i.TIM8_UP_TIM13_IRQHandler)
-    TIM_ClearITPendingBit                    0x08008645   Thumb Code     6  stm32f4xx_tim.o(i.TIM_ClearITPendingBit)
-    TIM_Cmd                                  0x0800864b   Thumb Code    24  stm32f4xx_tim.o(i.TIM_Cmd)
-    TIM_GetITStatus                          0x08008663   Thumb Code    34  stm32f4xx_tim.o(i.TIM_GetITStatus)
-    TIM_ITConfig                             0x08008685   Thumb Code    18  stm32f4xx_tim.o(i.TIM_ITConfig)
-    TIM_Init                                 0x08008699   Thumb Code   440  timer.o(i.TIM_Init)
-    TIM_TimeBaseInit                         0x0800885d   Thumb Code   104  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
-    TravelSwitch_Init                        0x080088e1   Thumb Code    92  gpio.o(i.TravelSwitch_Init)
-    UART5DMAInit                             0x08008945   Thumb Code   158  dma.o(i.UART5DMAInit)
-    UART5_IRQHandler                         0x080089f1   Thumb Code   542  stm32f4xx_it.o(i.UART5_IRQHandler)
-    UART5_Init                               0x08008c39   Thumb Code   196  dma.o(i.UART5_Init)
-    USART1_IRQHandler                        0x08008d09   Thumb Code   228  stm32f4xx_it.o(i.USART1_IRQHandler)
-    USART2_IRQHandler                        0x08008e05   Thumb Code   212  stm32f4xx_it.o(i.USART2_IRQHandler)
-    USART3_IRQHandler                        0x08008ef5   Thumb Code   448  stm32f4xx_it.o(i.USART3_IRQHandler)
-    USART_ClearFlag                          0x080090ed   Thumb Code    18  stm32f4xx_usart.o(i.USART_ClearFlag)
-    USART_ClearITPendingBit                  0x080090ff   Thumb Code    30  stm32f4xx_usart.o(i.USART_ClearITPendingBit)
-    USART_Cmd                                0x0800911d   Thumb Code    24  stm32f4xx_usart.o(i.USART_Cmd)
-    USART_DMACmd                             0x08009135   Thumb Code    18  stm32f4xx_usart.o(i.USART_DMACmd)
-    USART_DeInit                             0x08009149   Thumb Code   156  stm32f4xx_usart.o(i.USART_DeInit)
-    USART_GetFlagStatus                      0x080091fd   Thumb Code    26  stm32f4xx_usart.o(i.USART_GetFlagStatus)
-    USART_GetITStatus                        0x08009217   Thumb Code    84  stm32f4xx_usart.o(i.USART_GetITStatus)
-    USART_ITConfig                           0x0800926b   Thumb Code    74  stm32f4xx_usart.o(i.USART_ITConfig)
-    USART_Init                               0x080092b5   Thumb Code   204  stm32f4xx_usart.o(i.USART_Init)
-    USART_OUT                                0x08009389   Thumb Code   262  usart.o(i.USART_OUT)
-    USART_ReceiveData                        0x0800948f   Thumb Code    10  stm32f4xx_usart.o(i.USART_ReceiveData)
-    USART_SendData                           0x08009499   Thumb Code    44  stm32f4xx_usart.o(i.USART_SendData)
-    UsageFault_Handler                       0x080094c5   Thumb Code     4  stm32f4xx_it.o(i.UsageFault_Handler)
-    Vchange                                  0x080094c9   Thumb Code    82  sweep.o(i.Vchange)
-    VelCrl                                   0x08009539   Thumb Code   220  elmo.o(i.VelCrl)
-    Vel_cfg                                  0x08009629   Thumb Code   234  elmo.o(i.Vel_cfg)
-    WalkHandle                               0x0800972d   Thumb Code    66  avoid.o(i.WalkHandle)
-    WalkOne                                  0x08009789   Thumb Code   118  sweep.o(i.WalkOne)
-    YawAngleCtr                              0x08009829   Thumb Code    44  motor.o(i.YawAngleCtr)
-    YawTransform                             0x08009859   Thumb Code    22  motor.o(i.YawTransform)
-    Ygoal                                    0x08009875   Thumb Code   314  sweep.o(i.Ygoal)
-    __ARM_fpclassify                         0x080099c5   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    __ARM_fpclassifyf                        0x080099f5   Thumb Code    38  fpclassifyf.o(i.__ARM_fpclassifyf)
+    TIM3_IRQHandler                          0x080084e9   Thumb Code   222  timer.o(i.TIM3_IRQHandler)
+    TIM4_IRQHandler                          0x080085e5   Thumb Code    34  timer.o(i.TIM4_IRQHandler)
+    TIM5_IRQHandler                          0x08008611   Thumb Code    24  timer.o(i.TIM5_IRQHandler)
+    TIM8_UP_TIM13_IRQHandler                 0x0800862d   Thumb Code    24  timer.o(i.TIM8_UP_TIM13_IRQHandler)
+    TIM_ClearITPendingBit                    0x08008649   Thumb Code     6  stm32f4xx_tim.o(i.TIM_ClearITPendingBit)
+    TIM_Cmd                                  0x0800864f   Thumb Code    24  stm32f4xx_tim.o(i.TIM_Cmd)
+    TIM_GetITStatus                          0x08008667   Thumb Code    34  stm32f4xx_tim.o(i.TIM_GetITStatus)
+    TIM_ITConfig                             0x08008689   Thumb Code    18  stm32f4xx_tim.o(i.TIM_ITConfig)
+    TIM_Init                                 0x0800869d   Thumb Code   440  timer.o(i.TIM_Init)
+    TIM_TimeBaseInit                         0x08008861   Thumb Code   104  stm32f4xx_tim.o(i.TIM_TimeBaseInit)
+    TravelSwitch_Init                        0x080088e5   Thumb Code    92  gpio.o(i.TravelSwitch_Init)
+    UART5DMAInit                             0x08008949   Thumb Code   158  dma.o(i.UART5DMAInit)
+    UART5_IRQHandler                         0x080089f5   Thumb Code   542  stm32f4xx_it.o(i.UART5_IRQHandler)
+    UART5_Init                               0x08008c3d   Thumb Code   196  dma.o(i.UART5_Init)
+    USART1_IRQHandler                        0x08008d0d   Thumb Code   228  stm32f4xx_it.o(i.USART1_IRQHandler)
+    USART2_IRQHandler                        0x08008e09   Thumb Code   212  stm32f4xx_it.o(i.USART2_IRQHandler)
+    USART3_IRQHandler                        0x08008ef9   Thumb Code   448  stm32f4xx_it.o(i.USART3_IRQHandler)
+    USART_ClearFlag                          0x080090f1   Thumb Code    18  stm32f4xx_usart.o(i.USART_ClearFlag)
+    USART_ClearITPendingBit                  0x08009103   Thumb Code    30  stm32f4xx_usart.o(i.USART_ClearITPendingBit)
+    USART_Cmd                                0x08009121   Thumb Code    24  stm32f4xx_usart.o(i.USART_Cmd)
+    USART_DMACmd                             0x08009139   Thumb Code    18  stm32f4xx_usart.o(i.USART_DMACmd)
+    USART_DeInit                             0x0800914d   Thumb Code   156  stm32f4xx_usart.o(i.USART_DeInit)
+    USART_GetFlagStatus                      0x08009201   Thumb Code    26  stm32f4xx_usart.o(i.USART_GetFlagStatus)
+    USART_GetITStatus                        0x0800921b   Thumb Code    84  stm32f4xx_usart.o(i.USART_GetITStatus)
+    USART_ITConfig                           0x0800926f   Thumb Code    74  stm32f4xx_usart.o(i.USART_ITConfig)
+    USART_Init                               0x080092b9   Thumb Code   204  stm32f4xx_usart.o(i.USART_Init)
+    USART_OUT                                0x0800938d   Thumb Code   262  usart.o(i.USART_OUT)
+    USART_ReceiveData                        0x08009493   Thumb Code    10  stm32f4xx_usart.o(i.USART_ReceiveData)
+    USART_SendData                           0x0800949d   Thumb Code    44  stm32f4xx_usart.o(i.USART_SendData)
+    UsageFault_Handler                       0x080094c9   Thumb Code     4  stm32f4xx_it.o(i.UsageFault_Handler)
+    Vchange                                  0x080094cd   Thumb Code    82  sweep.o(i.Vchange)
+    VelCrl                                   0x0800953d   Thumb Code   220  elmo.o(i.VelCrl)
+    Vel_cfg                                  0x0800962d   Thumb Code   234  elmo.o(i.Vel_cfg)
+    WalkHandle                               0x08009731   Thumb Code    66  avoid.o(i.WalkHandle)
+    WalkOne                                  0x0800978d   Thumb Code   118  sweep.o(i.WalkOne)
+    YawAngleCtr                              0x0800982d   Thumb Code    44  motor.o(i.YawAngleCtr)
+    YawTransform                             0x0800985d   Thumb Code    22  motor.o(i.YawTransform)
+    Ygoal                                    0x08009879   Thumb Code   314  sweep.o(i.Ygoal)
+    __ARM_fpclassify                         0x080099c9   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    __ARM_fpclassifyf                        0x080099f9   Thumb Code    38  fpclassifyf.o(i.__ARM_fpclassifyf)
     __hardfp_atan                            0x08009a21   Thumb Code   622  atan.o(i.__hardfp_atan)
     __hardfp_atan2                           0x08009cf9   Thumb Code   432  atan2.o(i.__hardfp_atan2)
     __hardfp_atanf                           0x08009ee9   Thumb Code   296  atanf.o(i.__hardfp_atanf)
@@ -7649,49 +7649,49 @@ Memory Map of the image
     0x08008410   0x00000068   Code   RO         7881    i.SystemInit        system_stm32f4xx.o
     0x08008478   0x0000001c   Code   RO         1679    i.TIM1_UP_TIM10_IRQHandler  timer.o
     0x08008494   0x00000054   Code   RO         1680    i.TIM2_IRQHandler   timer.o
-    0x080084e8   0x000000f8   Code   RO         1681    i.TIM3_IRQHandler   timer.o
-    0x080085e0   0x0000002c   Code   RO         1682    i.TIM4_IRQHandler   timer.o
-    0x0800860c   0x0000001c   Code   RO         1683    i.TIM5_IRQHandler   timer.o
-    0x08008628   0x0000001c   Code   RO         1684    i.TIM8_UP_TIM13_IRQHandler  timer.o
-    0x08008644   0x00000006   Code   RO         6925    i.TIM_ClearITPendingBit  stm32f4xx_tim.o
-    0x0800864a   0x00000018   Code   RO         6930    i.TIM_Cmd           stm32f4xx_tim.o
-    0x08008662   0x00000022   Code   RO         6951    i.TIM_GetITStatus   stm32f4xx_tim.o
-    0x08008684   0x00000012   Code   RO         6955    i.TIM_ITConfig      stm32f4xx_tim.o
-    0x08008696   0x00000002   PAD
-    0x08008698   0x000001c4   Code   RO         1685    i.TIM_Init          timer.o
-    0x0800885c   0x00000084   Code   RO         7002    i.TIM_TimeBaseInit  stm32f4xx_tim.o
-    0x080088e0   0x00000064   Code   RO         1925    i.TravelSwitch_Init  gpio.o
-    0x08008944   0x000000ac   Code   RO         1155    i.UART5DMAInit      dma.o
-    0x080089f0   0x00000248   Code   RO         1539    i.UART5_IRQHandler  stm32f4xx_it.o
-    0x08008c38   0x000000d0   Code   RO         1156    i.UART5_Init        dma.o
-    0x08008d08   0x000000fc   Code   RO         1540    i.USART1_IRQHandler  stm32f4xx_it.o
-    0x08008e04   0x000000f0   Code   RO         1541    i.USART2_IRQHandler  stm32f4xx_it.o
-    0x08008ef4   0x000001f8   Code   RO         1542    i.USART3_IRQHandler  stm32f4xx_it.o
-    0x080090ec   0x00000012   Code   RO         7575    i.USART_ClearFlag   stm32f4xx_usart.o
-    0x080090fe   0x0000001e   Code   RO         7576    i.USART_ClearITPendingBit  stm32f4xx_usart.o
-    0x0800911c   0x00000018   Code   RO         7579    i.USART_Cmd         stm32f4xx_usart.o
-    0x08009134   0x00000012   Code   RO         7580    i.USART_DMACmd      stm32f4xx_usart.o
-    0x08009146   0x00000002   PAD
-    0x08009148   0x000000b4   Code   RO         7581    i.USART_DeInit      stm32f4xx_usart.o
-    0x080091fc   0x0000001a   Code   RO         7582    i.USART_GetFlagStatus  stm32f4xx_usart.o
-    0x08009216   0x00000054   Code   RO         7583    i.USART_GetITStatus  stm32f4xx_usart.o
-    0x0800926a   0x0000004a   Code   RO         7585    i.USART_ITConfig    stm32f4xx_usart.o
-    0x080092b4   0x000000d4   Code   RO         7586    i.USART_Init        stm32f4xx_usart.o
-    0x08009388   0x00000106   Code   RO         1989    i.USART_OUT         usart.o
-    0x0800948e   0x0000000a   Code   RO         7593    i.USART_ReceiveData  stm32f4xx_usart.o
-    0x08009498   0x0000002c   Code   RO         7596    i.USART_SendData    stm32f4xx_usart.o
-    0x080094c4   0x00000004   Code   RO         1543    i.UsageFault_Handler  stm32f4xx_it.o
-    0x080094c8   0x00000070   Code   RO          261    i.Vchange           sweep.o
-    0x08009538   0x000000f0   Code   RO         1785    i.VelCrl            elmo.o
-    0x08009628   0x00000104   Code   RO         1786    i.Vel_cfg           elmo.o
-    0x0800972c   0x0000005c   Code   RO          502    i.WalkHandle        avoid.o
-    0x08009788   0x000000a0   Code   RO          262    i.WalkOne           sweep.o
-    0x08009828   0x00000030   Code   RO         2079    i.YawAngleCtr       motor.o
-    0x08009858   0x0000001c   Code   RO         2080    i.YawTransform      motor.o
-    0x08009874   0x00000150   Code   RO          264    i.Ygoal             sweep.o
-    0x080099c4   0x00000030   Code   RO         8368    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
-    0x080099f4   0x00000026   Code   RO         8370    i.__ARM_fpclassifyf  m_wm.l(fpclassifyf.o)
-    0x08009a1a   0x00000006   PAD
+    0x080084e8   0x000000fc   Code   RO         1681    i.TIM3_IRQHandler   timer.o
+    0x080085e4   0x0000002c   Code   RO         1682    i.TIM4_IRQHandler   timer.o
+    0x08008610   0x0000001c   Code   RO         1683    i.TIM5_IRQHandler   timer.o
+    0x0800862c   0x0000001c   Code   RO         1684    i.TIM8_UP_TIM13_IRQHandler  timer.o
+    0x08008648   0x00000006   Code   RO         6925    i.TIM_ClearITPendingBit  stm32f4xx_tim.o
+    0x0800864e   0x00000018   Code   RO         6930    i.TIM_Cmd           stm32f4xx_tim.o
+    0x08008666   0x00000022   Code   RO         6951    i.TIM_GetITStatus   stm32f4xx_tim.o
+    0x08008688   0x00000012   Code   RO         6955    i.TIM_ITConfig      stm32f4xx_tim.o
+    0x0800869a   0x00000002   PAD
+    0x0800869c   0x000001c4   Code   RO         1685    i.TIM_Init          timer.o
+    0x08008860   0x00000084   Code   RO         7002    i.TIM_TimeBaseInit  stm32f4xx_tim.o
+    0x080088e4   0x00000064   Code   RO         1925    i.TravelSwitch_Init  gpio.o
+    0x08008948   0x000000ac   Code   RO         1155    i.UART5DMAInit      dma.o
+    0x080089f4   0x00000248   Code   RO         1539    i.UART5_IRQHandler  stm32f4xx_it.o
+    0x08008c3c   0x000000d0   Code   RO         1156    i.UART5_Init        dma.o
+    0x08008d0c   0x000000fc   Code   RO         1540    i.USART1_IRQHandler  stm32f4xx_it.o
+    0x08008e08   0x000000f0   Code   RO         1541    i.USART2_IRQHandler  stm32f4xx_it.o
+    0x08008ef8   0x000001f8   Code   RO         1542    i.USART3_IRQHandler  stm32f4xx_it.o
+    0x080090f0   0x00000012   Code   RO         7575    i.USART_ClearFlag   stm32f4xx_usart.o
+    0x08009102   0x0000001e   Code   RO         7576    i.USART_ClearITPendingBit  stm32f4xx_usart.o
+    0x08009120   0x00000018   Code   RO         7579    i.USART_Cmd         stm32f4xx_usart.o
+    0x08009138   0x00000012   Code   RO         7580    i.USART_DMACmd      stm32f4xx_usart.o
+    0x0800914a   0x00000002   PAD
+    0x0800914c   0x000000b4   Code   RO         7581    i.USART_DeInit      stm32f4xx_usart.o
+    0x08009200   0x0000001a   Code   RO         7582    i.USART_GetFlagStatus  stm32f4xx_usart.o
+    0x0800921a   0x00000054   Code   RO         7583    i.USART_GetITStatus  stm32f4xx_usart.o
+    0x0800926e   0x0000004a   Code   RO         7585    i.USART_ITConfig    stm32f4xx_usart.o
+    0x080092b8   0x000000d4   Code   RO         7586    i.USART_Init        stm32f4xx_usart.o
+    0x0800938c   0x00000106   Code   RO         1989    i.USART_OUT         usart.o
+    0x08009492   0x0000000a   Code   RO         7593    i.USART_ReceiveData  stm32f4xx_usart.o
+    0x0800949c   0x0000002c   Code   RO         7596    i.USART_SendData    stm32f4xx_usart.o
+    0x080094c8   0x00000004   Code   RO         1543    i.UsageFault_Handler  stm32f4xx_it.o
+    0x080094cc   0x00000070   Code   RO          261    i.Vchange           sweep.o
+    0x0800953c   0x000000f0   Code   RO         1785    i.VelCrl            elmo.o
+    0x0800962c   0x00000104   Code   RO         1786    i.Vel_cfg           elmo.o
+    0x08009730   0x0000005c   Code   RO          502    i.WalkHandle        avoid.o
+    0x0800978c   0x000000a0   Code   RO          262    i.WalkOne           sweep.o
+    0x0800982c   0x00000030   Code   RO         2079    i.YawAngleCtr       motor.o
+    0x0800985c   0x0000001c   Code   RO         2080    i.YawTransform      motor.o
+    0x08009878   0x00000150   Code   RO          264    i.Ygoal             sweep.o
+    0x080099c8   0x00000030   Code   RO         8368    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
+    0x080099f8   0x00000026   Code   RO         8370    i.__ARM_fpclassifyf  m_wm.l(fpclassifyf.o)
+    0x08009a1e   0x00000002   PAD
     0x08009a20   0x000002d8   Code   RO         8083    i.__hardfp_atan     m_wm.l(atan.o)
     0x08009cf8   0x000001f0   Code   RO         8097    i.__hardfp_atan2    m_wm.l(atan2.o)
     0x08009ee8   0x00000160   Code   RO         8121    i.__hardfp_atanf    m_wm.l(atanf.o)
@@ -7879,12 +7879,12 @@ Image component sizes
       8544       1042          0        124         24      19164   sweep.o
        340         32          0          0          0       1609   system_stm32f4xx.o
        440         56          0          0          0       2129   task.o
-       936         82          0         24          0       5541   timer.o
+       940         82          0         24          0       5545   timer.o
        420         64          0         52          0       7618   tools.o
        910         30          0          0          0       5247   usart.o
 
     ----------------------------------------------------------------------
-     39834       4324        696       1328      18608     474763   Object Totals
+     39838       4324        696       1328      18608     474767   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         20          0          0          0          0          0   (incl. Padding)
 
@@ -7984,8 +7984,8 @@ Image component sizes
        232          0          0          0          0        296   sqrt.o
 
     ----------------------------------------------------------------------
-     18574       1524       1072          0         96      11924   Library Totals
-        42          2          0          0          0          0   (incl. Padding)
+     18570       1524       1072          0         96      11924   Library Totals
+        38          2          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -7996,7 +7996,7 @@ Image component sizes
       9412       1026        616          0          0       5252   m_wm.l
 
     ----------------------------------------------------------------------
-     18574       1524       1072          0         96      11924   Library Totals
+     18570       1524       1072          0         96      11924   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -8005,8 +8005,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     58408       5848       1768       1328      18704     459827   Grand Totals
-     58408       5848       1768        132      18704     459827   ELF Image Totals (compressed)
+     58408       5848       1768       1328      18704     459831   Grand Totals
+     58408       5848       1768        132      18704     459831   ELF Image Totals (compressed)
      58408       5848       1768        132          0          0   ROM Totals
 
 ==============================================================================

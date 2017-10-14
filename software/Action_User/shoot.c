@@ -235,7 +235,7 @@ static int ballColor=1;
 		GPIO_SetBits(GPIOE,GPIO_Pin_7);
 	/*应急状态*/
 	}
-	if(noBall>4)
+	if(noBall>2)
 			{
 				gRobot.status&=~STATUS_SHOOTER;
 				gRobot.status|=STATUS_CAMERA_AND_WALK;
